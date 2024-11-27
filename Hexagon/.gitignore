@@ -5,3 +5,4 @@ dist/*.zip
 .gradle
 data/languages/skel.sla
 .idea
+.settings

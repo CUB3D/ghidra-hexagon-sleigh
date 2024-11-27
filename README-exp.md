@@ -15,5 +15,11 @@ git filter-repo --invert-paths --force --path Hexagon/.idea
 git filter-repo --invert-paths --force --path Hexagon/data/languages/skel.sla
 git filter-repo --invert-paths --force --path Hexagon/.gradle
 git filter-repo --invert-paths --force --path Hexagon/dist
+git filter-repo --invert-paths --force --path Hexagon/build
+git filter-repo --invert-paths --force --path Hexagon/.antProperties.xml
+git filter-repo --invert-paths --force --path Hexagon/.classpath
+git filter-repo --invert-paths --force --path Hexagon/.project
+git filter-repo --invert-paths --force --path Hexagon/.settings
 git filter-repo --invert-paths --force --path .metadata
+git filter-repo --invert-paths --force --path .settings
 
