@@ -1215,7 +1215,15 @@ with slot: iclass=0b0111 {
         D5 = S5;
 	<end>
     }
-    :D5"=mux("U1_23_24_pred",#"imm_5_12u",#"S8")" is Rs=1 & imm_25_26=0b01 & U1_23_24_pred & imm_16_22 & imm_13 & imm_5_12u & D5 [ S8 = imm_13 | (imm_16_22 << 1);]{
+    :D5"=mux("U1_23_24_pred",#"imm_5_12u",#"S8")" is Rs=1 & imm_25_26=0b01 & U1_23_24_pred & imm_16_22 & imm_13 & imm_5_12u & D5 & (hasext0=0 | immext0used=1) [ S8 = imm_13 | (imm_16_22 << 1);]{
+        if(U1_23_24_pred != 0) goto <good>;
+        D5 = S8;
+	goto <end>;
+        <good>
+        D5 = imm_5_12u;
+	<end>
+    }
+    :D5"=mux("U1_23_24_pred",#"v",#"S8")" is Rs=1 & imm_25_26=0b01 & U1_23_24_pred & imm_16_22 & imm_13 & imm_5_12u & D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ S8 = imm_13 | (imm_16_22 << 1); v = imm_5_10u | immext0; immext0used=1; ]{
         if(U1_23_24_pred != 0) goto <good>;
         D5 = S8;
 	goto <end>;
@@ -1522,7 +1530,7 @@ with slot: iclass=0b0111 {
 
 # ALU32/PRED:trans
 with slot: iclass=0b0111 {
-    :"if("U2_pred_21_22") "D5"="s12 is imm_23_27=0b11100 & U2_pred_21_22 & imm_20=0 & imm_16_19 & imm_13=0 & imm_5_12u & D5 & hasext0=0 [ s12 = imm_5_12u | (imm_16_19 << 8);] {
+    :"if("U2_pred_21_22") "D5"="s12 is imm_23_27=0b11100 & U2_pred_21_22 & imm_20=0 & imm_16_19 & imm_13=0 & imm_5_12u & D5 & (hasext0=0 | immext0used=1) [ s12 = imm_5_12u | (imm_16_19 << 8);] {
         if(U2_pred_21_22 == 0) goto <end>;
         D5 = s12;
         <end>
@@ -1533,12 +1541,23 @@ with slot: iclass=0b0111 {
         <end>
     }
 
-    :"if("U2_pred_new_21_22") "D5"="s12 is imm_23_27=0b11100 & U2_pred_new_21_22 & imm_20=0 & imm_16_19 & imm_13=1 & imm_5_12u & D5 [ s12 = imm_5_12u | (imm_16_19 << 8);]{
+    :"if("U2_pred_new_21_22") "D5"="s12 is imm_23_27=0b11100 & U2_pred_new_21_22 & imm_20=0 & imm_16_19 & imm_13=1 & imm_5_12u & D5 & (hasext0=0 | immext0used=1)[ s12 = imm_5_12u | (imm_16_19 << 8);]{
         if(U2_pred_new_21_22 == 0) goto <end>;
         D5 = s12;
         <end>
     }
-    :"if(!"U2_pred_21_22") "D5"="s12 is  imm_23_27=0b11101 & U2_pred_21_22 & imm_20=0 & imm_16_19 & imm_13=0 & imm_5_12u & D5 [ s12 = imm_5_12u | (imm_16_19 << 8);]{
+    :"if("U2_pred_new_21_22") "D5"="s12 is imm_23_27=0b11100 & U2_pred_new_21_22 & imm_20=0 & imm_16_19 & imm_13=1 & imm_5_12u & D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u[ s12 = imm_5_10u | immext0; immext0used=1;]{
+        if(U2_pred_new_21_22 == 0) goto <end>;
+        D5 = s12;
+        <end>
+    }
+
+    :"if(!"U2_pred_21_22") "D5"="s12 is  imm_23_27=0b11101 & U2_pred_21_22 & imm_20=0 & imm_16_19 & imm_13=0 & imm_5_12u & D5 & (hasext0=0 | immext0used=1) [ s12 = imm_5_12u | (imm_16_19 << 8);]{
+        if(U2_pred_21_22 != 0) goto <end>;
+        D5 = s12;
+        <end>
+    }
+    :"if(!"U2_pred_21_22") "D5"="s12 is  imm_23_27=0b11101 & U2_pred_21_22 & imm_20=0 & imm_16_19 & imm_13=0 & imm_5_12u & D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ s12 = imm_5_10u | immext0; immext0used = 1;]{
         if(U2_pred_21_22 != 0) goto <end>;
         D5 = s12;
         <end>
@@ -1598,7 +1617,7 @@ with slot: iclass=0b0111 {
 # ALU32/PRED:cmp
  with slot: iclass=0b0111 {
     # Compare
-	:D2_pred_new "=cmp.eq("S5", "s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b00 & imm_21 & S5 & imm_5_13u & imm_2_4=0b000 & D2_pred_new [s10 = imm_5_13u | (imm_21 << 9);] {
+	:D2_pred_new "=cmp.eq("S5", "s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b00 & imm_21 & S5 & imm_5_13u & imm_2_4=0b000 & D2_pred_new & (hasext0=0 | immext0used=1) [s10 = imm_5_13u | (imm_21 << 9);] {
         if( S5 == s10) goto <good>;
         D2_pred_new = 0;
         goto <end>;
@@ -1606,6 +1625,15 @@ with slot: iclass=0b0111 {
         D2_pred_new = PTRUE;
         <end>
 	}  
+	:D2_pred_new "=cmp.eq("S5", "s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b00 & imm_21 & S5 & imm_5_13u & imm_2_4=0b000 & D2_pred_new & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [s10 = imm_5_10u | immext0; immext0used=1; ] {
+        if( S5 == s10) goto <good>;
+        D2_pred_new = 0;
+        goto <end>;
+        <good>
+        D2_pred_new = PTRUE;
+        <end>
+	}  
+
 	:D2_pred_new "=!cmp.eq("S5", "s10")"is Rs = 0 & MajOp=0b101 & imm_22_23=0b00 & imm_21 & S5 & imm_5_13 & imm_2_4=0b100 & D2_pred_new [s10 = imm_5_13 | (imm_21 << 9);]{
         if( S5 != s10) goto <good>;
         D2_pred_new = 0;
@@ -2849,7 +2877,7 @@ with slot: iclass=0b0001 {
         D4_16_19 = imm_8_13u;
         jump(TransJmp_R9);
 	 }
-	 :D4_16_19"="imm_8_13u"; jump" v is imm_24_27=0b0110 & imm_22_23=0 & D4_16_19 & imm_8_13u & imm_1_7u & imm_0=0 & hasext0=1 [v = inst_start + (imm_1_7u | immext0);] {
+	 :D4_16_19"="imm_8_13u"; jump" v is imm_24_27=0b0110 & imm_22_23=0 & D4_16_19 & imm_8_13u & imm_1_7u & imm_0=0 & hasext0=1 & immext0used=0 & imm_1_6u [v = inst_start + (imm_1_6u | immext0); immext0used=1;] {
         D4_16_19 = imm_8_13u;
         jump(v);
 	 }
@@ -5003,7 +5031,11 @@ with slot: iclass=0b0011 {
         local EA:4 = S5 + (T5 << u2);
         *[ram]:4 EA = D5;
     }
-    :"memw("S5"+"U6")="S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b10 & S5 & imm_7_12u & imm_0_6u & imm_13 [ U6 = imm_7_12u << 2; S8=imm_0_6u | (imm_13 << 8);] {
+    :"memw("S5"+"U6")="S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b10 & S5 & imm_7_12u & imm_0_6u & imm_13 & (hasext0=0 | immext0used=1) [ U6 = imm_7_12u << 2; S8=imm_0_6u | (imm_13 << 8);] {
+        local EA:4 = S5 + U6;
+        *[ram]:4 EA = S8;
+    }
+    :"memw("S5"+"U6")="S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b10 & S5 & imm_7_12u & imm_0_6u & imm_13 & hasext0=1 & immext0used=0 & immext0 & imm_0_5u [ U6 = imm_7_12u << 2; S8=imm_0_5u | immext0; immext0used=1; ] {
         local EA:4 = S5 + U6;
         *[ram]:4 EA = S8;
     }
@@ -9415,6 +9447,8 @@ terminator:"" is disabled {}
 terminator:"" is disabled & hasext0=1 & immext0used=0 {
 missing_ext();
 }
+terminator:"" is disabled & hasext0=1 & immext0used=1 {
+}
 
 slot0: slot is slot &  (parse=0b01 | parse=0b10) & iclass { build slot; }
 slot1: slot0 is slot0 {  build slot0; }
@@ -9422,7 +9456,7 @@ slot2: slot0 is slot0 { build slot0; }
 slotX: slot is slot & parse=0b11 { build slot; prolude(); }
 slotX: duplex is duplex & parse=0b00 { build duplex; prolude();}
 
-    :{ slot0 slotX "}:endloop0" is slot0 & parse=0b10; slotX & terminator{
+    :{ slot0 slotX "}:endloop0" is slot0 & parse=0b10; slotX & terminator {
         prelude();
         build slot0;
        build slotX;
@@ -9433,21 +9467,22 @@ slotX: duplex is duplex & parse=0b00 { build duplex; prolude();}
 
        build terminator; 
    }
-   :{ slot0 slotX } is slot0 & parse=0b01;slotX & terminator{
+   :{ slot0 slotX } is slot0 & parse=0b01;slotX & terminator {
+	
        prelude();
        build slot0;
        build slotX;
        build terminator; 
    }
 
-   :{ slot0 slot1 slotX } is slot0;slot1;slotX & terminator{
+   :{ slot0 slot1 slotX } is slot0;slot1;slotX & terminator {
        prelude();
        build slot0;
        build slot1;
        build slotX;
        build terminator; 
    }
-   :{ slot0 slot1 slot2 slotX } is slot0;slot1;slot2;slotX & terminator{
+   :{ slot0 slot1 slot2 slotX } is slot0;slot1;slot2;slotX & terminator {
        prelude();
        build slot0;
        build slot1;
@@ -9456,7 +9491,7 @@ slotX: duplex is duplex & parse=0b00 { build duplex; prolude();}
        build terminator; 
    }
 
-   :{ slotX } is slotX & terminator{
+   :{ slotX } is slotX & terminator {
        prelude();
        build slotX;
        build terminator; 
