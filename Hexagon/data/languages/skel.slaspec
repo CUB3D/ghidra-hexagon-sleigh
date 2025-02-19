@@ -454,7 +454,7 @@ ret_tgt
 has_ret_tgt
 ];
 
-define register offset=0x300 size=16 [ 
+define register offset=0x300 size=32 [ 
 testctx
 ];
 
@@ -466,6 +466,7 @@ define context testctx
     immext0used = (66,66) noflow
 	# opaque pred for false
 	disabled = (80, 80) noflow
+	has_branch = (81, 81) noflow
 ;	
 
 
@@ -893,14 +894,16 @@ attach variables [ S6_svctrl D6_svctrl ] [
  define pcodeop _stub;
 
 macro jump(dest) {
+#TODO: this check breaks the decomp, it can't follow the value anymore
 	# must take the first jump that happens (8.7)
-	if(has_branch_tgt != 0) goto <nosetjmp>;
-	branch_tgt= dest;
-	has_branch_tgt = 1;
-	<nosetjmp>
+	#if(has_branch_tgt == 0) goto <nosetjmp>;
+	branch_tgt = dest;
+	
+    has_branch_tgt = 1;
+	#<nosetjmp>
 }
 macro call(dest) {
-	if(has_branch_tgt != 0) goto <nosetcall>;
+	if(has_call_tgt != 0) goto <nosetcall>;
 	call_tgt= dest;
 	has_call_tgt = 1;
 	<nosetcall>
@@ -983,7 +986,10 @@ with slot: iclass=0b0111 {
 
 # ALU32/ALU:subtract
 with slot: iclass=0b0111 {
-	:D5"=sub("S5","v")" is imm_22_27=0b011001 & imm_21 & S5 & imm_5_13u & D5 [v = imm_5_13u | (imm_21 << 9); ] {
+	:D5"=sub("S5","v")" is imm_22_27=0b011001 & imm_21 & S5 & imm_5_13u & D5 & hasext0=0 [v = imm_5_13u | (imm_21 << 9); ] {
+		D5 = v - S5;
+	} 
+	:D5"=sub("S5","v")" is imm_22_27=0b011001 & imm_21 & S5 & imm_5_13u & D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [v = imm_5_10u | immext0; immext0used=1; ] {
 		D5 = v - S5;
 	} 
 }
@@ -1037,7 +1043,7 @@ with slot: iclass=0b0111 {
 		alu_X5 = tmp | (ImmU16 << 16);
 	}
 	
-	:D5 "=" TI_S16 is  Rs = 1 & MajOp=0b000 & imm_21=0 & TI_S16 & D5 & hasext0=0 {
+	:D5 "=" TI_S16 is  Rs = 1 & MajOp=0b000 & imm_21=0 & TI_S16 & D5 & (hasext0=0 | immext0used=1) {
 		D5 = TI_S16;
 	}  
 	:D5 "=" v is  Rs = 1 & MajOp=0b000 & imm_21=0 & TI_S16 & D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ v = (imm_5_10u) | immext0; immext0used=1;] {
@@ -3091,17 +3097,29 @@ with slot: iclass=0b1001 {
 
 #LD:Load by cond
 with slot: iclass=0b0011 {
-    :"ldcondb0" is imm_21_27=0b0000000 & S5 & imm_13 & imm_8_12 & imm_7 & imm_5_6 & D5 {
-    	_stub();
+    :"if(" U2_5_6 ")" D5 "=memb(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0000000 & S5 & imm_13u & T5 & imm_8_12 & imm_7u & U2_5_6 & D5 [u2 = imm_7u | (imm_13u << 1);] {
+    	if(U2_5_6 == 0) goto <end>;
+		local EA:4 = S5 + (T5 << u2);
+		D5 = *[ram]:1 EA;
+	<end>
     }
-    :"ldcondb1" is imm_21_27=0b0001000 & S5 & imm_13 & imm_8_12 & imm_7 & imm_5_6 & D5 {
-    	_stub();
+    :"if(!" U2_5_6 ")" D5 "=memb(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0001000 & S5 & imm_13u & T5 & imm_8_12 & imm_7u & U2_5_6 & D5 [u2 = imm_7u | (imm_13u << 1);] {
+    	if(U2_5_6 != 0) goto <end>;
+		local EA:4 = S5 + (T5 << u2);
+		D5 = *[ram]:1 EA;
+	<end>
     }
-    :"ldcondb2" is imm_21_27=0b0010000 & S5 & imm_13 & imm_8_12 & imm_7 & imm_5_6 & D5 {
-    	_stub();
+    :"if(" U2_5_6_pred_new ")" D5 "=memb(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0010000 & S5 & imm_13u & T5 & imm_8_12 & imm_7u & U2_5_6_pred_new & D5 [u2 = imm_7u | (imm_13u << 1);] {
+    	if(U2_5_6_pred_new == 0) goto <end>;
+		local EA:4 = S5 + (T5 << u2);
+		D5 = *[ram]:1 EA;
+	<end>
     }
-    :"ldcondb3" is imm_21_27=0b0011000 & S5 & imm_13 & imm_8_12 & imm_7 & imm_5_6 & D5 {
-    	_stub();
+    :"if(!" U2_5_6_pred_new ")" D5 "=memb(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0011000 & S5 & imm_13u & T5 & imm_8_12 & imm_7u & U2_5_6_pred_new & D5 [u2 = imm_7u | (imm_13u << 1);] {
+    	if(U2_5_6_pred_new != 0) goto <end>;
+		local EA:4 = S5 + (T5 << u2);
+		D5 = *[ram]:1 EA;
+	<end>
     }
 }
 with slot: iclass=0b0100 {
@@ -4050,7 +4068,7 @@ with slot: iclass=0b0010 {
 #ns
     :"if(cmp.eq(" S3_new_16_18 "," imm_8_12u ") jump:nt" r9  is imm_22_27=0b010000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]{
 	if(S3_new_16_18 != imm_8_12u) goto <end>;
-	jump(r9);
+        jump(r9);
 	<end>
     }
     :"if(cmp.eq(" S3_new_16_18 "," imm_8_12u ") jump:t" r9  is imm_22_27=0b010000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]{
@@ -9415,22 +9433,6 @@ macro prolude() {
     P1 =P1.new;
     P2 =P2.new;
     P3 =P3.new;
-
-    if(has_branch_tgt == 0) goto <skipj>;
-    local branch_tgt_2:4 = branch_tgt;
-    goto [branch_tgt_2];
-    <skipj>
-
-    if(has_call_tgt == 0) goto <skipc>;
-    local call_tgt_2 = call_tgt;
-    call [call_tgt_2];
-    <skipc>
-
-    if(has_ret_tgt == 0) goto <skipr>;
-    local return_tgt:4 = ret_tgt;
-    return [return_tgt];
-    <skipr>
-
 }
 
 
@@ -9442,8 +9444,36 @@ macro prolude() {
 #          build slot;
 #      }
 
+hasbranch:"" is disabled & has_branch=1  {
+}
+
+hasbranch:"" is disabled  {	
+
+    if(has_branch_tgt == 0) goto <skipj>;
+    local branch_tgt_2:4 = branch_tgt;
+    goto [branch_tgt_2];
+    goto <slotend>;
+    <skipj>
+
+    if(has_call_tgt == 0) goto <skipc>;
+    local call_tgt_2 = call_tgt;
+    call [call_tgt_2];
+    goto <slotend>;
+    <skipc>
+
+    if(has_ret_tgt == 0) goto <skipr>;
+    local return_tgt:4 = ret_tgt;
+    return [return_tgt];
+    <skipr>
+
+    
+    <slotend>
+}
+
 define pcodeop missing_ext;
-terminator:"" is disabled {}
+terminator:"" is disabled & hasbranch {
+	build hasbranch;
+}
 terminator:"" is disabled & hasext0=1 & immext0used=0 {
 missing_ext();
 }
