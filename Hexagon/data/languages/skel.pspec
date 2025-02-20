@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- See Relax specification: Ghidra/Framework/SoftwareModeling/data/languages/processor_spec.rxg -->
-
 <processor_spec>
   <programcounter register="pc"/>
 </processor_spec>

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- See Relax specification: Ghidra/Framework/SoftwareModeling/data/languages/language_definitions.rxg -->
-
 <language_definitions>
    <language processor="Hexagon QDSP6"
             endian="little"
@@ -11,7 +9,7 @@
             slafile="skel.sla"
             processorspec="skel.pspec"
             id="QDSP6:LE:32:default">
-    <description>Hexagon QDSP6 V68</description>
+    <description>Hexagon QDSP6 V79</description>
     <compiler name="default" spec="skel.cspec" id="default"/>
   </language> 
 

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- See Relax specification: Ghidra/Framework/SoftwareModeling/data/languages/compiler_spec.rxg -->
-
 <compiler_spec>
   <data_organization>
 	  	<absolute_max_alignment value="0" />
