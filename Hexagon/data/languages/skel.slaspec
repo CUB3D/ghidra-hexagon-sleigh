@@ -1,7 +1,7 @@
 # sleigh specification file for Qualcomm Hexagon Processor (QDSP 6)
 
 # List of nice-to-haves in SELIGH
-# arbitary bit-count sext, not just bytes
+# arbitrary bit-count sext, not just bytes
 # allow sext and s>> in [] bit of constructor
 # allow (a+b, a) in tokens, keep getting imm64s wrong 
 # Allow setting size of local in constructor
@@ -21,7 +21,7 @@
 # NV:     Decode up to v73, pcode unfinished
 # ST:     Decode up to v73, pcode unfinished
 # SYSTEM: Decode up to v73, pcode unfinished
-# XTYPE:  Decode up to <uncheck>, pcode unfinished << wip
+# XTYPE:  Decode up to v73, pcode unfinished << wip
 # XTYPE/ALU:      Decode up to v73, pcode unfinished
 # XTYPE/BIT:      Decode up to v73, pcode unfinished
 # XTYPE/COMPLEX:  Decode up to v73, pcode unfinished
@@ -1041,13 +1041,11 @@ with slot: iclass=0b0111 {
  with slot: iclass=0b0111 {
   	
 	ImmU16: v is    imm_22_23u & imm_0_13u  [ v = (imm_22_23u << 14) | (imm_0_13u); ] {
-		local v1:4 = v;
-	 	export v1;
+	 	export *[const]:4 v;
 	  }
 	  
   	TI_S16: v is    imm_22_23 & imm_16_20u & imm_5_13u  [ v = (imm_5_13u) | (imm_16_20u << 9) | (imm_22_23 << 14); ] {
-		local v1:4 = v;
-	 	export v1;
+		export *[const]:4 v;
 	  }
 	  
  
@@ -1886,11 +1884,6 @@ with slot: iclass=0b0110 {
         D5 = inst_start + v;
     }
 }
-# const ext 
-#wslot:D564"=add(pc,#"v")" is uimmw_hi & uimmw_lo & iclass64=0b0110  & imm64_27=1 & imm64_16_27=0b101001001001 & imm64_13=0 & uimm64_7_12 & imm64_5_6=0 & D564 [ v = (uimm64_7_12) | (uimmw_lo << 7) | (uimmw_hi << 21);]
-#{
-        #D564 = inst_start + v;
-#}
 
 # CR:Pipelined loop
 with slot: iclass=0b0110 {
@@ -2095,8 +2088,7 @@ with slot: iclass=0b0101 {
 #J:Call subroutine
 with slot: iclass=0b0101 {
     Call_R152: v is imm_22_23 & imm_16_20u & imm_13u & imm_1_7u [v = inst_start + (((imm_22_23 << 13) | (imm_16_20u << 8)| (imm_13u << 7) | (imm_1_7u)) << 2); ] {
-        local loc:4 = v;
-        export loc;
+        export *[const]:4 v;
       }
 
 	 :^"call" v is imm_25_27=0b101 &  imm_16_24 & imm_1_13u       & imm_0=0 [v = inst_start + (((imm_1_13u) | (imm_16_24 << 13)) << 2) ;] {
@@ -2123,19 +2115,15 @@ with slot: iclass=0b0101 {
 		call(Call_R152);
 		<end>
 	 }
-	 #:"if (!"U2") call ex" v is imm_24_27=0b1101 & imm_21=1 & imm_1_7u & imm_12=0 & imm_11=0 & imm_10=0 & U2 & imm_0=0 & hasext0=1 [v = imm_1_7u | immext0;] {
-		 #if(U2 != 0) goto <end>;
-		##LR = inst_next;
-        #call(v);
-		#<end>
-	 #}
  }
+#define pcodeop testCallOther;
+#define pcodeop testCallOther1;
+
 
 #J:Compare and jump
  with slot: iclass=0b0001 {
       CJ_R9:r9 is  imm_20_21 & imm_1_7 [ r9 = inst_start+((imm_1_7 | (imm_20_21 << 7))<<2);] {
-        local tmp:4 = r9;
-        export tmp;
+        export *[const]:4 r9;
       }
 
      :"p0=cmp.eq("S4",#-1); if (p0.new) jump:nt "CJ_R9 is CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & imm_13=0 & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 {
@@ -2848,8 +2836,7 @@ with slot: iclass=0b0101 {
      }
     
     IfImm: r15 is imm_1_7u & imm_13u & imm_16_20u & imm_22_23 [r15 = inst_start + ((imm_1_7u | (imm_13u << 7) | (imm_16_20u << 8) | (imm_22_23 << 13)) << 2);] {
-    	local v:4 = r15;
-        export v;
+        export *[const]:4 r15;
     }
 
 	 :"if ("U2") jump:nt" r15  is  imm_24_27=0b1100 & imm_21=0 & imm_11_12=0b00 & imm_10=0 & U2 & imm_0=0 & imm_1_7u & imm_13u & imm_16_20u & imm_22_23  [r15 = inst_start + ((imm_1_7u | (imm_13u << 7) | (imm_16_20u << 8) | (imm_22_23 << 13)) << 2);]{
@@ -2909,8 +2896,7 @@ with slot: iclass=0b0101 {
 # J/Jump to address cond reg
 with slot: iclass=0b0110 {
     Jmp_R13: v is imm_21 & imm_13 & imm_1_11 [v = inst_start + (((imm_21 << 12)| (imm_13 << 11) | (imm_1_11)) << 2); ] {
-        local loc:4 = v;
-        export *:4 loc;
+        export *[const]:4 v;
       }
 	 :"if("S5"!=#0) jump:nt "Jmp_R13 is imm_22_27=0b000100 & Jmp_R13 & S5  & imm_12=0 & imm_0=0 {
 	 	if(S5 == 0) goto <end>;
@@ -2958,8 +2944,7 @@ with slot: iclass=0b0110 {
 # J/Transfer and jump
 with slot: iclass=0b0001 {
     TransJmp_R9: v is imm_20_21 & imm_1_7 [v = inst_start + (((imm_20_21 << 7) | (imm_1_7)) << 2); ] {
-        local loc:4 = v;
-        export loc;
+        export *[const]:4 v;
       }
 	 :D4_16_19"="imm_8_13u"; jump "TransJmp_R9 is imm_24_27=0b0110 & imm_22_23=0 & D4_16_19 & imm_8_13u & TransJmp_R9 & imm_0=0 & hasext0=0 {
         D4_16_19 = imm_8_13u;
@@ -4094,12 +4079,10 @@ with slot: iclass=0b0011 {
 # TODO: this should be dotnew, for now this will work-ish
 
 nv_j_r9: r9 is imm_1_7u & imm_20_21 & (hasext0=0 | immext0used=1) [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]  {
-	local tmp:4 = r9;
-	export tmp;
+	export *[const]:4 r9;
 }
 nv_j_r9: r9 is imm_1_7u & imm_20_21 & hasext0=1 & immext0used=0 & immext0 [ r9 = imm_1_7u | immext0; immext0used=1; ]  {
-	local tmp:4 = r9;
-	export tmp;
+	export *[const]:4 r9;
 }
 
 with slot: iclass=0b0010 {
@@ -9681,6 +9664,8 @@ macro prelude() {
     has_call_tgt = 0;
     ret_tgt = 0;
     has_ret_tgt = 0;
+    
+#    testCallOther(0:4);
 
     # TODO: this is a readonly value
     PC = inst_start;
@@ -9706,17 +9691,12 @@ macro prolude() {
 
 
 
-#      :{ duplex is duplex & parse=0b00 {
-#          build duplex;
-#      }
-#      :{ slot is slot & parse!=0b00{
-#          build slot;
-#      }
-
 hasbranch:"" is disabled & has_branch=1  {
 }
 
 hasbranch:"" is disabled  {	
+	
+#	testCallOther1();
 
     if(has_branch_tgt == 0) goto <skipj>;
     local branch_tgt_2:4 = branch_tgt;
@@ -9831,56 +9811,5 @@ slotX: duplex is duplex & parse=0b00 { build duplex; prolude();}
 immext_marker:"" is disabled {}
 slot:"immext0(" v ")" is iclass=0b0000 & imm_16_27 & imm_0_13u & hasext0=0 & parse!=0b11 & immext_marker [v= ((imm_0_13u) | (imm_16_27 << 14)) << 6; immext0 = ((imm_0_13u) | (imm_16_27 << 14)) << 6; hasext0=1;] { build immext_marker; } 
 slot:"immext1(" v ")" is iclass=0b0000 & imm_16_27 & imm_0_13u & hasext0=1 & immext_marker  [v=((imm_0_13u) | (imm_16_27 << 14)) << 6; immext1 = ((imm_0_13u) | (imm_16_27 << 14)) << 6; hasext1=1;] { build immext_marker; } 
-
-#TODO: disabled, switching to ctx for ext
-##wslot0:wslot is wslot & iclassw=0b0000 & (parsew=0b01 | parsew=0b10) & (parse64=0b10 | parse64=0b01) & disabled=1 { build wslot; }
-#wslotX: wslot is wslot & iclassw=0b0000 & (parsew=0b01 | parsew=0b10) & (parse64=0b11 | parse64=0b00) & disabled=1 { build wslot; prolude(); }
-#wslotX: "cursed-ext-duplex" is wslot & iclassw=0b0000 & (parsew=0b01 | parsew=0b10) & parse64=0b00 {
-#_stub();
-##TODO: man-made horrors beyond comprehension: you can have an extended duplex
-##TODO: also wrong, breaks some normal duplexes
-##build wslot; prolude();
-#}
-
-#:{ wslotX } is wslotX {
-    #prelude();
-	#build wslotX;
-#} 
-#
-#:{ wslot0 wslotX } is wslot0; wslotX {
-    #prelude();
-	#build wslot0;
-	#build wslotX;
-#} 
-#
-#:{ wslot0 slot0 slotX } is wslot0; slot0; slotX {
-    #prelude();
-	#build wslot0;
-	#build slot0;
-	#build slotX;
-#} 
-#
-#:{ wslot0 slotX } is wslot0; slotX {
-    #prelude();
-	#build wslot0;
-	#build slotX;
-#} 
-#:{ slot0 wslotX } is slot0; wslotX {
-    #prelude();
-	#build slot0;
-	#build wslotX;
-#}
-#:{ slot0 slot1 wslotX } is slot0; slot1; wslotX {
-    #prelude();
-	#build slot0;
-	#build slot1;
-	#build wslotX;
-#}
-#:{ slot0 wslot0 slotX } is slot0; wslot0; slotX {
-    #prelude();
-	#build slot0;
-	#build wslot0;
-	#build slotX;
-#}
 
 
