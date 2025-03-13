@@ -895,6 +895,9 @@ attach variables [ S6_svctrl D6_svctrl ] [
 
  define pcodeop _stub;
 
+define pcodeop testCallOther;
+define pcodeop testCallOther1;
+
 macro jump(dest) {
 #TODO: this check breaks the decomp, it can't follow the value anymore
 	# must take the first jump that happens (8.7)
@@ -903,7 +906,18 @@ macro jump(dest) {
 	
     has_branch_tgt = 1;
 	#<nosetjmp>
+	
+	#local tmp:4 = dest;
+	#testCallOther(tmp);
 }
+
+macro condjump(dest) {
+	#local tmp:4 = dest;
+	#testCallOther(tmp);
+	
+	jump(dest);
+}
+
 macro call(dest) {
 	if(has_call_tgt != 0) goto <nosetcall>;
 	call_tgt= dest;
@@ -2116,8 +2130,6 @@ with slot: iclass=0b0101 {
 		<end>
 	 }
  }
-#define pcodeop testCallOther;
-#define pcodeop testCallOther1;
 
 
 #J:Compare and jump
@@ -2130,6 +2142,7 @@ with slot: iclass=0b0101 {
         if(S4 != -1) goto <bad>;
             P0.new = PTRUE;
             jump(CJ_R9);
+            testCallOther(CJ_R9);
             goto <end>;
         <bad>
             P0.new = 0x0;
@@ -2841,7 +2854,7 @@ with slot: iclass=0b0101 {
 
 	 :"if ("U2") jump:nt" r15  is  imm_24_27=0b1100 & imm_21=0 & imm_11_12=0b00 & imm_10=0 & U2 & imm_0=0 & imm_1_7u & imm_13u & imm_16_20u & imm_22_23  [r15 = inst_start + ((imm_1_7u | (imm_13u << 7) | (imm_16_20u << 8) | (imm_22_23 << 13)) << 2);]{
 		 if(U2 == 0) goto <end>;
-		 jump(r15);
+		 condjump(r15);
 		 <end>
 	 }
 
@@ -9665,7 +9678,7 @@ macro prelude() {
     ret_tgt = 0;
     has_ret_tgt = 0;
     
-#    testCallOther(0:4);
+    testCallOther(0:4);
 
     # TODO: this is a readonly value
     PC = inst_start;
@@ -9687,6 +9700,8 @@ macro prolude() {
     P1 =P1.new;
     P2 =P2.new;
     P3 =P3.new;
+    
+    
 }
 
 
@@ -9696,7 +9711,7 @@ hasbranch:"" is disabled & has_branch=1  {
 
 hasbranch:"" is disabled  {	
 	
-#	testCallOther1();
+	testCallOther1();
 
     if(has_branch_tgt == 0) goto <skipj>;
     local branch_tgt_2:4 = branch_tgt;
@@ -9729,7 +9744,8 @@ terminator:"" is disabled & hasbranch {
 terminator:"" is disabled & hasext0=1 & immext0used=0 & missing_marker{
 build missing_marker;
 }
-terminator:"" is disabled & hasext0=1 & immext0used=1 {
+terminator:"" is disabled & hasext0=1 & immext0used=1 & hasbranch {
+	build hasbranch;
 }
 
 slot0: slot is slot &  (parse=0b01 | parse=0b10) & iclass { build slot; }

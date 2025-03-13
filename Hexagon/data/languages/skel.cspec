@@ -202,7 +202,7 @@
       </unaffected>
     </prototype>
     
-    <!--
+    
     <callotherfixup targetop="testCallOther">
 	    <pcode dynamic="true">
 	    	<input name="testop_something"/>
@@ -213,6 +213,6 @@
 	    	<input name="testop1_something"/>
 	    </pcode>
     </callotherfixup>
-    -->
+    
   	
 </compiler_spec>
