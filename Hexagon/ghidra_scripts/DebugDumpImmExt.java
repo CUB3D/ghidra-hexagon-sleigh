@@ -65,11 +65,17 @@ public class DebugDumpImmExt extends GhidraScript {
 					
 					List<String> s = logger.getConstructorLineNumbers();
 					boolean marker = false;
+					boolean marker1 = false;
 					boolean marker2 = false;
+					int marker2start = 0;
+
 				
 					for (int i = 0; i < s.size(); i++) {
-						if(s.get(i).contains("missing_marker")) {
+						if(!marker && s.get(i).contains("missing_marker0")) {
 							marker = true;
+						}
+						if(marker && s.get(i).contains("missing_marker1")) {
+							marker1 = true;
 							break;
 						}
 					}
@@ -83,7 +89,25 @@ public class DebugDumpImmExt extends GhidraScript {
 								Long l = stats.getOrDefault(s.get(i), new Long(0));
 								stats.put(s.get(i), l + 1);
 								stats2.put(s.get(i), a.toString());
+								marker2start = i;
 
+								//println(s.get(i));
+								break;
+							}
+						}
+					}
+					if(marker1) {
+						marker2 = false;
+						for (int i = marker2start; i < s.size(); i++) {
+							if(s.get(i).contains("immext_marker")) {
+								marker2 = true;
+								continue;
+							}
+							if(marker2 && s.get(i).contains("slot(")) {
+								Long l = stats.getOrDefault(s.get(i), new Long(0));
+								stats.put(s.get(i), l + 1);
+								stats2.put(s.get(i), a.toString());
+								marker2start = i;
 
 								//println(s.get(i));
 								break;
