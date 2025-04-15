@@ -15,13 +15,8 @@
  */
 package hexagon;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import ghidra.app.plugin.processors.sleigh.SleighLanguage;
 import ghidra.program.model.lang.*;
-import ghidra.program.model.listing.Program;
 
 /**
  * 
