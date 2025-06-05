@@ -1,0 +1,303 @@
+# XTYPE/FP
+# XTYPE/FP: fp add
+with slot: iclass=0b1110 & mode=0 {
+    :"dfadd" is imm_21_27=0b1000000 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+        _stub();
+    }
+    :D5 "=sfadd(" S5 "," T5 ")" is imm_21_27=0b1011000 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    	D5 = S5 f+ T5;
+    }
+}
+
+# XTYPE/FP: fp class
+with slot: iclass=0b1000 & mode=0 {
+    :"fpclass0" is imm_21_27=0b0101111 & S5 & imm_13=0 & imm_8_12 & imm_1_7=0 & D2 {
+        _stub();
+    }
+}
+with slot: iclass=0b1101 & mode=0 {
+    :"fpclass1" is imm_21_27=0b1100100 & S5 & imm_13=0 & imm_10_12=0 & imm_5_9 & imm_3_4=0b10 & imm_2=0 & D2 {
+        _stub();
+    }
+}
+
+# XTYPE/FP: fp cmp
+define pcodeop dfcmp_uo;
+define pcodeop sfcmp_uo;
+with slot: iclass=0b1100 & mode=0 {
+    :D2_pred_new "=sfcmp.ge(" S5 "," T5 ")" is imm_21_27=0b0111111 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & imm_2_4=0 & D2_pred_new {
+        if( S5 f>= T5) goto <good>;
+        D2_pred_new = 0;
+        goto <end>;
+        <good>
+        D2_pred_new = PTRUE;
+        <end>
+    }
+    :D2_pred_new "=sfcmp.uo(" S5 "," T5 ")" is imm_21_27=0b0010111 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & imm_2_4=0 & D2_pred_new {
+    	D2_pred_new = sfcmp_uo(S5, T5);
+    }
+    :D2_pred_new "=sfcmp.eq(" S5 "," T5 ")" is imm_21_27=0b0111111 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & imm_2_4=0 & D2_pred_new {
+        if( S5 f== T5) goto <good>;
+        D2_pred_new = 0;
+        goto <end>;
+        <good>
+        D2_pred_new = PTRUE;
+        <end>
+    }
+    :D2_pred_new "=sfcmp.gt(" S5 "," T5 ")" is imm_21_27=0b0111111 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & imm_2_4=0 & D2_pred_new {
+        if( S5 f> T5) goto <good>;
+        D2_pred_new = 0;
+        goto <end>;
+        <good>
+        D2_pred_new = PTRUE;
+        <end>
+    }
+}
+with slot: iclass=0b1101 & mode=0 {
+    :D2_pred_new "=dfcmp.eq(" S5_pair "," T5_pair ")" is imm_21_27=0b0010111 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & imm_2_4=0 & D2_pred_new {
+        if( S5_pair f== T5_pair) goto <good>;
+        D2_pred_new = 0;
+        goto <end>;
+        <good>
+        D2_pred_new = PTRUE;
+        <end>
+    }
+    :D2_pred_new "=dfcmp.gt(" S5_pair "," T5_pair ")" is imm_21_27=0b0010111 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b001 & imm_2_4=0 & D2_pred_new {
+        if( S5_pair f> T5_pair) goto <good>;
+        D2_pred_new = 0;
+        goto <end>;
+        <good>
+        D2_pred_new = PTRUE;
+        <end>
+    }
+    :D2_pred_new "=dfcmp.ge(" S5_pair "," T5_pair ")" is imm_21_27=0b0010111 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b010 & imm_2_4=0 & D2_pred_new {
+        if( S5_pair f>= T5_pair) goto <good>;
+        D2_pred_new = 0;
+        goto <end>;
+        <good>
+        D2_pred_new = PTRUE;
+        <end>
+    }
+    :D2_pred_new "=dfcmp.uo(" S5_pair "," T5_pair ")" is imm_21_27=0b0010111 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b011 & imm_2_4=0 & D2_pred_new {
+    	D2_pred_new = dfcmp_uo(S5_pair, T5_pair);
+    }
+}
+
+# XTYPE/FP: fp conv to other
+define pcodeop convert_sf2df;
+with slot: iclass=0b1000 & mode=0 {
+    :D5_pair"=convert_sf2df("S5")" is imm_23_27=0b01001 & imm_21_22=0 & S5 & imm_8_13=0 & imm_5_7=0b000 & D5_pair {
+        D5_pair = convert_sf2df(S5);
+    }
+    :D5"=convert_sf2df("S5_pair")" is imm_21_27=0b1000000 & S5_pair & imm_8_13=0 & imm_5_7=0b001 & D5 {
+        D5 = convert_sf2df(S5_pair);
+    }
+}
+
+# XTYPE/FP: conv int to fp
+define pcodeop convert_uw2sf;
+define pcodeop convert_w2sf;
+with slot: iclass=0b1000 & mode=0 {
+    :D5_pair "=convert_ud2df(" S5_pair ")" is imm_21_27=0b0000111 & S5_pair & imm_13=0 & imm_8_12=0  & imm_5_7=0b010 & D5_pair {
+        D5_pair = int2float(S5_pair);
+    }
+    :D5_pair "=convert_d2df(" S5_pair ")" is imm_21_27=0b0000111 & S5_pair & imm_13=0 & imm_8_12=0  & imm_5_7=0b011 & D5_pair {
+        D5_pair = int2float(S5_pair);
+    }
+    :D5_pair "=convert_uw2df(" S5 ")" is imm_23_27=0b01001 & imm_21_22=0 & S5 & imm_13=0 & imm_8_12=0  & imm_5_7=0b001 & D5_pair {
+        D5_pair = int2float(S5);
+    }
+    :D5_pair "=convert_w2df(" S5 ")" is imm_23_27=0b01001 & imm_21_22=0 & S5 & imm_13=0 & imm_8_12=0  & imm_5_7=0b010 & D5_pair {
+        D5_pair = int2float(S5);
+    }
+    :"fpconvifp05" is imm_21_27=0b1000001 & S5 & imm_13=0 & imm_8_12=0  & imm_5_7=0b001 & D5 {
+        _stub();
+    }
+    :"fpconvifp06" is imm_21_27=0b1000010 & S5 & imm_13=0 & imm_8_12=0  & imm_5_7=0b001 & D5 {
+        _stub();
+    }
+    :D5 "=convert_uw2sf(" S5 ")" is imm_21_27=0b1011001 & S5 & imm_13=0 & imm_8_12=0  & imm_5_7=0b000 & D5 {
+    	D5 = convert_uw2sf(S5);
+    }
+    :D5 "=convert_w2sf(" S5 ")" is imm_21_27=0b1011010 & S5 & imm_13=0 & imm_8_12=0  & imm_5_7=0b000 & D5 {
+    	D5 = convert_w2sf(S5);
+    }
+}
+
+# XTYPE/FP: conv fp val to int
+# TODO: round behaviour
+define pcodeop convert_sf2uw_chop;
+with slot: iclass=0b1000 & mode=0 {
+    :D5_pair "=convert_df2d(" S5_pair ")" is imm_21_27=0b0000111 & S5_pair & imm_13=0 & imm_8_12=0 & imm_5_7=0b000 & D5_pair {
+        D5_pair = trunc(S5_pair);
+    }
+    :D5_pair "=convert_df2ud(" S5_pair ")" is imm_21_27=0b0000111 & S5_pair & imm_13=0 & imm_8_12=0 & imm_5_7=0b001 & D5_pair {
+        D5_pair = trunc(S5_pair);
+    }
+    :"=fpconvint02()" is imm_21_27=0b0000111 & S5 & imm_13=0 & imm_8_12=0 & imm_5_7=0b110 & D5 {
+        _stub();
+    }
+    :"=fpconvint03()" is imm_21_27=0b0000111 & S5 & imm_13=0 & imm_8_12=0 & imm_5_7=0b111 & D5 {
+        _stub();
+    }
+
+    :D5_pair "=convert_sf2ud(" S5 ")" is imm_23_27=0b01001 & imm_21_22=0 & S5 & imm_13=0 & imm_8_12=0 & imm_5_7=0b011 & D5_pair {
+        D5_pair = trunc(S5);
+    }
+    :D5_pair "=convert_sf2udf(" S5 ")" is imm_23_27=0b01001 & imm_21_22=0 & S5 & imm_13=0 & imm_8_12=0 & imm_5_7=0b100 & D5_pair {
+        D5_pair = trunc(S5);
+    }
+    :"=fpconvint06()" is imm_23_27=0b01001 & imm_21_22=0 & S5 & imm_13=0 & imm_8_12=0 & imm_5_7=0b101 & D5 {
+        _stub();
+    }
+    :"=fpconvint07()" is imm_23_27=0b01001 & imm_21_22=0 & S5 & imm_13=0 & imm_8_12=0 & imm_5_7=0b110 & D5 {
+        _stub();
+    }
+
+    :"=fpconvint08()" is imm_21_27=0b1000011 & S5 & imm_13=0 & imm_8_12=0 & imm_5_7=0b001 & D5 {
+        _stub();
+    }
+    :"=fpconvint09()" is imm_21_27=0b1000100 & S5 & imm_13=0 & imm_8_12=0 & imm_5_7=0b001 & D5 {
+        _stub();
+    }
+    :"=fpconvint10()" is imm_21_27=0b1000101 & S5 & imm_13=0 & imm_8_12=0 & imm_5_7=0b001 & D5 {
+        _stub();
+    }
+    :D5 "=convert_df2w(" S5_pair "):chop" is imm_21_27=0b1000111 & S5_pair & imm_13=0 & imm_8_12=0 & imm_5_7=0b001 & D5 {
+        D5 = trunc(S5_pair);
+    }
+
+    :"=fpconvint12()" is imm_21_27=0b1011011 & S5 & imm_13=0 & imm_8_12=0 & imm_5_7=0b000 & D5 {
+        _stub();
+    }
+    :D5 "=convert_sf2uw(" S5 "):chop" is imm_21_27=0b1011011 & S5 & imm_13=0 & imm_8_12=0 & imm_5_7=0b001 & D5 {
+    	D5 = convert_sf2uw_chop(S5);
+    }
+    :"=fpconvint14()" is imm_21_27=0b1011100 & S5 & imm_13=0 & imm_8_12=0 & imm_5_7=0b000 & D5 {
+        _stub();
+    }
+    :"=fpconvint15()" is imm_21_27=0b1011100 & S5 & imm_13=0 & imm_8_12=0 & imm_5_7=0b001 & D5 {
+        _stub();
+    }
+}
+
+# XTYPE/FP: xtype fp extreame value
+with slot: iclass=0b1000 & mode=0 {
+    :"=fpext00" is imm_21_27=0b1011101 & S5 & imm_8_13=0 & imm_5_7=0b000 & D5 {
+        _stub();
+    }
+}
+with slot: iclass=0b1110 & mode=0 {
+    :"=fpext01" is imm_21_27=0b1011110 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+        _stub();
+    }
+    :"=fpext02" is imm_21_27=0b1011110 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+        _stub();
+    }
+}
+
+# XTYPE/FP: xtype fp fma
+with slot: iclass=0b1110 & mode=0 {
+    :"=fpfma00" is imm_21_27=0b1010000 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+        _stub();
+    }
+    :"=fpfma01" is imm_21_27=0b1010100 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+        _stub();
+    }
+    :D5 "+=sfmpy(" S5 "," T5 ")" is imm_21_27=0b1111000 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+    	local tmp:4 = S5 f* T5;
+	D5 = D5 f+ tmp;
+    }
+    :"=fpfma03" is imm_21_27=0b1111000 & S5 & imm_13=0 & T5 &  imm_5_7=0b101 & D5 {
+        _stub();
+    }
+}
+
+# XTYPE/FP: xtype fp fma scale
+with slot: iclass=0b1110 & mode=0 {
+    :"=fpfmas00" is imm_21_27=0b1111011 & S5 & imm_13=0 & T5 & imm_7=1 & imm_5_6 & D5 {
+        _stub();
+    }
+}
+
+# XTYPE/FP: xtype fp repic
+with slot: iclass=0b1000 & mode=0 {
+    :"=fprecip" is imm_21_27=0b1011111 & S5 & imm_8_13=0 & imm_7=0 & imm_5_6 & D5 {
+        _stub();
+    }
+}
+
+# XTYPE/FP: xtype fp fma lib
+with slot: iclass=0b1110 & mode=0 {
+    :"=fpfmalib00" is imm_21_27=0b1111000 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+        _stub();
+    }
+    :"=fpfmalib01" is imm_21_27=0b1111000 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+        _stub();
+    }
+}
+# XTYPE/FP: xtype fp mk const
+with slot: iclass=0b1101 & mode=0 {
+    :"=sfmake00" is imm_22_27=0b011000 & imm_21 & imm_16_20 & imm_5_13 & D5 {
+        _stub();
+    }
+    :"=sfmake01" is imm_22_27=0b011001 & imm_21 & imm_16_20 & imm_5_13 & D5 {
+        _stub();
+    }
+    :"=sfmake02" is imm_22_27=0b100100 & imm_21 & imm_16_20 & imm_5_13 & D5 {
+        _stub();
+    }
+    :"=sfmake03" is imm_22_27=0b100101 & imm_21 & imm_16_20 & imm_5_13 & D5 {
+        _stub();
+    }
+}
+
+# XTYPE/FP: fp max 
+with slot: iclass=0b1110 & mode=0 {
+    :"=sfmax1" is imm_21_27=0b1000001 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+        _stub();
+    }
+    :"=sfmax" is imm_21_27=0b1011100 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+        _stub();
+    }
+}
+
+# XTYPE/FP: fp min
+with slot: iclass=0b1110 & mode=0 {
+    :"=sfmin1" is imm_21_27=0b1000110 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+        _stub();
+    }
+    :"=sfmin" is imm_21_27=0b1011100 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+        _stub();
+    }
+}
+
+# XTYPE/FP: fp mul
+with slot: iclass=0b1110 & mode=0 {
+    :"=sfmul2" is imm_21_27=0b1000010 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+        _stub();
+    }
+    :"=sfmul1" is imm_21_27=0b1000101 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+        _stub();
+    }
+    :D5 "=sfmpy(" S5 "," T5 ")" is imm_21_27=0b1011010 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    	D5 = S5 f* T5;
+    }
+}
+
+# XTYPE/FP: fp recip aprox
+with slot: iclass=0b1110 & mode=0 {
+    :"=sfrecipapx" is imm_21_27=0b1011111 & S5 & imm_13=0 & T5 & imm_7=1 & imm_5_6 & D5 {
+        _stub();
+    }
+}
+
+# XTYPE/FP: fp sub
+with slot: iclass=0b1110 & mode=0 {
+    :"=sfsub1" is imm_21_27=0b1000100 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+        _stub();
+    }
+    :D5 "=sfsub(" S5 "," T5 ")" is imm_21_27=0b1011000 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    	D5 = S5 f- T5;
+    }
+}

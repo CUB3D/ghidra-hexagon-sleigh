@@ -7,13 +7,12 @@ Supports:
 - Dissassembly up to v73
 - Most commonly used constant extenders supported
 - No broken java plugins needed
-- Initial support for hardware loops (only the two slot form supported)
+- Support for hardware loops
 - Pcode implemented for most common ops (Missing < 1% for most binaries)
 - Function start recovery
 
 Currently broken / unimplemented:
 - No support for GPR.new (Pred.new is supported)
-- No suport for hw loops with terminating packets of size > 2
 - No FP or COMPLEX ops
 - No vector ops
 - Some immediate extentions are missing for less common ops and most duplexes

@@ -109,14 +109,8 @@
         <register name="SP" />
         <register name="FP" />
 
-        <!-- <register name="branch_tgt" /> -->
-        <!-- <register name="call_tgt" /> -->
-        <register name="call_tgt" />
-        <register name="has_call_tgt" />
-        <register name="branch_tgt" />
-        <register name="has_branch_tgt" />
-        <register name="ret_tgt" />
-        <register name="has_ret_tgt" />
+       
+        
         <register name="P0.new" />
         <register name="P1.new" />
         <register name="P2.new" />
@@ -180,12 +174,8 @@
         <register name="FP" />
 
         
-        <register name="call_tgt" />
-        <register name="has_call_tgt" />
-        <register name="branch_tgt" />
-        <register name="has_branch_tgt" />
-                <register name="ret_tgt" />
-        <register name="has_ret_tgt" />
+        
+        
         <register name="P0.new" />
         <register name="P1.new" />
         <register name="P2.new" />
@@ -202,6 +192,7 @@
       </unaffected>
     </prototype>
     
+    <!--
     
     <callotherfixup targetop="testCallOther">
 	    <pcode dynamic="true">
@@ -213,6 +204,8 @@
 	    	<input name="testop1_something"/>
 	    </pcode>
     </callotherfixup>
+    
+    -->
     
   	
 </compiler_spec>

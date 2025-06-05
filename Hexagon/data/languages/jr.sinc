@@ -1,0 +1,124 @@
+
+# JR
+# JR:Call sub from reg
+with slot: iclass=0b0101 {
+	:"callr "S5 is imm_21_27=0b0000101 & S5 & imm_0_13=0 & mode=0 {}
+	:"callr "S5 is imm_21_27=0b0000101 & S5 & imm_0_13=0 & mode=1100 {
+		LR=inst_next;
+		call [S5];
+	}
+	
+	:"callrh "S5 is imm_21_27=0b0000110 & S5 & imm_0_13=0 & mode=0 {}
+	:"callrh "S5 is imm_21_27=0b0000110 & S5 & imm_0_13=0 & mode=1100 {
+		LR=inst_next;
+		call [S5];
+	}
+
+	:"if ("U2_pred") callr" S5 is imm_21_27=0b0001000 & S5 & imm_10_13=0 & U2_pred & imm_0_7=0 & mode=0 {}
+	:"if ("U2_pred") callr" S5 is imm_21_27=0b0001000 & S5 & imm_10_13=0 & U2_pred & imm_0_7=0 & mode=1100 {
+        if(U2_pred == 0) goto <end>;
+		call [S5];
+        <end>
+	}
+	
+	:"if (!"U2_pred") callr" S5 is imm_21_27=0b0001001 & S5 & imm_10_13=0 & U2_pred & imm_0_7=0 & mode=0 {}
+	:"if (!"U2_pred") callr" S5 is imm_21_27=0b0001001 & S5 & imm_10_13=0 & U2_pred & imm_0_7=0 & mode=1100 {
+        if(U2_pred != 0) goto <end>;
+        call [S5];
+        <end>
+	}
+}
+
+# JR:Hinted call sub from reg - duped with call sub from reg
+
+# JR:Hint indirect jmp
+define pcodeop hintjr;
+with slot: iclass=0b0101 & mode=0 {
+	:"hintjr("S5")" is imm_21_27=0b0010101 & S5 & imm_0_13=0b00000000000000 {
+		hintjr(S5);
+	}
+}
+
+
+# JR:Jump to addr from reg
+ with slot: iclass=0b0101 {
+ 	 :"jumpr" S5 is imm_21_27=0b0010100 & S5 & imm_0_13=0 & mode=0 {} 
+	 :"jumpr" S5 is imm_21_27=0b0010100 & S5 & imm_0_13=0 & mode=1100 {
+		 goto [S5];
+	 }
+	 
+	 :"jumpr LR" is imm_21_27=0b0010100 & imm_16_20=31 & imm_0_13=0 & mode=0 {}
+	 :"jumpr LR" is imm_21_27=0b0010100 & imm_16_20=31 & imm_0_13=0 & mode=1100 {
+		return [LR];
+	 }
+	 
+	 :"jumprh" S5 is imm_21_27=0b0010110 & S5 & imm_0_13=0 & mode=0 {}
+	 :"jumprh" S5 is imm_21_27=0b0010110 & S5 & imm_0_13=0 & mode=1100 {
+		 goto [S5];
+	 }
+
+	 :"if("U2_pred") jumpr:nt "S5 is imm_21_27=0b0011010 & S5 & imm_13=0 & imm_11_12=0b00 & imm_10=0 & U2_pred & imm_0_7=0 & mode=0 {}
+	 :"if("U2_pred") jumpr:nt "S5 is imm_21_27=0b0011010 & S5 & imm_13=0 & imm_11_12=0b00 & imm_10=0 & U2_pred & imm_0_7=0 & mode=1100 {
+	 	if(U2_pred == 0) goto <end>;
+	 	goto [S5];
+        <end>
+	 }
+
+	 :"if("U2_pred") jumpr:nt LR" is imm_21_27=0b0011010 & S5=31 & imm_13=0 & imm_11_12=0b00 & imm_10=0 & U2_pred & imm_0_7=0 & mode=0 {}	 
+	 :"if("U2_pred") jumpr:nt LR" is imm_21_27=0b0011010 & S5=31 & imm_13=0 & imm_11_12=0b00 & imm_10=0 & U2_pred & imm_0_7=0 & mode=1100 {
+        if(U2_pred == 0) goto <end>;
+        return [LR];
+        <end>
+	 }
+
+	 :"if("U2_pred_new") jumpr:nt "S5 is imm_21_27=0b0011010 & S5 & imm_13=0 & imm_11_12=0b01 & imm_10=0 & U2_pred_new & imm_0_7=0 & mode=0 {}
+	 :"if("U2_pred_new") jumpr:nt "S5 is imm_21_27=0b0011010 & S5 & imm_13=0 & imm_11_12=0b01 & imm_10=0 & U2_pred_new & imm_0_7=0 & mode=1100 {
+	 	if(U2_pred_new == 0) goto <end>;
+        goto [S5];
+        <end>
+	 }
+	 
+	 :"if("U2_pred") jumpr:t "S5 is imm_21_27=0b0011010 & S5 & imm_13=0 & imm_11_12=0b10 & imm_10=0 & U2_pred & imm_0_7=0 & mode=0 {}
+	 :"if("U2_pred") jumpr:t "S5 is imm_21_27=0b0011010 & S5 & imm_13=0 & imm_11_12=0b10 & imm_10=0 & U2_pred & imm_0_7=0 & mode=1100 {
+        if(U2_pred == 0) goto <end>;
+        goto [S5];
+        <end>
+	 }
+	 
+	 :"if("U2_pred_new") jumpr:t "S5 is imm_21_27=0b0011010 & S5 & imm_13=0 & imm_11_12=0b11 & imm_10=0 & U2_pred_new & imm_0_7=0 & mode=0 {}
+	 :"if("U2_pred_new") jumpr:t "S5 is imm_21_27=0b0011010 & S5 & imm_13=0 & imm_11_12=0b11 & imm_10=0 & U2_pred_new & imm_0_7=0 & mode=1100 {
+        if(U2_pred_new == 0) goto <end>;
+        goto [S5];
+        <end>
+	 }
+	 
+	 :"if(!"U2_pred") jumpr:nt "S5 is imm_21_27=0b0011011 & S5 & imm_13=0 & imm_11_12=0b00 & imm_10=0 & U2_pred & imm_0_7=0 & mode=0 {}
+	 :"if(!"U2_pred") jumpr:nt "S5 is imm_21_27=0b0011011 & S5 & imm_13=0 & imm_11_12=0b00 & imm_10=0 & U2_pred & imm_0_7=0 & mode=1100 {
+        if(U2_pred != 0) goto <end>;
+        goto [S5];
+        <end>
+	 }
+	 
+	 :"if(!"U2_pred_new") jumpr:nt "S5 is imm_21_27=0b0011011 & S5 & imm_13=0 & imm_11_12=0b01 & imm_10=0 & U2_pred_new & imm_0_7=0 & mode=0 {}
+	 :"if(!"U2_pred_new") jumpr:nt "S5 is imm_21_27=0b0011011 & S5 & imm_13=0 & imm_11_12=0b01 & imm_10=0 & U2_pred_new & imm_0_7=0 & mode=1100 {
+        if(U2_pred_new != 0) goto <end>;
+        goto [S5];
+        <end>
+	 }
+	 
+	 :"if(!"U2_pred") jumpr:t "S5 is imm_21_27=0b0011011 & S5 & imm_13=0 & imm_11_12=0b10 & imm_10=0 & U2_pred & imm_0_7=0 & mode=0 {}
+	 :"if(!"U2_pred") jumpr:t "S5 is imm_21_27=0b0011011 & S5 & imm_13=0 & imm_11_12=0b10 & imm_10=0 & U2_pred & imm_0_7=0 & mode=1100 {
+        if(U2_pred != 0) goto <end>;
+        goto [S5];
+        <end>
+	 }
+	 
+	 :"if(!"U2_pred_new") jumpr:t "S5 is imm_21_27=0b0011011 & S5 & imm_13=0 & imm_11_12=0b11 & imm_10=0 & U2_pred_new & imm_0_7=0 & mode=0 {}
+	 :"if(!"U2_pred_new") jumpr:t "S5 is imm_21_27=0b0011011 & S5 & imm_13=0 & imm_11_12=0b11 & imm_10=0 & U2_pred_new & imm_0_7=0 & mode=1100 {
+		if(U2_pred_new != 0) goto <end>;
+        goto [S5];
+        <end>
+	 }
+ }
+
+# JR:Hint addr jmp from reg - duped with jupm to addr from reg

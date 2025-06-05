@@ -1,0 +1,244 @@
+# XTYPE/Complex
+# XTYPE/Complex: add sub hw
+with slot: iclass=0b1100 & mode=0 {
+    :"vxaddsubh" is imm_22_27=0b000101 & imm_21=0 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+        _stub();
+    }
+    :"vxsubaddh" is imm_22_27=0b000101 & imm_21=0 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+        _stub();
+    }
+    :"vxaddsubh:rnd" is imm_22_27=0b000111 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b00 & imm_5=0 & D5 {
+        _stub();
+    }
+    :"vxsubaddh:rnd" is imm_22_27=0b000111 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b01 & imm_5=0 & D5 {
+        _stub();
+    }
+}
+
+# XTYPE/Complex: add sub w
+with slot: iclass=0b1100 & mode=0 {
+    :"vxaddsubw" is imm_22_27=0b000101 & imm_21=0 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+        _stub();
+    }
+    :"vxasubaddw" is imm_22_27=0b000101 & imm_21=0 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+        _stub();
+    }
+}
+
+# XTYPE/Complex: mul
+with slot: iclass=0b1110 & mode=0 {
+    :"cmpysat" is imm_24_27=0b0101 & imm_23 & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+        _stub();
+    }
+    :"cmpysat1" is imm_24_27=0b0101 & imm_23 & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+        _stub();
+    }
+
+    :"cmpysat2" is imm_24_27=0b0111 & imm_23 & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+        _stub();
+    }
+    :"cmpysat3" is imm_24_27=0b0111 & imm_23 & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+        _stub();
+    }
+    :"cmpysat4" is imm_24_27=0b0111 & imm_23 & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+        _stub();
+    }
+    :"cmpysat5" is imm_24_27=0b0111 & imm_23 & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+        _stub();
+    }
+}
+
+# XTYPE/Complex: mul real or i
+with slot: iclass=0b1110 & mode=0 {
+    :"cmpyi0" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+        _stub();
+    }
+    :"cmpyi1" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+        _stub();
+    }
+
+    :"cmpyi2" is imm_21_27=0b0111000 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+        _stub();
+    }
+    :"cmpyi3" is imm_21_27=0b0111000 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+        _stub();
+    }
+}
+
+# XTYPE/Complex: mul rnd pck
+with slot: iclass=0b1110 & mode=0 {
+    :"cmpy:rnd:sat" is imm_24_27=0b1101 & imm_23 & imm_21_22=0b01 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+        _stub();
+    }
+    :"cmpy:rnd:sat" is imm_24_27=0b1101 & imm_23 & imm_21_22=0b11 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+        _stub();
+    }
+}
+
+# XTYPE/Complex: mul 32 x 16
+with slot: iclass=0b1100 & mode=0 {
+    :"cmpyiwh" is imm_24_27=0b0101 & imm_21_23=0 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+        _stub();
+    }
+    :"cmpyiwh1" is imm_24_27=0b0101 & imm_21_23=0 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+        _stub();
+    }
+    :"cmpyiwh2" is imm_24_27=0b0101 & imm_21_23=0 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+        _stub();
+    }
+    :"cmpyiwh2" is imm_24_27=0b0101 & imm_21_23=0 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+        _stub();
+    }
+}
+
+# XTYPE/Complex: mul real or i 32
+with slot: iclass=0b1110 & mode=0 {
+    :"cmpyiw00" is imm_21_27=0b1000011 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+        _stub();
+    }
+    :"cmpyiw01" is imm_21_27=0b1000100 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+        _stub();
+    }
+    :"cmpyiw02" is imm_21_27=0b1000110 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+        _stub();
+    }
+    :"cmpyiw03" is imm_21_27=0b1000111 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+        _stub();
+    }
+    :"cmpyiw04" is imm_21_27=0b1001000 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+        _stub();
+    }
+    :"cmpyiw05" is imm_21_27=0b1001001 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+        _stub();
+    }
+    :"cmpyiw06" is imm_21_27=0b1001010 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+        _stub();
+    }
+    :"cmpyiw07" is imm_21_27=0b1001011 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+        _stub();
+    }
+    :"cmpyiw08" is imm_21_27=0b1001100 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+        _stub();
+    }
+    :"cmpyiw09" is imm_21_27=0b1001101 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+        _stub();
+    }
+    :"cmpyiw10" is imm_21_27=0b1001110 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+        _stub();
+    }
+    :"cmpyiw11" is imm_21_27=0b1001111 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+        _stub();
+    }
+#ns
+    :"cmpyiw12" is imm_21_27=0b1010010 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+        _stub();
+    }
+    :"cmpyiw13" is imm_21_27=0b1010011 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+        _stub();
+    }
+    :"cmpyiw14" is imm_21_27=0b1010100 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+        _stub();
+    }
+    :"cmpyiw15" is imm_21_27=0b1010110 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+        _stub();
+    }
+}
+
+
+# XTYPE/Complex: vec mul complex real or i
+with slot: iclass=0b1110 & mode=0 {
+    :"vcmpyr" is imm_24_27=0b1000 & imm_23 & imm_21_22=0b01 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+        _stub();
+    }
+    :"vcmpyr1" is imm_24_27=0b1000 & imm_23 & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+        _stub();
+    }
+    :"vcmpyr2" is imm_21_27=0b1010001 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+        _stub();
+    }
+    :"vcmpyr3" is imm_21_27=0b1010010 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+        _stub();
+    }
+}
+
+# XTYPE/Complex: vec complex conj
+with slot: iclass=0b1000 & mode=0 {
+    :"vconj" is imm_21_27=0b0000100 & S5 & imm_8_13=0 & imm_5_7=0b111 & D5 {
+        _stub();
+    }
+}
+
+# XTYPE/Complex: vec complex rot
+with slot: iclass=0b1100 & mode=0 {
+    :"vcrotate" is imm_22_27=0b001111 & imm_21=0 & S5 & imm_8_13=0 & imm_6_7=0b00 & imm_5=0 & D5 {
+        _stub();
+    }
+}
+
+# XTYPE/Complex: vec reduce complex mul real or i - TODO: this isn't in v73 but is is v5??
+with slot: iclass=0b1110 & mode=0 {
+    :"vrcmpy0" is imm_21_27=0b1000000 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+        _stub();
+    }
+    :"vrcmpy1" is imm_21_27=0b1000000 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+        _stub();
+    }
+    :"vrcmpy2" is imm_21_27=0b1000010 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+        _stub();
+    }
+    :"vrcmpy3" is imm_21_27=0b1000011 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+        _stub();
+    }
+
+
+    :"vrcmpy4" is imm_21_27=0b1010000 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+        _stub();
+    }
+    :"vrcmpy5" is imm_21_27=0b1010000 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+        _stub();
+    }
+    :"vrcmpy6" is imm_21_27=0b1010010 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+        _stub();
+    }
+    :"vrcmpy7" is imm_21_27=0b1010011 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+        _stub();
+    }
+}
+
+
+
+# XTYPE/Complex: vec reduce complex mul scalar
+with slot: iclass=0b1110 & mode=0 {
+    :"vrcmpys0" is imm_21_27=0b1000101 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+        _stub();
+    }
+    :"vrcmpys1" is imm_21_27=0b1000111 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+        _stub();
+    }
+    :"vrcmpys2" is imm_21_27=0b1010101 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+        _stub();
+    }
+    :"vrcmpys3" is imm_21_27=0b1010111 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+        _stub();
+    }
+}
+
+# XTYPE/Complex: vec reduce complex mul scalar rnd pck
+with slot: iclass=0b1110 & mode=0 {
+    :"vrcmpys0" is imm_23_27=0b10011 & imm_22=0 & imm_21=1 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+        _stub();
+    }
+    :"vrcmpys1" is imm_23_27=0b10011 & imm_22=0 & imm_21=1 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+        _stub();
+    }
+}
+
+# XTYPE/Complex: vec reduce complex rot
+with slot: iclass=0b1100 & mode=0 {
+    :"vrcrotate" is imm_22_27=0b001111 & imm_21=0 & S5 & imm_13 & T5 & imm_6_7=0b11 & imm_5 & D5 {
+        _stub();
+    }
+    :"vrcrotate1" is imm_21_27=0b1011101 & S5 & imm_13 & T5 & imm_6_7=0 & imm_5 & D5 {
+        _stub();
+    }
+}

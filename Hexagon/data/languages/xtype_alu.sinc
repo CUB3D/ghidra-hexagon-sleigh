@@ -1,0 +1,788 @@
+# XTYPE/ALU
+# XTYPE/ALU:Abs dword
+with slot: iclass=0b1000 & mode=0 {
+    :D5_pair "=abs(" S5_pair ")" is imm_21_27=0b0000100 & S5_pair & imm_8_13=0 & imm_5_7=0b110 & D5_pair {
+    	if (S5_pair s< 0) goto <neg>;
+		D5_pair = S5_pair;
+		goto <end>;
+	<neg>
+		D5_pair = -S5_pair;
+	<end>
+    }
+}
+
+# XTYPE/ALU:Abs word
+with slot: iclass=0b1000 & mode=0 {
+    :D5 "=abs(" S5 ")" is imm_21_27=0b1100100 & S5 & imm_8_13=0 & imm_5_7=0b100 & D5 {
+    	if (S5 s< 0) goto <neg>;
+		D5 = S5;
+		goto <end>;
+	<neg>
+		D5 = -S5;
+	<end>
+    }
+
+    :"=abswordsat" is imm_21_27=0b1100100 & S5 & imm_8_13=0 & imm_5_7=0b101 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:Add acc
+with slot: iclass=0b1101 & mode=0 {
+    with : (hasext0=0 | immext0used=1)  {
+	    :T5 "=add(" S5 ", add(" D5 "," s6 "))" is imm_23_27=0b10110 & imm_21_22 & S5 & imm_13u & T5 & imm_5_7u & D5 [ s6 = imm_5_7u | (imm_13u << 3) | (imm_21_22 << 4);] {
+		local EA:4 = D5 + s6;
+		T5 = EA + S5;
+	    }
+	    :T5 "=add(" S5 ", sub(" s6 "," D5 "))" is imm_23_27=0b10111 & imm_21_22 & S5 & imm_13u & T5 & imm_5_7u & D5 [ s6 = imm_5_7u | (imm_13u << 3) | (imm_21_22 << 4);] {
+		local EA:4 = s6 - D5;
+		T5 = EA + S5;
+	    }
+    }
+    with : hasext0=1 & immext0used=0  {
+	    :T5 "=add(" S5 ", add(" D5 "," s6 "))" is imm_23_27=0b10110 & imm_21_22 & S5 & imm_13u & T5 & imm_5_7u & D5 & immext0 [ s6 = (imm_5_7u | (imm_13u << 3) | (imm_21_22 << 4)) | immext0; immext0used=1;] {
+		local EA:4 = D5 + s6;
+		T5 = EA + S5;
+	    }
+	    :T5 "=add(" S5 ", sub(" s6 "," D5 "))" is imm_23_27=0b10111 & imm_21_22 & S5 & imm_13u & T5 & imm_5_7u & D5 & immext0 [ s6 = (imm_5_7u | (imm_13u << 3) | (imm_21_22 << 4)) | immext0; immext0used=1;] {
+		local EA:4 = s6 - D5;
+		T5 = EA + S5;
+	    }
+    }
+}
+with slot: iclass=0b1110 & mode=0 {
+    :D5 "+=add(" S5 "," imm_5_12 ")" is imm_23_27=0b00100 & imm_21_22=0b00 & S5 & imm_13=0 & imm_5_12 & D5 {
+        local EA:4 = S5 + imm_5_12;
+        D5 = D5 + EA;
+    }
+    :D5"-=add("S5",#"imm_5_12")" is imm_23_27=0b00101 & imm_21_22=0b00 & S5 & imm_13=0 & imm_5_12 & D5 {
+        local tmp:4 = S5+imm_5_12;
+        D5 = D5 - tmp;
+    }
+
+    :D5 "+=add(" S5 "," T5 ")" is imm_21_27=0b1111000 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+        local EA:4 = S5 + T5;
+        D5 = D5 + EA;
+    }
+    :D5 "+=add(" S5 "," T5 ")" is imm_21_27=0b1111100 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+        local EA:4 = S5 + T5;
+        D5 = D5 - EA;
+    }
+}
+# XTYPE/ALU:Add dword
+with slot: iclass=0b1101 & mode=0 {
+    :D5_pair "=add(" S5_pair "," T5_pair ")" is imm_21_27=0b0011000 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b111 & D5_pair {
+        D5_pair = S5_pair + T5_pair;
+    }
+    :"=addd1" is imm_21_27=0b0011011 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+    _stub();
+    }
+    :D5_pair "=add(" S5_pair "," T5_pair "):raw:lo" is imm_21_27=0b0011011 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b110 & D5_pair {
+    	D5_pair = T5_pair + sext(S5_pair:4);
+    }
+    :"=addd3" is imm_21_27=0b0011011 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+    _stub();
+    }
+
+    :"=addd4" is imm_21_27=0b0101100 & S5 & imm_13=0 & T5 & imm_7=0 & imm_5_6=0 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:Add hword
+with slot: iclass=0b1101 & mode=0 {
+    :D5 "=add(" T5^".L" "," S5^".L" ")" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_6_7=0b00 & imm_5=0 & D5 {
+    local E:2 = T5:2 + S5:2;
+    D5 = sext(E);
+    }
+    :"=addhw01" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_6_7=0b01 & imm_5=0 & D5 {
+    _stub();
+    }
+    :"=addhw02" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_6_7=0b10 & imm_5=0 & D5 {
+    _stub();
+    }
+    :"=addhw03" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_6_7=0b11 & imm_5=0 & D5 {
+    _stub();
+    }
+    :"=addhw04" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    _stub();
+    }
+    :"=addhw05" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    _stub();
+    }
+    :"=addhw06" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+    _stub();
+    }
+    :"=addhw07" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+    _stub();
+    }
+    :"=addhw08" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+    _stub();
+    }
+    :"=addhw09" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+    _stub();
+    }
+    :"=addhw10" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:Add or sub dword w/ cary
+with slot: iclass=0b1100 & mode=0 {
+    :D5_pair "=add(" S5_pair "," T5_pair "," U2_5_6 "):carry"  is imm_21_27=0b0010110 & S5_pair & imm_13=0 & T5_pair & imm_7=0 & U2_5_6 & D5_pair {
+    	local tmp:9 = zext(S5_pair) + zext(T5_pair) + zext(U2_5_6);
+    	D5_pair = tmp:8; 
+	U2_5_6 = PTRUE * ((tmp >> 64) != 0);
+
+    }
+    :"=subcarry1" is imm_21_27=0b0010111 & S5 & imm_13=0 & T5 & imm_7=0 & imm_5_6 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:Clip unsign
+with slot: iclass=0b1000 & mode=0 {
+    :"=clip" is imm_21_27=0b1000110 & S5 & imm_13=0 & imm_8_12 & imm_5_7=0b101 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:logical dword
+with slot: iclass=0b1000 & mode=0 {
+    :D5_pair "=not(" S5_pair ")" is imm_21_27=0b0000100 & S5_pair & imm_8_13=0 & imm_5_7=0b100 & D5_pair {
+    	D5_pair = ~S5_pair;
+    }
+}
+with slot: iclass=0b1101 & mode=0 {
+    :D5_pair "=and(" S5_pair "," T5_pair ")" is imm_21_27=0b0011111 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5_pair {
+    	D5_pair = S5_pair & T5_pair;
+    }
+    :D5_pair "=and(" S5_pair ",~" T5_pair ")" is imm_21_27=0b0011111 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b001 & D5_pair {
+    	D5_pair = S5_pair & (~T5_pair);
+    }
+    :D5_pair "=or(" S5_pair "," T5_pair ")" is imm_21_27=0b0011111 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b010 & D5_pair {
+    	D5_pair = S5_pair | T5_pair;
+    }
+    :D5_pair "=or(" S5_pair ",~" T5_pair ")" is imm_21_27=0b0011111 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b011 & D5_pair {
+    	D5_pair = S5_pair | (~T5_pair);
+    }
+    :D5_pair "=xor(" S5_pair "," T5_pair ")" is imm_21_27=0b0011111 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b100 & D5_pair {
+    	D5_pair = S5_pair ^ T5_pair;
+    }
+}
+
+# XTYPE/ALU:logical logical dword
+with slot: iclass=0b1100 & mode=0 {
+    :D5_pair "^=xor(" S5_pair "," T5_pair ")" is imm_22_27=0b101010 & imm_21=0 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5_pair {
+    	D5_pair = D5_pair ^ (S5_pair ^ T5_pair);
+    }
+}
+
+# XTYPE/ALU:logical logical word
+with slot: iclass=0b1101 & mode=0 {
+    :"|=and" is imm_22_27=0b101000 & imm_21 & S5 & imm_5_13 & imm_0_4  {
+    _stub();
+    }
+    :S5"=or("D5",and("S5_dup","s10"))" is imm_22_27=0b101001 & imm_21 & S5 & S5_dup & imm_5_13u & D5 & (hasext0=0 | immext0used=1) [s10 = imm_5_13u | (imm_21 << 9); ] {
+        local EA:4 = S5 & s10;  
+        S5 = D5 | EA;
+    }
+    :S5"=or("D5",and("S5_dup","s10"))" is imm_22_27=0b101001 & imm_21 & S5 & S5_dup & imm_5_13u & D5 & hasext0=1 & immext0used=0 & imm_5_10u [s10 = imm_5_10u | immext0; immext0used=1;] {
+        local EA:4 = S5 & s10;  
+        S5 = D5 | EA;
+    }
+    :D5"|=or("S5","s10")" is imm_22_27=0b101010 & imm_21 & S5 & imm_5_13u & D5 [s10 = imm_5_13u | (imm_21 << 9); ] {
+        local EA:4 = S5 | s10;  
+        D5 = D5 | EA;
+    }
+}
+
+with slot: iclass=0b1110 & mode=0 {
+    :D5"|=and("S5","T5")" is imm_21_27=0b1111001 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5  {
+        local EA:4 = S5 & T5;  
+        D5 = D5 | EA;
+    }
+    :D5"&=and("S5","T5")" is imm_21_27=0b1111001 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5  {
+        local EA:4 = S5 & T5;  
+        D5 = D5 & EA;
+    }
+    :D5"^=and("S5","T5")" is imm_21_27=0b1111001 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5  {
+        local EA:4 = S5 & T5;  
+        D5 = D5 ^ EA;
+    }
+
+    :D5"&=and("S5","T5")" is imm_21_27=0b1111010 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5  {
+        local EA:4 = S5 & T5;  
+        D5 = D5 & EA;
+    }
+    :D5"&=or("S5","T5")" is imm_21_27=0b1111010 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5  {
+        local EA:4 = S5 | T5;  
+        D5 = D5 & EA;
+    }
+    :D5"&=xor("S5","T5")" is imm_21_27=0b1111010 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5  {
+        local EA:4 = S5 ^ T5;  
+        D5 = D5 & EA;
+    }
+    :D5"|=and("S5","T5")" is imm_21_27=0b1111010 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5  {
+        local EA:4 = S5 & T5;  
+        D5 = D5 | EA;
+    }
+    :D5"^=xor("S5","T5")" is imm_21_27=0b1111100 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5  {
+        local EA:4 = S5 ^ T5;  
+        D5 = D5 ^ EA;
+    }
+    :D5"|=or("S5","T5")" is imm_21_27=0b1111110 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5  {
+        local EA:4 = S5 | T5;  
+        D5 = D5 | EA;
+    }
+    :D5"|=xor("S5","T5")" is imm_21_27=0b1111110 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5  {
+        local EA:4 = S5 ^ T5;  
+        D5 = D5 | EA;
+    }
+    :D5"^=and("S5","T5")" is imm_21_27=0b1111110 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5  {
+        local EA:4 = S5 & T5;  
+        D5 = D5 ^ EA;
+    }
+    :D5"^=or("S5","T5")" is imm_21_27=0b1111110 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5  {
+        local EA:4 = S5 | T5;  
+        D5 = D5 ^ EA;
+    }
+
+}
+
+# XTYPE/ALU:max word
+with slot: iclass=0b1101 & mode=0 {
+    :D5 "=max(" T5 "," S5 ")" is imm_21_27=0b0101110 & S5 & imm_13=0 & T5 & imm_7=0 & imm_5_6=0 & D5 {
+        if (T5 s> S5) goto <p2>;
+        D5 = S5;
+        goto <end>;
+        <p2>
+        D5 = T5;
+        <end>
+    }
+    :D5 "=maxu(" T5 "," S5 ")" is imm_21_27=0b0101110 & S5 & imm_13=0 & T5 & imm_7=1 & imm_5_6=0 & D5 {
+        if (T5 > S5) goto <p2>;
+        D5 = S5;
+        goto <end>;
+        <p2>
+        D5 = T5;
+        <end>
+    }
+}
+
+# XTYPE/ALU:max dword
+with slot: iclass=0b1101 & mode=0 {
+    :D5_pair "=max(" S5_pair "," T5_pair ")" is imm_21_27=0b0011110 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b100 & D5_pair {
+        if (T5_pair s> S5_pair) goto <p2>;
+        D5_pair = S5_pair;
+        goto <end>;
+        <p2>
+        D5_pair = T5_pair;
+        <end>
+    }
+    :D5_pair "=maxu(" S5_pair "," T5_pair ")" is imm_21_27=0b0011110 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b101 & D5_pair {
+        if (T5_pair > S5_pair) goto <p2>;
+        D5_pair = S5_pair;
+        goto <end>;
+        <p2>
+        D5_pair = T5_pair;
+        <end>
+    }
+}
+
+# XTYPE/ALU:min word
+with slot: iclass=0b1101 & mode=0 {
+    :D5 "=min(" T5 "," S5 ")" is imm_21_27=0b0101101 & S5 & imm_13=0 & T5 & imm_7=0 & imm_5_6=0 & D5 {
+        if (T5 s< S5) goto <p2>;
+        D5 = S5;
+        goto <end>;
+        <p2>
+        D5 = T5;
+        <end>
+    }
+    :D5 "=minu(" T5 "," S5 ")" is imm_21_27=0b0101101 & S5 & imm_13=0 & T5 & imm_7=1 & imm_5_6=0 & D5 {
+        if (T5 s< S5) goto <p2>;
+        D5 = S5;
+        goto <end>;
+        <p2>
+        D5 = T5;
+        <end>
+    }
+}
+
+# XTYPE/ALU:min dword
+with slot: iclass=0b1101 & mode=0 {
+    :"mind0" is imm_21_27=0b0011101 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+    _stub();
+    }
+    :D5_pair "=minu(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b111 & D5_pair {
+        if (T5_pair < S5_pair) goto <p2>;
+        D5_pair = S5_pair;
+        goto <end>;
+        <p2>
+        D5_pair = T5_pair;
+        <end>
+    }
+}
+
+# XTYPE/ALU:mod wrap
+define pcodeop modwrap;
+with slot: iclass=0b1101 & mode=0 {
+    :D5 "=modwrap(" S5 "," T5 ")" is imm_21_27=0b0011111 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+    	D5 = modwrap(S5, T5);
+    }
+}
+
+# XTYPE/ALU:neg
+with slot: iclass=0b1000 & mode=0 {
+    :D5_pair "=neg(" S5_pair ")" is imm_21_27=0b0000100 & S5_pair & imm_8_13=0 & imm_5_7=0b101 & D5_pair {
+    	D5_pair = -S5_pair;
+    }
+    :"neg1" is imm_21_27=0b1100100 & S5 & imm_8_13=0 & imm_5_7=0b110 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:round
+with slot: iclass=0b1000 & mode=0 {
+    :"rnd0" is imm_21_27=0b1000110 & S5 & imm_8_13=0 & imm_5_7=0b001 & D5 {
+    _stub();
+    }
+    :"rnd1" is imm_21_27=0b1000111 & S5 & imm_13=0 & imm_8_12 & imm_6_7=0b00 & imm_5=0 & D5 {
+    _stub();
+    }
+    :"rnd2" is imm_21_27=0b1000111 & S5 & imm_13=0 & imm_8_12 & imm_6_7=0b10 & imm_5=0 & D5 {
+    _stub();
+    }
+    :"rnd3" is imm_21_27=0b1000111 & S5 & imm_13=0 & imm_8_12 & imm_6_7=0b11 & imm_5=0 & D5 {
+    _stub();
+    }
+    :"rnd4" is imm_21_27=0b1000111 & S5 & imm_8_13 & imm_6_7=0b01 & imm_5=0 & D5 {
+    _stub();
+    }
+}
+with slot: iclass=0b1100 & mode=0 {
+    :"rnd5" is imm_22_27=0b011011 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b00 & imm_5=0 & D5 {
+    _stub();
+    }
+    :"rnd6" is imm_22_27=0b011011 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b01 & imm_5=0 & D5 {
+    _stub();
+    }
+    :"rnd7" is imm_22_27=0b011011 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b10 & imm_5=0 & D5 {
+    _stub();
+    }
+    :"rnd8" is imm_22_27=0b011011 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b11 & imm_5=0 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:sub dword
+with slot: iclass=0b1101 & mode=0 {
+    :D5_pair "=sub(" T5_pair "," S5_pair ")" is imm_21_27=0b0011001 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b111 & D5_pair {
+        D5_pair = T5_pair - S5_pair;
+    }
+    :"subd" is imm_21_27=0b0101100 & S5 & imm_13=0 & T5 & imm_7=1 & imm_5_6=0 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:sub acc word
+with slot: iclass=0b1110 & mode=0 {
+    :D5 "+=sub(" T5 "," S5 ")" is imm_21_27=0b1111000 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+    	D5 = D5 + (T5 - S5);
+    }
+}
+
+# XTYPE/ALU:sub hword
+with slot: iclass=0b1101 & mode=0 {
+    :D5 "=sub(" T5^".L, ", S5^".L)"  is imm_21_27=0b0101001 & S5 & imm_13=0 & T5 & imm_6_7=0b00 & imm_5=0 & D5 {
+    	local tmp:2 = T5:2 - S5:2;
+	D5 = sext(tmp);
+    }
+    :"subhw01" is imm_21_27=0b0101001 & S5 & imm_13=0 & T5 & imm_6_7=0b01 & imm_5=0 & D5 {
+    _stub();
+    }
+    :"subhw02" is imm_21_27=0b0101001 & S5 & imm_13=0 & T5 & imm_6_7=0b10 & imm_5=0 & D5 {
+    _stub();
+    }
+    :"subhw03" is imm_21_27=0b0101001 & S5 & imm_13=0 & T5 & imm_6_7=0b11 & imm_5=0 & D5 {
+    _stub();
+    }
+    :"subhw04" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    _stub();
+    }
+    :"subhw05" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    _stub();
+    }
+    :"subhw06" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+    _stub();
+    }
+    :"subhw07" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+    _stub();
+    }
+    :"subhw08" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+    _stub();
+    }
+    :"subhw09" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+    _stub();
+    }
+    :"subhw10" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+    _stub();
+    }
+    :"subhw11" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:sext w->dw
+with slot: iclass=0b1000 & mode=0 {
+    :D5_pair "=sxtw(" S5 ")" is imm_22_27=0b010001 & imm_21=0 & S5 & imm_8_13=0 & imm_6_7=0b00 & imm_5=0 & D5_pair {
+    	D5_pair = sext(S5:2);
+    }
+}
+
+# XTYPE/ALU:vector abs val hw
+with slot: iclass=0b1000 & mode=0 {
+    :"vabsh" is imm_21_27=0b0000010 & S5 & imm_8_13=0 & imm_5_7=0b100 & D5 {
+    _stub();
+    }
+    :"vabshsat" is imm_21_27=0b0000010 & S5 & imm_8_13=0 & imm_5_7=0b101 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector abs val w
+with slot: iclass=0b1000 & mode=0 {
+    :"vabsw" is imm_21_27=0b0000010 & S5 & imm_8_13=0 & imm_5_7=0b110 & D5 {
+    _stub();
+    }
+    :"vabswsat" is imm_21_27=0b0000010 & S5 & imm_8_13=0 & imm_5_7=0b111 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector abs diff by
+with slot: iclass=0b1110 & mode=0 {
+    :"vabsdiffub" is imm_21_27=0b1000101 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    _stub();
+    }
+    :"vabsdiffb" is imm_21_27=0b1000111 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector abs diff hw
+define pcodeop vabsdiffh;
+with slot: iclass=0b1110 & mode=0 {
+    :D5_pair "=vabsdiffh(" T5_pair "," S5_pair ")" is imm_21_27=0b1000011 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5_pair {
+    	D5_pair = vabsdiffh(T5_pair, S5_pair);
+    }
+}
+
+# XTYPE/ALU:vector abs diff w
+with slot: iclass=0b1110 & mode=0 {
+    :"vabsdiffw" is imm_21_27=0b1000001 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector add cmp and sel max by - TODO: not documented??
+
+# XTYPE/ALU:vector add cmp and sel max hw
+with slot: iclass=0b1110 & mode=0 {
+    :"vacsh" is imm_21_27=0b1010101 & S5 & imm_13=0 & T5 & imm_7=0 & imm_5_6 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector add hw
+with slot: iclass=0b1101 & mode=0 {
+    :"vaddh" is imm_21_27=0b0011000 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+    _stub();
+    }
+    :D5 "=vaddh(" S5 "," T5 "):sat" is imm_21_27=0b0011000 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+    	D5 = vaddh_sat(S5, T5);
+    }
+    :"vadduhsat" is imm_21_27=0b0011000 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector add hw w sat and pck uby
+with slot: iclass=0b1100 & mode=0 {
+    :"vaddhub" is imm_22_27=0b000101 & imm_21=0 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector red add u by
+with slot: iclass=0b1110 & mode=0 {
+    :"vraddub" is imm_21_27=0b1000010 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    _stub();
+    }
+    :"rxx=vraddub" is imm_21_27=0b1010010 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector red add hw
+with slot: iclass=0b1110 & mode=0 {
+    :"vradduh" is imm_23_27=0b10010 & imm_21_22=0 & S5 & imm_13=0 & T5 & imm_7=0 & imm_5_6=0b01 & D5 {
+    _stub();
+    }
+    :"vraddh" is imm_23_27=0b10010 & imm_22=0 & imm_21=1 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector red add by
+with slot: iclass=0b1101 & mode=0 {
+    :"vraddub" is imm_21_27=0b0011000 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    _stub();
+    }
+    :"vraddub" is imm_21_27=0b0011000 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector red add w
+with slot: iclass=0b1101 & mode=0 {
+    :"vraddw" is imm_21_27=0b0011000 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+    _stub();
+    }
+    :"vraddwsat" is imm_21_27=0b0011000 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector avg hw
+with slot: iclass=0b1101 & mode=0 {
+    :"vavgh00" is imm_21_27=0b0011010 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+    _stub();
+    }
+    :"vavgh01" is imm_21_27=0b0011010 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+    _stub();
+    }
+    :"vavgh02" is imm_21_27=0b0011010 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+    _stub();
+    }
+    :"vavgh03" is imm_21_27=0b0011010 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+    _stub();
+    }
+    :"vavgh04" is imm_21_27=0b0011010 & S5 & imm_13=0 & T5 & imm_6_7=0b11 & imm_5=0 & D5 {
+    _stub();
+    }
+    :"vavgh05" is imm_21_27=0b0011100 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    _stub();
+    }
+    :"vavgh06" is imm_21_27=0b0011100 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    _stub();
+    }
+    :"vavgh07" is imm_21_27=0b0011100 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector avg u by
+with slot: iclass=0b1101 & mode=0 {
+    :"vavgub" is imm_21_27=0b0011010 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    _stub();
+    }
+    :"vavgubrnd" is imm_21_27=0b0011010 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector avg w
+with slot: iclass=0b1101 & mode=0 {
+    :"vavgw00" is imm_21_27=0b0011011 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    _stub();
+    }
+    :"vavgw01" is imm_21_27=0b0011011 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    _stub();
+    }
+    :"vavgw02" is imm_21_27=0b0011011 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+    _stub();
+    }
+    :"vavgw03" is imm_21_27=0b0011011 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+    _stub();
+    }
+    :"vavgw04" is imm_21_27=0b0011011 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+    _stub();
+    }
+    :"vavgw05" is imm_21_27=0b0011100 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+    _stub();
+    }
+    :"vavgw06" is imm_21_27=0b0011100 & S5 & imm_13=0 & T5 & imm_6_7=0b10 & imm_5=0 & D5 {
+    _stub();
+    }
+    :"vavgw07" is imm_21_27=0b0011100 & S5 & imm_13=0 & T5 & imm_6_7=0b11 & imm_5=0 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector clip un
+with slot: iclass=0b1000 & mode=0 {
+    :"vclip" is imm_21_27=0b1000110 & S5 & imm_13=0 & imm_8_12 & imm_5_7=0b110 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector cond neg
+with slot: iclass=0b1100 & mode=0 {
+    :"vcnegh" is imm_22_27=0b001111 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b01 & imm_5=0 & D5 {
+    _stub();
+    }
+    :"vrcnegh" is imm_21_27=0b1011001 & S5 & imm_13=1 & T5 & imm_5_7=0b111 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector max by
+with slot: iclass=0b1101 & mode=0 {
+    :"vmaxub" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    _stub();
+    }
+    :"vmaxb" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector max hw
+with slot: iclass=0b1101 & mode=0 {
+    :"vmaxh" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    _stub();
+    }
+    :"vmaxuh" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector red max hw
+with slot: iclass=0b1100 & mode=0 {
+    :"vrmaxh" is imm_21_27=0b1011001 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    _stub();
+    }
+    :"vrmaxuh" is imm_21_27=0b1011001 & S5 & imm_13=1 & T5 & imm_5_7=0b001 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector red max w
+with slot: iclass=0b1100 & mode=0 {
+    :"vrmaxw" is imm_21_27=0b1011001 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+    _stub();
+    }
+    :"vrmaxuw" is imm_21_27=0b1011001 & S5 & imm_13=1 & T5 & imm_5_7=0b010 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector max w
+with slot: iclass=0b1101 & mode=0 {
+    :"vmaxuw" is imm_21_27=0b0011101 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+    _stub();
+    }
+    :"vmaxw" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector min b
+with slot: iclass=0b1101 & mode=0 {
+    :"vminub" is imm_21_27=0b0011101 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    _stub();
+    }
+    :"vminb" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+    _stub();
+    }
+}
+with slot: iclass=0b1110 & mode=0 {
+    :"vminub2" is imm_21_27=0b1010111 & S5 & imm_13=0 & T5 & imm_7=0 & imm_5_6 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector min hw
+with slot: iclass=0b1101 & mode=0 {
+    :"vminh" is imm_21_27=0b0011101 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    _stub();
+    }
+    :"vminuh" is imm_21_27=0b0011101 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector red min hw
+with slot: iclass=0b1100 & mode=0 {
+    :"vrminh" is imm_21_27=0b1011001 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+    _stub();
+    }
+    :"vrminuh" is imm_21_27=0b1011001 & S5 & imm_13=1 & T5 & imm_5_7=0b101 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector red min w
+with slot: iclass=0b1100 & mode=0 {
+    :"vrminw" is imm_21_27=0b1011001 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+    _stub();
+    }
+    :"vrminuw" is imm_21_27=0b1011001 & S5 & imm_13=1 & T5 & imm_5_7=0b110 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector min w
+with slot: iclass=0b1101 & mode=0 {
+    :"vminw" is imm_21_27=0b0011101 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+    _stub();
+    }
+    :"vminuw" is imm_21_27=0b0011101 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector sum abs diff u
+with slot: iclass=0b1110 & mode=0 {
+    :"vrsadub" is imm_21_27=0b1000010 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+    _stub();
+    }
+    :"+vrsadub" is imm_21_27=0b1010010 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector sub hw
+with slot: iclass=0b1101 & mode=0 {
+    :"vsubh" is imm_21_27=0b0011001 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+    _stub();
+    }
+    :"vsubhsat" is imm_21_27=0b0011001 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+    _stub();
+    }
+    :"vsubuhsat" is imm_21_27=0b0011001 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/ALU:vector sub by
+with slot: iclass=0b1101 & mode=0 {
+    :"vsubub" is imm_21_27=0b0011001 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    _stub();
+    }
+    :"vsububsat" is imm_21_27=0b0011001 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    _stub();
+    }
+}
+
+
+# XTYPE/ALU:vector sub w
+with slot: iclass=0b1101 & mode=0 {
+    :"vsubw" is imm_21_27=0b0011001 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+    _stub();
+    }
+    :"vsubwsat" is imm_21_27=0b0011001 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+    _stub();
+    }
+}

@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <processor_spec>
-	<properties>
-		<property key="pcodeInjectLibraryClass" value="hexagon.HexagonPcodeInjector"/> 
-	</properties>
-
   <programcounter register="pc"/>
 </processor_spec>
