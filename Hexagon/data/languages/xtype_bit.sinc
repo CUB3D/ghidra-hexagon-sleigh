@@ -1,0 +1,219 @@
+# XTYPE/BIT
+# XTYPE/BIT:Count leading
+define pcodeop cl0;
+
+with slot: iclass=0b1000 & mode=0 {
+    :"clb" is imm_21_27=0b1000010 & S5 & imm_8_13=0 & imm_5_7=0b000 & D5 {
+    _stub();
+    }
+    :D5_pair "=cl0(" S5_pair ")" is imm_21_27=0b1000010 & S5_pair & imm_8_13=0 & imm_5_7=0b010 & D5_pair {
+        D5_pair = cl0(S5_pair);
+    }
+    :"cl1" is imm_21_27=0b1000010 & S5 & imm_8_13=0 & imm_5_7=0b100 & D5 {
+    _stub();
+    }
+    :"normamt" is imm_21_27=0b1000011 & S5 & imm_8_13=0 & imm_5_7=0b000 & D5 {
+    _stub();
+    }
+
+    :"addclb" is imm_21_27=0b1000011 & S5 & imm_8_13 & imm_5_7=0b010 & D5 {
+    _stub();
+    }
+    :"addclb1" is imm_21_27=0b1100001 & S5 & imm_8_13 & imm_5_7=0b000 & D5 {
+    _stub();
+    }
+
+    :"clb0" is imm_21_27=0b1100000 & S5 & imm_8_13=0 & imm_5_7=0b100 & D5 {
+    _stub();
+    }
+    :D5 "=cl0(" S5 ")" is imm_21_27=0b1100000 & S5 & imm_8_13=0 & imm_5_7=0b101 & D5 {
+        D5 = cl0(S5);
+    }
+    :"cl1" is imm_21_27=0b1100000 & S5 & imm_8_13=0 & imm_5_7=0b110 & D5 {
+    _stub();
+    }
+    :"normamt2" is imm_21_27=0b1100000 & S5 & imm_8_13=0 & imm_5_7=0b111 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/BIT:Count pop
+define pcodeop popcnt;
+with slot: iclass=0b1000 & mode=0 {
+    :D5 "=popcnt(" S5 ")" is imm_21_27=0b1000011 & S5 & imm_8_13=0 & imm_5_7=0b011 & D5 {
+    	D5 = popcnt(S5);
+    }
+}
+
+# XTYPE/BIT:Count trail
+define pcodeop count_trailing_ones;
+with slot: iclass=0b1000 & mode=0 {
+    :"ct0" is imm_21_27=0b1000111 & S5 & imm_8_13=0 & imm_5_7=0b010 & D5 {
+    _stub();
+    }
+    :"ct1" is imm_21_27=0b1000111 & S5 & imm_8_13=0 & imm_5_7=0b100 & D5 {
+    _stub();
+    }
+    :D5 "=ct0(" S5 ")" is imm_21_27=0b1100010 & S5 & imm_8_13=0 & imm_5_7=0b100 & D5 {
+    	D5 = count_trailing_ones(S5);
+    }
+    :"ct11" is imm_21_27=0b1100010 & S5 & imm_8_13=0 & imm_5_7=0b101 & D5 {
+    _stub();
+    }
+}
+
+# XTYPE/BIT:Extract bit
+with slot: iclass=0b1000 & mode=0 {
+    :D5_pair"=extractu("S5_pair","imm_8_13u","U6")" is imm_24_27=0b0001 & imm_21_23u & S5_pair & imm_8_13u & imm_5_7u & D5_pair [ U6 = imm_5_7u | (imm_21_23u << 3);]{
+    	local tmp:8 = S5_pair >> U6;
+	tmp = tmp << (64-imm_8_13u);
+	tmp = tmp >> (64-imm_8_13u);
+	D5_pair = tmp;
+    }
+    :D5_pair"=extract("S5_pair","imm_8_13u","U6")" is imm_24_27=0b1010 & imm_21_23u & S5_pair & imm_8_13u & imm_5_7u & D5_pair [ U6 = imm_5_7u | (imm_21_23u << 3);]{
+    	local tmp:8 = S5_pair >> U6;
+	tmp = tmp << (64-imm_8_13u);
+	tmp = tmp s>> (64-imm_8_13u);
+	D5_pair = tmp;
+    }
+    :D5"=extractu("S5","imm_8_12","U5")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22u & S5 & imm_13=0 & imm_8_12 & imm_5_7u & D5 [ U5 = imm_5_7u | (imm_21_22u << 3);]{
+    	local tmp:4 = S5 >> U5;
+	tmp = tmp << (32-imm_8_12);
+	tmp = tmp >> (32-imm_8_12);
+	D5 = tmp;
+    }
+    :D5"=extract("S5","imm_8_12","U5")" is imm_24_27=0b1101 & imm_23=1 & imm_21_22u & S5 & imm_13=0 & imm_8_12 & imm_5_7u & D5 [ U5 = imm_5_7u | (imm_21_22u << 3);]{
+    	local tmp:4 = S5 >> U5;
+	tmp = tmp << (32-imm_8_12);
+	tmp = tmp s>> (32-imm_8_12);
+	D5 = tmp;
+    }
+}
+with slot: iclass=0b1100 & mode=0 {
+    :"extu4" is imm_22_27=0b000100 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b00 & imm_5=0 & D5 {
+_stub();
+    }
+    :"extu5" is imm_22_27=0b000111 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b10 & imm_5=0 & D5 {
+_stub();
+    }
+    :"extu6" is imm_22_27=0b100100 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b00 & imm_5=0 & D5 {
+_stub();
+    }
+    :"extu7" is imm_22_27=0b100100 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b01 & imm_5=0 & D5 {
+_stub();
+    }
+}
+
+# XTYPE/BIT:Insert bit
+with slot: iclass=0b1000 & mode=0 {
+    :D5_pair "=insert(" S5_pair "," imm_8_13u "," U6 ")" is imm_24_27=0b0011 & imm_21_23u & S5_pair & imm_8_13u & imm_5_7u & D5_pair [ U6 = imm_5_7u | (imm_21_23u << 3);] {
+        D5_pair = D5_pair & ~(((1 << imm_8_13u)-1) << U6);
+        D5_pair = D5_pair | ((S5_pair & ((1<<imm_8_13u)-1)) << U6);
+    }
+
+    :D5 "=insert(" S5 "," imm_8_12u "," U5 ")" is imm_23_27=0b11110 & imm_21_22u & S5 & imm_13=0 & imm_8_12u & imm_5_7u & D5 [ U5 = imm_5_7u | (imm_21_22u << 3); ] {
+        D5 = D5 & ~(((1 << imm_8_12u)-1) << U5);
+        D5 = D5 | ((S5 & ((1<<imm_8_12u)-1)) << U5);
+    }
+}
+
+with slot: iclass=0b1100 & mode=0 {
+    :"ins2" is imm_24_27=0b1000 & imm_21_23=0 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
+_stub();
+    }
+    :"ins3" is imm_23_27=0b10100 & imm_21_22=0 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
+_stub();
+    }
+}
+
+# XTYPE/BIT:Interleave
+with slot: iclass=0b1000 & mode=0 {
+    :"intlve0" is imm_21_27=0b0000110 & S5 & imm_8_13=0 & imm_5_7=0b100 & D5 {
+_stub();
+    }
+    :"intlve1" is imm_21_27=0b0000110 & S5 & imm_8_13=0 & imm_5_7=0b101 & D5 {
+_stub();
+    }
+}
+
+# XTYPE/BIT:Linear feedback
+with slot: iclass=0b1100 & mode=0 {
+    :"lfs" is imm_22_27=0b000110 & imm_21=0 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+_stub();
+    }
+}
+
+# XTYPE/BIT:Masked parity
+with slot: iclass=0b1101 & mode=0 {
+    :"par0" is imm_24_27=0b0000 & imm_21_23=0 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
+_stub();
+    }
+    :"par1" is imm_21_27=0b0101111 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
+_stub();
+    }
+}
+
+# XTYPE/BIT:Bit rev
+with slot: iclass=0b1000 & mode=0 {
+    :"brev" is imm_21_27=0b0000110 & S5 & imm_8_13=0 & imm_5_7=0b110 & D5 {
+_stub();
+    }
+    :"brev" is imm_21_27=0b1100010 & S5 & imm_8_13=0 & imm_5_7=0b110 & D5 {
+_stub();
+    }
+}
+
+# XTYPE/BIT:Set clear toggle bit
+with slot: iclass=0b1000 & mode=0 {
+    :D5"=setbit("S5","imm_8_12")" is imm_21_27=0b1100110 & S5 & imm_13=0 & imm_8_12 & imm_5_7=0b000 & D5 {
+       D5 = S5 | (1 << imm_8_12);
+    }
+    :D5"=clrbit("S5","imm_8_12")" is imm_21_27=0b1100110 & S5 & imm_13=0 & imm_8_12 & imm_5_7=0b001 & D5 {
+       D5 = S5 & ~(1 << imm_8_12);
+    }
+    :D5"=clrbit("S5","imm_8_12")" is imm_21_27=0b1100110 & S5 & imm_13=0 & imm_8_12 & imm_5_7=0b010 & D5 {
+       D5 = S5 ^ (1 << imm_8_12);
+    }
+}
+with slot: iclass=0b1100 & mode=0 {
+    :D5 "=setbit(" S5 "," T5 ")" is imm_22_27=0b011010 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b00 & imm_5=0 & D5 {
+    	#TODO: sign?
+    	D5 = S5 | (1 << T5);
+    }
+    :D5 "=clrbit(" S5 "," T5 ")" is imm_22_27=0b011010 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b01 & imm_5=0 & D5 {
+    	local tmp:4 = 1 << T5;
+    	D5 = S5 & (~tmp);
+    }
+    :D5 "=togglebit(" S5 "," T5 ")" is imm_22_27=0b011010 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b10 & imm_5=0 & D5 {
+    	D5 = S5 ^ (1 << T5);
+    }
+}
+
+# XTYPE/BIT:split Bf
+with slot: iclass=0b1000 & mode=0 {
+    :D5_pair "=bitsplit(" S5 "," imm_8_12u ")" is imm_21_27=0b1000110 & S5 & imm_13=0 & imm_8_12u & imm_5_7=0b100 & D5_pair  {
+	local lo:8 = ((zext(S5) >> imm_8_12u) << 31);
+	D5_pair = zext(S5) | lo;
+    }
+}
+with slot: iclass=0b1001 & mode=0 {
+    :"bitsplit1" is imm_24_27=0b0100 & imm_22_23=0 & imm_21=1 & S5 & imm_13=0 & imm_8_12 & imm_5_7=0 & D5 {
+_stub();
+    }
+}
+
+# XTYPE/BIT:TI
+with slot: iclass=0b1000 & mode=0 {
+    :"tableidxb" is imm_22_27=0b011100 & imm_21 & S5 & imm_8_13 & imm_5_7 & D5 {
+_stub();
+    }
+    :"tableidxh" is imm_22_27=0b011101 & imm_21 & S5 & imm_8_13 & imm_5_7 & D5 {
+_stub();
+    }
+    :"tableidxw" is imm_22_27=0b011110 & imm_21 & S5 & imm_8_13 & imm_5_7 & D5 {
+_stub();
+    }
+    :"tableidxd" is imm_22_27=0b011111 & imm_21 & S5 & imm_8_13 & imm_5_7 & D5 {
+_stub();
+    }
+}

@@ -1,0 +1,334 @@
+#SYSTEM/MONITOR:Clr int
+define pcodeop ciad;
+with slot: iclass=0b0110 & mode=0 {
+    :"siad("S5")" is imm_21_27=0b0100000 & S5 & imm_8_13=0 & imm_5_7=0b011 & imm_0_4=0 {
+        ciad(S5);
+    }
+}
+
+#SYSTEM/MONITOR:Swp sgp
+with slot: iclass=0b0110 & mode=0 {
+    :"crswap("S5", SGP0)" is imm_21_27=0b0101000 & S5 & imm_0_13=0 {
+    	local tmp = S5;
+	S5 = SGP0;
+	SGP0 = tmp;
+    }
+    :"crswap("S5", SGP1)" is imm_21_27=0b0101001 & S5 & imm_0_13=0 {
+    	local tmp = S5;
+	S5 = SGP0;
+	SGP1 = tmp;
+    }
+
+    :"crswap(S5_pair,sgp1:0)" is imm_22_27=0b110110 & imm_21=0 & S5_pair & imm_5_13=0 & imm_0_4=0b00000 {
+    _stub();
+    }
+}
+
+#SYSTEM/MONITOR:Cancel pend
+define pcodeop cswi;
+with slot: iclass=0b0110 & mode=0 {
+    :"cswi("S5")" is imm_21_27=0b0100000 & S5 & imm_8_13=0 & imm_5_7=0b001 & imm_0_4=0 {
+        ciad(S5);
+    }
+}
+
+#SYSTEM/MONITOR:Data cache kil
+define pcodeop dckill;
+slot:"dckill" is iclass=0b1010 & imm_21_27=0b0010000 & imm_16_20=0 & imm_0_13=0 & mode=0 {
+	dckill();
+}
+
+#SYSTEM/MONITOR:Data cache maintenance and monitor
+define pcodeop dcache_tag_read;
+define pcodeop dcache_clean_idx;
+define pcodeop dcache_cleaninv_idx;
+define pcodeop dcache_inv_idx;
+define pcodeop dcache_tag_write;
+
+with slot: iclass=0b1010 & mode=0 {
+    :"dccleanidx(" S5 ")" is imm_21_27=0b0010001 & S5 & imm_0_13=0 {
+	dcache_clean_idx(S5);
+    }
+    :"dcinvidx(" S5 ")" is imm_21_27=0b0010010 & S5 & imm_0_13=0 {
+	dcache_inv_idx(S5);
+    }
+    :"dccleaninvidx(" S5 ")" is imm_21_27=0b0010011 & S5 & imm_0_13=0 {
+    	dcache_cleaninv_idx(S5);
+    }
+    :"dctagw(" S5 "," T5 ")" is imm_21_27=0b0100000 & S5 & imm_13=0 & T5 & imm_0_7 {
+    	dcache_tag_write(S5, T5);
+    }
+    :D5 "= dctagr(" S5 ")" is imm_21_27=0b0100001 & S5 & imm_5_13 & D5 {
+    	D5 = dcache_tag_read(S5);
+    }
+}
+
+#SYSTEM/MONITOR:Read int mask
+define pcodeop getimask;
+with slot: iclass=0b0110 & mode=0 {
+    :D5"=getimask("S5")" is imm_21_27=0b0110000 & S5 & imm_5_13=0 & D5 {
+        D5=getimask(S5);
+    }
+}
+
+#SYSTEM/MONITOR:Acq hw lck
+define pcodeop tlblock;
+define pcodeop k0lock;
+with slot: iclass=0b0110 & mode=0 {
+    :"tlblock" is imm_21_27=0b1100001 & imm_16_20=0 & imm_8_13=0 & imm_5_7=0b001 & imm_0_4=0 {
+        tlblock();
+    }
+    :"k0lock" is imm_21_27=0b1100001 & imm_16_20=0 & imm_8_13=0 & imm_5_7=0b011 & imm_0_4=0 {
+        k0lock();
+    }
+}
+#SYSTEM/MONITOR:Rel hw lck
+define pcodeop tlbunlock;
+define pcodeop k0unlock;
+with slot: iclass=0b0110 & mode=0 {
+    :"tlbunlock" is imm_21_27=0b1100001 & imm_16_20=0 & imm_8_13=0 & imm_5_7=0b010 & imm_0_4=0 {
+        tlbunlock();
+    }
+    :"k0unlock" is imm_21_27=0b1100001 & imm_16_20=0 & imm_8_13=0 & imm_5_7=0b100 & imm_0_4=0 {
+        k0unlock();
+    }
+}
+#SYSTEM/MONITOR:Int thrd assign rd
+define pcodeop iassignr;
+with slot: iclass=0b0110 & mode=0 {
+    :D5"=iassignr("S5")" is imm_21_27=0b0110011 & S5 & imm_5_13=0 & D5 {
+        D5=iassignr(S5);
+    }
+}
+#SYSTEM/MONITOR:Int thrd assign wr
+define pcodeop iassignw;
+with slot: iclass=0b0110 & mode=0 {
+    :"iassignw("S5")" is imm_21_27=0b0100000 & S5 & imm_8_13=0 & imm_5_7=0b010 & imm_0_4=0 {
+    	#todo
+        iassignw(S5);
+    }
+}
+
+#SYSTEM/MONITOR:icache maintain super
+define pcodeop icache_data_read;
+define pcodeop icache_tag_read;
+define pcodeop icache_inv_idx;
+with slot: iclass=0b0101 & mode=0 {
+    :D5"=icdatar("S5")" is imm_21_27=0b0101101 & S5 & imm_5_13=0 & D5 {
+        icache_data_read(S5);
+    }
+
+    :D5"=ictagr("S5")" is imm_21_27=0b0101111 & S5 & imm_5_13=0 & D5 {
+        icache_tag_read(S5);
+    }
+
+    :"icinvidx("S5")" is imm_21_27=0b0110110 & S5 & imm_11_13=0b001 & imm_0_10=0 {
+        icache_inv_idx(S5);
+    }
+}
+
+#SYSTEM/MONITOR:icache maintain op
+define pcodeop ickill;
+define pcodeop icache_tag_write;
+define pcodeop icache_data_write;
+with slot: iclass=0b0101 & mode=0 {
+	:"ictagw("S5","T5")" is imm_21_27=0b0101110 & S5 & imm_13=0 & T5 & imm_0_7=0 {
+		icache_tag_write(S5, T5);
+	}
+	:"icdataw("S5","T5")" is imm_21_27=0b0101110 & S5 & imm_13=1 & T5 & imm_0_7=0 {
+		icache_data_write(S5, T5);
+	}
+
+	:"ickill" is imm_21_27=0b0110110 & imm_16_20=0 & imm_11_13=0b010 & imm_0_10=0 {
+		ickill();
+	}
+}
+
+#SYSTEM/MONITOR:l2 cache op by idx
+define pcodeop l2cache_clean_idx;
+define pcodeop l2cache_inv_idx;
+define pcodeop l2cache_clean_invalidate_idx;
+with slot: iclass=0b0101 & mode=0 {
+	:"l2cleanidx("S5")" is imm_21_27=0b0110001 & S5 & imm_0_13=0 {
+		l2cache_clean_idx(S5);
+	}
+	:"l2invidx("S5")" is imm_21_27=0b0110010 & S5 & imm_0_13=0 {
+		l2cache_inv_idx(S5);
+	}
+	:"l2cleaninvidx("S5")" is imm_21_27=0b0110011 & S5 & imm_0_13=0 {
+		l2cache_clean_invalidate_idx(S5);
+	}
+}
+
+#SYSTEM/MONITOR:l2 cache gbl op
+define pcodeop l2cache_inv_all;
+define pcodeop l2cache_global_clean_inv;
+define pcodeop l2cache_global_unlock;
+define pcodeop l2cache_global_clean;
+define pcodeop l2cache_global_clean_range;
+define pcodeop l2cache_global_clean_inv_range;
+
+with slot: iclass=0b1010 & mode=0 {
+	:"l2gclean("T5_pair")" is imm_21_27=0b0110101 & imm_16_20=0 & imm_13=0 & T5_pair & imm_0_7=0 {
+		l2cache_global_clean_range(T5_pair);
+	}
+	:"l2gcleaninv("T5_pair")" is imm_21_27=0b0110110 & imm_16_20=0 & imm_13=0 & T5_pair & imm_0_7=0 {
+	    l2cache_global_clean_inv_range(T5_pair);
+	}
+	:"l2kill" is imm_21_27=0b1000001 & imm_16_20=0 & imm_13=0 & imm_10_12=0b000 & imm_0_9=0 {
+	    l2cache_inv_all();
+	}
+	:"l2gunlock" is imm_21_27=0b1000001 & imm_16_20=0 & imm_13=0 & imm_10_12=0b010 & imm_0_9=0 {
+		l2cache_global_unlock();
+	}
+	:"l2gclean" is imm_21_27=0b1000001 & imm_16_20=0 & imm_13=0 & imm_10_12=0b100 & imm_0_9=0 {
+		l2cache_global_clean();
+	}
+	:"l2gcleaninv" is imm_21_27=0b1000001 & imm_16_20=0 & imm_13=0 & imm_10_12=0b110 & imm_0_9=0 {
+		l2cache_global_clean_inv();
+	}
+}
+
+#SYSTEM/MONITOR:l2 cache op by addr
+with slot: iclass=0b1010 & mode=0 {
+	:D2"=l2locka("S5")" is imm_21_27=0b0000111 & S5 & imm_13=1 & imm_2_12=0 & D2 {
+    _stub();
+	}
+	:"l2unlocka("S5")" is imm_21_27=0b0110011 & S5 & imm_0_13=0 {
+    _stub();
+	}
+}
+
+#SYSTEM/MONITOR:l2 tag rw
+with slot: iclass=0b1010 & mode=0 {
+	:"l2tagw("S5","T5")" is imm_21_27=0b0100010 & S5 & imm_13=0 & T5 & imm_0_7 {
+    _stub();
+	}
+	:D5"=l2tagr("S5")" is imm_21_27=0b0100011 & S5 & imm_5_13=0 & D5 {
+    _stub();
+	}
+}
+
+#SYSTEM/MONITOR:load from phys
+with slot: iclass=0b1001 & mode=0 {
+	:"memphys" is imm_21_27=0b0010000 & S5 & imm_8_13 & imm_7=0 & imm_5_6=0b00 & D5 {
+		_stub();
+	}
+}
+
+#SYSTEM/MONITOR:nmi
+with slot: iclass=0b0110 & mode=0 {
+	:"nmi("S5")" is imm_21_27=0b0100011 & S5 & imm_8_13=0 & imm_5_7=0b010 & imm_0_4=0  {
+		_stub();
+	}
+}
+
+#SYSTEM/MONITOR:resume
+with slot: iclass=0b0110 & mode=0 {
+	:"resume("S5")" is imm_21_27=0b0100010 & S5 & imm_8_13=0 & imm_5_7=0b001 & imm_0_4=0  {
+		_stub();
+	}
+}
+
+#SYSTEM/MONITOR:ret from except
+define pcodeop rte;
+with slot: iclass=0b0101 & mode=0 {
+	:"rte" is imm_21_27=0b0111111 & imm_16_20=0 & imm_12_13=0b00 & imm_8_11=0 & imm_5_7=0b000 & imm_0_4=0  {
+		rte();
+	}
+}
+
+#SYSTEM/MONITOR:set int mask
+with slot: iclass=0b0110 & mode=0 {
+	:"setimask" is imm_21_27=0b0100100 & S5 & imm_10_13=0 & imm_8_9 & imm_5_7=0b000 & imm_0_4=0  {
+		_stub();
+	}
+}
+
+#SYSTEM/MONITOR:set prio
+with slot: iclass=0b0110 & mode=0 {
+	:"setprio" is imm_21_27=0b0100100 & S5 & imm_10_13=0 & imm_8_9 & imm_5_7=0b001 & imm_0_4=0  {
+		_stub();
+	}
+}
+
+#SYSTEM/MONITOR:set int auto dis
+with slot: iclass=0b0110 & mode=0 {
+	:"siad("S5")" is imm_21_27=0b0100100 & S5 & imm_8_13=0 & imm_5_7=0b011 & imm_0_4=0  {
+		_stub();
+	}
+}
+
+#SYSTEM/MONITOR:Start thread
+define pcodeop start;
+with slot: iclass=0b0110 & mode=0 {
+    :"start("S5")" is imm_21_27=0b0100011 & S5 & imm_8_13=0 & imm_5_7=0b001 & imm_0_4=0 {
+        start(S5);
+    }
+}
+
+#SYSTEM/MONITOR:Stop thread
+define pcodeop stop;
+with slot: iclass=0b0110 & mode=0 {
+    :"stop("S5")" is imm_21_27=0b0100011 & S5 & imm_8_13=0 & imm_5_7=0b000 & imm_0_4=0 {
+        stop(S5);
+    }
+}
+
+#SYSTEM/MONITOR:SWI
+define pcodeop swi;
+with slot: iclass=0b0110 & mode=0 {
+    :"swi("S5")" is imm_21_27=0b0100000 & S5 & imm_8_13=0 & imm_5_7=0b000 & imm_0_4=0 {
+        swi(S5);
+    }
+}
+
+#SYSTEM/MONITOR:TLB
+define pcodeop tlbw;
+define pcodeop tlbr;
+define pcodeop tlbp;
+define pcodeop tlbinvasid;
+with slot: iclass=0b0110 & mode=0 {
+	:"tlbw(" S5_pair "," T5 ")" is imm_21_27=0b1100000 & S5_pair & imm_13=0 & T5 & imm_0_7=0  {
+		tlbw(S5_pair, T5);
+	}
+	:D5_pair "=tlbr(" S5 ")" is imm_21_27=0b1100010 & S5 & imm_5_13=0 & D5_pair {
+		D5_pair = tlbr(S5);
+	}
+	:D5 "=tlbp(" S5 ")" is imm_21_27=0b1100100 & S5 & imm_5_13=0 & D5 {
+		D5 = tlbp(S5);
+	}
+	:"tlbinvasid(" S5 ")" is imm_21_27=0b1100101 & S5 & imm_0_13=0 {
+		tlbinvasid(S5);
+	}
+	:"ctlbw" is imm_21_27=0b1100110 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
+		_stub();
+	}
+	:"tlboc" is imm_21_27=0b1100111 & S5 & imm_5_13=0 & D5 {
+		_stub();
+	}
+}
+
+#SYSTEM/MONITOR:Control register trans
+with slot: iclass=0b0110 & mode=0 {
+    :D6_svctrl "=" S5 is imm_22_27=0b011100 & imm_21=0 & S5 & imm_6_13=0 & D6_svctrl {
+    	D6_svctrl = S5;
+    }
+    :"Sdd=Rss" is imm_22_27=0b110100 & imm_21=0 & S5 & imm_6_13=0 & D6_svctrl {
+        _stub();
+    }
+    :D5"="S6_svctrl is imm_23_27=0b11101 & S6_svctrl & imm_5_13=0 & D5 {
+    	D5 = S6_svctrl;
+    }
+    :D5_pair "=" S6_svctrl_pair is imm_23_27=0b11110 & S6_svctrl_pair & imm_5_13=0 & D5_pair {
+        D5_pair = S6_svctrl_pair;
+    }
+}
+
+#SYSTEM/MONITOR:Wait mode
+define pcodeop wait;
+with slot: iclass=0b0110 & mode=0 {
+    slot:"wait("S5")" is imm_21_27=0b0100010 & S5 & imm_8_13=0 & imm_5_7=0b000 & imm_0_4=0 {
+        wait(S5);
+    }
+}

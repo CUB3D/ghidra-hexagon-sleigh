@@ -1,0 +1,180 @@
+# XTYPE/PERM
+# XTYPE/PERM:CABAC
+with slot: iclass=0b1100 & mode=0 {
+    :"decbin" is imm_22_27=0b000111 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b11 & imm_5=0 & D5 {
+       _stub();
+    }
+}
+
+# XTYPE/PERM:sat
+with slot: iclass=0b1000 & mode=0 {
+    :"sat00" is imm_21_27=0b1000110 & S5 & imm_8_13 & imm_5_7=0b000 & D5 {
+       _stub();
+    }
+    :"sat01" is imm_21_27=0b1000110 & S5 & imm_8_13 & imm_5_7=0b100 & D5 {
+       _stub();
+    }
+    :"sat02" is imm_21_27=0b1000110 & S5 & imm_8_13 & imm_5_7=0b101 & D5 {
+       _stub();
+    }
+    :"sat03" is imm_21_27=0b1000110 & S5 & imm_8_13 & imm_5_7=0b110 & D5 {
+       _stub();
+    }
+    :"sat04" is imm_21_27=0b1000110 & S5 & imm_8_13 & imm_5_7=0b111 & D5 {
+       _stub();
+    }
+}
+
+# XTYPE/PERM:swizzle
+define pcodeop swizzle;
+with slot: iclass=0b1000 & mode=0 {
+    :D5 "=swiz(" S5 ")" is imm_21_27=0b1100100 & S5 & imm_8_13 & imm_5_7=0b111 & D5 {
+    	D5 = swizzle(S5);
+    }
+}
+
+# XTYPE/PERM:vec align
+define pcodeop valignb;
+with slot: iclass=0b1100 & mode=0 {
+    :D5_pair "=valignb(" T5_pair "," S5_pair "," imm_5_7u ")" is imm_23_27=0b00000 & imm_21_22=0 & S5_pair & imm_13=0 & T5_pair & imm_5_7u & D5_pair {
+        D5_pair = valignb(T5_pair, S5_pair, imm_5_7u:1);
+    }
+    :D5_pair "=valignb(" T5_pair "," S5_pair "," U2_5_6 ")" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & imm_13=0 & T5_pair & imm_7=0 & U2_5_6 & D5_pair {
+        D5_pair = valignb(T5_pair, S5_pair, U2_5_6);
+    }
+}
+
+# XTYPE/PERM:vec rnd pck
+with slot: iclass=0b1000 & mode=0 {
+    :"vrndwh" is imm_21_27=0b1000100 & S5 & imm_8_13=0 & imm_5_7=0b100 & D5 {
+       _stub();
+    }
+    :"vrndwhsat" is imm_21_27=0b1000100 & S5 & imm_8_13=0 & imm_5_7=0b110 & D5 {
+       _stub();
+    }
+}
+
+# XTYPE/PERM:vec sat pck
+with slot: iclass=0b1000 & mode=0 {
+    :"vsathub00" is imm_21_27=0b1000000 & S5 & imm_8_13=0 & imm_5_7=0b000 & D5 {
+       _stub();
+    }
+    :"vsathub01" is imm_21_27=0b1000000 & S5 & imm_8_13=0 & imm_5_7=0b010 & D5 {
+       _stub();
+    }
+    :"vsathub02" is imm_21_27=0b1000000 & S5 & imm_8_13=0 & imm_5_7=0b100 & D5 {
+       _stub();
+    }
+    :"vsathub03" is imm_21_27=0b1000000 & S5 & imm_8_13=0 & imm_5_7=0b110 & D5 {
+       _stub();
+    }
+    :"vsathub04" is imm_22_27=0b110010 & imm_21=0 & S5 & imm_8_13=0 & imm_6_7=0b00 & imm_5=0 & D5 {
+       _stub();
+    }
+    :"vsathub05" is imm_22_27=0b110010 & imm_21=0 & S5 & imm_8_13=0 & imm_6_7=0b01 & imm_5=0 & D5 {
+       _stub();
+    }
+}
+
+# XTYPE/PERM:vec sat no pck
+with slot: iclass=0b1000 & mode=0 {
+    :"vsathub100" is imm_21_27=0b0000000 & S5 & imm_8_13=0 & imm_5_7=0b100 & D5 {
+       _stub();
+    }
+    :"vsathub101" is imm_21_27=0b0000000 & S5 & imm_8_13=0 & imm_5_7=0b101 & D5 {
+       _stub();
+    }
+    :"vsathub102" is imm_21_27=0b0000000 & S5 & imm_8_13=0 & imm_5_7=0b110 & D5 {
+       _stub();
+    }
+    :"vsathub103" is imm_21_27=0b0000000 & S5 & imm_8_13=0 & imm_5_7=0b111 & D5 {
+       _stub();
+    }
+}
+
+# XTYPE/PERM:vec shuf
+with slot: iclass=0b1100 & mode=0 {
+    :"shuffeb00" is imm_22_27=0b000100 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b01 & imm_5=0 & D5 {
+       _stub();
+    }
+    :"shuffeb01" is imm_22_27=0b000100 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b10 & imm_5=0 & D5 {
+       _stub();
+    }
+    :"shuffeb02" is imm_22_27=0b000100 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b11 & imm_5=0 & D5 {
+       _stub();
+    }
+    :"shuffeb03" is imm_22_27=0b000110 & imm_21=0 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+       _stub();
+    }
+}
+
+# XTYPE/PERM:vec splat by
+with slot: iclass=0b1000 & mode=0 {
+    :"vsplat00" is imm_22_27=0b010001 & imm_21=0 & S5 & imm_8_13=0 & imm_6_7=0b10 & imm_5=0 & D5 {
+       _stub();
+    }
+    :"vsplat01" is imm_21_27=0b0100010 & S5 & imm_8_13=0 & imm_5_7=0b111 & D5 {
+       _stub();
+    }
+}
+
+# XTYPE/PERM:vec splat hw
+with slot: iclass=0b1000 & mode=0 {
+    :"vsplathw00" is imm_22_27=0b010001 & imm_21=0 & S5 & imm_8_13=0 & imm_6_7=0b01 & imm_5=0 & D5 {
+       _stub();
+    }
+}
+
+# XTYPE/PERM:vec splice
+with slot: iclass=0b1100 & mode=0 {
+    :"vsplice00" is imm_23_27=0b00001 & imm_21_22=0 & S5 & imm_13=0 & T5 & imm_5_7 & D5 {
+       _stub();
+    }
+    :"vsplice01" is imm_21_27=0b0010100 & S5 & imm_13=0 & T5 & imm_7=0 & imm_5_6 & D5 {
+       _stub();
+    }
+}
+
+# XTYPE/PERM:vec sign ext
+with slot: iclass=0b1000 & mode=0 {
+    :"vsext00" is imm_22_27=0b010000 & imm_21=0 & S5 & imm_8_13=0 & imm_6_7=0b00 & imm_5=0 & D5 {
+       _stub();
+    }
+    :"vsext01" is imm_22_27=0b010000 & imm_21=0 & S5 & imm_8_13=0 & imm_6_7=0b10 & imm_5=0 & D5 {
+       _stub();
+    }
+}
+
+# XTYPE/PERM:vec trunc
+with slot: iclass=0b1000 & mode=0 {
+    :"vtunc00" is imm_21_27=0b1000100 & S5 & imm_8_13=0 & imm_5_7=0b000 & D5 {
+       _stub();
+    }
+    :"vtunc01" is imm_21_27=0b1000100 & S5 & imm_8_13=0 & imm_5_7=0b010 & D5 {
+       _stub();
+    }
+}
+with slot: iclass=0b1100 & mode=0 {
+    :"vtunc02" is imm_22_27=0b000110 & imm_21=0 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+       _stub();
+    }
+    :"vtunc03" is imm_22_27=0b000110 & imm_21=0 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+       _stub();
+    }
+    :"vtunc04" is imm_22_27=0b000110 & imm_21=0 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+       _stub();
+    }
+    :"vtunc05" is imm_22_27=0b000110 & imm_21=0 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+       _stub();
+    }
+}
+
+# XTYPE/PERM:vec zext
+with slot: iclass=0b1000 & mode=0 {
+    :"vzext00" is imm_21_27=0b010000 & imm_21=0 & S5 & imm_8_13=0 & imm_6_7=0b01 & imm_5=0 & D5 {
+       _stub();
+    }
+    :"vzext01" is imm_21_27=0b010000 & imm_21=0 & S5 & imm_8_13=0 & imm_6_7=0b11 & imm_5=0 & D5 {
+       _stub();
+    }
+}
