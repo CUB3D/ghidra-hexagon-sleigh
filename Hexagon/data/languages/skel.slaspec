@@ -26,7 +26,7 @@
 # XTYPE/COMPLEX:  Decode up to v73, pcode unfinished
 # XTYPE/FP:       Decode up to v73, pcode unfinished
 # XTYPE/MPY:      Decode up to v73, pcode unfinished
-# XTYPE/PERM:     Decode up to v73, pcode unfinished
+# XTYPE/PERM:     Decode + pcode up to v73
 # XTYPE/PRED:     Decode up to v73, pcode unfinished
 # XTYPE/SHIFT:    Decode up to v73, pcode unfinished
 
@@ -38,9 +38,9 @@
 # In order to handle this, we break each instruction up into "slices" and generate all ops in a slice before moving to the next slice
 # like this:
 # +--------+--------+
-# | normal + normal | # normal slice, mode=0
+# | normal | normal | # normal slice, mode=0
 # +--------+--------+
-# | branch + branch | # branch slice, mode=1100
+# | branch | branch | # branch slice, mode=1100
 # +--------+--------+
 # 
 
