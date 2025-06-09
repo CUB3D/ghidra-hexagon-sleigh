@@ -1,31 +1,39 @@
 # XTYPE/Complex
-# XTYPE/Complex: add sub hw
+# XTYPE/Complex: add sub halfwords
+define pcodeop vxaddsubh_sat;
+define pcodeop vxsubaddh_sat;
+define pcodeop vxaddsubh_rnd_sat;
+define pcodeop vxsubaddh_rnd_sat;
+
 with slot: iclass=0b1100 & mode=0 {
-    :"vxaddsubh" is imm_22_27=0b000101 & imm_21=0 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
-        _stub();
+    :D5_pair "=vxaddsubh(" S5_pair "," T5_pair "):sat" is imm_22_27=0b000101 & imm_21=0 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b100 & D5_pair {
+        D5_pair = vxaddsubh_sat(S5_pair, T5_pair);
     }
-    :"vxsubaddh" is imm_22_27=0b000101 & imm_21=0 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
-        _stub();
+    :D5_pair "=vxsubaddh(" S5_pair "," T5_pair "):sat"  is imm_22_27=0b000101 & imm_21=0 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b110 & D5_pair {
+        D5_pair = vxsubaddh_sat(S5_pair, T5_pair);
     }
-    :"vxaddsubh:rnd" is imm_22_27=0b000111 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b00 & imm_5=0 & D5 {
-        _stub();
+    :D5_pair "=vxaddsubh(" S5_pair "," T5_pair "):rnd:>>1:sat"  is imm_22_27=0b000111 & imm_21=0 & S5_pair & imm_13=0 & T5_pair & imm_6_7=0b00 & imm_5=0 & D5_pair {
+        D5_pair = vxaddsubh_rnd_sat(S5_pair, T5_pair);
     }
-    :"vxsubaddh:rnd" is imm_22_27=0b000111 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b01 & imm_5=0 & D5 {
-        _stub();
+    :D5_pair "=vxsubaddh(" S5_pair "," T5_pair "):rnd:>>1:sat" is imm_22_27=0b000111 & imm_21=0 & S5_pair & imm_13=0 & T5_pair & imm_6_7=0b01 & imm_5=0 & D5_pair {
+        D5_pair = vxsubaddh_rnd_sat(S5_pair, T5_pair);
     }
 }
 
-# XTYPE/Complex: add sub w
+# XTYPE/Complex: add sub words
+define pcodeop vxaddsubw_sat;
+define pcodeop vxsubaddw_sat;
+
 with slot: iclass=0b1100 & mode=0 {
-    :"vxaddsubw" is imm_22_27=0b000101 & imm_21=0 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
-        _stub();
+    :D5_pair "=vxaddsubw(" S5_pair "," T5_pair "):sat" is imm_22_27=0b000101 & imm_21=0 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5_pair {
+        D5_pair = vxaddsubw_sat(S5_pair, T5_pair);
     }
-    :"vxasubaddw" is imm_22_27=0b000101 & imm_21=0 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
-        _stub();
+    :D5_pair "=vxsubaddw(" S5_pair "," T5_pair "):sat" is imm_22_27=0b000101 & imm_21=0 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b010 & D5_pair {
+        D5_pair = vxsubaddw_sat(S5_pair, T5_pair);
     }
 }
 
-# XTYPE/Complex: mul
+# XTYPE/Complex: multiply
 with slot: iclass=0b1110 & mode=0 {
     :"cmpysat" is imm_24_27=0b0101 & imm_23 & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
         _stub();

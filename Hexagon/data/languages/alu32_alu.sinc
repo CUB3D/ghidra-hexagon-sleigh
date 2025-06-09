@@ -61,7 +61,7 @@ with slot: iclass=0b1111 & mode=0 {
 }
 
 # ALU32/ALU:negate
-# TODO
+# This is just a sub(0, ..)
 
 # ALU32/ALU:nop
 with slot: iclass=0b0111 & mode=0 {
@@ -145,47 +145,56 @@ with slot: iclass=0b0111 & mode=0 {
 }
 
 
-# ALU32/ALU:vector add hw
+# ALU32/ALU:vector add halfwords
+define pcodeop vaddh;
 define pcodeop vaddh_sat;
+define pcodeop vadduh_sat;
 with slot: iclass=0b1111 & mode=0 {
-    :="vaddh(" is imm_21_27=0b0110000 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
-        _stub();
+    :D5 "=vaddh(" S5 "," T5 ")" is imm_21_27=0b0110000 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
+        D5 = vaddh(S5, T5);
     }
     :D5 "=vaddh(" S5 "," T5 "):sat" is imm_21_27=0b0110001 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
     	D5 = vaddh_sat(S5, T5);
     }
-    :="vadduh(" is imm_21_27=0b0110011 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
-        _stub();
+    :D5 "=vadduh(" S5 "," T5 "):sat" is imm_21_27=0b0110011 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
+        D5 = vadduh_sat(S5, T5);
     }
 }
 
-# ALU32/ALU:vector avg hw
+# ALU32/ALU:vector average halfwords
+define pcodeop vavgh;
+define pcodeop vavgh_rnd;
+define pcodeop vnavgh;
+
 with slot: iclass=0b1111 & mode=0 {
-    :="vavgh(" is imm_24_27=0b0111 & imm_23=0 & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
-        _stub();
+    :D5 "=vavgh(" S5 "," T5 ")" is imm_24_27=0b0111 & imm_23=0 & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
+       D5 = vavgh(S5, T5);
     }
-    :="vavghrnd(" is imm_24_27=0b0111 & imm_23=0 & imm_21_22=0b01 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
-        _stub();
+    :D5 "=vavgh(" S5 "," T5 "):rnd" is imm_24_27=0b0111 & imm_23=0 & imm_21_22=0b01 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
+        D5 = vavgh_rnd(S5, T5);
     }
-    :="vnavgh(" is imm_24_27=0b0111 & imm_23=0 & imm_21_22=0b11 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
-        _stub();
+    :D5 "=vnavgh(" T5 "," S5 ")" is imm_24_27=0b0111 & imm_23=0 & imm_21_22=0b11 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
+        D5 = vnavgh(T5, S5);
     }
 }
 
-# ALU32/ALU:vector sub hw
+# ALU32/ALU:vector subtract halfwords
+define pcodeop vsubh;
+define pcodeop vsubh_sat;
+define pcodeop vsubuh_sat;
 with slot: iclass=0b1111 & mode=0 {
-    :="vsubh(" is imm_21_27=0b0110100 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
-        _stub();
+    :D5 "=vsubh(" T5 "," S5 ")"  is imm_21_27=0b0110100 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
+        D5 = vsubh(T5, S5);
     }
-    :="vsubhsat(" is imm_21_27=0b0110101 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
-        _stub();
+    :D5 "=vsubh(" T5 "," S5 "):sat"  is imm_21_27=0b0110101 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
+        D5 = vsubh_sat(T5, S5);
     }
-    :="vsubuh(" is imm_21_27=0b0110111 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
-        _stub();
+    :D5 "=vsubuh(" T5 "," S5 "):sat"  is imm_21_27=0b0110111 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
+        D5 = vsubuh_sat(T5, S5);
     }
 }
 
-# ALU32/ALU:zext
+# ALU32/ALU:zero extend
  with slot: iclass=0b0111 & mode=0 {
 	:D5 "=zxth(" S5 ")" is imm_21_27=0b0000110 & S5 & imm_13=0 & imm_5_12=0 & D5 {
 		D5 = zext(S5:2);

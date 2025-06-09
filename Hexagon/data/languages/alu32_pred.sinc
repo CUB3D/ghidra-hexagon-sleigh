@@ -72,8 +72,10 @@ with slot: iclass=0b1111 {
 
 # ALU32/PRED:Cond shift hw
 with slot: iclass=0b0111 {
-    :D5="cshw0(" is Rs=0 & MajOp=0b000 & MinOp=0b000 & S5 & imm_13=1 & imm_0_12 & imm_10_11=0b00 & imm_8_9 & imm_5_7=0 & D5 {
-        _stub();
+    :"if(" U2 ") " D5 "=aslh(" S5 ")" is Rs=0 & MajOp=0b000 & MinOp=0b000 & S5 & imm_13=1 & imm_0_12 & imm_10_11=0b00 & U2 & imm_5_7=0 & D5 {
+        if(U2 == 0) goto <end>;
+		D5 = S5 << 16;
+	<end>
     }
     :"if(" U2_pred_new ") " D5 "=aslh(" S5 ")"  is Rs=0 & MajOp=0b000 & MinOp=0b000 & S5 & imm_13=1 & imm_0_12 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5 {
     	if(U2_pred_new == 0) goto <end>;
@@ -91,17 +93,25 @@ with slot: iclass=0b0111 {
 	<end>
     }
 
-    :D5="cshw4(" is Rs=0 & MajOp=0b000 & MinOp=0b001 & S5 & imm_13=1 & imm_0_12 & imm_10_11=0b00 & imm_8_9 & imm_5_7=0 & D5 {
-        _stub();
+    :"if(" U2 ") " D5 "=asrh(" S5 ")" is Rs=0 & MajOp=0b000 & MinOp=0b001 & S5 & imm_13=1 & imm_0_12 & imm_10_11=0b00 & U2 & imm_5_7=0 & D5 {
+        if(U2 == 0) goto <end>;
+			D5 = S5 s>> 16;
+		<end>
     }
-    :D5="cshw5(" is Rs=0 & MajOp=0b000 & MinOp=0b001 & S5 & imm_13=1 & imm_0_12 & imm_10_11=0b01 & imm_8_9 & imm_5_7=0 & D5 {
-        _stub();
+    :"if(" U2_pred_new ") " D5 "=asrh(" S5 ")" is Rs=0 & MajOp=0b000 & MinOp=0b001 & S5 & imm_13=1 & imm_0_12 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5 {
+        if(U2_pred_new == 0) goto <end>;
+			D5 = S5 s>> 16;
+		<end>
     }
-    :D5="cshw6(" is Rs=0 & MajOp=0b000 & MinOp=0b001 & S5 & imm_13=1 & imm_0_12 & imm_10_11=0b10 & imm_8_9 & imm_5_7=0 & D5 {
-        _stub();
+    :"if(!" U2 ") " D5 "=asrh(" S5 ")" is Rs=0 & MajOp=0b000 & MinOp=0b001 & S5 & imm_13=1 & imm_0_12 & imm_10_11=0b10 & U2 & imm_5_7=0 & D5 {
+        if(U2 != 0) goto <end>;
+			D5 = S5 s>> 16;
+		<end>
     }
-    :D5="cshw7(" is Rs=0 & MajOp=0b000 & MinOp=0b001 & S5 & imm_13=1 & imm_0_12 & imm_10_11=0b11 & imm_8_9 & imm_5_7=0 & D5 {
-        _stub();
+    :"if(!" U2_pred_new ") " D5 "=asrh(" S5 ")" is Rs=0 & MajOp=0b000 & MinOp=0b001 & S5 & imm_13=1 & imm_0_12 & imm_10_11=0b11 & U2_pred_new & imm_5_7=0 & D5 {
+        if(U2_pred_new != 0) goto <end>;
+			D5 = S5 s>> 16;
+		<end>
     }
 }
 

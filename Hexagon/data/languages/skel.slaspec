@@ -11,12 +11,14 @@
 # Disas everything up to v73, most common ops have pcode impl
 # Switches don't work yet
  
-# ALU32:  Decode up to v73, pcode up to v73 (no vec)
-# CR:     Decode up to v73, pcode almost up to v73
-# JR:     Decode up to v73, pcode up to v73
-# J:      Decode up to v73, pcode up to v73
+# ALU32/ALU  Decode + pcode up to v73
+# ALU32/PERM:  Decode + pcode up to v73
+# ALU32/PRED:  Decode + pcode up to v73
+# CR:     Decode + pcode up to v73
+# JR:     Decode + pcode up to v73
+# J:      Decode + pcode up to v73
 # LD:     Decode up to v51, pcode unfinished
-# MEMOP:  Decode up to v73, pcode up to v73
+# MEMOP:  Decode + pcode up to v73
 # NV:     Decode up to v73, pcode unfinished
 # ST:     Decode up to v73, pcode unfinished
 # SYSTEM: Decode up to v73, pcode unfinished
@@ -28,7 +30,7 @@
 # XTYPE/MPY:      Decode up to v73, pcode unfinished
 # XTYPE/PERM:     Decode + pcode up to v73
 # XTYPE/PRED:     Decode up to v73, pcode unfinished
-# XTYPE/SHIFT:    Decode up to v73, pcode unfinished
+# XTYPE/SHIFT:    Decode + pcode up to v73
 
 # Slices explained:
 # Hexagon has strange semantics where an instructions effect might not take place immidiately
@@ -1990,195 +1992,7 @@ with slot: iclass=0b1001 {
 #TODO
 #LD:Ld and unpack by to hw TODO
 
-# MEMOP/byte
-with slot: iclass=0b0011 & mode=0 {
-    :"memb("S5"+"imm_7_12u")+="D5 is imm_24_27=0b1110 & imm_23=0 & imm_21_22=0b00 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b00 & D5 {
-        local EA:4 = S5 + imm_7_12u;
-        local tmp:1 = *[ram]:1 EA;
-        tmp = tmp + D5:1;
-        *[ram]:1 EA = tmp;
-    }
-    :"memb("S5"+"imm_7_12u")-="D5 is imm_24_27=0b1110 & imm_23=0 & imm_21_22=0b00 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b01 & D5 {
-        local EA:4 = S5 + imm_7_12u;
-        local tmp:1 = *[ram]:1 EA;
-        tmp = tmp - D5:1;
-        *[ram]:1 EA = tmp;
-    }
-    :"memb("S5"+"imm_7_12u")&="D5 is imm_24_27=0b1110 & imm_23=0 & imm_21_22=0b00 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b10 & D5 {
-        local EA:4 = S5 + imm_7_12u;
-        local tmp:1 = *[ram]:1 EA;
-        tmp = tmp & D5:1;
-        *[ram]:1 EA = tmp;
-    }
-    :"memb("S5"+"imm_7_12u")|="D5 is imm_24_27=0b1110 & imm_23=0 & imm_21_22=0b00 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b11 & D5 {
-        local EA:4 = S5 + imm_7_12u;
-        local tmp:1 = *[ram]:1 EA;
-        tmp = tmp | D5:1;
-        *[ram]:1 EA = tmp;
-    }
-
-
-    with : hasext0=0 | immext0used=1 {
-	    :"memb("S5"+"imm_7_12u")+="imm_0_4u is imm_24_27=0b1111 & imm_23=0 & imm_21_22=0b00 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b00 & imm_0_4u {
-		local EA:4 = S5 + imm_7_12u;
-		local tmp:1 = *[ram]:1 EA;
-		tmp = tmp + imm_0_4u;
-		*[ram]:1 EA = tmp;
-	    }
-	    :"memb("S5"+"imm_7_12u")-="imm_0_4u is imm_24_27=0b1111 & imm_23=0 & imm_21_22=0b00 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b01 & imm_0_4u {
-		local EA:4 = S5 + imm_7_12u;
-		local tmp:1 = *[ram]:1 EA;
-		tmp = tmp - imm_0_4u;
-		*[ram]:1 EA = tmp;
-	    }
-	    :"memb("S5"+"imm_7_12u")=clrbit("imm_0_4u")" is imm_24_27=0b1111 & imm_23=0 & imm_21_22=0b00 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b10 & imm_0_4u {
-		local EA:4 = S5 + imm_7_12u;
-		local tmp:1 = *[ram]:1 EA;
-		tmp = tmp & (~(1 << imm_0_4u));
-		*[ram]:1 EA = tmp;
-	    }
-	    :"memb("S5"+"imm_7_12u")=setbit("imm_0_4u")" is imm_24_27=0b1111 & imm_23=0 & imm_21_22=0b00 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b11 & imm_0_4u {
-		local EA:4 = S5 + imm_7_12u;
-		local tmp:1 = *[ram]:1 EA;
-		tmp = tmp & (1 << imm_0_4u);
-		*[ram]:1 EA = tmp;
-	    }
-    }
-    with : hasext0=1 & immext0used=0 {
-	    :"memb("S5"+"val")+="imm_0_4u is imm_24_27=0b1111 & imm_23=0 & imm_21_22=0b00 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b00 & imm_0_4u & immext0 [ val = imm_7_12u | immext0; immext0used=1;] {
-		local EA:4 = S5 + val;
-		local tmp:1 = *[ram]:1 EA;
-		tmp = tmp + imm_0_4u;
-		*[ram]:1 EA = tmp;
-	    }
-	    :"memb("S5"+"val")-="imm_0_4u is imm_24_27=0b1111 & imm_23=0 & imm_21_22=0b00 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b01 & imm_0_4u & immext0 [ val = imm_7_12u | immext0; immext0used=1;]{
-		local EA:4 = S5 + val;
-		local tmp:1 = *[ram]:1 EA;
-		tmp = tmp - imm_0_4u;
-		*[ram]:1 EA = tmp;
-	    }
-	    :"memb("S5"+"val")=clrbit("imm_0_4u")" is imm_24_27=0b1111 & imm_23=0 & imm_21_22=0b00 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b10 & imm_0_4u & immext0 [ val = imm_7_12u | immext0; immext0used=1;]{
-		local EA:4 = S5 + val;
-		local tmp:1 = *[ram]:1 EA;
-		tmp = tmp & (~(1 << imm_0_4u));
-		*[ram]:1 EA = tmp;
-	    }
-	    :"memb("S5"+"val")=setbit("imm_0_4u")" is imm_24_27=0b1111 & imm_23=0 & imm_21_22=0b00 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b11 & imm_0_4u & immext0 [ val = imm_7_12u | immext0; immext0used=1;]{
-		local EA:4 = S5 + val;
-		local tmp:1 = *[ram]:1 EA;
-		tmp = tmp & (1 << imm_0_4u);
-		*[ram]:1 EA = tmp;
-	    }
-    }
-}
-
-# MEMOP/hw
-with slot: iclass=0b0011 & mode=0 {
-    :"memh("S5"+"u6")+="D5 is imm_24_27=0b1110 & imm_23=0 & imm_21_22=0b01 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b00 & D5  [ u6 = imm_7_12u << 1;] {
-        local EA:4 = S5 + u6;
-        local tmp:2 = *[ram]:2 EA;
-        tmp = tmp + D5:2;
-        *[ram]:2 EA = tmp;
-    }
-    :"memh("S5"+"u6")-="D5 is imm_24_27=0b1110 & imm_23=0 & imm_21_22=0b01 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b01 & D5 [ u6 = imm_7_12u << 1;] {
-        local EA:4 = S5 + u6;
-        local tmp:2 = *[ram]:2 EA;
-        tmp = tmp - D5:2;
-        *[ram]:2 EA = tmp;
-    }
-    :"memh("S5"+"u6")&="D5 is imm_24_27=0b1110 & imm_23=0 & imm_21_22=0b01 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b10 & D5 [ u6 = imm_7_12u << 1;] {
-        local EA:4 = S5 + u6;
-        local tmp:2 = *[ram]:2 EA;
-        tmp = tmp & D5:2;
-        *[ram]:2 EA = tmp;
-    }
-    :"memh("S5"+"u6")|="D5 is imm_24_27=0b1110 & imm_23=0 & imm_21_22=0b01 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b11 & D5 [ u6 = imm_7_12u << 1;] {
-        local EA:4 = S5 + u6;
-        local tmp:2 = *[ram]:2 EA;
-        tmp = tmp | D5:2;
-        *[ram]:2 EA = tmp;
-    }
-
-    :"memh("S5"+"u6")+="imm_0_4u is imm_24_27=0b1111 & imm_23=0 & imm_21_22=0b01 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b00 & imm_0_4u [ u6 = imm_7_12u << 1;]{
-        local EA:4 = S5 + u6;
-        local tmp:2 = *[ram]:2 EA;
-        tmp = tmp + imm_0_4u;
-        *[ram]:2 EA = tmp;
-    }
-    :"memh("S5"+"u6")-="imm_0_4u is imm_24_27=0b1111 & imm_23=0 & imm_21_22=0b01 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b01 & imm_0_4u [ u6 = imm_7_12u << 1;]{
-        local EA:4 = S5 + u6;
-        local tmp:2 = *[ram]:2 EA;
-        tmp = tmp - imm_0_4u;
-        *[ram]:2 EA = tmp;
-    }
-    :"memh("S5"+"u6")=clrbit("imm_0_4u")" is imm_24_27=0b1111 & imm_23=0 & imm_21_22=0b01 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b10 & imm_0_4u [ u6 = imm_7_12u << 1;]{
-        local EA:4 = S5 + u6;
-        local tmp:2 = *[ram]:2 EA;
-        tmp = tmp & (~(1 << imm_0_4u));
-        *[ram]:2 EA = tmp;
-    }
-    :"memh("S5"+"u6")=setbit("imm_0_4u")" is imm_24_27=0b1111 & imm_23=0 & imm_21_22=0b01 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b11 & imm_0_4u [ u6 = imm_7_12u << 1;]{
-        local EA:4 = S5 + u6;
-        local tmp:2 = *[ram]:2 EA;
-        tmp = tmp & (1 << imm_0_4u);
-        *[ram]:2 EA = tmp;
-    }
-}
-
-
-# MEMOP/word
-with slot: iclass=0b0011 & mode=0 {
-    :"memw("S5"+"u6")+="D5 is imm_24_27=0b1110 & imm_23=0 & imm_21_22=0b10 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b00 & D5  [ u6 = imm_7_12u << 2;] {
-        local EA:4 = S5 + u6;
-        local tmp:4 = *[ram]:4 EA;
-        tmp = tmp + D5:4;
-        *[ram]:4 EA = tmp;
-    }
-    :"memw("S5"+"u6")-="D5 is imm_24_27=0b1110 & imm_23=0 & imm_21_22=0b10 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b01 & D5 [ u6 = imm_7_12u << 2;] {
-        local EA:4 = S5 + u6;
-        local tmp:4 = *[ram]:4 EA;
-        tmp = tmp - D5:4;
-        *[ram]:4 EA = tmp;
-    }
-    :"memw("S5"+"u6")&="D5 is imm_24_27=0b1110 & imm_23=0 & imm_21_22=0b10 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b10 & D5 [ u6 = imm_7_12u << 2;] {
-        local EA:4 = S5 + u6;
-        local tmp:4 = *[ram]:4 EA;
-        tmp = tmp & D5:4;
-        *[ram]:4 EA = tmp;
-    }
-    :"memw("S5"+"u6")|="D5 is imm_24_27=0b1110 & imm_23=0 & imm_21_22=0b10 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b11 & D5 [ u6 = imm_7_12u << 2;] {
-        local EA:4 = S5 + u6;
-        local tmp:4 = *[ram]:4 EA;
-        tmp = tmp | D5:4;
-        *[ram]:4 EA = tmp;
-    }
-
-    :"memw("S5"+"u6")+="imm_0_4u is imm_24_27=0b1111 & imm_23=0 & imm_21_22=0b10 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b00 & imm_0_4u [ u6 = imm_7_12u << 2;]{
-        local EA:4 = S5 + u6;
-        local tmp:4 = *[ram]:4 EA;
-        tmp = tmp + imm_0_4u;
-        *[ram]:4 EA = tmp;
-    }
-    :"memw("S5"+"u6")-="imm_0_4u is imm_24_27=0b1111 & imm_23=0 & imm_21_22=0b10 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b01 & imm_0_4u [ u6 = imm_7_12u << 2;]{
-        local EA:4 = S5 + u6;
-        local tmp:4 = *[ram]:4 EA;
-        tmp = tmp - imm_0_4u;
-        *[ram]:4 EA = tmp;
-    }
-    :"memw("S5"+"u6")=clrbit("imm_0_4u")" is imm_24_27=0b1111 & imm_23=0 & imm_21_22=0b10 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b10 & imm_0_4u [ u6 = imm_7_12u << 2;]{
-        local EA:4 = S5 + u6;
-        local tmp:4 = *[ram]:4 EA;
-        tmp = tmp & (~(1 << imm_0_4u));
-        *[ram]:4 EA = tmp;
-    }
-    :"memw("S5"+"u6")=setbit("imm_0_4u")" is imm_24_27=0b1111 & imm_23=0 & imm_21_22=0b10 & S5 & imm_13=0 & imm_7_12u & imm_5_6=0b11 & imm_0_4u [ u6 = imm_7_12u << 2;]{
-        local EA:4 = S5 + u6;
-        local tmp:4 = *[ram]:4 EA;
-        tmp = tmp & (1 << imm_0_4u);
-        *[ram]:4 EA = tmp;
-    }
-
-}
+@include "memop.sinc"
 
 # NV/J
 # TODO: this should be dotnew, for now this will work-ish
@@ -4891,6 +4705,10 @@ macro endloop1() {
        
        build terminator; 
    } 
+   
+   
+   # TODO: endloop lpcfg
+   
 
 immext_marker:"" is disabled {}
 slot:"immext0(" v ")" is iclass=0b0000 & imm_16_27 & imm_0_13u & hasext0=0 & parse!=0b11 & immext_marker [v= ((imm_0_13u) | (imm_16_27 << 14)) << 6; immext0 = ((imm_0_13u) | (imm_16_27 << 14)) << 6; hasext0=1;] { build immext_marker; } 
