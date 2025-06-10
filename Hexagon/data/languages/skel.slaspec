@@ -174,6 +174,7 @@ imm_22_26 = (22, 26)
    imm_5_10 = (5, 10)
    imm_5_10u = (5, 10)
    imm_5_9 = (5, 9)
+   imm_5_9u = (5, 9)
    imm_5_8 = (5, 8) signed
    imm_5_7 = (5, 7) signed
    imm_5_7u = (5, 7)
@@ -227,6 +228,7 @@ imm_22_26 = (22, 26)
    imm_0_4u = (0, 4)
    imm_0_2 = (0, 2)
    imm_0_1 = (0, 1)
+   imm_0_1u = (0, 1)
    imm_0 = (0, 0)
    
 
@@ -669,7 +671,7 @@ P3.new
 PTRUE
 ];
 
-attach variables [ U2 D2_pred U2_pred_21_22  T2_pred S2_pred U2_pred U2_5_6 U1_23_24_pred T2_11_12_pred T2_9_10_pred ] [
+attach variables [ U2 D2_pred U2_pred_21_22  T2_pred S2_pred U2_pred U2_5_6 U1_23_24_pred T2_11_12_pred T2_9_10_pred D2 T2 S2] [
 P0
 P1
 P2

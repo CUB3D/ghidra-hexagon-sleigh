@@ -18,8 +18,8 @@ with slot: iclass=0b1000 & mode=0 {
     }
 }
 with slot: iclass=0b1101 & mode=0 {
-    :D2 "=dfclass(" S5_pair "," imm_8_12u ")" is imm_21_27=0b1100100 & S5 & imm_13=0 & imm_10_12=0 & imm_5_9 & imm_3_4=0b10 & imm_2=0 & D2 {
-        D2 = dfclass(S5_pair, imm_8_12u:1);
+    :D2 "=dfclass(" S5_pair "," imm_5_9u ")" is imm_21_27=0b1100100 & S5_pair & imm_13=0 & imm_10_12=0 & imm_5_9u & imm_3_4=0b10 & imm_2=0 & D2 {
+        D2 = dfclass(S5_pair, imm_5_9u:1);
     }
 }
 
@@ -104,7 +104,7 @@ define pcodeop convert_w2df;
 define pcodeop convert_ud2sf;
 define pcodeop convert_d2sf;
 define pcodeop convert_uw2sf;
-define pcodeop convert_w2df;
+define pcodeop convert_w2sf;
 
 with slot: iclass=0b1000 & mode=0 {
     :D5_pair "=convert_ud2df(" S5_pair ")" is imm_21_27=0b0000111 & S5_pair & imm_13=0 & imm_8_12=0  & imm_5_7=0b010 & D5_pair {
@@ -238,7 +238,7 @@ with slot: iclass=0b1110 & mode=0 {
 # XTYPE/FP: xtype fp repic
 define pcodeop sfinvsqrta;
 with slot: iclass=0b1000 & mode=0 {
-    :D5 "," U2_5_6 "=sfinvsqrta(" S5 ")" is imm_21_27=0b1011111 & S5 & imm_8_13=0 & imm_7=0 & imm_5_6 & D5 {
+    :D5 "," U2_5_6 "=sfinvsqrta(" S5 ")" is imm_21_27=0b1011111 & S5 & imm_8_13=0 & imm_7=0 & U2_5_6 & D5 {
         local tmp:8 = sfinvsqrta(S5);
         D5 = tmp:4;
         U2_5_6 = tmp(1);
@@ -266,11 +266,11 @@ with slot: iclass=0b1101 & mode=0 {
         local tmp:4 = u10; # upcast size for pos sign
         D5 = -int2float(tmp);
     }
-    :D5_pair "=dfmake(" u10 "):pos" is imm_22_27=0b100100 & imm_21 & imm_16_20 & imm_5_13 & D5 {
+    :D5_pair "=dfmake(" u10 "):pos" is imm_22_27=0b100100 & imm_21u & imm_16_20 & imm_5_13u & D5_pair [ u10 = imm_5_13u | (imm_21u << 9); ] {
         local tmp:8 = u10; # upcast size for pos sign
         D5_pair = int2float(tmp);
     }
-    :D5_pair "=dfmake(" u10 "):neg"is imm_22_27=0b100101 & imm_21 & imm_16_20 & imm_5_13 & D5 {
+    :D5_pair "=dfmake(" u10 "):neg"is imm_22_27=0b100101 & imm_21u & imm_16_20 & imm_5_13u & D5_pair [ u10 = imm_5_13u | (imm_21u << 9); ] {
         local tmp:8 = u10; # upcast size for pos sign
         D5_pair = -int2float(tmp);
     }
@@ -314,7 +314,7 @@ with slot: iclass=0b1110 & mode=0 {
 # XTYPE/FP: fp recip aprox
 define pcodeop sfrecipa;
 with slot: iclass=0b1110 & mode=0 {
-    :D5 "," U2_5_6 "=sfrecipa(" S5 "," T5 ")" is imm_21_27=0b1011111 & S5 & imm_13=0 & T5 & imm_7=1 & imm_5_6 & D5 {
+    :D5 "," U2_5_6 "=sfrecipa(" S5 "," T5 ")" is imm_21_27=0b1011111 & S5 & imm_13=0 & T5 & imm_7=1 & U2_5_6 & D5 {
         local tmp:8 = sfrecipa(S5, T5);
         D5 = tmp:4;
         U2_5_6 = tmp(1);
