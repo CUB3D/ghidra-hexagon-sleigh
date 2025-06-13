@@ -239,9 +239,10 @@ with slot: iclass=0b0101 & mode=0 {
 }
 
 #SYSTEM/MONITOR:set int mask
+define pcodeop setimask;
 with slot: iclass=0b0110 & mode=0 {
-	:"setimask" is imm_21_27=0b0100100 & S5 & imm_10_13=0 & imm_8_9 & imm_5_7=0b000 & imm_0_4=0  {
-		_stub();
+	:"setimask(" T2_pred "," S5 ")" is imm_21_27=0b0100100 & S5 & imm_10_13=0 & T2_pred & imm_5_7=0b000 & imm_0_4=0  {
+		setimask(T2_pred, S5);
 	}
 }
 
@@ -288,6 +289,8 @@ define pcodeop tlbw;
 define pcodeop tlbr;
 define pcodeop tlbp;
 define pcodeop tlbinvasid;
+define pcodeop ctlbw;
+define pcodeop tlboc;
 with slot: iclass=0b0110 & mode=0 {
 	:"tlbw(" S5_pair "," T5 ")" is imm_21_27=0b1100000 & S5_pair & imm_13=0 & T5 & imm_0_7=0  {
 		tlbw(S5_pair, T5);
@@ -301,11 +304,11 @@ with slot: iclass=0b0110 & mode=0 {
 	:"tlbinvasid(" S5 ")" is imm_21_27=0b1100101 & S5 & imm_0_13=0 {
 		tlbinvasid(S5);
 	}
-	:"ctlbw" is imm_21_27=0b1100110 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
-		_stub();
+	:D5 "=ctlbw(" S5_pair "," T5 ")" is imm_21_27=0b1100110 & S5_pair & imm_13=0 & T5 & imm_5_7=0 & D5 {
+		D5 = ctlbw(S5_pair, T5);
 	}
-	:"tlboc" is imm_21_27=0b1100111 & S5 & imm_5_13=0 & D5 {
-		_stub();
+	:D% "=tlboc(" S5_pair ")" is imm_21_27=0b1100111 & S5_pair & imm_5_13=0 & D5 {
+		D5 = tlboc(S5_pair);
 	}
 }
 
