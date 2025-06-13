@@ -11,7 +11,7 @@
 # Disas everything up to v73, most common ops have pcode impl
 # Switches don't work yet
  
-# ALU32/ALU  Decode + pcode up to v73
+# ALU32/ALU  Decode + pcode up to v79
 # ALU32/PERM:  Decode + pcode up to v73
 # ALU32/PRED:  Decode + pcode up to v73
 # CR:     Decode + pcode up to v73
@@ -21,7 +21,7 @@
 # MEMOP:  Decode + pcode up to v73
 # NV:     Decode up to v73, pcode unfinished
 # ST:     Decode up to v73, pcode unfinished
-# SYSTEM/USER: Decode + pcode up to v73
+# SYSTEM/USER: Decode + pcode up to v79
 # SYSTEM/GUEST: Decode + pcode up to v73
 # SYSTEM/MONITOR: Decode up to v73, pcode unfinished
 # XTYPE:  Decode up to v73, pcode unfinished
