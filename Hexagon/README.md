@@ -1,6 +1,6 @@
 ### Ghidra Hexagon SLEIGH
 
-This is a WIP implmementation of the Hexagon architecture in pure SLEIGH
+This is a WIP implementation of the Qualcomm Hexagon "QDSP6" architecture in Ghidra SLEIGH
 
 
 Supports:
@@ -8,14 +8,14 @@ Supports:
 - Most commonly used constant extenders supported
 - No broken java plugins needed
 - Support for hardware loops
+- Includes support for redacted System/Monitor and System/Guest instructions
 - Pcode implemented for most common ops (Missing < 1% for most binaries)
 - Function start recovery
 
 Currently broken / unimplemented:
-- No support for GPR.new (Pred.new is supported)
-- No FP or COMPLEX ops
-- No vector ops
-- Some immediate extentions are missing for less common ops and most duplexes
+- No support for dotnew arguments [wip]
+- COMPLEX instructions are not fully modelled
+- Some immediate extensions are missing for less common ops and most duplexes
 
 
 (See notes at top of `Hexagon/data/languages/skel.slaspec`) for up to date details:

@@ -34,219 +34,254 @@ with slot: iclass=0b1100 & mode=0 {
 }
 
 # XTYPE/Complex: multiply
+define pcodeop cmpy_sat;
+define pcodeop cmpy_conj_sat;
 with slot: iclass=0b1110 & mode=0 {
-    :"cmpysat" is imm_24_27=0b0101 & imm_23 & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
-        _stub();
+    :D5_pair "=cmpy(" S5 "," T5 "):<<" imm_23u ":sat" is imm_24_27=0b0101 & imm_23u & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5_pair {
+        D5_pair = cmpy_sat(S5, T5) << imm_32u;
     }
-    :"cmpysat1" is imm_24_27=0b0101 & imm_23 & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
-        _stub();
+    :D5_pair "=cmpy(" S5 "," T5 "*):<<" imm_23u ":sat" is imm_24_27=0b0101 & imm_23u & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5_pair {
+        D5_pair = cmpy_conj_sat(S5, T5) << imm_32u;
     }
 
-    :"cmpysat2" is imm_24_27=0b0111 & imm_23 & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
-        _stub();
+    :D5_pair "+=cmpy(" S5 "," T5 "):<<" imm_23u ":sat" is imm_24_27=0b0111 & imm_23u & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5_pair {
+        D5_pair = D5_pair + cmpy_sat(S5, T5) << imm_32u;
     }
-    :"cmpysat3" is imm_24_27=0b0111 & imm_23 & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-        _stub();
+    :D5_pair "-=cmpy(" S5 "," T5 "):<<" imm_23u ":sat" is imm_24_27=0b0111 & imm_23u & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5_pair {
+        D5_pair = D5_pair - cmpy_sat(S5, T5) << imm_32u;
     }
-    :"cmpysat4" is imm_24_27=0b0111 & imm_23 & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
-        _stub();
+    :D5_pair "+=cmpy(" S5 "," T5 "*):<<" imm_23u ":sat" is imm_24_27=0b0111 & imm_23u & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5_pair {
+        D5_pair = D5_pair + cmpy_conj_sat(S5, T5) << imm_32u;
     }
-    :"cmpysat5" is imm_24_27=0b0111 & imm_23 & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-        _stub();
+    :D5_pair "-=cmpy(" S5 "," T5 "*):<<" imm_23u ":sat" is imm_24_27=0b0111 & imm_23u & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5_pair {
+        D5_pair = D5_pair - cmpy_conj_sat(S5, T5) << imm_32u;
     }
 }
 
 # XTYPE/Complex: mul real or i
+define pcodeop cmpyi;
+define pcodeop cmpyr;
 with slot: iclass=0b1110 & mode=0 {
-    :"cmpyi0" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
-        _stub();
+    :D5_pair "=cmpyi(" S5 "," T5 ")" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+        D5_pair = cmpyi(S5, T5);
     }
-    :"cmpyi1" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
-        _stub();
+    :D5_pair "=cmpyr(" S5 "," T5 ")" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+        D5_pair = cmpyr(S5, T5);
     }
 
-    :"cmpyi2" is imm_21_27=0b0111000 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
-        _stub();
+    :D5_pair "+=cmpyi(" S5 "," T5 ")" is imm_21_27=0b0111000 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+        D5_pair = D5_pair + cmpyi(S5, T5);
     }
-    :"cmpyi3" is imm_21_27=0b0111000 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
-        _stub();
+    :D5_pair "+=cmpyr(" S5 "," T5 ")" is imm_21_27=0b0111000 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+        D5_pair = D5_pair + cmpyr(S5, T5);
     }
 }
 
 # XTYPE/Complex: mul rnd pck
+define pcodeop cmpy_rnd_sat;
+define pcodeop cmpy_conj_rnd_sat;
 with slot: iclass=0b1110 & mode=0 {
-    :"cmpy:rnd:sat" is imm_24_27=0b1101 & imm_23 & imm_21_22=0b01 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
-        _stub();
+    :D5 "=cmpy(" S5 "," T5 "):<<" imm_23u ":rnd:sat" is imm_24_27=0b1101 & imm_23u & imm_21_22=0b01 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+        D5 = cmpy_rnd_sat(S5, T5) << imm_23u;
     }
-    :"cmpy:rnd:sat" is imm_24_27=0b1101 & imm_23 & imm_21_22=0b11 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
-        _stub();
+    :D5 "=cmpy(" S5 "," T5 "*):<<" imm_23u ":rnd:sat" is imm_24_27=0b1101 & imm_23 & imm_21_22=0b11 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+        D5 = cmpy_conj_rnd_sat(S5, T5) << imm_23u;
     }
 }
 
 # XTYPE/Complex: mul 32 x 16
+define pcodeop cmpyiwh_rnd_sat;
+define pcodeop cmpyiwh_conj_rnd_sat;
+define pcodeop cmpyrwh_rnd_sat;
+define pcodeop cmpyrwh_conj_rnd_sat;
 with slot: iclass=0b1100 & mode=0 {
-    :"cmpyiwh" is imm_24_27=0b0101 & imm_21_23=0 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
-        _stub();
+    :D5 "=cmpyiwh(" S5_pair "," T5 "):<<1:rnd:sat" is imm_24_27=0b0101 & imm_21_23=0 & S5_pair & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+        D5 = cmpyiwh_rnd_sat(S5_pair, T5)<<1;
     }
-    :"cmpyiwh1" is imm_24_27=0b0101 & imm_21_23=0 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
-        _stub();
+    :D5 "=cmpyiwh(" S5_pair "," T5 "*):<<1:rnd:sat" is imm_24_27=0b0101 & imm_21_23=0 & S5_pair & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+        D5 = cmpyiwh_conj_rnd_sat(S5_pair, T5)<<1;
     }
-    :"cmpyiwh2" is imm_24_27=0b0101 & imm_21_23=0 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
-        _stub();
+    :D5 "=cmpyrwh(" S5_pair "," T5 "):<<1:rnd:sat" is imm_24_27=0b0101 & imm_21_23=0 & S5_pair & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+        D5 = cmpyrwh_rnd_sat(S5_pair, T5)<<1;
     }
-    :"cmpyiwh2" is imm_24_27=0b0101 & imm_21_23=0 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-        _stub();
+    :D5 "=cmpyrwh(" S5_pair "," T5 "*):<<1:rnd:sat" is imm_24_27=0b0101 & imm_21_23=0 & S5_pair & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+        D5 = cmpyrwh_conj_rnd_sat(S5_pair, T5)<<1;
     }
 }
 
 # XTYPE/Complex: mul real or i 32
+define pcodeop cmpyiw;
+define pcodeop cmpyrw;
+define pcodeop cmpyrw_conj;
+define pcodeop cmpyiw_conj;
+
+define pcodeop cmpyiw_sat;
+define pcodeop cmpyrw_sat;
+define pcodeop cmpyrw_conj_sat;
+define pcodeop cmpyiw_conj_sat;
+
+define pcodeop cmpyiw_rnd_sat;
+define pcodeop cmpyrw_rnd_sat;
+define pcodeop cmpyrw_conj_rnd_sat;
+define pcodeop cmpyiw_conj_rnd_sat;
 with slot: iclass=0b1110 & mode=0 {
-    :"cmpyiw00" is imm_21_27=0b1000011 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
-        _stub();
+    :D5_pair "=cmpyiw(" S5_pair "," T5_pair ")" is imm_21_27=0b1000011 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b010 & D5_pair {
+        D5_pair = cmpyiw(S5_pair, T5_pair);
     }
-    :"cmpyiw01" is imm_21_27=0b1000100 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
-        _stub();
+    :D5_pair "=cmpyrw(" S5_pair "," T5_pair ")" is imm_21_27=0b1000100 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b010 & D5_pair {
+        D5_pair = cmpyrw(S5_pair, T5_pair);
     }
-    :"cmpyiw02" is imm_21_27=0b1000110 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
-        _stub();
+    :D5_pair "=cmpyiw(" S5_pair "," T5_pair "*)" is imm_21_27=0b1000110 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b010 & D5_pair {
+        D5_pair = cmpyrw_conj(S5_pair, T5_pair);
     }
-    :"cmpyiw03" is imm_21_27=0b1000111 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
-        _stub();
+    :D5_pair "=cmpyrw(" S5_pair "," T5_pair "*)"  is imm_21_27=0b1000111 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b010 & D5_pair {
+       D5_pair = cmpyiw_conj(S5_pair, T5_pair);
     }
-    :"cmpyiw04" is imm_21_27=0b1001000 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
-        _stub();
+    
+    :D5 "=cmpyiw(" S5_pair "," T5_pair "*):<<1:sat" is imm_21_27=0b1001000 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b100 & D5 {
+        D5 = cmpyiw_conj_sat(S5_pair, T5_pair) << 1;
     }
-    :"cmpyiw05" is imm_21_27=0b1001001 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
-        _stub();
+    :D5 "=cmpyiw(" S5_pair "," T5_pair "):<<1:sat" is imm_21_27=0b1001001 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5 {
+        D5 = cmpyiw_sat(S5_pair, T5_pair) << 1;
     }
-    :"cmpyiw06" is imm_21_27=0b1001010 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
-        _stub();
+    :D5 "=cmpyrw(" S5_pair "," T5_pair "):<<1:sat" is imm_21_27=0b1001010 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5 {
+         D5 = cmpyrw_sat(S5_pair, T5_pair) << 1;
     }
-    :"cmpyiw07" is imm_21_27=0b1001011 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
-        _stub();
+    :D5 "=cmpyrw(" S5_pair "," T5_pair "*):<<1:sat" is imm_21_27=0b1001011 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5 {
+        D5 = cmpyrw_conj_sat(S5_pair, T5_pair) << 1;
     }
-    :"cmpyiw08" is imm_21_27=0b1001100 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
-        _stub();
+    
+    :D5 "=cmpyiw(" S5_pair "," T5_pair "*):<<1:rnd:sat" is imm_21_27=0b1001100 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b100 & D5 {
+        D5 = cmpyiw_conj_rnd_sat(S5_pair, T5_pair) << 1;
     }
-    :"cmpyiw09" is imm_21_27=0b1001101 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
-        _stub();
+    :D5 "=cmpyiw(" S5_pair "," T5_pair "):<<1:rnd:sat" is imm_21_27=0b1001101 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5 {
+        D5 = cmpyiw_rnd_sat(S5_pair, T5_pair) << 1;
     }
-    :"cmpyiw10" is imm_21_27=0b1001110 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
-        _stub();
+    :D5 "=cmpyrw(" S5_pair "," T5_pair "):<<1:rnd:sat" is imm_21_27=0b1001110 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5 {
+        D5 = cmpyrw_rnd_sat(S5_pair, T5_pair) << 1;
     }
-    :"cmpyiw11" is imm_21_27=0b1001111 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
-        _stub();
+    :D5 "=cmpyrw(" S5_pair "," T5_pair "*):<<1:rnd:sat" is imm_21_27=0b1001111 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5 {
+        D5 = cmpyrw_conj_rnd_sat(S5_pair, T5_pair) << 1;
     }
 #ns
-    :"cmpyiw12" is imm_21_27=0b1010010 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
-        _stub();
+    :D5_pair "+=cmpyiw(" S5_pair "," T5_pair "*)" is imm_21_27=0b1010010 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b110 & D5_pair {
+       	D5_pair = D5_pair + cmpyiw_conj(S5_pair, T5_pair);
     }
-    :"cmpyiw13" is imm_21_27=0b1010011 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
-        _stub();
+    :D5_pair "+=cmpyiw(" S5_pair "," T5_pair ")" is imm_21_27=0b1010011 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b010 & D5_pair {
+        D5_pair = D5_pair + cmpyiw(S5_pair, T5_pair);
     }
-    :"cmpyiw14" is imm_21_27=0b1010100 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
-        _stub();
+    :D5_pair "+=cmpyrw(" S5_pair "," T5_pair ")" is imm_21_27=0b1010100 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b010 & D5_pair {
+        D5_pair = D5_pair + cmpyrw(S5_pair, T5_pair);
     }
-    :"cmpyiw15" is imm_21_27=0b1010110 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
-        _stub();
+    :D5_pair "+=cmpyrw(" S5_pair "," T5_pair "*)" is imm_21_27=0b1010110 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b010 & D5_pair {
+        D5_pair = D5_pair + cmpyrw_conj(S5_pair, T5_pair);
     }
 }
 
 
 # XTYPE/Complex: vec mul complex real or i
+define pcodeop vcmpyr_sat;
+define pcodeop vcmpyi_sat;
 with slot: iclass=0b1110 & mode=0 {
-    :"vcmpyr" is imm_24_27=0b1000 & imm_23 & imm_21_22=0b01 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
-        _stub();
+    :D5_pair "=vcmpyr(" S5_pair "," T5_pair "):<<" imm_23u ":sat" is imm_24_27=0b1000 & imm_23u & imm_21_22=0b01 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b110 & D5_pair {
+       	D5_pair = vcmpyr_sat(S5_pair, T5_pair) << imm_23u;
     }
-    :"vcmpyr1" is imm_24_27=0b1000 & imm_23 & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
-        _stub();
+    :D5_pair "=vcmpyi(" S5_pair "," T5_pair "):<<" imm_23u ":sat" is imm_24_27=0b1000 & imm_23u & imm_21_22=0b10 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b110 & D5_pair {
+        D5_pair = vcmpyi_sat(S5_pair, T5_pair) << imm_23u;
     }
-    :"vcmpyr2" is imm_21_27=0b1010001 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
-        _stub();
+    :D5_pair "+=vcmpyr(" S5_pair "," T5_pair "):sat" is imm_21_27=0b1010001 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b100 & D5_pair {
+        D5_pair = D5_pair + vcmpyr_sat(S5_pair, T5_pair);
     }
-    :"vcmpyr3" is imm_21_27=0b1010010 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
-        _stub();
+    :D5_pair "+=vcmpyi(" S5_pair "," T5_pair "):sat" is imm_21_27=0b1010010 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b100 & D5_pair {
+        D5_pair = D5_pair + vcmpyi_sat(S5_pair, T5_pair);
     }
 }
 
 # XTYPE/Complex: vec complex conj
+define pcodeop vconj_sat;
 with slot: iclass=0b1000 & mode=0 {
-    :"vconj" is imm_21_27=0b0000100 & S5 & imm_8_13=0 & imm_5_7=0b111 & D5 {
-        _stub();
+    :D5_pair "=vconj(" S5_pair "):sat" is imm_21_27=0b0000100 & S5_pair & imm_8_13=0 & imm_5_7=0b111 & D5_pair {
+        D5_pair = vconj_sat(S5_pair);
     }
 }
 
 # XTYPE/Complex: vec complex rot
+define pcodeop vcrotate;
 with slot: iclass=0b1100 & mode=0 {
-    :"vcrotate" is imm_22_27=0b001111 & imm_21=0 & S5 & imm_8_13=0 & imm_6_7=0b00 & imm_5=0 & D5 {
-        _stub();
+    :D5_pair "=vcrotate(" S5_pair "," T5 ")" is imm_22_27=0b001111 & imm_21=0 & S5_pair & imm_8_13=0 & imm_6_7=0b00 & imm_5=0 & D5_pair {
+        D5_pair = vcrotate(S5_pair, T5);
     }
 }
 
-# XTYPE/Complex: vec reduce complex mul real or i - TODO: this isn't in v73 but is is v5??
+# XTYPE/Complex: vec reduce complex mul real or i - TODO: this isn't in v73 but is is v5/v66
 with slot: iclass=0b1110 & mode=0 {
-    :"vrcmpy0" is imm_21_27=0b1000000 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
-        _stub();
+    :D5_pair "=vrcmpyi(" S5_pair "," T5_pair ")" is imm_21_27=0b1000000 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5_pair {
+        D5_pair = vrcmpyi(S5_pair, T5_pair);
     }
-    :"vrcmpy1" is imm_21_27=0b1000000 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
-        _stub();
+    :D5_pair "=vrcmpyr(" S5_pair "," T5_pair ")" is imm_21_27=0b1000000 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b001 & D5_pair {
+        D5_pair = vrcmpyr(S5_pair, T5_pair);
     }
-    :"vrcmpy2" is imm_21_27=0b1000010 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
-        _stub();
+    :D5_pair "=vrcmpyi(" S5_pair "," T5_pair "*)" is imm_21_27=0b1000010 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5_pair {
+        D5_pair = vrcmpyi_conj(S5_pair, T5_pair);
     }
-    :"vrcmpy3" is imm_21_27=0b1000011 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
-        _stub();
+    :D5_pair "=vrcmpyr(" S5_pair "," T5_pair "*)" is imm_21_27=0b1000011 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b001 & D5_pair {
+        D5_pair = vrcmpyr_conj(S5_pair, T5_pair);
     }
 
 
-    :"vrcmpy4" is imm_21_27=0b1010000 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
-        _stub();
+    :D5_pair "+=vrcmpyi(" S5_pair "," T5_pair ")" is imm_21_27=0b1010000 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5_pair {
+        D5_pair = D5_pair + vrcmpyi(S5_pair, T5_pair);
     }
-    :"vrcmpy5" is imm_21_27=0b1010000 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
-        _stub();
+    :D5_pair "+=vrcmpyr(" S5_pair "," T5_pair ")" is imm_21_27=0b1010000 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b001 & D5_pair {
+        D5_pair = D5_pair + vrcmpyr(S5_pair, T5_pair);
     }
-    :"vrcmpy6" is imm_21_27=0b1010010 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
-        _stub();
+    :D5_pair "+=vrcmpyi(" S5_pair "," T5_pair "*)" is imm_21_27=0b1010010 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5_pair {
+        D5_pair = D5_pair + vrcmpyi_conj(S5_pair, T5_pair);
     }
-    :"vrcmpy7" is imm_21_27=0b1010011 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
-        _stub();
+    :D5_pair "+=vrcmpyr(" S5_pair "," T5_pair "*)" is imm_21_27=0b1010011 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b001 & D5_pair {
+        D5_pair = D5_pair + vrcmpyr_conj(S5_pair, T5_pair);
     }
 }
 
 
 
 # XTYPE/Complex: vec reduce complex mul scalar
+define pcodeop vrcmpys_sat_raw_hi;
+define pcodeop vrcmpys_sat_raw_lo;
 with slot: iclass=0b1110 & mode=0 {
-    :"vrcmpys0" is imm_21_27=0b1000101 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
-        _stub();
+    :D5_pair "=vrcmpys(" S5_pair "," T5_pair "):<<1:sat:raw:hi"  is imm_21_27=0b1000101 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b100 & D5_pair {
+        D5_pair = vrcmpys_sat_raw_hi(S5_pair, T5_pair) << 1;
     }
-    :"vrcmpys1" is imm_21_27=0b1000111 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
-        _stub();
+    :D5_pair "=vrcmpys(" S5_pair "," T5_pair "):<<1:sat:raw:lo" is imm_21_27=0b1000111 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b100 & D5_pair {
+        D5_pair = vrcmpys_sat_raw_lo(S5_pair, T5_pair) << 1;
     }
-    :"vrcmpys2" is imm_21_27=0b1010101 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
-        _stub();
+    :D5_pair "+=vrcmpys(" S5_pair "," T5_pair "):<<1:sat:raw:hi" is imm_21_27=0b1010101 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b100 & D5_pair {
+        D5_pair = D5_pair + vrcmpys_sat_raw_hi(S5_pair, T5_pair) << 1;
     }
-    :"vrcmpys3" is imm_21_27=0b1010111 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
-        _stub();
+    :D5_pair "+=vrcmpys(" S5_pair "," T5_pair "):<<1:sat:raw:lo" is imm_21_27=0b1010111 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b100 & D5_pair {
+        D5_pair = D5_pair + vrcmpys_sat_raw_lo(S5_pair, T5_pair) << 1;
     }
 }
 
 # XTYPE/Complex: vec reduce complex mul scalar rnd pck
+define pcodeop vrcmpys_rnd_sat_raw_hi;
+define pcodeop vrcmpys_rnd_sat_raw_lo;
 with slot: iclass=0b1110 & mode=0 {
-    :"vrcmpys0" is imm_23_27=0b10011 & imm_22=0 & imm_21=1 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
-        _stub();
+    :D5 "=vrcmpys(" S5_pair "," T5_pair "):<<1:rnd:sat:raw:hi" is imm_23_27=0b10011 & imm_22=0 & imm_21=1 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+        D5 = vrcmpys_rnd_sat_raw_hi(S5_pair, T5_pair) << 1;
     }
-    :"vrcmpys1" is imm_23_27=0b10011 & imm_22=0 & imm_21=1 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-        _stub();
+    :D5 "=vrcmpys(" S5_pair "," T5_pair "):<<1:rnd:sat:raw:lo" is imm_23_27=0b10011 & imm_22=0 & imm_21=1 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+        D5 = vrcmpys_rnd_sat_raw_lo(S5_pair, T5_pair) << 1;
     }
 }
 
 # XTYPE/Complex: vec reduce complex rot
+define pcodeop vrcrotate;
 with slot: iclass=0b1100 & mode=0 {
-    :"vrcrotate" is imm_22_27=0b001111 & imm_21=0 & S5 & imm_13 & T5 & imm_6_7=0b11 & imm_5 & D5 {
-        _stub();
+    :D5_pair "=vrcrotate(" S5_pair "," T5 "," u2 ")" is imm_22_27=0b001111 & imm_21=0 & S5 & imm_13 & T5 & imm_6_7=0b11 & imm_5 & D5_pair [u2 = imm_5u | (imm_13u << 1); ] {
+        D5_pair = vrcrotate(S5_pair, T5, u2:1);
     }
-    :"vrcrotate1" is imm_21_27=0b1011101 & S5 & imm_13 & T5 & imm_6_7=0 & imm_5 & D5 {
-        _stub();
+    :D5_pair "+=vrcrotate(" S5_pair "," T5 "," u2 ")" is imm_21_27=0b1011101 & S5 & imm_13 & T5 & imm_6_7=0 & imm_5 & D5_pair [u2 = imm_5u | (imm_13u << 1); ] {
+        D5_pair = D5_pair + vrcrotate(S5_pair, T5, u2:1);
     }
 }

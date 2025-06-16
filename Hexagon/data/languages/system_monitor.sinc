@@ -7,20 +7,21 @@ with slot: iclass=0b0110 & mode=0 {
 }
 
 #SYSTEM/MONITOR:Swp sgp
+define pcodeop crswap_0;
 with slot: iclass=0b0110 & mode=0 {
     :"crswap("S5", SGP0)" is imm_21_27=0b0101000 & S5 & imm_0_13=0 {
     	local tmp = S5;
-	S5 = SGP0;
-	SGP0 = tmp;
+		S5 = SGP0;
+		SGP0 = tmp;
     }
     :"crswap("S5", SGP1)" is imm_21_27=0b0101001 & S5 & imm_0_13=0 {
     	local tmp = S5;
-	S5 = SGP0;
-	SGP1 = tmp;
+		S5 = SGP1;
+		SGP1 = tmp;
     }
 
     :"crswap(S5_pair,sgp1:0)" is imm_22_27=0b110110 & imm_21=0 & S5_pair & imm_5_13=0 & imm_0_4=0b00000 {
-    _stub();
+    	crswap_0(S5_pair);
     }
 }
 
@@ -190,43 +191,50 @@ with slot: iclass=0b1010 & mode=0 {
 }
 
 #SYSTEM/MONITOR:l2 cache op by addr
+define pcodeop l2locka;
+define pcodeop l2unlocka;
 with slot: iclass=0b1010 & mode=0 {
 	:D2"=l2locka("S5")" is imm_21_27=0b0000111 & S5 & imm_13=1 & imm_2_12=0 & D2 {
-    _stub();
+    	D2 = l2locka(S5);
 	}
 	:"l2unlocka("S5")" is imm_21_27=0b0110011 & S5 & imm_0_13=0 {
-    _stub();
+    	l2unlocka(S5);
 	}
 }
 
 #SYSTEM/MONITOR:l2 tag rw
+define pcodeop l2tagw;
+define pcodeop l2tagr;
 with slot: iclass=0b1010 & mode=0 {
 	:"l2tagw("S5","T5")" is imm_21_27=0b0100010 & S5 & imm_13=0 & T5 & imm_0_7 {
-    _stub();
+    	l2tagw(S5, T5);
 	}
 	:D5"=l2tagr("S5")" is imm_21_27=0b0100011 & S5 & imm_5_13=0 & D5 {
-    _stub();
+    	D5 = l2tagr(S5);
 	}
 }
 
 #SYSTEM/MONITOR:load from phys
+define pcodeop memw_phys;
 with slot: iclass=0b1001 & mode=0 {
-	:"memphys" is imm_21_27=0b0010000 & S5 & imm_8_13 & imm_7=0 & imm_5_6=0b00 & D5 {
-		_stub();
+	:D5 "=memw_phys(" S5 "," T5 ")" is imm_21_27=0b0010000 & S5 & imm_8_13 & imm_7=0 & imm_5_6=0b00 & D5 {
+		D5 = memw_phys(S5, T5);
 	}
 }
 
 #SYSTEM/MONITOR:nmi
+define pcodeop nmi;
 with slot: iclass=0b0110 & mode=0 {
 	:"nmi("S5")" is imm_21_27=0b0100011 & S5 & imm_8_13=0 & imm_5_7=0b010 & imm_0_4=0  {
-		_stub();
+		nmi(S5);
 	}
 }
 
 #SYSTEM/MONITOR:resume
+define pcodeop resume;
 with slot: iclass=0b0110 & mode=0 {
 	:"resume("S5")" is imm_21_27=0b0100010 & S5 & imm_8_13=0 & imm_5_7=0b001 & imm_0_4=0  {
-		_stub();
+		resume(S5);
 	}
 }
 
@@ -247,16 +255,18 @@ with slot: iclass=0b0110 & mode=0 {
 }
 
 #SYSTEM/MONITOR:set prio
+define pcodeop setprio;
 with slot: iclass=0b0110 & mode=0 {
-	:"setprio" is imm_21_27=0b0100100 & S5 & imm_10_13=0 & imm_8_9 & imm_5_7=0b001 & imm_0_4=0  {
-		_stub();
+	:"setprio" is imm_21_27=0b0100100 & S5 & imm_10_13=0 & T2 & imm_5_7=0b001 & imm_0_4=0  {
+		setprio(T2, S5);
 	}
 }
 
 #SYSTEM/MONITOR:set int auto dis
+define pcodeop siad;
 with slot: iclass=0b0110 & mode=0 {
 	:"siad("S5")" is imm_21_27=0b0100100 & S5 & imm_8_13=0 & imm_5_7=0b011 & imm_0_4=0  {
-		_stub();
+		siad(S5);
 	}
 }
 
@@ -317,8 +327,8 @@ with slot: iclass=0b0110 & mode=0 {
     :D6_svctrl "=" S5 is imm_22_27=0b011100 & imm_21=0 & S5 & imm_6_13=0 & D6_svctrl {
     	D6_svctrl = S5;
     }
-    :"Sdd=Rss" is imm_22_27=0b110100 & imm_21=0 & S5 & imm_6_13=0 & D6_svctrl {
-        _stub();
+    :S6_svctrl_pair "=" D5_pair is imm_22_27=0b110100 & imm_21=0 & S5 & imm_6_13=0 & D6_svctrl {
+        S6_svctrl_pair = D5_pair;
     }
     :D5"="S6_svctrl is imm_23_27=0b11101 & S6_svctrl & imm_5_13=0 & D5 {
     	D5 = S6_svctrl;

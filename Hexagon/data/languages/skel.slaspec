@@ -22,12 +22,12 @@
 # NV:     Decode up to v73, pcode unfinished
 # ST:     Decode up to v73, pcode unfinished
 # SYSTEM/USER: Decode + pcode up to v79
-# SYSTEM/GUEST: Decode + pcode up to v73
-# SYSTEM/MONITOR: Decode up to v73, pcode unfinished
+# SYSTEM/GUEST: Decode + pcode up to v66 (latest for this section)
+# SYSTEM/MONITOR: Decode + pcode up to v66 (latest for this section)
 # XTYPE:  Decode up to v73, pcode unfinished
 # XTYPE/ALU:      Decode up to v73, pcode unfinished
 # XTYPE/BIT:      Decode up to v73, pcode unfinished
-# XTYPE/COMPLEX:  Decode up to v73, pcode unfinished
+# XTYPE/COMPLEX:  Decode + pcode up to v79
 # XTYPE/FP:       Decode up to v73, pcode unfinished
 # XTYPE/MPY:      Decode up to v73, pcode unfinished
 # XTYPE/PERM:     Decode + pcode up to v73
