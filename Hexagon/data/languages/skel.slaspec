@@ -34,6 +34,13 @@
 # XTYPE/PRED:     Decode up to v73, pcode unfinished
 # XTYPE/SHIFT:    Decode + pcode up to v73
 
+# TODOs:
+# finish ops
+# move nv inputs to own slice
+# caching input values
+# update all insts to display cached as expected
+# check all unsigned / signed imms
+
 # Slices explained:
 # Hexagon has strange semantics where an instructions effect might not take place immidiately
 # e.g. branches are grouped to the end of a packet, and ops with new-value inputs take place after 

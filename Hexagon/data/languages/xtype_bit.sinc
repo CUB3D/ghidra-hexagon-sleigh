@@ -144,40 +144,41 @@ _stub();
 }
 
 # XTYPE/BIT:Masked parity
+define pcodeop parity;
 with slot: iclass=0b1101 & mode=0 {
-    :"par0" is imm_24_27=0b0000 & imm_21_23=0 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
-_stub();
+    :D5 "=parity(" S5_pair "," T5_pair ")" is imm_24_27=0b0000 & imm_21_23=0 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0 & D5_pair {
+        D5 = parity(S5_pair, T5_pair);
     }
-    :"par1" is imm_21_27=0b0101111 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
-_stub();
+    :D5 "=parity(" S5 "," T5 ")" is imm_21_27=0b0101111 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
+        D5 = parity(S5, T5);
     }
 }
 
 # XTYPE/BIT:Bit rev
+define pcodeop brev;
 with slot: iclass=0b1000 & mode=0 {
-    :"brev" is imm_21_27=0b0000110 & S5 & imm_8_13=0 & imm_5_7=0b110 & D5 {
-_stub();
+    :D5_pair "=brev(" S5_pair ")" is imm_21_27=0b0000110 & S5_pair & imm_8_13=0 & imm_5_7=0b110 & D5_pair {
+        D5_pair = brev(S5_pair);
     }
-    :"brev" is imm_21_27=0b1100010 & S5 & imm_8_13=0 & imm_5_7=0b110 & D5 {
-_stub();
+    :D5 "=brev(" S5 ")" is imm_21_27=0b1100010 & S5 & imm_8_13=0 & imm_5_7=0b110 & D5 {
+        D5 = brev(S5);
     }
 }
 
 # XTYPE/BIT:Set clear toggle bit
 with slot: iclass=0b1000 & mode=0 {
-    :D5"=setbit("S5","imm_8_12")" is imm_21_27=0b1100110 & S5 & imm_13=0 & imm_8_12 & imm_5_7=0b000 & D5 {
-       D5 = S5 | (1 << imm_8_12);
+    :D5"=setbit("S5","imm_8_12u")" is imm_21_27=0b1100110 & S5 & imm_13=0 & imm_8_12u & imm_5_7=0b000 & D5 {
+       D5 = S5 | (1 << imm_8_12u);
     }
-    :D5"=clrbit("S5","imm_8_12")" is imm_21_27=0b1100110 & S5 & imm_13=0 & imm_8_12 & imm_5_7=0b001 & D5 {
-       D5 = S5 & ~(1 << imm_8_12);
+    :D5"=clrbit("S5","imm_8_12u")" is imm_21_27=0b1100110 & S5 & imm_13=0 & imm_8_12u & imm_5_7=0b001 & D5 {
+       D5 = S5 & ~(1 << imm_8_12u);
     }
-    :D5"=clrbit("S5","imm_8_12")" is imm_21_27=0b1100110 & S5 & imm_13=0 & imm_8_12 & imm_5_7=0b010 & D5 {
-       D5 = S5 ^ (1 << imm_8_12);
+    :D5"=clrbit("S5","imm_8_12u")" is imm_21_27=0b1100110 & S5 & imm_13=0 & imm_8_12u & imm_5_7=0b010 & D5 {
+       D5 = S5 ^ (1 << imm_8_12u);
     }
 }
 with slot: iclass=0b1100 & mode=0 {
     :D5 "=setbit(" S5 "," T5 ")" is imm_22_27=0b011010 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b00 & imm_5=0 & D5 {
-    	#TODO: sign?
     	D5 = S5 | (1 << T5);
     }
     :D5 "=clrbit(" S5 "," T5 ")" is imm_22_27=0b011010 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b01 & imm_5=0 & D5 {
@@ -189,31 +190,37 @@ with slot: iclass=0b1100 & mode=0 {
     }
 }
 
-# XTYPE/BIT:split Bf
+# XTYPE/BIT:Split bit field
 with slot: iclass=0b1000 & mode=0 {
     :D5_pair "=bitsplit(" S5 "," imm_8_12u ")" is imm_21_27=0b1000110 & S5 & imm_13=0 & imm_8_12u & imm_5_7=0b100 & D5_pair  {
-	local lo:8 = ((zext(S5) >> imm_8_12u) << 31);
-	D5_pair = zext(S5) | lo;
+        local lo:8 = ((zext(S5) >> imm_8_12u) << 31);
+        D5_pair = zext(S5) | lo;
     }
 }
 with slot: iclass=0b1001 & mode=0 {
-    :"bitsplit1" is imm_24_27=0b0100 & imm_22_23=0 & imm_21=1 & S5 & imm_13=0 & imm_8_12 & imm_5_7=0 & D5 {
-_stub();
+    :D5_pair "=bitsplit(" S5 "," T5 ")" is imm_24_27=0b0100 & imm_22_23=0 & imm_21=1 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
+        local lo:8 = ((zext(S5) >> T5) << 31);
+        D5_pair = zext(S5) | lo;
     }
 }
 
-# XTYPE/BIT:TI
+# XTYPE/BIT:Table index
+define pcodeop tableidxb_raw;
+define pcodeop tableidxh_raw;
+define pcodeop tableidxw_raw;
+define pcodeop tableidxd_raw;
+
 with slot: iclass=0b1000 & mode=0 {
-    :"tableidxb" is imm_22_27=0b011100 & imm_21 & S5 & imm_8_13 & imm_5_7 & D5 {
-_stub();
+    :D5 "=tableidxb(" S5 "," u4 "," imm_8_13 "):raw" is imm_22_27=0b011100 & imm_21u & S5 & imm_8_13 & imm_5_7u & D5 [ u4 = imm_5_7u | (imm_21u << 3);] {
+        D5 = tableidxb_raw(S5, u4:1, imm_8_13:1);
     }
-    :"tableidxh" is imm_22_27=0b011101 & imm_21 & S5 & imm_8_13 & imm_5_7 & D5 {
-_stub();
+    :D5 "=tableidxh(" S5 "," u4 "," imm_8_13 "):raw" is imm_22_27=0b011101 & imm_21 & S5 & imm_8_13 & imm_5_7 & D5 [ u4 = imm_5_7u | (imm_21u << 3);] {
+        D5 = tableidxh_raw(S5, u4:1, imm_8_13:1);
     }
-    :"tableidxw" is imm_22_27=0b011110 & imm_21 & S5 & imm_8_13 & imm_5_7 & D5 {
-_stub();
-    }
-    :"tableidxd" is imm_22_27=0b011111 & imm_21 & S5 & imm_8_13 & imm_5_7 & D5 {
-_stub();
+    :D5 "=tableidxw(" S5 "," u4 "," imm_8_13 "):raw" is imm_22_27=0b011110 & imm_21 & S5 & imm_8_13 & imm_5_7 & D5 [ u4 = imm_5_7u | (imm_21u << 3);] {
+        D5 = tableidxw_raw(S5, u4:1, imm_8_13:1);
+     }
+    :D5 "=tableidxd(" S5 "," u4 "," imm_8_13 "):raw" is imm_22_27=0b011111 & imm_21 & S5 & imm_8_13 & imm_5_7 & D5 [ u4 = imm_5_7u | (imm_21u << 3);] {
+        D5 = tableidxd_raw(S5, u4:1, imm_8_13:1);
     }
 }
