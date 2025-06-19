@@ -334,12 +334,13 @@ with slot: iclass=0b1101 & mode=0 {
 }
 
 # XTYPE/ALU:neg
+define pcodeop neg_sat;
 with slot: iclass=0b1000 & mode=0 {
     :D5_pair "=neg(" S5_pair ")" is imm_21_27=0b0000100 & S5_pair & imm_8_13=0 & imm_5_7=0b101 & D5_pair {
     	D5_pair = -S5_pair;
     }
-    :"neg1" is imm_21_27=0b1100100 & S5 & imm_8_13=0 & imm_5_7=0b110 & D5 {
-    _stub();
+    :D5 "=neg(" S5 ")" is imm_21_27=0b1100100 & S5 & imm_8_13=0 & imm_5_7=0b110 & D5 {
+	D5 = neg_sat(S5);
     }
 }
 
@@ -377,12 +378,13 @@ with slot: iclass=0b1100 & mode=0 {
 }
 
 # XTYPE/ALU:sub dword
+define pcodeop sub_sat_deprecated;
 with slot: iclass=0b1101 & mode=0 {
     :D5_pair "=sub(" T5_pair "," S5_pair ")" is imm_21_27=0b0011001 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b111 & D5_pair {
         D5_pair = T5_pair - S5_pair;
     }
-    :"subd" is imm_21_27=0b0101100 & S5 & imm_13=0 & T5 & imm_7=1 & imm_5_6=0 & D5 {
-    _stub();
+    :D5 "=sub(" T5 "," S5 "):sat:deprecated" is imm_21_27=0b0101100 & S5 & imm_13=0 & T5 & imm_7=1 & imm_5_6=0 & D5 {
+    	D5 =sub_sat_deprecated(T5, S5);
     }
 }
 
@@ -479,10 +481,11 @@ with slot: iclass=0b1110 & mode=0 {
     }
 }
 
+define pcodeop vabsdiffw;
 # XTYPE/ALU:vector abs diff w
 with slot: iclass=0b1110 & mode=0 {
-    :"vabsdiffw" is imm_21_27=0b1000001 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
-    _stub();
+    :D5_pair "=vabsdiffw(" T5_pair "," S5_pair ")" is imm_21_27=0b1000001 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    	D5_pair = vabsdiffw(T5_pair, S5_pair);
     }
 }
 
@@ -500,8 +503,8 @@ with slot: iclass=0b1101 & mode=0 {
     :"vaddh" is imm_21_27=0b0011000 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
     _stub();
     }
-    :D5 "=vaddh(" S5 "," T5 "):sat" is imm_21_27=0b0011000 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
-    	D5 = vaddh_sat(S5, T5);
+    :D5_pair "=vaddh(" S5_pair "," T5_pair "):sat" is imm_21_27=0b0011000 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+    	D5_pair = vaddh_sat(S5_pair, T5_pair);
     }
     :"vadduhsat" is imm_21_27=0b0011000 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
     _stub();
@@ -622,94 +625,113 @@ with slot: iclass=0b1101 & mode=0 {
 }
 
 # XTYPE/ALU:vector clip un
+define pcodeop vclip;
 with slot: iclass=0b1000 & mode=0 {
-    :"vclip" is imm_21_27=0b1000110 & S5 & imm_13=0 & imm_8_12 & imm_5_7=0b110 & D5 {
-    _stub();
+    :D5 "=vclip(" S5_pair "," imm_8_12u ")" is imm_21_27=0b1000110 & S5_pair & imm_13=0 & imm_8_12u & imm_5_7=0b110 & D5 {
+    	D5 = vclip(S5_pair, imm_8_12u);
     }
 }
 
 # XTYPE/ALU:vector cond neg
+define pcodeop vcnegh;
+define pcodeop vrcnegh;
 with slot: iclass=0b1100 & mode=0 {
-    :"vcnegh" is imm_22_27=0b001111 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b01 & imm_5=0 & D5 {
-    _stub();
+    :D5_pair "=vcnegh(" S5_pair "," T5 ")" is imm_22_27=0b001111 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b01 & imm_5=0 & D5 {
+    	D5_pair = vcnegh(S5_pair, T5);
     }
-    :"vrcnegh" is imm_21_27=0b1011001 & S5 & imm_13=1 & T5 & imm_5_7=0b111 & D5 {
-    _stub();
+    :D5_pair "=vrcnegh(" S5_pair "," T5 ")" is imm_21_27=0b1011001 & S5 & imm_13=1 & T5 & imm_5_7=0b111 & D5 {
+    	D5_pair = D5_pair + vrcnegh(S5_pair, T5);
     }
 }
 
 # XTYPE/ALU:vector max by
+define pcodeop vmaxub;
+define pcodeop vmaxb;
 with slot: iclass=0b1101 & mode=0 {
-    :"vmaxub" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
-    _stub();
+    :D5_pair "=vmaxub(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    	D5_pair = vmaxub(T5_pair, S5_pair);
     }
-    :"vmaxb" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
-    _stub();
+    :D5_pair "=vmaxb(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+    	D5_pair = vmaxb(T5_pair, S5_pair);
     }
 }
 
 # XTYPE/ALU:vector max hw
+define pcodeop vmaxhw;
+define pcodeop vmaxuhw;
 with slot: iclass=0b1101 & mode=0 {
-    :"vmaxh" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
-    _stub();
+    :D5_pair "=vmaxhw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    	D5_pair = vmaxhw(T5_pair, S5_pair);
     }
-    :"vmaxuh" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
-    _stub();
+    :D5_pair "=vmaxuhw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+    	D5_pair = vmaxuhw(T5_pair, S5_pair);
     }
 }
 
 # XTYPE/ALU:vector red max hw
+define pcodeop vrmaxhw;
+define pcodeop vrmaxuhw;
 with slot: iclass=0b1100 & mode=0 {
-    :"vrmaxh" is imm_21_27=0b1011001 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
-    _stub();
+    :T5_pair "=vrmaxhw(" S5_pair "," D5 ")" is imm_21_27=0b1011001 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    	T5_pair = vrmaxhw(S5_pair, D5);
     }
-    :"vrmaxuh" is imm_21_27=0b1011001 & S5 & imm_13=1 & T5 & imm_5_7=0b001 & D5 {
-    _stub();
+    :T5_pair "=vrmaxuhw(" S5_pair "," D5 ")" is imm_21_27=0b1011001 & S5 & imm_13=1 & T5 & imm_5_7=0b001 & D5 {
+    	T5_pair = vrmaxuhw(S5_pair, D5);
     }
 }
 
 # XTYPE/ALU:vector red max w
+define pcodeop vrmaxw;
+define pcodeop vrmaxuw;
 with slot: iclass=0b1100 & mode=0 {
-    :"vrmaxw" is imm_21_27=0b1011001 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
-    _stub();
+    :T5_pair "=vrmaxw(" S5_pair "," D5 ")" is imm_21_27=0b1011001 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b010 & D5 {
+    	T5_pair = vrmaxw(S5_pair, D5);
     }
-    :"vrmaxuw" is imm_21_27=0b1011001 & S5 & imm_13=1 & T5 & imm_5_7=0b010 & D5 {
-    _stub();
+    :T5_pair "=vrmaxuw(" S5_pair "," D5 ")" is imm_21_27=0b1011001 & S5_pair & imm_13=1 & T5_pair & imm_5_7=0b010 & D5 {
+    	T5_pair = vrmaxuw(S5_pair, D5);
     }
 }
 
 # XTYPE/ALU:vector max w
+define pcodeop vmaxw;
+define pcodeop vmaxuw;
 with slot: iclass=0b1101 & mode=0 {
-    :"vmaxuw" is imm_21_27=0b0011101 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
-    _stub();
+    :D5_pair "=vmaxuw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b101 & D5_pair {
+    	D5_pair = vmaxuw(T5_pair, S5_pair);
     }
-    :"vmaxw" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
-    _stub();
+    :D5_pair "=vmaxw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b011 & D5_pair {
+    	D5_pair = vmaxw(T5_pair, S5_pair);
     }
 }
 
 # XTYPE/ALU:vector min b
+define pcodeop vminb;
+define pcodeop vminub;
 with slot: iclass=0b1101 & mode=0 {
-    :"vminub" is imm_21_27=0b0011101 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
-    _stub();
+    :D5_pair "=vminub(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    	D5_pair = vminub(T5_pair, S5_pair);
     }
-    :"vminb" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-    _stub();
+    :D5_pair "=vminb(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+    	D5_pair = vminb(T5_pair, S5_pair);
     }
 }
 with slot: iclass=0b1110 & mode=0 {
-    :"vminub2" is imm_21_27=0b1010111 & S5 & imm_13=0 & T5 & imm_7=0 & imm_5_6 & D5 {
-    _stub();
+    :D5_pair "," U2_5_6 "=vminub(" T5_pair "," S5_pair ")" is imm_21_27=0b1010111 & S5_pair & imm_13=0 & T5_pair & imm_7=0 & U2_5_6 & D5_pair {
+    	local tmp:12 = vminub(T5_pair, S5_pair);	
+	D5_pair = tmp:8;
+	U2_5_6 = tmp(4);
     }
 }
 
 # XTYPE/ALU:vector min hw
+define pcodeop vminhw;
+define pcodeop vminuhw;
 with slot: iclass=0b1101 & mode=0 {
-    :"vminh" is imm_21_27=0b0011101 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
-    _stub();
+    :D5_pair "=vminhw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    	D5_pair = vminhw(T5_pair, S5_pair);
     }
-    :"vminuh" is imm_21_27=0b0011101 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
-    _stub();
+    :D5_pair "=vminuhw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+    	D5_pair = vminuhw(T5_pair, S5_pair);
     }
 }
 
