@@ -1,11 +1,13 @@
 # XTYPE/PRED
 # XTYPE/PRED:bound chk
+define pcodeop boundcheck_raw_lo;
+define pcodeop boundcheck_raw_hi;
 with slot: iclass=0b1101 & mode=0 {
-    :"bc0" is imm_23_27=0b00100 & imm_21_22=0 & S5 & imm_13=1 & T5 & imm_5_7=0b100 & imm_2_4=0 & D2 {
-       _stub();
+    :D2_pred "=boundscheck(" S5_pair "," T5_pair "):raw:lo" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & imm_13=1 & T5_pair & imm_5_7=0b100 & imm_2_4=0 & D2_pred {
+    	D2_pred = boundscheck_raw_lo(S5_pair, T5_pair);
     }
-    :"bc1" is imm_23_27=0b00100 & imm_21_22=0 & S5 & imm_13=1 & T5 & imm_5_7=0b101 & imm_2_4=0 & D2 {
-       _stub();
+    :D2_pred "=boundscheck(" S5_pair "," T5_pair "):raw:hi" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & imm_13=1 & T5_pair & imm_5_7=0b101 & imm_2_4=0 & D2_pred {
+    	D2_pred = boundscheck_raw_hi(S5_pair, T5_pair);
     }
 }
 
