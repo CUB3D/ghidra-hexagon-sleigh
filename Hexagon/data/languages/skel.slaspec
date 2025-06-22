@@ -28,7 +28,7 @@
 # XTYPE/ALU:      Decode up to v73, pcode unfinished
 # XTYPE/BIT:      Decode + pcode up to v73
 # XTYPE/COMPLEX:  Decode + pcode up to v79
-# XTYPE/FP:       Decode up to v73, pcode unfinished
+# XTYPE/FP:       DDecode + pcode up to v79
 # XTYPE/MPY:      Decode up to v73, pcode unfinished
 # XTYPE/PERM:     Decode + pcode up to v73
 # XTYPE/PRED:     Decode up to v73, pcode unfinished
