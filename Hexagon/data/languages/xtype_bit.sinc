@@ -99,7 +99,7 @@ with slot: iclass=0b1100 & mode=0 {
     :D5_pair "=extractu(" S5_pair "," T5_pair ")" is imm_22_27=0b000100 & imm_21=0 & S5_pair & imm_13=0 & T5_pair & imm_6_7=0b00 & imm_5=0 & D5_pair {
     	D5_pair = extractu(S5_pair, T5_pair);
     }
-    :D5_pair "=extract(" S5_pair "," T5_pair ")" is imm_22_27=0b000111 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b10 & imm_5=0 & D5 {
+    :D5_pair "=extract(" S5_pair "," T5_pair ")" is imm_22_27=0b000111 & imm_21=0 & S5_pair & imm_13=0 & T5_pair & imm_6_7=0b10 & imm_5=0 & D5_pair {
     	D5_pair = extract(S5_pair, T5_pair);
     }
     :D5 "=extractu(" S5 "," T5_pair ")" is imm_22_27=0b100100 & imm_21=0 & S5 & imm_13=0 & T5_pair & imm_6_7=0b00 & imm_5=0 & D5 {
@@ -156,7 +156,7 @@ with slot: iclass=0b1100 & mode=0 {
 # XTYPE/BIT:Masked parity
 define pcodeop parity;
 with slot: iclass=0b1101 & mode=0 {
-    :D5 "=parity(" S5_pair "," T5_pair ")" is imm_24_27=0b0000 & imm_21_23=0 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0 & D5_pair {
+    :D5 "=parity(" S5_pair "," T5_pair ")" is imm_24_27=0b0000 & imm_21_23=0 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0 & D5 {
         D5 = parity(S5_pair, T5_pair);
     }
     :D5 "=parity(" S5 "," T5 ")" is imm_21_27=0b0101111 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
@@ -208,7 +208,7 @@ with slot: iclass=0b1000 & mode=0 {
     }
 }
 with slot: iclass=0b1001 & mode=0 {
-    :D5_pair "=bitsplit(" S5 "," T5 ")" is imm_24_27=0b0100 & imm_22_23=0 & imm_21=1 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5 {
+    :D5_pair "=bitsplit(" S5 "," T5 ")" is imm_24_27=0b0100 & imm_22_23=0 & imm_21=1 & S5 & imm_13=0 & T5 & imm_5_7=0 & D5_pair {
         local lo:8 = ((zext(S5) >> T5) << 31);
         D5_pair = zext(S5) | lo;
     }
@@ -224,13 +224,13 @@ with slot: iclass=0b1000 & mode=0 {
     :D5 "=tableidxb(" S5 "," u4 "," imm_8_13 "):raw" is imm_22_27=0b011100 & imm_21u & S5 & imm_8_13 & imm_5_7u & D5 [ u4 = imm_5_7u | (imm_21u << 3);] {
         D5 = tableidxb_raw(S5, u4:1, imm_8_13:1);
     }
-    :D5 "=tableidxh(" S5 "," u4 "," imm_8_13 "):raw" is imm_22_27=0b011101 & imm_21 & S5 & imm_8_13 & imm_5_7 & D5 [ u4 = imm_5_7u | (imm_21u << 3);] {
+    :D5 "=tableidxh(" S5 "," u4 "," imm_8_13 "):raw" is imm_22_27=0b011101 & imm_21u & S5 & imm_8_13 & imm_5_7u & D5 [ u4 = imm_5_7u | (imm_21u << 3);] {
         D5 = tableidxh_raw(S5, u4:1, imm_8_13:1);
     }
-    :D5 "=tableidxw(" S5 "," u4 "," imm_8_13 "):raw" is imm_22_27=0b011110 & imm_21 & S5 & imm_8_13 & imm_5_7 & D5 [ u4 = imm_5_7u | (imm_21u << 3);] {
+    :D5 "=tableidxw(" S5 "," u4 "," imm_8_13 "):raw" is imm_22_27=0b011110 & imm_21u & S5 & imm_8_13 & imm_5_7u & D5 [ u4 = imm_5_7u | (imm_21u << 3);] {
         D5 = tableidxw_raw(S5, u4:1, imm_8_13:1);
      }
-    :D5 "=tableidxd(" S5 "," u4 "," imm_8_13 "):raw" is imm_22_27=0b011111 & imm_21 & S5 & imm_8_13 & imm_5_7 & D5 [ u4 = imm_5_7u | (imm_21u << 3);] {
+    :D5 "=tableidxd(" S5 "," u4 "," imm_8_13 "):raw" is imm_22_27=0b011111 & imm_21u & S5 & imm_8_13 & imm_5_7u & D5 [ u4 = imm_5_7u | (imm_21u << 3);] {
         D5 = tableidxd_raw(S5, u4:1, imm_8_13:1);
     }
 }

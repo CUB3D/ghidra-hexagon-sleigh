@@ -77,14 +77,15 @@ with slot: iclass=0b1101 & mode=0 {
     :D5_pair "=add(" S5_pair "," T5_pair ")" is imm_21_27=0b0011000 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b111 & D5_pair {
         D5_pair = S5_pair + T5_pair;
     }
-    :D5_pair "=add(" S5_pair "," T5_pair "):sat" is imm_21_27=0b0011011 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+    :D5_pair "=add(" S5_pair "," T5_pair "):sat" is imm_21_27=0b0011011 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b101 & D5_pair {
     	D5_pair = add_sat(S5_pair, T5_pair);
     }
     :D5_pair "=add(" S5_pair "," T5_pair "):raw:lo" is imm_21_27=0b0011011 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b110 & D5_pair {
     	D5_pair = T5_pair + sext(S5_pair:4);
     }
-    :D5_pair "=add(" S5_pair "," T5_pair "):raw:hi" is imm_21_27=0b0011011 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-    	D5_pair = T5_pair + sext(S5_pair(4));
+    :D5_pair "=add(" S5_pair "," T5_pair "):raw:hi" is imm_21_27=0b0011011 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b111 & D5_pair {
+    	local tmp:4 = S5_pair(4);
+    	D5_pair = T5_pair + sext(tmp);
     }
 
     :D5 "=add(" S5 "," T5 "):sat:deprecated" is imm_21_27=0b0101100 & S5 & imm_13=0 & T5 & imm_7=0 & imm_5_6=0 & D5 {
@@ -448,25 +449,25 @@ with slot: iclass=0b1000 & mode=0 {
 }
 
 # XTYPE/ALU:vector abs val hw
-define pcodeop vash;
-define pcodeop vash_sat;
+define pcodeop vabsh;
+define pcodeop vabsh_sat;
 with slot: iclass=0b1000 & mode=0 {
-    :D5_pair "=vabsh(" S5_pair ")" is imm_21_27=0b0000010 & S5 & imm_8_13=0 & imm_5_7=0b100 & D5 {
+    :D5_pair "=vabsh(" S5_pair ")" is imm_21_27=0b0000010 & S5_pair & imm_8_13=0 & imm_5_7=0b100 & D5_pair {
     	D5_pair = vabsh(S5_pair);
     }
-    :D5_pair "=vabsh(" S5_pair "):sat" is imm_21_27=0b0000010 & S5 & imm_8_13=0 & imm_5_7=0b101 & D5 {
+    :D5_pair "=vabsh(" S5_pair "):sat" is imm_21_27=0b0000010 & S5_pair & imm_8_13=0 & imm_5_7=0b101 & D5_pair {
     	D5_pair = vabsh_sat(S5_pair);
     }
 }
 
 # XTYPE/ALU:vector abs val w
-define pcodeop vasw;
-define pcodeop vasw_sat;
+define pcodeop vabsw;
+define pcodeop vabsw_sat;
 with slot: iclass=0b1000 & mode=0 {
-    :D5_pair "=vabsw(" S5_pair ")" is imm_21_27=0b0000010 & S5 & imm_8_13=0 & imm_5_7=0b110 & D5 {
+    :D5_pair "=vabsw(" S5_pair ")" is imm_21_27=0b0000010 & S5_pair & imm_8_13=0 & imm_5_7=0b110 & D5_pair {
     	D5_pair = vabsw(S5_pair);
     }
-    :D5_pair "=vabsw(" S5_pair "):sat" is imm_21_27=0b0000010 & S5 & imm_8_13=0 & imm_5_7=0b111 & D5 {
+    :D5_pair "=vabsw(" S5_pair "):sat" is imm_21_27=0b0000010 & S5_pair & imm_8_13=0 & imm_5_7=0b111 & D5_pair {
     	D5_pair = vabsw_sat(S5_pair);
     }
 }
@@ -475,10 +476,10 @@ with slot: iclass=0b1000 & mode=0 {
 define pcodeop vabsdiffub;
 define pcodeop vabsdiffb;
 with slot: iclass=0b1110 & mode=0 {
-    :D5_pair "=vabsdiffub(" T5_pair "," S5_pair ")" is imm_21_27=0b1000101 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    :D5_pair "=vabsdiffub(" T5_pair "," S5_pair ")" is imm_21_27=0b1000101 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5_pair {
    		D5_pair = vabsdiffub(T5_pair, S5_pair);
     }
-    :D5_pair "=vabsdiffb(" T5_pair "," S5_pair "):sat" is imm_21_27=0b1000111 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    :D5_pair "=vabsdiffb(" T5_pair "," S5_pair "):sat" is imm_21_27=0b1000111 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5_pair {
     	D5_pair = vabsdiffb(T5_pair, S5_pair);
     }
 }
@@ -494,7 +495,7 @@ with slot: iclass=0b1110 & mode=0 {
 define pcodeop vabsdiffw;
 # XTYPE/ALU:vector abs diff w
 with slot: iclass=0b1110 & mode=0 {
-    :D5_pair "=vabsdiffw(" T5_pair "," S5_pair ")" is imm_21_27=0b1000001 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    :D5_pair "=vabsdiffw(" T5_pair "," S5_pair ")" is imm_21_27=0b1000001 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5_pair {
     	D5_pair = vabsdiffw(T5_pair, S5_pair);
     }
 }
@@ -516,7 +517,7 @@ with slot: iclass=0b1101 & mode=0 {
     :"vaddh" is imm_21_27=0b0011000 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
     _stub();
     }
-    :D5_pair "=vaddh(" S5_pair "," T5_pair "):sat" is imm_21_27=0b0011000 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+    :D5_pair "=vaddh(" S5_pair "," T5_pair "):sat" is imm_21_27=0b0011000 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b011 & D5_pair {
     	D5_pair = vaddh_sat(S5_pair, T5_pair);
     }
     :"vadduhsat" is imm_21_27=0b0011000 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
@@ -641,7 +642,7 @@ with slot: iclass=0b1101 & mode=0 {
 define pcodeop vclip;
 with slot: iclass=0b1000 & mode=0 {
     :D5 "=vclip(" S5_pair "," imm_8_12u ")" is imm_21_27=0b1000110 & S5_pair & imm_13=0 & imm_8_12u & imm_5_7=0b110 & D5 {
-    	D5 = vclip(S5_pair, imm_8_12u);
+    	D5 = vclip(S5_pair, imm_8_12u:1);
     }
 }
 
@@ -649,10 +650,10 @@ with slot: iclass=0b1000 & mode=0 {
 define pcodeop vcnegh;
 define pcodeop vrcnegh;
 with slot: iclass=0b1100 & mode=0 {
-    :D5_pair "=vcnegh(" S5_pair "," T5 ")" is imm_22_27=0b001111 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b01 & imm_5=0 & D5 {
+    :D5_pair "=vcnegh(" S5_pair "," T5 ")" is imm_22_27=0b001111 & imm_21=0 & S5_pair & imm_13=0 & T5 & imm_6_7=0b01 & imm_5=0 & D5_pair {
     	D5_pair = vcnegh(S5_pair, T5);
     }
-    :D5_pair "=vrcnegh(" S5_pair "," T5 ")" is imm_21_27=0b1011001 & S5 & imm_13=1 & T5 & imm_5_7=0b111 & D5 {
+    :D5_pair "=vrcnegh(" S5_pair "," T5 ")" is imm_21_27=0b1011001 & S5_pair & imm_13=1 & T5 & imm_5_7=0b111 & D5_pair {
     	D5_pair = D5_pair + vrcnegh(S5_pair, T5);
     }
 }
@@ -661,10 +662,10 @@ with slot: iclass=0b1100 & mode=0 {
 define pcodeop vmaxub;
 define pcodeop vmaxb;
 with slot: iclass=0b1101 & mode=0 {
-    :D5_pair "=vmaxub(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    :D5_pair "=vmaxub(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5_pair {
     	D5_pair = vmaxub(T5_pair, S5_pair);
     }
-    :D5_pair "=vmaxb(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+    :D5_pair "=vmaxb(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b110 & D5_pair {
     	D5_pair = vmaxb(T5_pair, S5_pair);
     }
 }
@@ -673,10 +674,10 @@ with slot: iclass=0b1101 & mode=0 {
 define pcodeop vmaxhw;
 define pcodeop vmaxuhw;
 with slot: iclass=0b1101 & mode=0 {
-    :D5_pair "=vmaxhw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    :D5_pair "=vmaxhw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b001 & D5_pair {
     	D5_pair = vmaxhw(T5_pair, S5_pair);
     }
-    :D5_pair "=vmaxuhw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+    :D5_pair "=vmaxuhw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b010 & D5_pair {
     	D5_pair = vmaxuhw(T5_pair, S5_pair);
     }
 }
@@ -685,10 +686,10 @@ with slot: iclass=0b1101 & mode=0 {
 define pcodeop vrmaxhw;
 define pcodeop vrmaxuhw;
 with slot: iclass=0b1100 & mode=0 {
-    :T5_pair "=vrmaxhw(" S5_pair "," D5 ")" is imm_21_27=0b1011001 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    :T5_pair "=vrmaxhw(" S5_pair "," D5 ")" is imm_21_27=0b1011001 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b001 & D5 {
     	T5_pair = vrmaxhw(S5_pair, D5);
     }
-    :T5_pair "=vrmaxuhw(" S5_pair "," D5 ")" is imm_21_27=0b1011001 & S5 & imm_13=1 & T5 & imm_5_7=0b001 & D5 {
+    :T5_pair "=vrmaxuhw(" S5_pair "," D5 ")" is imm_21_27=0b1011001 & S5_pair & imm_13=1 & T5_pair & imm_5_7=0b001 & D5 {
     	T5_pair = vrmaxuhw(S5_pair, D5);
     }
 }
@@ -721,10 +722,10 @@ with slot: iclass=0b1101 & mode=0 {
 define pcodeop vminb;
 define pcodeop vminub;
 with slot: iclass=0b1101 & mode=0 {
-    :D5_pair "=vminub(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    :D5_pair "=vminub(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5_pair {
     	D5_pair = vminub(T5_pair, S5_pair);
     }
-    :D5_pair "=vminb(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+    :D5_pair "=vminb(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b111 & D5_pair {
     	D5_pair = vminb(T5_pair, S5_pair);
     }
 }
@@ -740,10 +741,10 @@ with slot: iclass=0b1110 & mode=0 {
 define pcodeop vminhw;
 define pcodeop vminuhw;
 with slot: iclass=0b1101 & mode=0 {
-    :D5_pair "=vminhw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    :D5_pair "=vminhw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b001 & D5_pair {
     	D5_pair = vminhw(T5_pair, S5_pair);
     }
-    :D5_pair "=vminuhw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+    :D5_pair "=vminuhw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b010 & D5_pair {
     	D5_pair = vminuhw(T5_pair, S5_pair);
     }
 }
@@ -776,10 +777,10 @@ with slot: iclass=0b1100 & mode=0 {
 define pcodeop vminw;
 define pcodeop vminuw;
 with slot: iclass=0b1101 & mode=0 {
-    :D5_pair "=vminw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+    :D5_pair "=vminw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b011 & D5_pair {
     	D5_pair = vminw(T5_pair, S5_pair);
     }
-    :D5_pair "=vminuw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+    :D5_pair "=vminuw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b100 & D5_pair {
     	D5_pair = vminuw(T5_pair, S5_pair);
     }
 }
@@ -796,9 +797,9 @@ with slot: iclass=0b1110 & mode=0 {
 }
 
 # XTYPE/ALU:vector sub halfword
-define pcodeop vsubh;
-define pcodeop vsubh_sat;
-define pcodeop vsubuh_sat;
+#define pcodeop vsubh;
+#define pcodeop vsubh_sat;
+#define pcodeop vsubuh_sat;
 with slot: iclass=0b1101 & mode=0 {
     :D5_pair "=vsubh(" T5_pair "," S5_pair ")" is imm_21_27=0b0011001 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b010 & D5_pair {
     	D5_pair = vsubh(T5_pair, S5_pair);

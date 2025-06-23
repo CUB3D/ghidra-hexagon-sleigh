@@ -6,7 +6,7 @@ with slot: iclass=0b0110 & mode=0 {
     :GD5_pair "=" S5_pair is imm_21_27=0b0011000 & S5_pair & imm_5_13=0 & GD5_pair {
    		GD5_pair = S5_pair;
     }
-    :S5_pair "=" GD5_pair is imm_21_27=0b1000001 & S5 & imm_5_13=0 & GD5_pair {
+    :S5_pair "=" GD5_pair is imm_21_27=0b1000001 & S5_pair & imm_5_13=0 & GD5_pair {
    		S5_pair = GD5_pair;
     }
     :S5 "=" GD5 is imm_21_27=0b1010001 & S5 & imm_5_13=0 & GD5 {

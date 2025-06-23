@@ -13,14 +13,14 @@ with slot: iclass=0b1101 & mode=0 {
 
 # XTYPE/PRED:cmp byte
 with slot: iclass=0b1100 & mode=0 {
-    :"cmpb0" is imm_21_27=0b0111110 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & imm_2_4=0 & D2 {
-       _stub();
+    :D2_pred_new "=cmpb.eq(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & imm_2_4=0 & D2_pred_new {
+    	D2_pred_new = S5:1 == T5:1;
     }
-    :"cmpb1" is imm_21_27=0b0111110 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & imm_2_4=0 & D2 {
-       _stub();
+    :D2_pred_new "=cmpb.gt(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & imm_2_4=0 & D2_pred_new {
+    	D2_pred_new = S5:1 s> T5:1;
     }
-    :"cmpb2" is imm_21_27=0b0111110 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & imm_2_4=0 & D2 {
-       _stub();
+    :D2_pred_new "=cmpb.gtu(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & imm_2_4=0 & D2_pred_new {
+    	D2_pred_new = S5:1 > T5:1;
     }
 }
 with slot: iclass=0b1101 & mode=0 {
@@ -33,8 +33,14 @@ with slot: iclass=0b1101 & mode=0 {
 	D2_pred = 0;
 	<end>
     }
-    :"cmpb4" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b01 & S5 & imm_13=0 & imm_5_12 & imm_3_4=0b00 & imm_2=0 & D2 {
-       _stub();
+    :D2_pred" =cmpb.gt(" S5 "," imm_5_12 ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b01 & S5 & imm_13=0 & imm_5_12 & imm_3_4=0b00 & imm_2=0 & D2_pred {
+    	local a:1 = S5:1;
+	if(a s<= imm_5_12) goto <bad>;
+	D2_pred = PTRUE;
+	goto <end>;
+	<bad>
+	D2_pred = 0;
+	<end>
     }
     :D2_pred" =cmpb.gtu(" S5 "," imm_5_11u ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b10 & S5 & imm_13=0 & imm_12=0 & imm_5_11u & imm_3_4=0b00 & imm_2=0 & D2_pred {
     	local a:1 = S5:1;
@@ -61,26 +67,15 @@ with slot: iclass=0b1100 & mode=0 {
     }
 }
 with slot: iclass=0b1101 & mode=0 {
-    :D2_pred_new "=cmph.eq(" S5 "," imm_5_11 ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b00 & S5 & imm_13=0 & imm_12=0 & imm_5_11 & imm_3_4=0b01 & imm_2=0 & D2_pred_new & hasext0=0{
-    	if (S5 != imm_5_11) goto <bad>;
+    :D2_pred_new "=cmph.eq(" S5 "," imm_5_12 ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b00 & S5 & imm_13=0 & imm_12=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred_new & hasext0=0{
+    	if (S5 != imm_5_12) goto <bad>;
 		D2_pred_new = PTRUE;
 		goto <end>;
 	<bad>
 		D2_pred_new = 0;
 	<end>
-    }
-    :"cmph4" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b01 & S5 & imm_13=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2 {
-       _stub();
     }
     :D2_pred_new "=cmph.gt(" S5 "," imm_5_12 ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b01 & S5 & imm_13=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred_new & hasext0=0{
-    	if (S5 s<= imm_5_12) goto <bad>;
-		D2_pred_new = PTRUE;
-		goto <end>;
-	<bad>
-		D2_pred_new = 0;
-	<end>
-    }
-    :D2_pred_new "=cmph.gt(" S5 "," imm_5_12 ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b10 & S5 & imm_13=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred_new & hasext0=0{
     	if (S5 s<= imm_5_12) goto <bad>;
 		D2_pred_new = PTRUE;
 		goto <end>;
@@ -267,60 +262,66 @@ with slot: iclass=0b1100 & mode=0 {
 }
 
 # XTYPE/PRED:vec cmp hw
+define pcodeop vcmph_eq;
+define pcodeop vcmph_gt;
+define pcodeop vcmph_gtu;
 with slot: iclass=0b1101 & mode=0 {
-    :"veccmphw00" is imm_23_27=0b00100 & imm_21_22=0 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & imm_2_4=0 & D2_pred {
-        _stub();
+    :D2_pred "=vcmph.eq(" S5_pair "," T5_pair ")" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b011 & imm_2_4=0 & D2_pred {
+    	D2_pred = vcmph_eq(S5_pair, T5_pair);
     }
-    :"veccmphw01" is imm_23_27=0b00100 & imm_21_22=0 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & imm_2_4=0 & D2_pred {
-        _stub();
+    :D2_pred "=vcmph.gt(" S5_pair "," T5_pair ")" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b100 & imm_2_4=0 & D2_pred {
+    	D2_pred = vcmph_gt(S5_pair, T5_pair);
     }
-    :"veccmphw02" is imm_23_27=0b00100 & imm_21_22=0 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & imm_2_4=0 & D2_pred {
-        _stub();
+    :D2_pred "=vcmph.gtu(" S5_pair "," T5_pair ")" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b101 & imm_2_4=0 & D2_pred {
+    	D2_pred = vcmph_gtu(S5_pair, T5_pair);
     }
 
-    :"veccmphw03" is imm_21_27=0b1100000 & S5 & imm_13=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred {
-        _stub();
+    :D2_pred "=vcmph.eq(" S5_pair "," imm_5_12 ")" is imm_21_27=0b1100000 & S5_pair & imm_13=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred {
+    	D2_pred = vcmph_eq(S5_pair, imm_5_12:1);
     }
-    :"veccmphw04" is imm_21_27=0b1100001 & S5 & imm_13=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred {
-        _stub();
+    :D2_pred "=vcmph.gt(" S5_pair "," imm_5_12 ")" is imm_21_27=0b1100001 & S5_pair & imm_13=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred {
+    	D2_pred = vcmph_gt(S5_pair, imm_5_12:1);
     }
-    :"veccmphw05" is imm_21_27=0b1100010 & S5 & imm_13=0 & imm_12=0 & imm_5_11 & imm_3_4=0b01 & imm_2=0 & D2_pred {
-        _stub();
+    :D2_pred "=vcmph.gtu(" S5_pair "," imm_5_11u ")" is imm_21_27=0b1100010 & S5_pair & imm_13=0 & imm_12=0 & imm_5_11u & imm_3_4=0b01 & imm_2=0 & D2_pred {
+    	D2_pred = vcmph_gtu(S5_pair, imm_5_11u:1);
     }
 }
 
 # XTYPE/PRED:vec cmp by for any match
 define pcodeop vector_compare_byte_for_any_match;
+define pcodeop vector_compare_byte_for_any_match_not;
 with slot: iclass=0b1101 & mode=0 {
     :D2_pred_new "=any8(vcmpb.eq(" S5_pair "," T5_pair "))" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & imm_13=1 & T5_pair & imm_5_7=0b000 & imm_2_4=0 & D2_pred_new {
         D2_pred_new = vector_compare_byte_for_any_match(S5_pair, T5_pair);
     }
     :D2_pred_new "=!any8(vcmpb.eq(" S5_pair "," T5_pair "))" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & imm_13=1 & T5_pair & imm_5_7=0b001 & imm_2_4=0 & D2_pred_new {
-        D2_pred_new = vector_compare_byte_for_any_match(S5_pair, T5_pair);
+        D2_pred_new = vector_compare_byte_for_any_match_not(S5_pair, T5_pair);
     }
 }
 
 # XTYPE/PRED:vec cmp bytes
-define pcodeop vec_compare_bytes;
+define pcodeop vcmpb_eq;
+define pcodeop vcmpb_gt;
+define pcodeop vcmpb_gtu;
 with slot: iclass=0b1101 & mode=0 {
     :D2_pred "=vcmpb.eq(" S5_pair "," T5_pair ")" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b110 & imm_2_4=0 & D2_pred {
-        D2_pred = vec_compare_bytes(S5_pair, T5_pair);
+        D2_pred = vcmpb_eq(S5_pair, T5_pair);
     }
-    :"veccmpby01" is imm_23_27=0b00100 & imm_21_22=0 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & imm_2_4=0 & D2_pred {
-        _stub();
+    :D2_pred "=vcmpb.gt(" S5_pair "," T5_pair ")" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b111 & imm_2_4=0 & D2_pred {
+        D2_pred = vcmpb_gt(S5_pair, T5_pair);
     }
-    :"veccmpby02" is imm_23_27=0b00100 & imm_21_22=0 & S5 & imm_13=1 & T5 & imm_5_7=0b010 & imm_2_4=0 & D2_pred {
-        _stub();
+    :D2_pred "=vcmpb.gtu(" S5_pair "," T5_pair ")" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & imm_13=1 & T5_pair & imm_5_7=0b010 & imm_2_4=0 & D2_pred {
+        D2_pred = vcmpb_gtu(S5_pair, T5_pair);
     }
 
-    :"veccmpby03" is imm_21_27=0b1100000 & S5 & imm_13=0 & imm_5_12 & imm_3_4=0b00 & imm_2=0 & D2_pred {
-        _stub();
+    :D2_pred "=vcmpb.eq(" S5_pair "," imm_5_12 ")" is imm_21_27=0b1100000 & S5_pair & imm_13=0 & imm_5_12 & imm_3_4=0b00 & imm_2=0 & D2_pred {
+        D2_pred = vcmpb_eq(S5_pair, imm_5_12:1);
     }
-    :"veccmphw04" is imm_21_27=0b1100001 & S5 & imm_13=0 & imm_5_12 & imm_3_4=0b00 & imm_2=0 & D2_pred {
-        _stub();
+    :D2_pred "=vcmpb.gt(" S5_pair "," imm_5_12 ")" is imm_21_27=0b1100001 & S5_pair & imm_13=0 & imm_5_12 & imm_3_4=0b00 & imm_2=0 & D2_pred {
+        D2_pred = vcmpb_gt(S5_pair, imm_5_12:1);
     }
-    :"veccmphw05" is imm_21_27=0b1100010 & S5 & imm_13=0 & imm_12=0 & imm_5_11 & imm_3_4=0b00 & imm_2=0 & D2_pred {
-        _stub();
+    :D2_pred "=vcmpb.gtu(" S5_pair "," imm_5_11u ")" is imm_21_27=0b1100010 & S5_pair & imm_13=0 & imm_12=0 & imm_5_11 & imm_3_4=0b00 & imm_2=0 & D2_pred {
+        D2_pred = vcmpb_gtu(S5_pair, imm_5_11u:1);
     }
 }
 

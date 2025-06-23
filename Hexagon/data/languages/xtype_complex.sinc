@@ -38,23 +38,23 @@ define pcodeop cmpy_sat;
 define pcodeop cmpy_conj_sat;
 with slot: iclass=0b1110 & mode=0 {
     :D5_pair "=cmpy(" S5 "," T5 "):<<" imm_23u ":sat" is imm_24_27=0b0101 & imm_23u & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5_pair {
-        D5_pair = cmpy_sat(S5, T5) << imm_32u;
+        D5_pair = cmpy_sat(S5, T5) << imm_23u;
     }
     :D5_pair "=cmpy(" S5 "," T5 "*):<<" imm_23u ":sat" is imm_24_27=0b0101 & imm_23u & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5_pair {
-        D5_pair = cmpy_conj_sat(S5, T5) << imm_32u;
+        D5_pair = cmpy_conj_sat(S5, T5) << imm_23u;
     }
 
     :D5_pair "+=cmpy(" S5 "," T5 "):<<" imm_23u ":sat" is imm_24_27=0b0111 & imm_23u & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5_pair {
-        D5_pair = D5_pair + cmpy_sat(S5, T5) << imm_32u;
+        D5_pair = D5_pair + cmpy_sat(S5, T5) << imm_23u;
     }
     :D5_pair "-=cmpy(" S5 "," T5 "):<<" imm_23u ":sat" is imm_24_27=0b0111 & imm_23u & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5_pair {
-        D5_pair = D5_pair - cmpy_sat(S5, T5) << imm_32u;
+        D5_pair = D5_pair - cmpy_sat(S5, T5) << imm_23u;
     }
     :D5_pair "+=cmpy(" S5 "," T5 "*):<<" imm_23u ":sat" is imm_24_27=0b0111 & imm_23u & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5_pair {
-        D5_pair = D5_pair + cmpy_conj_sat(S5, T5) << imm_32u;
+        D5_pair = D5_pair + cmpy_conj_sat(S5, T5) << imm_23u;
     }
     :D5_pair "-=cmpy(" S5 "," T5 "*):<<" imm_23u ":sat" is imm_24_27=0b0111 & imm_23u & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5_pair {
-        D5_pair = D5_pair - cmpy_conj_sat(S5, T5) << imm_32u;
+        D5_pair = D5_pair - cmpy_conj_sat(S5, T5) << imm_23u;
     }
 }
 
@@ -62,17 +62,17 @@ with slot: iclass=0b1110 & mode=0 {
 define pcodeop cmpyi;
 define pcodeop cmpyr;
 with slot: iclass=0b1110 & mode=0 {
-    :D5_pair "=cmpyi(" S5 "," T5 ")" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    :D5_pair "=cmpyi(" S5 "," T5 ")" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5_pair {
         D5_pair = cmpyi(S5, T5);
     }
-    :D5_pair "=cmpyr(" S5 "," T5 ")" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+    :D5_pair "=cmpyr(" S5 "," T5 ")" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5_pair {
         D5_pair = cmpyr(S5, T5);
     }
 
-    :D5_pair "+=cmpyi(" S5 "," T5 ")" is imm_21_27=0b0111000 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    :D5_pair "+=cmpyi(" S5 "," T5 ")" is imm_21_27=0b0111000 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5_pair {
         D5_pair = D5_pair + cmpyi(S5, T5);
     }
-    :D5_pair "+=cmpyr(" S5 "," T5 ")" is imm_21_27=0b0111000 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+    :D5_pair "+=cmpyr(" S5 "," T5 ")" is imm_21_27=0b0111000 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5_pair {
         D5_pair = D5_pair + cmpyr(S5, T5);
     }
 }
@@ -84,7 +84,7 @@ with slot: iclass=0b1110 & mode=0 {
     :D5 "=cmpy(" S5 "," T5 "):<<" imm_23u ":rnd:sat" is imm_24_27=0b1101 & imm_23u & imm_21_22=0b01 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
         D5 = cmpy_rnd_sat(S5, T5) << imm_23u;
     }
-    :D5 "=cmpy(" S5 "," T5 "*):<<" imm_23u ":rnd:sat" is imm_24_27=0b1101 & imm_23 & imm_21_22=0b11 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+    :D5 "=cmpy(" S5 "," T5 "*):<<" imm_23u ":rnd:sat" is imm_24_27=0b1101 & imm_23u & imm_21_22=0b11 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
         D5 = cmpy_conj_rnd_sat(S5, T5) << imm_23u;
     }
 }
@@ -208,12 +208,16 @@ with slot: iclass=0b1000 & mode=0 {
 # XTYPE/Complex: vec complex rot
 define pcodeop vcrotate;
 with slot: iclass=0b1100 & mode=0 {
-    :D5_pair "=vcrotate(" S5_pair "," T5 ")" is imm_22_27=0b001111 & imm_21=0 & S5_pair & imm_8_13=0 & imm_6_7=0b00 & imm_5=0 & D5_pair {
+    :D5_pair "=vcrotate(" S5_pair "," T5 ")" is imm_22_27=0b001111 & imm_21=0 & S5_pair & imm_13=0 & T5 & imm_6_7=0b00 & imm_5=0 & D5_pair {
         D5_pair = vcrotate(S5_pair, T5);
     }
 }
 
 # XTYPE/Complex: vec reduce complex mul real or i - TODO: this isn't in v73 but is is v5/v66
+define pcodeop vrcmpyi;
+define pcodeop vrcmpyr;
+define pcodeop vrcmpyi_conj;
+define pcodeop vrcmpyr_conj;
 with slot: iclass=0b1110 & mode=0 {
     :D5_pair "=vrcmpyi(" S5_pair "," T5_pair ")" is imm_21_27=0b1000000 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5_pair {
         D5_pair = vrcmpyi(S5_pair, T5_pair);
@@ -267,10 +271,10 @@ with slot: iclass=0b1110 & mode=0 {
 define pcodeop vrcmpys_rnd_sat_raw_hi;
 define pcodeop vrcmpys_rnd_sat_raw_lo;
 with slot: iclass=0b1110 & mode=0 {
-    :D5 "=vrcmpys(" S5_pair "," T5_pair "):<<1:rnd:sat:raw:hi" is imm_23_27=0b10011 & imm_22=0 & imm_21=1 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+    :D5 "=vrcmpys(" S5_pair "," T5_pair "):<<1:rnd:sat:raw:hi" is imm_23_27=0b10011 & imm_22=0 & imm_21=1 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b110 & D5 {
         D5 = vrcmpys_rnd_sat_raw_hi(S5_pair, T5_pair) << 1;
     }
-    :D5 "=vrcmpys(" S5_pair "," T5_pair "):<<1:rnd:sat:raw:lo" is imm_23_27=0b10011 & imm_22=0 & imm_21=1 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+    :D5 "=vrcmpys(" S5_pair "," T5_pair "):<<1:rnd:sat:raw:lo" is imm_23_27=0b10011 & imm_22=0 & imm_21=1 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b111 & D5 {
         D5 = vrcmpys_rnd_sat_raw_lo(S5_pair, T5_pair) << 1;
     }
 }
@@ -278,10 +282,10 @@ with slot: iclass=0b1110 & mode=0 {
 # XTYPE/Complex: vec reduce complex rot
 define pcodeop vrcrotate;
 with slot: iclass=0b1100 & mode=0 {
-    :D5_pair "=vrcrotate(" S5_pair "," T5 "," u2 ")" is imm_22_27=0b001111 & imm_21=0 & S5 & imm_13 & T5 & imm_6_7=0b11 & imm_5 & D5_pair [u2 = imm_5u | (imm_13u << 1); ] {
+    :D5_pair "=vrcrotate(" S5_pair "," T5 "," u2 ")" is imm_22_27=0b001111 & imm_21=0 & S5_pair & imm_13u & T5 & imm_6_7=0b11 & imm_5u & D5_pair [u2 = imm_5u | (imm_13u << 1); ] {
         D5_pair = vrcrotate(S5_pair, T5, u2:1);
     }
-    :D5_pair "+=vrcrotate(" S5_pair "," T5 "," u2 ")" is imm_21_27=0b1011101 & S5 & imm_13 & T5 & imm_6_7=0 & imm_5 & D5_pair [u2 = imm_5u | (imm_13u << 1); ] {
+    :D5_pair "+=vrcrotate(" S5_pair "," T5 "," u2 ")" is imm_21_27=0b1011101 & S5_pair & imm_13u & T5 & imm_6_7=0 & imm_5u & D5_pair [u2 = imm_5u | (imm_13u << 1); ] {
         D5_pair = D5_pair + vrcrotate(S5_pair, T5, u2:1);
     }
 }

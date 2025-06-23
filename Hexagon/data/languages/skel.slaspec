@@ -28,10 +28,10 @@
 # XTYPE/ALU:      Decode up to v73, pcode unfinished
 # XTYPE/BIT:      Decode + pcode up to v73
 # XTYPE/COMPLEX:  Decode + pcode up to v79
-# XTYPE/FP:       DDecode + pcode up to v79
+# XTYPE/FP:       Decode + pcode up to v79
 # XTYPE/MPY:      Decode up to v73, pcode unfinished
 # XTYPE/PERM:     Decode + pcode up to v73
-# XTYPE/PRED:     Decode up to v73, pcode unfinished
+# XTYPE/PRED:     Decode + pcode up to v73
 # XTYPE/SHIFT:    Decode + pcode up to v73
 
 # TODOs:
@@ -210,6 +210,7 @@ imm_22_26 = (22, 26)
    imm_2_6 = (2, 6)
    imm_2_5 = (2, 5)
    imm_2_4 = (2, 4)
+   imm_2_4u = (2, 4)
    imm_2_3 = (2, 3)
    imm_2 = (2, 2)
 
@@ -281,7 +282,7 @@ imm_22_26 = (22, 26)
    D5_ctrl = (0,4)
    D5_ctrl_pair = (0,4)
    GD5 = (0,4)
-   GD5_pair = (0,4)
+   GD5_pair = (0,3)
    S3_new_16_18 = (16,18)
 
    S6_svctrl = (16,21)
@@ -290,6 +291,7 @@ imm_22_26 = (22, 26)
    S5 = (16,20)
    S5_dup = (16,20)
    S5_pair = (17,20)
+   S5_pair_dup = (17,20)
    S5_ctrl = (16,20)
    S5_ctrl_pair = (16,20)
    alu_X5 = (16,20)
@@ -433,7 +435,7 @@ SPX28
 LRFP
 ];
 
-attach variables [ D5_pair T5_pair S5_pair alu_X5_pair immdup0_D4_pair immdup1_D4_pair] [
+attach variables [ D5_pair T5_pair S5_pair S5_pair_dup alu_X5_pair immdup0_D4_pair immdup1_D4_pair] [
 X1X0 
 X3X2 
 X5X4 

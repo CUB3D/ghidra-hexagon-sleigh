@@ -150,8 +150,12 @@ define pcodeop convert_sf2w;
 define pcodeop convert_sf2uw_chop;
 define pcodeop convert_sf2w_chop;
 
+define pcodeop convert_df2uw;
+define pcodeop convert_df2w;
+define pcodeop convert_df2uw_chop;
+define pcodeop convert_df2w_chop;
 
-define pcodeop convert_sf2uw_chop;
+
 with slot: iclass=0b1000 & mode=0 {
     :D5_pair "=convert_df2d(" S5_pair ")" is imm_21_27=0b0000111 & S5_pair & imm_13=0 & imm_8_12=0 & imm_5_7=0b000 & D5_pair {
         D5_pair = convert_df2d(S5_pair);
@@ -226,8 +230,8 @@ with slot: iclass=0b1110 & mode=0 {
 }
 
 # XTYPE/FP: xtype fp fma
-define pcodeop dfmyplh;
-define pcodeop dfmyphh;
+define pcodeop dfmpylh;
+define pcodeop dfmpyhh;
 with slot: iclass=0b1110 & mode=0 {
     :D5_pair "+=dfmpylh(" S5_pair "," T5_pair ")" is imm_21_27=0b1010000 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b011 & D5_pair {
         D5_pair = dfmpylh(S5_pair, T5_pair);
@@ -318,6 +322,7 @@ with slot: iclass=0b1110 & mode=0 {
 
 # XTYPE/FP: fp mul
 define pcodeop dfmpyfix;
+define pcodeop dfmpyil;
 with slot: iclass=0b1110 & mode=0 {
     :D5_pair "=dfmpyfix(" S5_pair "," T5_pair ")" is imm_21_27=0b1000010 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b011 & D5_pair {
         D5_pair = dfmpyfix(S5_pair, T5_pair);
