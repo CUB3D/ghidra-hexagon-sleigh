@@ -7,3 +7,4 @@ data/languages/skel.sla
 .idea
 .settings
 /bin/
+.DS_Store
