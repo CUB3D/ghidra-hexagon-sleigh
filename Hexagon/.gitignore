@@ -8,3 +8,4 @@ data/languages/skel.sla
 .settings
 /bin/
 .DS_Store
+build/

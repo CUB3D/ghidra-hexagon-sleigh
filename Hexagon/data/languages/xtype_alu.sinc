@@ -96,38 +96,53 @@ with slot: iclass=0b1101 & mode=0 {
 # XTYPE/ALU:Add hword
 with slot: iclass=0b1101 & mode=0 {
     :D5 "=add(" T5^".L" "," S5^".L" ")" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_6_7=0b00 & imm_5=0 & D5 {
-    local E:2 = T5:2 + S5:2;
-    D5 = sext(E);
+	    local E:2 = T5:2 + S5:2;
+	    D5 = sext(E);
     }
-    :"=addhw01" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_6_7=0b01 & imm_5=0 & D5 {
-    _stub();
+    :D5 "=add(" T5^".L" "," S5^".H" ")" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_6_7=0b01 & imm_5=0 & D5 {
+	    local E:2 = T5:2 + S5(2);
+	    D5 = sext(E);
     }
-    :"=addhw02" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_6_7=0b10 & imm_5=0 & D5 {
-    _stub();
+    :D5 "=add(" T5^".L" "," S5^".L" "):sat" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_6_7=0b10 & imm_5=0 & D5 {
+   		local E:2 = add_sat(T5:2, S5:2);
+	    D5 = sext(E);
     }
-    :"=addhw03" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_6_7=0b11 & imm_5=0 & D5 {
-    _stub();
+    :D5 "=add(" T5^".L" "," S5^".H" "):sat" is imm_21_27=0b0101000 & S5 & imm_13=0 & T5 & imm_6_7=0b11 & imm_5=0 & D5 {
+   		local E:2 = add_sat(T5:2, S5(2));
+	    D5 = sext(E);
     }
-    :"=addhw04" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
-    _stub();
+    :D5 "=add(" T5^".L" "," S5^".L" "):<<16" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+   		local E:2 = T5:2 + S5:2;
+		D5 = sext(E) << 16;
     }
-    :"=addhw05" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
-    _stub();
+    :D5 "=add(" T5^".L" "," S5^".H" "):<<16" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+   		local E:2 = T5:2 + S5(2);
+		D5 = sext(E) << 16;
     }
-    :"=addhw06" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
-    _stub();
+    :D5 "=add(" T5^".H" "," S5^".L" "):<<16" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+   		local E:2 = T5(2) + S5:2;
+		D5 = sext(E) << 16;
     }
-    :"=addhw07" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
-    _stub();
+    :D5 "=add(" T5^".H" "," S5^".H" "):<<16" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+   		local E:2 = T5(2) + S5(2);
+		D5 = sext(E) << 16;
     }
-    :"=addhw08" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
-    _stub();
+    
+    :D5 "=add(" T5^".L" "," S5^".L" "):sat:<<16" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+   		local E:2 = add_sat(T5:2, S5:2);
+		D5 = sext(E) << 16;
     }
-    :"=addhw09" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
-    _stub();
+    :D5 "=add(" T5^".L" "," S5^".H" "):sat:<<16" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+   		local E:2 = add_sat(T5:2, S5(20);
+		D5 = sext(E) << 16;
     }
-    :"=addhw10" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-    _stub();
+    :D5 "=add(" T5^".H" "," S5^".L" "):sat:<<16" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+   		local E:2 = add_sat(T5(2), S5:2);
+		D5 = sext(E) << 16;
+    }
+    :D5 "=add(" T5^".H" "," S5^".H" "):sat:<<16" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+   		local E:2 = add_sat(T5(2), S5(2));
+		D5 = sext(E) << 16;
     }
 }
 
@@ -137,11 +152,11 @@ with slot: iclass=0b1100 & mode=0 {
     :D5_pair "=add(" S5_pair "," T5_pair "," U2_5_6 "):carry"  is imm_21_27=0b0010110 & S5_pair & imm_13=0 & T5_pair & imm_7=0 & U2_5_6 & D5_pair {
     	local tmp:9 = zext(S5_pair) + zext(T5_pair) + zext(U2_5_6);
     	D5_pair = tmp:8; 
-	U2_5_6 = PTRUE * ((tmp >> 64) != 0);
-
+		U2_5_6 = PTRUE * ((tmp >> 64) != 0);
     }
     :D5_pair "=sub(" S5_pair "," T5_pair "," U2_5_6 "):carry" is imm_21_27=0b0010111 & S5_pair & imm_13=0 & T5_pair & imm_7=0 & U2_5_6 & D5_pair {
-    D5_pair = sub_carry(S5_pair, T5_pair, U2_5_6);	
+    	
+    	D5_pair = sub_carry(S5_pair, T5_pair, U2_5_6);	
     }
 }
 
@@ -413,43 +428,53 @@ define pcodeop sub_sat;
 with slot: iclass=0b1101 & mode=0 {
     :D5 "=sub(" T5^".L, ", S5^".L)"  is imm_21_27=0b0101001 & S5 & imm_13=0 & T5 & imm_6_7=0b00 & imm_5=0 & D5 {
     	local tmp:2 = T5:2 - S5:2;
-	D5 = sext(tmp);
+		D5 = sext(tmp);
     }
     :D5 "=sub(" T5^".L, ", S5^".H)" is imm_21_27=0b0101001 & S5 & imm_13=0 & T5 & imm_6_7=0b01 & imm_5=0 & D5 {
     	local tmp:2 = T5:2 - S5(2);
-	D5 = sext(tmp);
+		D5 = sext(tmp);
     }
     :D5 "=sub(" T5^".L, ", S5^".L):sat" is imm_21_27=0b0101001 & S5 & imm_13=0 & T5 & imm_6_7=0b10 & imm_5=0 & D5 {
     	local tmp:2 = sub_sat(T5:2, S5:2);
-	D5 = sext(tmp);
+		D5 = sext(tmp);
     }
     :D5 "=sub(" T5^".L, ", S5^".H):sat" is imm_21_27=0b0101001 & S5 & imm_13=0 & T5 & imm_6_7=0b11 & imm_5=0 & D5 {
     	local tmp:2 = sub_sat(T5:2, S5(2));
-	D5 = sext(tmp);
+		D5 = sext(tmp);
     }
-    :"subhw04" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
-    _stub();
+    :D5 "=sub(" T5^".L, ", S5^".L):<<16" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
+    	local tmp:2 = T5:2 - S5:2;
+    	local tmp2:4 = tmp;
+		D5 = sext(tmp2 << 16);
     }
-    :"subhw05" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
-    _stub();
+    :D5 "=sub(" T5^".L, ", S5^".H):<<16" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
+    	local tmp:2 = T5:2 - S5(2);
+    	local tmp2:4 = tmp;
+		D5 = sext(tmp2 << 16);
     }
-    :"subhw06" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
-    _stub();
+    :D5 "=sub(" T5^".H, ", S5^".L):<<16" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+    	local tmp:2 = T5(2) - S5:2;
+		D5 = sext(tmp) << 16;
     }
-    :"subhw07" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
-    _stub();
+    :D5 "=sub(" T5^".H, ", S5^".H):<<16" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
+    	local tmp:2 = T5(2) - S5(2);
+		D5 = sext(tmp) << 16;
     }
-    :"subhw08" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
-    _stub();
+    :D5 "=sub(" T5^".L, ", S5^".L):sat:<<16" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
+		local tmp:2 = sub_sat(T5:2, S5:2);
+		D5 = sext(tmp) << 16;
     }
-    :"subhw09" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
-    _stub();
+    :D5 "=sub(" T5^".L, ", S5^".H):sat:<<16" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+		local tmp:2 = sub_sat(T5:2, S5(2));
+		D5 = sext(tmp) << 16;
     }
-    :"subhw10" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
-    _stub();
+    :D5 "=sub(" T5^".H, ", S5^".L):sat:<<16" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
+		local tmp:2 = sub_sat(T5(2), S5:2);
+		D5 = sext(tmp) << 16;
     }
-    :"subhw11" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-    _stub();
+    :D5 "=sub(" T5^".H, ", S5^".H):sat:<<16" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+		local tmp:2 = sub_sat(T5(2), S5(2));
+		D5 = sext(tmp) << 16;
     }
 }
 

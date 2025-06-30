@@ -1,1 +1,28 @@
 @include "ld_dword.sinc"
+@include "ld_byte.sinc"
+@include "ld_halfword.sinc"
+
+#LD:memory copy
+define pcodeop pmemcpy;
+with slot: iclass=0b1001 & mode=0 {
+    :D5_pair "=pmemcpy(" T5 "," S5_pair ")" is imm_21_27=0b1001111 & S5_pair & imm_13=0 & T5 & imm_5_7=0b000 & D5_pair {
+    	D5_pair = pmemcpy(T5, S5_pair);
+    }
+}
+
+#LD:piecemeal memory copy
+define pcodeop movlen;
+define pcodeop linecpy;
+with slot: iclass=0b0110 & mode=0 {
+    :D5 "=movlen(" T5 "," S5_pair ")" is imm_21_27=0b1111111 & S5_pair & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
+    	D5 = movlen(T5, S5_pair);
+    }
+}
+with slot: iclass=0b1001 & mode=0 {
+    :D5_pair "=linecpy(" T5 "," S5_pair ")" is imm_21_27=0b1001111 & S5_pair & imm_13=0 & T5 & imm_5_7=0b001 & D5_pair {
+    	D5_pair = linecpy(T5, S5_pair);
+    }
+    # pmemcpy: see memory copy
+}
+
+@include "ld_unsigned_byte.sinc"

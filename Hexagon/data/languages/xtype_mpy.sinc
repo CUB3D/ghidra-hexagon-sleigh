@@ -546,53 +546,58 @@ with slot: iclass=0b1110 & mode=0 {
 
 # XTYPE/MPY: Vec mul hw rnd and pck
 with slot: iclass=0b1110 & mode=0 {
-    :"vecmulhwrndpck" is imm_24_27=0b1101 & imm_23 & imm_21_22=0b01 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-       _stub();
+    :D5 "=vmpyh(" S5 "," T5 "):<<" imm_23u ":rnd:sat" is imm_24_27=0b1101 & imm_23 & imm_21_22=0b01 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+    	D5 = vmpyh_rnd_sat(S5, T5) << imm_23u;
     }
 }
 
 # XTYPE/MPY: Vec mul hw s by us
+define pcodeop vmpyhsu_sat;
 with slot: iclass=0b1110 & mode=0 {
-    :"vecmulhwsbyus0" is imm_24_27=0b0101 & imm_23 & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-       _stub();
+    :D5_pair "=vmpyhsu(" S5 "," T5 "):<<" imm_23u ":sat" is imm_24_27=0b0101 & imm_23u & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5_pair {
+       D5_pair = vmpyhsu_sat(S5, T5) << imm_23u;
     }
-    :"vecmulhwsbyus1" is imm_24_27=0b0111 & imm_23 & imm_21_22=0b11 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
-       _stub();
+    :D5_pair "+=vmpyhsu(" S5 "," T5 "):<<" imm_23u ":sat" is imm_24_27=0b0111 & imm_23u & imm_21_22=0b11 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5_pair {
+       D5_pair = D5_pair + vmpyhsu_sat(S5, T5) << imm_23u;
     }
 }
 
 # XTYPE/MPY: Vec red mul hw
+define pcodeop vrmpyh;
 with slot: iclass=0b1110 & mode=0 {
-    :"vecredmulhw" is imm_21_27=0b1000000 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
-       _stub();
+    :D5_pair "=vrmpyh(" S5_pair "," T5_pair ")" is imm_21_27=0b1000000 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b010 & D5_pair {
+		D5_pair = vrmpyh(S5_pair, T5_pair);
     }
-    :"vecredmulhw1" is imm_21_27=0b1010000 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
-       _stub();
+    :D5_pair "+=vrmpyh(" S5_pair "," T5_pair ")" is imm_21_27=0b1010000 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b010 & D5_pair {
+       D5_pair = D5_pair + vrmpyh(S5_pair, T5_pair);
     }
 }
 
 # XTYPE/MPY: Vec mul by
+define pcodeop vmpybsu;
+define pcodeop vmpybu;
 with slot: iclass=0b1110 & mode=0 {
-    :"vecredmulby0" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
-       _stub();
+    :D5_pair "=vmpybsu(" S5 "," T5 ")" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5_pair {
+       D5_pair = vmpybsu(S5, T5);
     }
-    :"vecredmulby1" is imm_21_27=0b0101100 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
-       _stub();
+    :D5_pair "=vmpybu(" S5 "," T5 ")" is imm_21_27=0b0101100 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5_pair {
+       D5_pair = vmpybu(S5, T5);
     }
-    :"vecredmulby2" is imm_21_27=0b0111100 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
-       _stub();
+    :D5_pair "+=vmpybsu(" S5 "," T5 ")" is imm_21_27=0b0111100 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5_pair {
+       D5_pair = D5_pair + vmpybsu(S5, T5);
     }
-    :"vecredmulby3" is imm_21_27=0b0111110 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
-       _stub();
+    :D5_pair "+=vmpybsu(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5_pair {
+       D5_pair = D5_pair + vmpybu(S5, T5);
     }
 }
 
 # XTYPE/MPY: Vec poly mul hw
+define pcodeop vpmpyh;
 with slot: iclass=0b1110 & mode=0 {
-    :"vecpolymulhw0" is imm_21_27=0b0101110 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-       _stub();
+    :D5_pair "=vpmpyh(" S5 "," T5 ")" is imm_21_27=0b0101110 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5_pair {
+       D5_pair = vpmpyh(S5, T5); 
     }
-    :"vecpolymulhw1" is imm_21_27=0b0111101 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-       _stub();
+    :D5_pair ^="vpmpyh(" S5 "," T5 ")" is imm_21_27=0b0111101 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5_pair {
+       D5_pair = D5_pair ^ vpmpyh(S5, T5);
     }
 }
