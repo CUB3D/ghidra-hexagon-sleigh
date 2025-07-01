@@ -126,31 +126,59 @@ with slot: iclass=0b0100 & mode=0 {
     }
 }
 with slot: iclass=0b1001 & mode=0 {
-    :"if("T2_9_10_pred") "D5_pair"=memb("S5"++#"s4")" is imm_21_27=0b1011000 & S5 & imm_11_13=0b100 &   T2_9_10_pred & imm_5_8 & D5_pair [s4 = imm_5_8 << 3;] {
-    _stub();
+    :"if("T2_9_10_pred") "D5"=memb("S5"++#"s4")" is imm_21_27=0b1011000 & S5 & imm_11_13=0b100 &   T2_9_10_pred & imm_5_8 & D5 [s4 = imm_5_8 << 3;] {
+        if(T2_9_10_pred == 0) goto <end>;
+        local EA:4 = S5;
+        S5 = S5 + s4;
+        D5 = *[ram]:1 EA;
+        <end>
     }
-    :"if(!"T2_9_10_pred") "D5_pair"=memb("S5"++#"s4")" is imm_21_27=0b1011000 & S5 & imm_11_13=0b101 &   T2_9_10_pred & imm_5_8 & D5_pair [s4 = imm_5_8 << 3;] {
-    _stub();
+    :"if(!"T2_9_10_pred") "D5"=memb("S5"++#"s4")" is imm_21_27=0b1011000 & S5 & imm_11_13=0b101 &   T2_9_10_pred & imm_5_8 & D5 [s4 = imm_5_8 << 3;] {
+        if(T2_9_10_pred != 0) goto <end>;
+        local EA:4 = S5;
+        S5 = S5 + s4;
+        D5 = *[ram]:1 EA;
+        <end>
     }
     #TODO: check all dotnew, they will need change later
-    :"if("T2_9_10_pred".new) "D5_pair"=memb("S5"++#"s4")" is imm_21_27=0b1011000 & S5 & imm_11_13=0b110 &   T2_9_10_pred & imm_5_8 & D5_pair [s4 = imm_5_8 << 3;] {
-    _stub();
+    :"if("T2_9_10_pred".new) "D5"=memb("S5"++#"s4")" is imm_21_27=0b1011000 & S5 & imm_11_13=0b110 &   T2_9_10_pred & imm_5_8 & D5 [s4 = imm_5_8 << 3;] {
+        if(T2_9_10_pred == 0) goto <end>;
+        local EA:4 = S5;
+        S5 = S5 + s4;
+        D5 = *[ram]:1 EA;
+        <end>
     }
-    :"ldcondb11" is imm_21_27=0b1011000 & S5 & imm_11_13=0b111 & imm_9_10 & imm_5_8 & D5 {
-    	_stub();
+    :"if("T2_9_10_pred".new) "D5"=memb("S5"++#"s4")" is imm_21_27=0b1011000 & S5 & imm_11_13=0b111 & T2_9_10_pred & imm_5_8 & D5 [s4 = imm_5_8 << 3;] {
+        if(T2_9_10_pred != 0) goto <end>;
+        local EA:4 = S5;
+        S5 = S5 + s4;
+        D5 = *[ram]:1 EA;
+        <end>
     }
 
-    :"ldcondb12" is imm_21_27=0b1111000 & imm_16_20 & imm_11_13=0b100 & imm_9_10 & imm_8 & imm_7=1 & imm_5_6=0 & D5 {
-    	_stub();
+    :"if("T2_9_10_pred") "D5"=memb("LD_COND_u6")" is imm_21_27=0b1111000 & imm_16_20 & imm_11_13=0b100 & imm_9_10 & imm_8 & imm_7=1 & imm_5_6=0 & D5 & LD_COND_u6 {
+    	if(T2_9_10_pred == 0) goto <end>;
+        local EA:4 = LD_COND_u6;
+        D5 = *[ram]:1 EA;
+        <end>
     }
-    :"ldcondb13" is imm_21_27=0b1111000 & imm_16_20 & imm_11_13=0b101 & imm_9_10 & imm_8 & imm_7=1 & imm_5_6=0 & D5 {
-    	_stub();
+    :"if("T2_9_10_pred") "D5"=memb("LD_COND_u6")" is imm_21_27=0b1111000 & imm_16_20 & imm_11_13=0b101 & imm_9_10 & imm_8 & imm_7=1 & imm_5_6=0 & D5 & LD_COND_u6 {
+    	if(T2_9_10_pred != 0) goto <end>;
+        local EA:4 = LD_COND_u6;
+        D5 = *[ram]:8 EA;
+        <end>
     }
-    :"ldcondb14" is imm_21_27=0b1111000 & imm_16_20 & imm_11_13=0b110 & imm_9_10 & imm_8 & imm_7=1 & imm_5_6=0 & D5 {
-    	_stub();
+    :"if("T2_9_10_pred") "D5"=memb("LD_COND_u6")" is imm_21_27=0b1111000 & imm_16_20 & imm_11_13=0b110 & imm_9_10 & imm_8 & imm_7=1 & imm_5_6=0 & D5 & LD_COND_u6 {
+    	if(T2_9_10_pred == 0) goto <end>;
+        local EA:4 = LD_COND_u6;
+        D5 = *[ram]:1 EA;
+        <end>
     }
-    :"ldcondb15" is imm_21_27=0b1111000 & imm_16_20 & imm_11_13=0b111 & imm_9_10 & imm_8 & imm_7=1 & imm_5_6=0 & D5 {
-    	_stub();
+    :"if("T2_9_10_pred") "D5"=memb("LD_COND_u6")" is imm_21_27=0b1111000 & imm_16_20 & imm_11_13=0b111 & imm_9_10 & imm_8 & imm_7=1 & imm_5_6=0 & D5 & LD_COND_u6 {
+    	if(T2_9_10_pred != 0) goto <end>;
+        local EA:4 = LD_COND_u6;
+        D5 = *[ram]:1 EA;
+        <end>
     }
 }
 

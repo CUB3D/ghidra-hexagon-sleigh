@@ -26,3 +26,63 @@ with slot: iclass=0b1001 & mode=0 {
 }
 
 @include "ld_unsigned_byte.sinc"
+@include "ld_uhalfword.sinc"
+@include "ld_word.sinc"
+
+
+#LD:Dealloc
+with slot: iclass=0b1001 & mode=0 {
+    :D5_pair"=deallocframe("S5"):raw" is imm_21_27=0b0000000 & S5 & imm_13=0 & imm_5_12=0 & D5_pair & imm_0=0 {
+        local EA:4 = S5;
+        local tmp:8 = *[ram]:8 EA;
+        D5_pair = tmp;
+        SP=EA+8;
+    }
+}
+
+#LD:Dealloc return
+with slot: iclass=0b1001 {
+    :D5_pair"=dealloc_return("S5"):raw" is imm_21_27=0b0110000 & S5 & imm_10_13=0 & imm_5_9=0 & D5_pair & imm_0=0 & mode=0 {
+        local EA:4 = S5;
+        local tmp:8 = *[ram]:8 EA;
+        D5_pair = tmp;
+
+        local tmp2:8 = tmp>>32;
+        local tmp3:4 = tmp2:4;
+
+        SP = EA+8;
+    }
+    :D5_pair"=dealloc_return("S5"):raw" is imm_21_27=0b0110000 & S5 & imm_10_13=0 & imm_5_9=0 & D5_pair & imm_0=0 & mode=1100 {
+        local EA:4 = S5;
+        local tmp:8 = *[ram]:8 EA;
+        
+        local tmp2:8 = tmp>>32;
+        local tmp3:4 = tmp2:4;
+        
+        return [tmp3];
+    }
+}
+
+#LD:Ld and unpack by to hw TODO
+with slot: iclass=0b1001 & mode=0 {
+	:"ldunpck00" is imm_27=0 & imm_25_26 & imm_21_24=0b0001 & S5 & imm_5_13 & D5 {
+		_stub();
+	}
+	:"ldunpck01" is imm_27=0 & imm_25_26 & imm_21_24=0b0011 & S5 & imm_5_13 & D5 {
+		_stub();
+	}
+	:"ldunpck02" is imm_27=0 & imm_25_26 & imm_21_24=0b0101 & S5 & imm_5_13 & D5 {
+		_stub();
+	}
+	:"ldunpck03" is imm_27=0 & imm_25_26 & imm_21_24=0b0111 & S5 & imm_5_13 & D5 {
+		_stub();
+	}
+	
+	
+	:"ldunpck04" is imm_21_27=0b1000001 & S5 & imm_13 & imm_12=0 & imm_10_11=0 & imm_9=0 & imm_5_8 & D5 {
+		_stub();
+	}
+	:"ldunpck05" is imm_21_27=0b1000001 & S5 & imm_13 & imm_12=0 & imm_10_11=0 & imm_9=1 & imm_8=0 & imm_7=0 & imm_5_6=0 & D5 {
+		_stub();
+	}
+}

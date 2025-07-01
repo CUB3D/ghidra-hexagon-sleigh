@@ -22,4 +22,4 @@ Currently broken / unimplemented:
 
 
 ### How to install
-Copy `Hexagon` into `./<ghidra_root>/Ghidra/Processors/` (Confirmed to work on 11.2.1)
+Copy `Hexagon` into `./<ghidra_root>/Ghidra/Processors/` (Confirmed to work on 11.4)
