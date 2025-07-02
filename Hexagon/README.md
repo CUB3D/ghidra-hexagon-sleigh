@@ -11,6 +11,7 @@ Supports:
 - Includes support for redacted System/Monitor and System/Guest instructions
 - Pcode implemented for most common ops (Missing < 1% for most binaries)
 - Function start recovery
+- < 200 unimplemented ops
 
 Currently broken / unimplemented:
 - No support for dotnew arguments [wip]

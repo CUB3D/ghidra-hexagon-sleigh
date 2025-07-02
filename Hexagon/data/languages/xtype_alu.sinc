@@ -133,16 +133,19 @@ with slot: iclass=0b1101 & mode=0 {
 		D5 = sext(E) << 16;
     }
     :D5 "=add(" T5^".L" "," S5^".H" "):sat:<<16" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
-   		local E:2 = add_sat(T5:2, S5(20);
-		D5 = sext(E) << 16;
+   		local E:2 = add_sat(T5:2, S5(20));
+		local tmp2:4 = sext(E);
+		D5 = tmp2 << 16;
     }
     :D5 "=add(" T5^".H" "," S5^".L" "):sat:<<16" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
    		local E:2 = add_sat(T5(2), S5:2);
-		D5 = sext(E) << 16;
+		local tmp2:4 = sext(E);
+		D5 = tmp2 << 16;
     }
     :D5 "=add(" T5^".H" "," S5^".H" "):sat:<<16" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
    		local E:2 = add_sat(T5(2), S5(2));
-		D5 = sext(E) << 16;
+		local tmp2:4 = sext(E);
+		D5 = tmp2 << 16;
     }
 }
 
@@ -370,8 +373,7 @@ with slot: iclass=0b1000 & mode=0 {
 # XTYPE/ALU:round
 define pcodeop round_sat;
 define pcodeop cround;
-define pcodeop round;
-define pcodeop round_sat;
+define pcodeop round_;
 
 with slot: iclass=0b1000 & mode=0 {
     :D5 "=round(" S5_pair "):sat" is imm_21_27=0b1000110 & S5_pair & imm_8_13=0 & imm_5_7=0b001 & D5 {
@@ -381,7 +383,7 @@ with slot: iclass=0b1000 & mode=0 {
     	D5 = cround(S5, imm_8_12u:1);
     }
     :D5 "=round(" S5 "," imm_8_12u ")" is imm_21_27=0b1000111 & S5 & imm_13=0 & imm_8_12u & imm_6_7=0b10 & imm_5=0 & D5 {
-    	D5 = round(S5, imm_8_12u:1);
+    	D5 = round_(S5, imm_8_12u:1);
     }
     :D5 "=cround(" S5 "," imm_8_12u "):sat" is imm_21_27=0b1000111 & S5 & imm_13=0 & imm_8_12u & imm_6_7=0b11 & imm_5=0 & D5 {
     	D5 = cround(S5, imm_8_12u:1);
@@ -392,13 +394,13 @@ with slot: iclass=0b1000 & mode=0 {
 }
 with slot: iclass=0b1100 & mode=0 {
     :D5 "=round(" S5 "," T5 ")" is imm_22_27=0b011011 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b00 & imm_5=0 & D5 {
-    	D5 = round(S5, T5);
+    	D5 = round_(S5, T5);
     }
     :D5 "=cround(" S5_pair "," T5 ")" is imm_22_27=0b011011 & imm_21=0 & S5_pair & imm_13=0 & T5 & imm_6_7=0b01 & imm_5=0 & D5 {
     	D5 = cround(S5_pair, T5);
     }
     :D5 "=round(" S5 "," T5 ")" is imm_22_27=0b011011 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b10 & imm_5=0 & D5 {
-    	D5 = round(S5, T5);
+    	D5 = round_(S5, T5);
     }
     :D5 "=round(" S5 "," T5 "):sat" is imm_22_27=0b011011 & imm_21=0 & S5 & imm_13=0 & T5 & imm_6_7=0b11 & imm_5=0 & D5 {
     	D5 = round_sat(S5, T5);
@@ -445,36 +447,43 @@ with slot: iclass=0b1101 & mode=0 {
     :D5 "=sub(" T5^".L, ", S5^".L):<<16" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b000 & D5 {
     	local tmp:2 = T5:2 - S5:2;
     	local tmp2:4 = tmp;
-		D5 = sext(tmp2 << 16);
+		local tmp2:4 = sext(tmp);
+		D5 = tmp2 << 16;
     }
     :D5 "=sub(" T5^".L, ", S5^".H):<<16" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b001 & D5 {
     	local tmp:2 = T5:2 - S5(2);
-    	local tmp2:4 = tmp;
-		D5 = sext(tmp2 << 16);
+    	local tmp2:4 = sext(tmp);
+		D5 = tmp2 << 16;
     }
     :D5 "=sub(" T5^".H, ", S5^".L):<<16" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
     	local tmp:2 = T5(2) - S5:2;
-		D5 = sext(tmp) << 16;
+		local tmp2:4 = sext(tmp);
+		D5 = tmp2 << 16;
     }
     :D5 "=sub(" T5^".H, ", S5^".H):<<16" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b011 & D5 {
     	local tmp:2 = T5(2) - S5(2);
-		D5 = sext(tmp) << 16;
+		local tmp2:4 = sext(tmp);
+		D5 = tmp2 << 16;
     }
     :D5 "=sub(" T5^".L, ", S5^".L):sat:<<16" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
 		local tmp:2 = sub_sat(T5:2, S5:2);
-		D5 = sext(tmp) << 16;
+		local tmp2:4 = sext(tmp);
+		D5 = tmp2 << 16;
     }
     :D5 "=sub(" T5^".L, ", S5^".H):sat:<<16" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
 		local tmp:2 = sub_sat(T5:2, S5(2));
-		D5 = sext(tmp) << 16;
+		local tmp2:4 = sext(tmp);
+		D5 = tmp2 << 16;
     }
     :D5 "=sub(" T5^".H, ", S5^".L):sat:<<16" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
 		local tmp:2 = sub_sat(T5(2), S5:2);
-		D5 = sext(tmp) << 16;
+		local tmp2:4 = sext(tmp);
+		D5 = tmp2 << 16;
     }
     :D5 "=sub(" T5^".H, ", S5^".H):sat:<<16" is imm_21_27=0b0101011 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
 		local tmp:2 = sub_sat(T5(2), S5(2));
-		D5 = sext(tmp) << 16;
+		local tmp2:4 = sext(tmp);
+		D5 = tmp2 << 16;
     }
 }
 
@@ -551,7 +560,8 @@ with slot: iclass=0b1110 & mode=0 {
 
 # XTYPE/ALU:vector add hw
 define pcodeop vaddh;
-define pcodeop vaddu_sat;
+define pcodeop vaddh_sat;
+define pcodeop vadduh_sat;
 with slot: iclass=0b1101 & mode=0 {
     :D5_pair "=vaddh(" S5_pair "," T5_pair ")" is imm_21_27=0b0011000 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b010 & D5_pair {
     	D5_pair = vaddh(S5_pair, T5_pair);
@@ -661,7 +671,7 @@ with slot: iclass=0b1101 & mode=0 {
 
 # XTYPE/ALU:vector avg u by
 define pcodeop vavgub;
-define pcodeop vavgub;_rnd
+define pcodeop vavgub_rnd;
 with slot: iclass=0b1101 & mode=0 {
     :D5_pair "=vavgub(" S5_pair "," T5_pair ")" is imm_21_27=0b0011010 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b000 & D5_pair {
     	D5_pair = vavgub(S5_pair, T5_pair);

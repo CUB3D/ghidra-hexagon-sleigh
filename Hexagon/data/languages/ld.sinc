@@ -1,6 +1,13 @@
+
+
+LD_COND_u6: val is imm_8u & imm_16_20u & (hasext0=0 | immext0used=1) [val = imm_8u | (imm_16_20u << 1);] {
+	export *[const]:4 val;
+}
+
 @include "ld_dword.sinc"
 @include "ld_byte.sinc"
 @include "ld_halfword.sinc"
+
 
 #LD:memory copy
 define pcodeop pmemcpy;

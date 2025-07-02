@@ -97,19 +97,19 @@ with slot: iclass=0b1001 & mode=0 {
 
 #ld:load hw cond
 with slot: iclass=0b0011 & mode=0 {
-    :"if(" U2_5_6_pred ")" D5 "=memh(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0000010 & S5 & imm_13 & T5 & imm_8_12 & imm_7u & U2_5_6_pred_new & D5 [u2 = imm_7u | (imm_13u << 1);] {
+    :"if(" U2_5_6_pred ")" D5 "=memh(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0000010 & S5 & imm_13u & T5 & imm_8_12 & imm_7u & U2_5_6_pred_new & D5 [u2 = imm_7u | (imm_13u << 1);] {
     	if(U2_5_6_pred == 0) goto <end>;
 		local EA:4 = S5 + (T5 << u2);
 		D5 = *[ram]:2 EA;
 	<end>
     }
-    :"if(!" U2_5_6_pred ")" D5 "=memh(" S5 "+" T5 "<<" u2 ")"  is imm_21_27=0b0001010 & S5 & imm_13 & T5 & imm_8_12 & imm_7u & U2_5_6_pred_new & D5 [u2 = imm_7u | (imm_13u << 1);] {
+    :"if(!" U2_5_6_pred ")" D5 "=memh(" S5 "+" T5 "<<" u2 ")"  is imm_21_27=0b0001010 & S5 & imm_13u & T5 & imm_8_12 & imm_7u & U2_5_6_pred_new & D5 [u2 = imm_7u | (imm_13u << 1);] {
     	if(U2_5_6_pred != 0) goto <end>;
 		local EA:4 = S5 + (T5 << u2);
 		D5 = *[ram]:2 EA;
 	<end>
     }
-    :"if(" U2_5_6_pred_new ")" D5 "=memh(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0010010 & S5 & imm_13 & T5 & imm_8_12 & imm_7u & U2_5_6_pred_new & D5 [u2 = imm_7u | (imm_13u << 1);] {
+    :"if(" U2_5_6_pred_new ")" D5 "=memh(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0010010 & S5 & imm_13u & T5 & imm_8_12 & imm_7u & U2_5_6_pred_new & D5 [u2 = imm_7u | (imm_13u << 1);] {
     	if(U2_5_6_pred_new == 0) goto <end>;
 		local EA:4 = S5 + (T5 << u2);
 		D5 = *[ram]:2 EA;
@@ -182,25 +182,25 @@ with slot: iclass=0b1001 & mode=0 {
     :"if("T2_9_10_pred") "D5"=memhw("LD_COND_u6")"  is imm_21_27=0b1111010 & imm_16_20 & imm_11_13=0b100 & T2_9_10_pred & imm_8 & imm_7=1 & imm_5_6=0 & D5 & LD_COND_u6 {
     	if(T2_9_10_pred == 0) goto <end>;
         local EA:4 = LD_COND_u6;
-        D5_pair = *[ram]:2 EA;
+        D5 = *[ram]:2 EA;
         <end>
     }
     :"if(!"T2_9_10_pred") "D5"=memhw("LD_COND_u6")"  is imm_21_27=0b1111010 & imm_16_20 & imm_11_13=0b101 & T2_9_10_pred & imm_8 & imm_7=1 & imm_5_6=0 & D5 & LD_COND_u6 {
     	if(T2_9_10_pred != 0) goto <end>;
         local EA:4 = LD_COND_u6;
-        D5_pair = *[ram]:2 EA;
+        D5 = *[ram]:2 EA;
         <end>
     }
     :"if("T2_9_10_pred".new) "D5"=memhw("LD_COND_u6")" is imm_21_27=0b1111010 & imm_16_20 & imm_11_13=0b110 & T2_9_10_pred & imm_8 & imm_7=1 & imm_5_6=0 & D5 & LD_COND_u6 {
     	if(T2_9_10_pred == 0) goto <end>;
 		local EA:4 = LD_COND_u6;
-        D5_pair = *[ram]:2 EA;
+        D5 = *[ram]:2 EA;
         <end>
     }
     :"if(!"T2_9_10_pred".new) "D5"=memhw("LD_COND_u6")" is imm_21_27=0b1111010 & imm_16_20 & imm_11_13=0b111 & T2_9_10_pred & imm_8 & imm_7=1 & imm_5_6=0 & D5 & LD_COND_u6 {
     	if(T2_9_10_pred != 0) goto <end>;
 		local EA:4 = LD_COND_u6;
-        D5_pair = *[ram]:2 EA;
+        D5 = *[ram]:2 EA;
         <end>
     }
 }

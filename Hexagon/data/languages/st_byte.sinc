@@ -5,7 +5,7 @@ with slot: iclass=0b0011 & mode=0 {
     	local EA:4 = (S5 + T5) << u2;
     	*[ram]:1 EA = D5;
     }
-    :"memb("S5"+#"imm_7_12")=#"S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b00 & S5 & imm_13 & imm_7_12 & imm_0_6 [ S8 = (imm_0_6) | (imm_13 << 7);]{
+    :"memb("S5"+"imm_7_12")=#"S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b00 & S5 & imm_13 & imm_7_12 & imm_0_6 [ S8 = (imm_0_6) | (imm_13 << 7);]{
         local EA:4 = S5 + imm_7_12;
         *[ram]:1 EA = S8;
     }
@@ -29,16 +29,22 @@ with slot: iclass=0b1010 & mode=0 {
         local EA:4 = S5 + s11;
         *[ram]:1 EA = T5;
     }
-    :"stb5" is imm_21_27=0b1001000 & S5 & imm_13 & imm_8_12 & imm_7=0 & imm_2_6=0 & imm_1=1 & imm_0=0  {
-    _stub();
-    }
-    :"stb6" is imm_21_27=0b1001000 & S5 & imm_13 & imm_8_12 & imm_7=0 & imm_2_6=0 & imm_1=0 & imm_0=0  {
-    _stub();
-    }
-    :"stb7" is imm_21_27=0b1011000 & S5 & imm_13=0 & imm_8_12 & imm_7=1 & imm_2_6=0 & imm_0_5  {
-    _stub();
-    }
-    :"memw(" S5 "++" s4 ")=" T5 is imm_21_27=0b1011000 & S5 & imm_13=0 & T5 & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0  [s4 = imm_3_6 << 2;] {
+    :"memb(" S5 "++I:circ(" M1_13 "))=" T5  is imm_21_27=0b1001000 & S5 & M1_13 & T5 & imm_7=0 & imm_2_6=0 & imm_1=1 & imm_0=0 {
+	     local EA:4 = S5;
+    	S5 = circ_add(S5, (M1_13:1), M1_13);
+    	*[ram]:1 EA = T5; 
+     }
+     :"memb(" S5 "++" s4 ":circ(" M1_13 "))=" T5 is imm_21_27=0b1001000 & S5 & imm_13 & T5 & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0 [s4 = imm_3_6;] {
+	    local EA:4 = S5;
+    	S5 = circ_add(S5, s4:1, M1_13);
+    	*[ram]:1 EA = T5;
+     }
+    :"memb(" S5 "=" imm_0_5u ")=" T5_pair is imm_21_27=0b1011000 & S5 & imm_13=0 & T5_pair & imm_7=1 & imm_6=0 & imm_0_5u {
+        local EA:4 = S5;
+        *[ram]:1 EA = T5_pair;
+        S5 = S5 + imm_0_5u;
+     }
+    :"memb(" S5 "++" s4 ")=" T5 is imm_21_27=0b1011000 & S5 & imm_13=0 & T5 & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0  [s4 = imm_3_6 << 2;] {
         local EA:4 = S5;
         S5 = S5+s4;
         *[ram]:1 EA = T5;
@@ -51,12 +57,17 @@ with slot: iclass=0b1010 & mode=0 {
         local EA:4 = (S5 << u2) + U6;
         *[ram]:1 EA = T5;
     }
-    :"stb10" is imm_21_27=0b1101000 & S5 & imm_13 & imm_8_12 & imm_7=0 & imm_0_6=0 {
-    _stub();
-    }
-    :"stb11" is imm_21_27=0b1111000 & S5 & imm_13 & imm_8_12 & imm_7=0 & imm_0_6=0 {
-    _stub();
-    }
+    :"memb(" S5 "++" M1_13 ")=" T5 is imm_21_27=0b1101000 & S5 & M1_13 & T5 & imm_7=0 & imm_0_6=0 {
+	    local EA:4 = S5;
+        S5 = S5 + M1_13;
+        *[ram]:1 EA = T5;
+     }
+     :"memb(" S5 "++" M1_13 ":brev)=" T5 is imm_21_27=0b1111000 & S5 & imm_13 & T5 & imm_7=0 & imm_0_6=0 {
+	    local rx_h:2 = S5(2);
+    	local EA:4 = zext(rx_h | brev(S5:2));
+        S5 = S5+M1_13;
+        *[ram]:1 EA = T5;
+     }
 }
 
 # ST:Store by cond
@@ -180,19 +191,28 @@ with slot: iclass=0b1010 & mode=0 {
 	<end>
     }
 
-    :"stcondb12()" is imm_21_27=0b1111000 & imm_18_20=0 & imm_16_17 & imm_13=0 & T5 & imm_7=1 & imm_3_6 & imm_2=0 & imm_0_1 {
-    _stub();
+    :"if(" D2_pred ") memb(" u6 ")=" T5 is imm_21_27=0b1111000 & imm_18_20=0 & imm_16_17u & imm_13=0 & T5 & imm_7=1 & imm_3_6u & imm_2=0 & imm_0_1 [u6 = (imm_3_6u | (imm_16_17u << 4)) | immext0; immext0used=1; ]{
+    	if(D2_pred == 0) goto <end>;
+        	local EA:4 = u6;
+        	*[ram]:1 EA = T5;
+		<end>
     }
-    :"stcondb13()" is imm_21_27=0b1111000 & imm_18_20=0 & imm_16_17 & imm_13=0 & T5 & imm_7=1 & imm_3_6 & imm_2=1 & imm_0_1 {
-    _stub();
+    :"if(" !D2_pred ") memb(" u6 ")=" T5 is imm_21_27=0b1111000 & imm_18_20=0 & imm_16_17u & imm_13=0 & T5 & imm_7=1 & imm_3_6u & imm_2=1 & imm_0_1 [u6 = (imm_3_6u | (imm_16_17u << 4)) | immext0; immext0used=1; ]{
+    	if(D2_pred != 0) goto <end>;
+        	local EA:4 = u6;
+        	*[ram]:1 EA = T5;
+		<end>
     }
-    :"stcondb14()" is imm_21_27=0b1111000 & imm_18_20=0 & imm_16_17 & imm_13=1 & T5 & imm_7=1 & imm_3_6 & imm_2=0 & imm_0_1 {
-    _stub();
+    :"if(" D2_pred_new ") memb(" u6 ")=" T5 is imm_21_27=0b1111000 & imm_18_20=0 & imm_16_17u & imm_13=1 & T5 & imm_7=1 & imm_3_6u & imm_2=0 & imm_0_1 [u6 = (imm_3_6u | (imm_16_17u << 4)) | immext0; immext0used=1; ] {
+    	if(D2_pred_new == 0) goto <end>;
+        	local EA:4 = u6;
+        	*[ram]:1 EA = T5;
+		<end>
     }
     :"if(" !D2_pred_new ") memb(" u6 ")=" T5 is imm_21_27=0b1111000 & imm_18_20=0 & imm_16_17u & imm_13=1 & T5 & imm_7=1 & imm_3_6u & imm_2=1 & D2_pred_new & hasext0=1 & immext0used=0 & immext0 [u6 = (imm_3_6u | (imm_16_17u << 4)) | immext0; immext0used=1; ] {
     	if(D2_pred_new != 0) goto <end>;
-        local EA:4 = u6;
-        *[ram]:1 EA = T5;
-	<end>
+        	local EA:4 = u6;
+        	*[ram]:1 EA = T5;
+		<end>
     }
 }
