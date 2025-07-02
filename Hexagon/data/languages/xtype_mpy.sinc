@@ -86,60 +86,68 @@ with slot: iclass=0b1110 & mode=0 {
 }
 
 # XTYPE/MPY: vec mul w by sign 32
+define pcodeop vmpyweh_sat;
+define pcodeop vmpywoh_sat;
+define pcodeop vmpyweh_rnd_sat;
+define pcodeop vmpywoh_rnd_sat;
 with slot: iclass=0b1110 & mode=0 {
-    :"vmpyweh00" is imm_24_27=0b1000 & imm_23 & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
-    _stub();
+    :D5_pair "=vmpyweh(" S5_pair "," T5_pair "):<<" imm_21u ":sat" is imm_24_27=0b1000 & imm_23 & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+    	D5_pair = vmpyweh_sat(S5_pair, T5_pair) << imm_21u;
     }
-    :"vmpyweh01" is imm_24_27=0b1000 & imm_23 & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-    _stub();
+    :D5_pair "=vmpywoh(" S5_pair "," T5_pair "):<<" imm_21u ":sat" is imm_24_27=0b1000 & imm_23 & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+    	D5_pair = vmpywoh_sat(S5_pair, T5_pair) << imm_21u;
     }
-    :"vmpyweh02" is imm_24_27=0b1000 & imm_23 & imm_21_22=0b01 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
-    _stub();
+    :D5_pair "=vmpyweh(" S5_pair "," T5_pair "):<<" imm_21u ":rnd:sat" is imm_24_27=0b1000 & imm_23 & imm_21_22=0b01 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+    	D5_pair = vmpyweh_rnd_sat(S5_pair, T5_pair) << imm_21u;
     }
-    :"vmpyweh03" is imm_24_27=0b1000 & imm_23 & imm_21_22=0b01 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-    _stub();
+    :D5_pair "=vmpywoh(" S5_pair "," T5_pair "):<<" imm_21u ":rnd:sat" is imm_24_27=0b1000 & imm_23 & imm_21_22=0b01 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+    	D5_pair = vmpywoh_rnd_sat(S5_pair, T5_pair) << imm_21u;
     }
 
-    :"vmpyweh04" is imm_24_27=0b1010 & imm_23 & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
-    _stub();
+    :D5_pair "+=vmpyweh(" S5_pair "," T5_pair "):<<" imm_21u ":sat" is imm_24_27=0b1010 & imm_23 & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+    	D5_pair = D5_pair + vmpyweh_sat(S5_pair, T5_pair) << imm_21u;
     }
-    :"vmpyweh05" is imm_24_27=0b1010 & imm_23 & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-    _stub();
+    :D5_pair "=vmpywoh(" S5_pair "," T5_pair "):<<" imm_21u ":sat" is imm_24_27=0b1010 & imm_23 & imm_21_22=0b00 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+    	D5_pair = D5_pair + vmpywoh_sat(S5_pair, T5_pair) << imm_21u;
     }
-    :"vmpyweh06" is imm_24_27=0b1010 & imm_23 & imm_21_22=0b01 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
-    _stub();
+    :D5_pair "=vmpyweh(" S5_pair "," T5_pair "):<<" imm_21u ":rnd:sat" is imm_24_27=0b1010 & imm_23 & imm_21_22=0b01 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+    	D5_pair = D5_pair + vmpyweh_rnd_sat(S5_pair, T5_pair) << imm_21u;
     }
-    :"vmpyweh07" is imm_24_27=0b1010 & imm_23 & imm_21_22=0b01 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-    _stub();
+    :D5_pair "=vmpywoh(" S5_pair "," T5_pair "):<<" imm_21u ":rnd:sat" is imm_24_27=0b1010 & imm_23 & imm_21_22=0b01 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+    	D5_pair = D5_pair + vmpywoh_rnd_sat(S5_pair, T5_pair) << imm_21u;
     }
 }
 
-# XTYPE/MPY: Mul by unsign 32
+# XTYPE/MPY: Vector mul by unsign 32
+define pcodeop vmpyweuh_sat;
+define pcodeop vmpywouh_sat;
+define pcodeop vmpyweuh_rnd_sat;
+define pcodeop vmpywouh_rnd_sat;
 with slot: iclass=0b1110 & mode=0 {
-    :"vmpyweuh00" is imm_24_27=0b1000 & imm_23 & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
-    _stub();
+    :D5_pair "=vmpyweuh(" S5_pair "," T5_pair "):<<" imm_21u ":sat" is imm_24_27=0b1000 & imm_23 & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+    	D5_pair = vmpyweuh_sat(S5_pair, T5_pair) << imm_21u;
     }
-    :"vmpyweuh01" is imm_24_27=0b1000 & imm_23 & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-    _stub();
+    :D5_pair "=vmpywouh(" S5_pair "," T5_pair "):<<" imm_21u ":sat" is imm_24_27=0b1000 & imm_23 & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+    	D5_pair = vmpywouh_sat(S5_pair, T5_pair) << imm_21u;
     }
-    :"vmpyweuh02" is imm_24_27=0b1000 & imm_23 & imm_21_22=0b11 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
-    _stub();
+    :D5_pair "=vmpyweuh(" S5_pair "," T5_pair "):<<" imm_21u ":rnd:sat" is imm_24_27=0b1000 & imm_23 & imm_21_22=0b11 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+    	D5_pair = vmpyweuh_rnd_sat(S5_pair, T5_pair) << imm_21u;
     }
-    :"vmpyweuh03" is imm_24_27=0b1000 & imm_23 & imm_21_22=0b11 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-    _stub();
+    :D5_pair "=vmpywouh(" S5_pair "," T5_pair "):<<" imm_21u ":rnd:sat" is imm_24_27=0b1000 & imm_23 & imm_21_22=0b11 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+    	D5_pair = vmpywouh_rnd_sat(S5_pair, T5_pair) << imm_21u;
     }
 
-    :"vmpyweuh04" is imm_24_27=0b1010 & imm_23 & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
-    _stub();
+    :D5_pair "+=vmpyweuh(" S5_pair "," T5_pair "):<<" imm_21u ":sat" is imm_24_27=0b1010 & imm_23 & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+    	D5_pair = D5_pair + vmpyweuh_sat(S5_pair, T5_pair) << imm_21u;
     }
-    :"vmpyweuh05" is imm_24_27=0b1010 & imm_23 & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-    _stub();
+    :D5_pair "=vmpywouh(" S5_pair "," T5_pair "):<<" imm_21u ":sat" is imm_24_27=0b1010 & imm_23 & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+    	D5_pair = D5_pair + vmpywouh_sat(S5_pair, T5_pair) << imm_21u;
     }
-    :"vmpyweuh06" is imm_24_27=0b1010 & imm_23 & imm_21_22=0b11 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
-    _stub();
+    :D5_pair "=vmpyweuh(" S5_pair "," T5_pair "):<<" imm_21u ":rnd:sat" is imm_24_27=0b1010 & imm_23 & imm_21_22=0b11 & S5 & imm_13=0 & T5 & imm_5_7=0b101 & D5 {
+    	D5_pair = D5_pair + vmpyweuh_rnd_sat(S5_pair, T5_pair) << imm_21u;
     }
-    :"vmpyweuh07" is imm_24_27=0b1010 & imm_23 & imm_21_22=0b11 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-    _stub();
+    :D5_pair "=vmpywouh(" S5_pair "," T5_pair "):<<" imm_21u ":rnd:sat" is imm_24_27=0b1010 & imm_23 & imm_21_22=0b11 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+    	D5_pair = D5_pair + vmpywouh_rnd_sat(S5_pair, T5_pair) << imm_21u;
     }
 }
 
@@ -382,25 +390,27 @@ with slot: iclass=0b1110 & mode=0 {
     :D5_pair "=pmpyw(" S5 "," T5 ")" is imm_21_27=0b0101010 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5_pair {
     	D5_pair = pmpyw(S5, T5);
     }
-    :"^pmpyw" is imm_21_27=0b0111001 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
-    _stub();
+    :D5_pair "^=pmpyw(" S5 "," T5 ")" is imm_21_27=0b0111001 & S5 & imm_13=0 & T5 & imm_5_7=0b111 & D5 {
+    	D5_pair = D5_pair ^ pmpyw(S5, T5);
     }
 }
 
 # XTYPE/MPY: Vec red mul wa by s hw
+define pcodeop vrmpywoh;
+define pcodeop vrmpywwh;
 with slot: iclass=0b1110 & mode=0 {
-    :"vrmpywoh" is imm_24_27=0b1000 & imm_21 & imm_21_22=0b01 & S5 & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
-    _stub();
+    :D5_pair "=vrmpywoh(" S5_pair "," T5_pair "):<<" imm_21u is imm_24_27=0b1000 & imm_21u & imm_21_22=0b01 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b010 & D5_pair {
+    	D5_pair = vrmpywoh(S5_pair, T5_pair) << imm_23u;
     }
-    :"vrmpyweh" is imm_24_27=0b1000 & imm_21 & imm_21_22=0b10 & S5 & imm_13=0 & T5 & imm_5_7=0b100 & D5 {
-    _stub();
+    :D5_pair "=vrmpyweh(" S5_pair "," T5_pair "):<<" imm_21u is imm_24_27=0b1000 & imm_21u & imm_21_22=0b10 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b100 & D5_pair {
+    	D5_pair = vrmpyweh(S5_pair, T5_pair) << imm_23u;
     }
 
-    :"+vrmpyweh" is imm_24_27=0b1010 & imm_21 & imm_21_22=0b01 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
-    _stub();
+    :D5_pair "+=vrmpywoh(" S5_pair "," T5_pair "):<<" imm_21u is imm_24_27=0b1010 & imm_21u & imm_21_22=0b01 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b110 & D5_pair {
+    	D5_pair = D5_pair + vrmpywoh(S5_pair, T5_pair) << imm_23u;
     }
-    :"+vrmpywoh" is imm_24_27=0b1010 & imm_21 & imm_21_22=0b11 & S5 & imm_13=0 & T5 & imm_5_7=0b110 & D5 {
-    _stub();
+    :D5_pair "=vrmpyweh(" S5_pair "," T5_pair "):<<" imm_21u is imm_24_27=0b1010 & imm_21u & imm_21_22=0b11 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b110 & D5_pair {
+    	D5_pair = D5_pair + vrmpyweh(S5_pair, T5_pair) << imm_23u;
     }
 }
 
