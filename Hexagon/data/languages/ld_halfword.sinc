@@ -97,14 +97,14 @@ with slot: iclass=0b1001 & mode=0 {
 
 #ld:load hw cond
 with slot: iclass=0b0011 & mode=0 {
-    :"if(" U2_5_6_pred ")" D5 "=memh(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0000010 & S5 & imm_13u & T5 & imm_8_12 & imm_7u & U2_5_6_pred_new & D5 [u2 = imm_7u | (imm_13u << 1);] {
-    	if(U2_5_6_pred == 0) goto <end>;
+    :"if(" U2_5_6 ")" D5 "=memh(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0000010 & S5 & imm_13u & T5 & imm_8_12 & imm_7u & U2_5_6 & D5 [u2 = imm_7u | (imm_13u << 1);] {
+    	if(U2_5_6 == 0) goto <end>;
 		local EA:4 = S5 + (T5 << u2);
 		D5 = *[ram]:2 EA;
 	<end>
     }
-    :"if(!" U2_5_6_pred ")" D5 "=memh(" S5 "+" T5 "<<" u2 ")"  is imm_21_27=0b0001010 & S5 & imm_13u & T5 & imm_8_12 & imm_7u & U2_5_6_pred_new & D5 [u2 = imm_7u | (imm_13u << 1);] {
-    	if(U2_5_6_pred != 0) goto <end>;
+    :"if(!" U2_5_6 ")" D5 "=memh(" S5 "+" T5 "<<" u2 ")"  is imm_21_27=0b0001010 & S5 & imm_13u & T5 & imm_8_12 & imm_7u & U2_5_6 & D5 [u2 = imm_7u | (imm_13u << 1);] {
+    	if(U2_5_6 != 0) goto <end>;
 		local EA:4 = S5 + (T5 << u2);
 		D5 = *[ram]:2 EA;
 	<end>
@@ -149,14 +149,14 @@ with slot: iclass=0b0100 & mode=0 {
     }
 }
 with slot: iclass=0b1001 & mode=0 {
-    :"if("T2_9_10_pred") "D5"=memh("S5"++"s4")" is imm_21_27=0b1011010 & S5 & imm_11_13=0b100 &   T2_9_10_pred & imm_5_8 & D5 [s4 = imm_5_8 << 3;] {
+    :"if("T2_9_10_pred") "D5"=memh("S5"++"s4")" is imm_21_27=0b1011010 & S5 & imm_11_13=0b100 & T2_9_10_pred & imm_5_8 & D5 [s4 = imm_5_8 << 3;] {
         if(T2_9_10_pred == 0) goto <end>;
         local EA:4 = S5;
         S5 = S5 + s4;
         D5 = *[ram]:2 EA;
         <end>
     }
-    :"if(!"T2_9_10_pred") "D5"=memh("S5"++"s4")" is imm_21_27=0b1011010 & S5 & imm_11_13=0b101 &   T2_9_10_pred & imm_5_8 & D5_pair [s4 = imm_5_8 << 3;] {
+    :"if(!"T2_9_10_pred") "D5"=memh("S5"++"s4")" is imm_21_27=0b1011010 & S5 & imm_11_13=0b101 & T2_9_10_pred & imm_5_8 & D5 [s4 = imm_5_8 << 3;] {
         if(T2_9_10_pred != 0) goto <end>;
         local EA:4 = S5;
         S5 = S5 + s4;
@@ -164,14 +164,14 @@ with slot: iclass=0b1001 & mode=0 {
         <end>
     }
     #TODO: check all dotnew, they will need change later
-    :"if("T2_9_10_pred".new) "D5"=memh("S5"++"s4")" is imm_21_27=0b1011010 & S5 & imm_11_13=0b110 &   T2_9_10_pred & imm_5_8 & D5 [s4 = imm_5_8 << 3;] {
+    :"if("T2_9_10_pred".new) "D5"=memh("S5"++"s4")" is imm_21_27=0b1011010 & S5 & imm_11_13=0b110 & T2_9_10_pred & imm_5_8 & D5 [s4 = imm_5_8 << 3;] {
         if(T2_9_10_pred == 0) goto <end>;
         local EA:4 = S5;
         S5 = S5 + s4;
         D5 = *[ram]:2 EA;
         <end>
     }
-    :"if(!"T2_9_10_pred".new) "D5"=memh("S5"++"s4")" is imm_21_27=0b1011010 & S5 & imm_11_13=0b111 & imm_9_10 & imm_5_8 & D5 {
+    :"if(!"T2_9_10_pred".new) "D5"=memh("S5"++"s4")" is imm_21_27=0b1011010 & S5 & imm_11_13=0b111 & T2_9_10_pred & imm_5_8 & D5 [s4 = imm_5_8 << 3;] {
         if(T2_9_10_pred == 0) goto <end>;
         local EA:4 = S5;
         S5 = S5 + s4;

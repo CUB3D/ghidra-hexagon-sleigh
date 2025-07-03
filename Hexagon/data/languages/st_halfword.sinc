@@ -59,7 +59,7 @@ with slot: iclass=0b1010 & mode=0 {
         local EA:4 = S5 + ST_s11_1;
         *[ram]:2 EA = T5:2;
     }
-    :"memh("S5"+" ST_s11_1 ")="T5 ".H" is imm_27=0 & imm_21_24=0b1010 & S5 & T5 & ST_s11_1 {
+    :"memh("S5"+" ST_s11_1 ")="T5 ".H" is imm_27=0 & imm_21_24=0b1011 & S5 & T5 & ST_s11_1 {
         local EA:4 = S5 + ST_s11_1;
         *[ram]:2 EA = T5(2);
     }
@@ -69,7 +69,7 @@ with slot: iclass=0b1010 & mode=0 {
     	S5 = circ_add(S5, m << 1, M1_13);
     	*[ram]:2 EA = T5:2; 
      }
-	 :"memh(" S5 "++" s4 ":circ(" M1_13 "))=" T5 is imm_21_27=0b1001010 & S5 & M1_13 & T5 & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0 [s4 = imm_3_6;] {
+	 :"memh(" S5 "++" s4 ":circ(" M1_13 "))=" T5 is imm_21_27=0b1001010 & S5 & M1_13 & T5 & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0 [s4 = imm_3_6 << 1;] {
 	    local EA:4 = S5;
 	    local m:4 = M1_13:4;
     	S5 = circ_add(S5, s4:1, m<<1);
@@ -82,7 +82,7 @@ with slot: iclass=0b1010 & mode=0 {
     	S5 = circ_add(S5, m << 1, M1_13);
     	*[ram]:2 EA = T5(2);
      }
-     :"memh(" S5 "++" s4 ":circ(" M1_13 "))=" T5 is imm_21_27=0b1001011 & S5 & M1_13 & T5 & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0 [s4 = imm_3_6;] {
+     :"memh(" S5 "++" s4 ":circ(" M1_13 "))=" T5 is imm_21_27=0b1001011 & S5 & M1_13 & T5 & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0 [s4 = imm_3_6 << 1;] {
 	    local EA:4 = S5;
     	S5 = circ_add(S5, s4:1, M1_13:1<<1);
     	*[ram]:2 EA = T5(2);
@@ -133,13 +133,13 @@ with slot: iclass=0b1010 & mode=0 {
         S5 = S5 + M1_13;
         *[ram]:2 EA = T5(2);
      }
-     :"memb(" S5 "++" M1_13 ":brev)=" T5 is imm_21_27=0b1111010 & S5 & imm_13 & T5 & imm_7=0 & imm_0_6=0 {
+     :"memb(" S5 "++" M1_13 ":brev)=" T5 is imm_21_27=0b1111010 & S5 & M1_13 & T5 & imm_7=0 & imm_0_6=0 {
 	    local rx_h:2 = S5(2);
     	local EA:4 = zext(rx_h | brev(S5:2));
         S5 = S5+M1_13;
         *[ram]:2 EA = T5:2;
      }
-     :"memb(" S5 "++" M1_13 ":brev)=" T5 ".H" is imm_21_27=0b1111011 & S5 & imm_13 & T5 & imm_7=0 & imm_0_6=0 {
+     :"memb(" S5 "++" M1_13 ":brev)=" T5 ".H" is imm_21_27=0b1111011 & S5 & M1_13 & T5 & imm_7=0 & imm_0_6=0 {
 	    local rx_h:2 = S5(2);
     	local EA:4 = zext(rx_h | brev(S5:2));
         S5 = S5+M1_13;

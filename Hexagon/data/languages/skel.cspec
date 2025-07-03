@@ -35,21 +35,21 @@
   	</global>
   	
   	<prefersplit style="inhalf">
-    	<register name="X1X0"/>
-    	<register name="X3X2"/>
-    	<register name="X5X4"/>
-    	<register name="X7X6"/>
-    	<register name="X9X8"/>
-    	<register name="X11X10"/>
-    	<register name="X13X12"/>
-    	<register name="X15X14"/>
-    	<register name="X17X16"/>
-    	<register name="X19X18"/>
-    	<register name="X21X20"/>
-    	<register name="X23X22"/>
-    	<register name="X25X24"/>
-    	<register name="X27X26"/>
-    	<register name="SPX28"/>
+    	<register name="r1r0"/>
+    	<register name="r3r2"/>
+    	<register name="r5r4"/>
+    	<register name="r7r6"/>
+    	<register name="r9r8"/>
+    	<register name="r11r10"/>
+    	<register name="r13r12"/>
+    	<register name="r15r14"/>
+    	<register name="r17r16"/>
+    	<register name="r19r18"/>
+    	<register name="r21r20"/>
+    	<register name="r23r22"/>
+    	<register name="r25r24"/>
+    	<register name="r27r26"/>
+    	<register name="SPr28"/>
     	<register name="LRFP"/>
     </prefersplit>
   	
@@ -62,23 +62,23 @@
     <prototype name="__stdcall" extrapop="0" stackshift="0">
       <input>
         <pentry minsize="1" maxsize="4">
-          <register name="X0" />
+          <register name="r0" />
         </pentry>
         <pentry minsize="1" maxsize="4">
-          <register name="X1" />
+          <register name="r1" />
         </pentry>
         
         <pentry minsize="1" maxsize="4">
-          <register name="X2" />
+          <register name="r2" />
         </pentry>
         <pentry minsize="1" maxsize="4">
-          <register name="X3" />
+          <register name="r3" />
         </pentry>
         <pentry minsize="1" maxsize="4">
-          <register name="X4" />
+          <register name="r4" />
         </pentry>
         <pentry minsize="1" maxsize="4">
-          <register name="X5" />
+          <register name="r5" />
         </pentry>
         
         <pentry minsize="1" maxsize="500" align="4">
@@ -87,22 +87,22 @@
       </input>
       <output>
       	<pentry minsize="1" maxsize="4">
-          <register name="X0" />
+          <register name="r0" />
         </pentry>
       </output>
       <unaffected>
       
-        <register name="X16" />
-        <register name="X17" />
-        <register name="X18" />
-        <register name="X19" />
-        <register name="X20" />
-        <register name="X21" />
-        <register name="X22" />
-        <register name="X23" />
-        <register name="X24" />
-        <register name="X25" />
-        <register name="X26" />
+        <register name="r16" />
+        <register name="r17" />
+        <register name="r18" />
+        <register name="r19" />
+        <register name="r20" />
+        <register name="r21" />
+        <register name="r22" />
+        <register name="r23" />
+        <register name="r24" />
+        <register name="r25" />
+        <register name="r26" />
         
         
         
@@ -124,25 +124,25 @@
         
         
         
-        <register name="X7" />
+        <register name="r7" />
       </unaffected>
       <killedbycall>
-      <register name="X0" />
-      <register name="X1" />
-      <register name="X2" />
-      <register name="X3" />
+      <register name="r0" />
+      <register name="r1" />
+      <register name="r2" />
+      <register name="r3" />
           
         
-        <register name="X6" />
+        <register name="r6" />
         <!-- <register name="X7" /> -->
-        <register name="X8" />
-        <register name="X9" />
-        <register name="X10" />
-        <register name="X11" />
-        <register name="X12" />
-        <register name="X13" />
-        <register name="X14" />
-        <register name="X15" />
+        <register name="r8" />
+        <register name="r9" />
+        <register name="r10" />
+        <register name="r11" />
+        <register name="r12" />
+        <register name="r13" />
+        <register name="r14" />
+        <register name="r15" />
         
         
       </killedbycall>
@@ -152,22 +152,22 @@
   <prototype name="regsave" extrapop="0" stackshift="0">
       <input>
         <pentry minsize="1" maxsize="4">
-          <register name="X0" />
+          <register name="r0" />
         </pentry>
       </input>
       <output>
       	<pentry minsize="1" maxsize="4">
-          <register name="X0" />
+          <register name="r0" />
         </pentry>
       </output>
       <unaffected>
-      <register name="X0" />
-      <register name="X1" />
-      <register name="X2" />
-      <register name="X3" />
-      <register name="X4" />
-      <register name="X5" />
-      <register name="X6" />
+      <register name="r0" />
+      <register name="r1" />
+      <register name="r2" />
+      <register name="r3" />
+      <register name="r4" />
+      <register name="r5" />
+      <register name="r6" />
       
         
         <register name="SP" />

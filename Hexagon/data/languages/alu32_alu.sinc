@@ -139,8 +139,8 @@ with slot: iclass=0b0111 & mode=0 {
 
 # ALU32/ALU:trans_reg
  with slot: iclass=0b0111 & mode=0 {
-	:D5"="S5 is Rs = 0 & MajOp = 0b000 & MinOp=0b011 & S5 & imm_13=0 & imm_5_12=0 & D5 {
-		D5 = S5;
+	:D5"="S5 is Rs = 0 & MajOp = 0b000 & MinOp=0b011 & S5 & imm_13=0 & imm_5_12=0 & D5 & S5i {
+		D5 = S5i;
 	}
 }
 
