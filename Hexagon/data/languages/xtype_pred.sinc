@@ -1,7 +1,7 @@
 # XTYPE/PRED
 # XTYPE/PRED:bound chk
-define pcodeop boundcheck_raw_lo;
-define pcodeop boundcheck_raw_hi;
+define pcodeop boundscheck_raw_lo;
+define pcodeop boundscheck_raw_hi;
 with slot: iclass=0b1101 & mode=0 {
     :D2_pred "=boundscheck(" S5_pair "," T5_pair "):raw:lo" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & imm_13=1 & T5_pair & imm_5_7=0b100 & imm_2_4=0 & D2_pred {
     	D2_pred = boundscheck_raw_lo(S5_pair, T5_pair);
@@ -213,7 +213,7 @@ with slot: iclass=0b1000 & mode=0 {
 
 # XTYPE/PRED:test bit
 with slot: iclass=0b1000 & mode=0 {
-    :D2_pred_new"=tstbit("S5",#"imm_8_12")" is imm_21_27=0b0101000 & S5 & imm_13=0 & imm_8_12 & imm_2_7=0 & D2_pred_new {
+    :D2_pred_new"=tstbit("S5","imm_8_12")" is imm_21_27=0b0101000 & S5 & imm_13=0 & imm_8_12 & imm_2_7=0 & D2_pred_new {
         local tmp:4 = 1 << imm_8_12;
         local tmp1:4 = S5 & tmp;
         if(tmp1 != 0) goto <good>;
@@ -224,7 +224,7 @@ with slot: iclass=0b1000 & mode=0 {
         goto <end>;
         <end>
     }
-    :D2_pred_new"=!tstbit("S5",#"imm_8_12")" is imm_21_27=0b0101001 & S5 & imm_13=0 & imm_8_12 & imm_2_7=0 & D2_pred_new {
+    :D2_pred_new"=!tstbit("S5","imm_8_12")" is imm_21_27=0b0101001 & S5 & imm_13=0 & imm_8_12 & imm_2_7=0 & D2_pred_new {
         local tmp:4 = 1 << imm_8_12;
         local tmp1:4 = S5 & tmp;
         if(tmp1 == 0) goto <good>;
@@ -320,7 +320,7 @@ with slot: iclass=0b1101 & mode=0 {
     :D2_pred "=vcmpb.gt(" S5_pair "," imm_5_12 ")" is imm_21_27=0b1100001 & S5_pair & imm_13=0 & imm_5_12 & imm_3_4=0b00 & imm_2=0 & D2_pred {
         D2_pred = vcmpb_gt(S5_pair, imm_5_12:1);
     }
-    :D2_pred "=vcmpb.gtu(" S5_pair "," imm_5_11u ")" is imm_21_27=0b1100010 & S5_pair & imm_13=0 & imm_12=0 & imm_5_11 & imm_3_4=0b00 & imm_2=0 & D2_pred {
+    :D2_pred "=vcmpb.gtu(" S5_pair "," imm_5_11u ")" is imm_21_27=0b1100010 & S5_pair & imm_13=0 & imm_12=0 & imm_5_11u & imm_3_4=0b00 & imm_2=0 & D2_pred {
         D2_pred = vcmpb_gtu(S5_pair, imm_5_11u:1);
     }
 }
@@ -346,8 +346,8 @@ with slot: iclass=0b1101 & mode=0 {
     :D2_pred "=vcmpw.gt(" S5_pair "," imm_5_12 ")" is imm_21_27=0b1100001 & S5_pair & imm_13=0 & imm_5_12 & imm_3_4=0b10 & imm_2=0 & D2_pred {
     	D2_pred = vcmpw_gt(S5_pair, imm_5_12:1);
     }
-    :D2_pred "=vcmpw.gtu(" S5_pair "," imm_5_12 ")" is imm_21_27=0b1100010 & S5_pair & imm_13=0 & imm_12=0 & imm_5_11 & imm_3_4=0b10 & imm_2=0 & D2_pred {
-    	D2_pred = vcmpw_gtu(S5_pair, imm_5_12:1);
+    :D2_pred "=vcmpw.gtu(" S5_pair "," imm_5_11u ")" is imm_21_27=0b1100010 & S5_pair & imm_13=0 & imm_12=0 & imm_5_11u & imm_3_4=0b10 & imm_2=0 & D2_pred {
+    	D2_pred = vcmpw_gtu(S5_pair, imm_5_11u:1);
     }
 }
 

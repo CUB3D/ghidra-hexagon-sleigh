@@ -18,25 +18,25 @@ export *[ram]:4 v;
         call Call_V;
 	 }
 
-	 :"if ("U2") call "Call_R152 is imm_24_27=0b1101 & imm_21=0 & Call_R152 & imm_12=0 & imm_11=0 & imm_10=0 & U2 & imm_0=0 & mode=0 {}
-	 :"if ("U2") call "Call_R152 is imm_24_27=0b1101 & imm_21=0 & Call_R152 & imm_12=0 & imm_11=0 & imm_10=0 & U2 & imm_0=0 & mode=1100 {
-		 if(U2 == 0) goto <end>;
+	 :"if ("U2") call "Call_R152 is imm_24_27=0b1101 & imm_21=0 & Call_R152 & imm_12=0 & imm_11=0 & imm_10=0 & U2 & U2i & imm_0=0 & mode=0 {}
+	 :"if ("U2") call "Call_R152 is imm_24_27=0b1101 & imm_21=0 & Call_R152 & imm_12=0 & imm_11=0 & imm_10=0 & U2 & U2i & imm_0=0 & mode=1100 {
+		 if(U2i == 0) goto <end>;
 		LR = inst_next;
 		call Call_R152;
 		<end>
 	 }
 	 
 
-	 :"if (!"U2") call "Call_R152 is imm_24_27=0b1101 & imm_21=1 & Call_R152 & imm_12=0 & imm_11=0 & imm_10=0 & U2 & imm_0=0 & mode=0 {}
-	 :"if (!"U2") call "Call_R152 is imm_24_27=0b1101 & imm_21=1 & Call_R152 & imm_12=0 & imm_11=0 & imm_10=0 & U2 & imm_0=0 & mode=1100 {
-		 if(U2 != 0) goto <end>;
+	 :"if (!"U2") call "Call_R152 is imm_24_27=0b1101 & imm_21=1 & Call_R152 & imm_12=0 & imm_11=0 & imm_10=0 & U2 & U2i & imm_0=0 & mode=0 {}
+	 :"if (!"U2") call "Call_R152 is imm_24_27=0b1101 & imm_21=1 & Call_R152 & imm_12=0 & imm_11=0 & imm_10=0 & U2 & U2i & imm_0=0 & mode=1100 {
+		 if(U2i != 0) goto <end>;
 		LR = inst_next;
 		call Call_R152;
 		<end>
 	 }
  }
  
-  CJ_R9:r9 is  imm_20_21 & imm_1_7 [ r9 = inst_start+((imm_1_7 | (imm_20_21 << 7))<<2);] {
+  CJ_R9:r9 is  imm_20_21 & imm_1_7u [ r9 = inst_start+((imm_1_7u | (imm_20_21 << 7))<<2);] {
     export *[ram]:4 r9;
   }
   CJ_imm_8_12u:imm_8_12u is imm_8_12u & (hasext0=0 | immext0used=1) {

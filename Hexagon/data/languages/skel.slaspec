@@ -11,11 +11,11 @@
 # Disas everything up to v73, most common ops have pcode impl
 # Switches don't work yet
  
-# ALU32/ALU       Decode + pcode up to v79
+# ALU32/ALU       Decode + pcode up to v79, regcache
 # ALU32/PERM:     Decode + pcode up to v73
 # ALU32/PRED:     Decode + pcode up to v73
-# CR:             Decode + pcode up to v73
-# JR:             Decode + pcode up to v73
+# CR:             Decode + pcode up to v73, regcache
+# JR:             Decode + pcode up to v73, regcache
 # J:              Decode + pcode up to v73
 # LD:             Decode up to v51, pcode unfinished
 # LD/Dword:       Decode + pcode up to v73
@@ -124,7 +124,8 @@ imm_22_26 = (22, 26)
    imm_21u = (21, 21)
 
    imm_20_27 = (20, 27)
-   imm_20_21 = (20, 21)
+   imm_20_21 = (20, 21) signed
+   imm_20_21u = (20, 21)
    imm_20 = (20, 20) signed
 
    imm_19 = (19, 19) signed
@@ -266,19 +267,25 @@ imm_22_26 = (22, 26)
    D4_8_11 = (8,11)
    S4 = (16,19)
    S2 = (16,17)
+   S2i = (16,17)
    T2 = (8,9)
+   T2i = (8,9)
    D2 = (0,1)
 
    S2_pred = (16,17)
+   S2_predi = (16,17)
    T2_pred = (8,9)
+   T2_predi = (8,9)
    D2_pred = (0,1)
    D2_pred_new = (0,1)
    U2_pred_21_22 = (21,22)
    U2_pred_new_21_22 = (21,22)
    U2_pred = (8,9)
+   U2_predi = (8,9)
    U1_23_24_pred = (23,24)
    U2_5_6 = (5,6)
    U2_5_6_pred_new = (5,6)
+   U2_5_6_pred_newi = (5,6)
    T2_11_12_pred = (11,12)
    T2_11_12_pred_new = (11,12)
    T2_9_10_pred = (9,10)
@@ -305,6 +312,7 @@ imm_22_26 = (22, 26)
    GD5 = (0,4)
    GD5_pair = (0,3)
    S3_new_16_18 = (16,18)
+   S3_16_18i = (16,18)
 
    S6_svctrl = (16,21)
    S6_svctrl_pair = (17,21)
@@ -313,14 +321,17 @@ imm_22_26 = (22, 26)
    S5i = (16,20)
    S5_dup = (16,20)
    S5_pair = (17,20)
+   S5_pairi = (17,20)
    S5_pair_dup = (17,20)
    S5_ctrl = (16,20)
    S5_ctrl_pair = (16,20)
    alu_X5 = (16,20)
+   alu_X5i = (16,20)
    alu_X5_dup = (16,20)
    alu_X5_pair = (17,20)
 
    U2 = (8,9)
+   U2i = (8,9)
    U2_pred_new = (8,9)
 
    T3_0_2 = (0,2)
@@ -480,6 +491,7 @@ SPr28
 LRFP
 ];
 
+
 #TODO: might be wrong
 attach variables [ immdup0_D3_pair immdup1_D3_pair] [
 r1r0 
@@ -604,6 +616,44 @@ LRc
 cached_regs
  ];
 
+define register offset=0x1000 size=8 [ 
+r1r0c
+r3r2c
+r5r4c
+r7r6c
+r9r8c
+r11r10c
+r13r12c
+r15r14c
+r17r16c
+r19r18c
+r21r20c
+r23r22c
+r25r24c
+r27r26c
+SPr28c
+LRFPc
+];
+
+attach variables [ S5_pairi ] [
+r1r0c
+r3r2c
+r5r4c
+r7r6c
+r9r8c
+r11r10c
+r13r12c
+r15r14c
+r17r16c
+r19r18c
+r21r20c
+r23r22c
+r25r24c
+r27r26c
+SPr28c
+LRFPc
+];
+
 
 attach variables [ S4 T4_8_11 D4_16_19 D4_8_11] [
 r0 
@@ -638,6 +688,18 @@ r5
 r6
 r7
 ];
+
+attach variables [ S3_16_18i ] [
+r0c
+r1c
+r2c
+r3c
+r4c
+r5c
+r6c
+r7c
+];
+
 # TODO: what is this list, this is wrong, x5 is right
 attach variables [ T3_new_8_10 T3_0_2_new ] [
 r0 
@@ -687,7 +749,7 @@ r22c
 r23c
 ];
 
-attach variables [ S5i T5i] [
+attach variables [ S5i T5i alu_X5i ] [
 r0c
 r1c
 r2c
@@ -802,11 +864,19 @@ P0
 P1
 P2
 P3
-P0.new
-P1.new
-P2.new
-P3.new
 PTRUE
+];
+define register offset=0x100 size=4 [ 
+	all_preds
+];
+define register offset=0x2000 size=1 [ 
+	P0c
+	P1c
+	P2c
+	P3c
+];
+define register offset=0x2000 size=4 [ 
+	cached_preds
 ];
 
 attach variables [ U2 D2_pred U2_pred_21_22  T2_pred S2_pred U2_pred U2_5_6 U1_23_24_pred T2_11_12_pred T2_9_10_pred D2 T2 S2] [
@@ -816,13 +886,20 @@ P2
 P3
 ];
 
+attach variables [T2_predi S2_predi U2_predi U2i U2_5_6_pred_newi S2i T2i] [
+P0c
+P1c
+P2c
+P3c
+];
 
 
+#TODO: rm
 attach variables [ D2_pred_new U2_pred_new U2_pred_new_21_22 T2_9_10_pred_new T2_11_12_pred_new U2_5_6_pred_new ] [
-P0.new
-P1.new
-P2.new
-P3.new
+P0
+P1
+P2
+P3
 ];
 
 define register offset=0x400 size=4 [ 
@@ -1280,6 +1357,7 @@ slot:"isync" is iclass=0b0101 & imm_16_27=0b011111000000 & imm_13=0 & imm_10_12=
 @include "xtype_fp.sinc"
 @include "xtype_mpy.sinc"
 @include "xtype_perm.sinc"
+@include "xtype_pred.sinc"
 @include "xtype_shift.sinc"
 
 ### ---- end of normal ops ----
@@ -1296,22 +1374,13 @@ macro prelude() {
     # when a predicate is set to true it should be = 0xFF but ghidra can't recognise that a condition is constant if the true condition isn't either 1 or a power of 2?????
     # When ghidra works, remove this and replace with constant FF everywhere
     PTRUE = 1;
-
-
-    P0.new =P0;
-    P1.new =P1;
-    P2.new =P2;
-    P3.new =P3;
     
     # Copy all gprs to cached registers
     cached_regs = all_gprs;
+    cached_preds = all_preds;
 
 }
 macro prolude() {
-    P0 =P0.new;
-    P1 =P1.new;
-    P2 =P2.new;
-    P3 =P3.new;
 }
 
 

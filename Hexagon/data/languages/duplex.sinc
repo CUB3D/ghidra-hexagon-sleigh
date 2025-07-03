@@ -210,25 +210,25 @@ L2R:"if(!p0) jumpr:nt LR" is immdup1_6_12=0b1111111 & immdup1_3_5=0 & immdup1_0_
 
 L2L:"if(p0.new) jumpr:nt LR" is immdup0_6_12=0b1111111 & immdup0_3_5=0 & immdup0_0_2=0b110 & mode=0 {}
 L2L:"if(p0.new) jumpr:nt LR" is immdup0_6_12=0b1111111 & immdup0_3_5=0 & immdup0_0_2=0b110 & mode=1100 {
-	if(P0.new == 0) goto <end>;
+	if(P0 == 0) goto <end>;
 	return [LR];
 	<end>
 }
 L2R:"if(p0.new) jumpr:nt LR" is immdup1_6_12=0b1111111 & immdup1_3_5=0 & immdup1_0_2=0b110 & mode=0 {}
 L2R:"if(p0.new) jumpr:nt LR" is immdup1_6_12=0b1111111 & immdup1_3_5=0 & immdup1_0_2=0b110 & mode=1100 {
-	if(P0.new == 0) goto <end>;
+	if(P0 == 0) goto <end>;
 	return [LR];
 	<end>
 }
 L2L:"if(!p0.new) jumpr:nt LR" is immdup0_6_12=0b1111111 & immdup0_3_5=0 & immdup0_0_2=0b111 & mode=0 {}
 L2L:"if(!p0.new) jumpr:nt LR" is immdup0_6_12=0b1111111 & immdup0_3_5=0 & immdup0_0_2=0b111 & mode=1100 {
-	if(P0.new != 0) goto <end>;
+	if(P0 != 0) goto <end>;
 	return [LR];
 	<end>
 }
 L2R:"if(!p0.new) jumpr:nt LR" is immdup1_6_12=0b1111111 & immdup1_3_5=0 & immdup1_0_2=0b111 & mode=0 {}
 L2R:"if(!p0.new) jumpr:nt LR" is immdup1_6_12=0b1111111 & immdup1_3_5=0 & immdup1_0_2=0b111 & mode=1100 {
-	if(P0.new != 0) goto <end>;
+	if(P0 != 0) goto <end>;
 	return [LR];
 	<end>
 }
@@ -411,18 +411,18 @@ A1R:immdup1_D4 "=add(self," immdup1_S4 ")" is immdup1_8_12=0b11000 & immdup1_S4 
 
 A1L:"p0 = cmp.eq(" immdup0_S4 "," immdup0_0_1 ")" is immdup0_8_12=0b11001 & immdup0_S4 & immdup0_2_3=0 & immdup0_0_1 {
 	if(immdup0_S4 != immdup0_0_1) goto <bad>;
-	P0.new = PTRUE;
+	P0 = PTRUE;
 	goto <end>;
 	<bad>
-	P0.new = 0;
+	P0 = 0;
 	<end>
 }
 A1R:"p0 = cmp.eq(" immdup1_S4 "," immdup1_0_1 ")" is immdup1_8_12=0b11001 & immdup1_S4 & immdup1_2_3=0 & immdup1_0_1 {
 	if(immdup1_S4 != immdup1_0_1) goto <bad>;
-	P0.new = PTRUE;
+	P0 = PTRUE;
 	goto <end>;
 	<bad>
-	P0.new = 0;
+	P0 = 0;
 	<end>
 }
 
@@ -434,23 +434,23 @@ A1R:immdup1_D4 "= -1" is immdup1_9_12=0b1101 & immdup1_7_8=0 & immdup1_6=0 & imm
 }
 
 A1L:"if(P0.new) " immdup0_D4 "= 0" is immdup0_9_12=0b1101 & immdup0_7_8=0 & immdup0_4_6=0b100 & immdup0_D4 {
-	if(P0.new == 0) goto <end>;
+	if(P0 == 0) goto <end>;
 		immdup0_D4 = 0;
 	<end>
 }
 A1R:"if(P0.new) " immdup1_D4 "= 0" is immdup1_9_12=0b1101 & immdup1_7_8=0 & immdup1_4_6=0b100 & immdup1_D4 {
-	if(P0.new == 0) goto <end>;
+	if(P0 == 0) goto <end>;
 		immdup1_D4 = 0;
 	<end>
 }
 
 A1L:"if(!P0.new) " immdup0_D4 "= 0" is immdup0_9_12=0b1101 & immdup0_7_8=0 & immdup0_4_6=0b101 & immdup0_D4 {
-	if(P0.new != 0) goto <end>;
+	if(P0 != 0) goto <end>;
 		immdup0_D4 = 0;
 	<end>
 }
 A1R:"if(!P0.new) " immdup1_D4 "= 0" is immdup1_9_12=0b1101 & immdup1_7_8=0 & immdup1_4_6=0b101 & immdup1_D4 {
-	if(P0.new != 0) goto <end>;
+	if(P0 != 0) goto <end>;
 		immdup1_D4 = 0;
 	<end>
 }

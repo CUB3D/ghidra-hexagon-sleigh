@@ -129,9 +129,9 @@ with slot: iclass=0b0011 & mode=0 {
 		*[ram]:4 EA = ST_COND_1_s6;
 	<end>
     }
-    :"if(" U2_5_6_pred_new ") memw(" S5 "+" u6 ")=" ST_COND_1_s6 is imm_21_27=0b1001010 & S5 & imm_13 & imm_7_12u & U2_5_6_pred_new & imm_0_4u & ST_COND_1_s6 [u6 = imm_7_12u << 2;] {
-    	if (U2_5_6_pred_new == 0) goto <end>;
-		local EA:4 = S5 + u6;
+    :"if(" U2_5_6_pred_new ") memw(" S5 "+" u6 ")=" ST_COND_1_s6 is imm_21_27=0b1001010 & S5 & S5i & imm_13 & imm_7_12u & U2_5_6_pred_new & U2_5_6_pred_newi & imm_0_4u & ST_COND_1_s6 [u6 = imm_7_12u << 2;] {
+    	if (U2_5_6_pred_newi == 0) goto <end>;
+		local EA:4 = S5i + u6;
 		*[ram]:4 EA = ST_COND_1_s6;
 	<end>
     }

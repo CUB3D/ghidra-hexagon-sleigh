@@ -111,10 +111,10 @@
 
        
         
-        <register name="P0.new" />
+        <!-- <register name="P0.new" />
         <register name="P1.new" />
         <register name="P2.new" />
-        <register name="P3.new" />
+        <register name="P3.new" /> -->
         <register name="P0" />
         <register name="P1" />
         <register name="P2" />
@@ -176,10 +176,10 @@
         
         
         
-        <register name="P0.new" />
+        <!-- <register name="P0.new" />
         <register name="P1.new" />
         <register name="P2.new" />
-        <register name="P3.new" />
+        <register name="P3.new" /> -->
         <register name="P0" />
         <register name="P1" />
         <register name="P2" />
