@@ -1,43 +1,43 @@
 
 # ST:Store word
 with slot: iclass=0b0011 & mode=0 {
-    :"memw("S5"+"T5"<<"u2")=" D5 is imm_21_27=0b1011100 & S5 & imm_13u & T5 & imm_7u & imm_5_6=0 & D5 [ u2 = imm_7u | (imm_13u << 1);] { 
-        local EA:4 = S5 + (T5 << u2);
+    :"memw("S5"+"T5"<<"u2")=" D5 is imm_21_27=0b1011100 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & imm_5_6=0 & D5 [ u2 = imm_7u | (imm_13u << 1);] { 
+        local EA:4 = S5i + (T5i << u2);
         *[ram]:4 EA = D5;
     }
-    :"memw("S5"+"U6")="S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b10 & S5 & imm_7_12u & imm_0_6u & imm_13 & (hasext0=0 | immext0used=1) [ U6 = imm_7_12u << 2; S8=imm_0_6u | (imm_13 << 8);] {
-        local EA:4 = S5 + U6;
+    :"memw("S5"+"U6")="S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b10 & S5 & S5i & imm_7_12u & imm_0_6u & imm_13 & (hasext0=0 | immext0used=1) [ U6 = imm_7_12u << 2; S8=imm_0_6u | (imm_13 << 8);] {
+        local EA:4 = S5i + U6;
         *[ram]:4 EA = S8;
     }
-    :"memw("S5"+"U6")="S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b10 & S5 & imm_7_12u & imm_0_6u & imm_13 & hasext0=1 & immext0used=0 & immext0 & imm_0_5u [ U6 = imm_7_12u << 2; S8=imm_0_5u | immext0; immext0used=1; ] {
-        local EA:4 = S5 + U6;
+    :"memw("S5"+"U6")="S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b10 & S5 & S5i & imm_7_12u & imm_0_6u & imm_13 & hasext0=1 & immext0used=0 & immext0 & imm_0_5u [ U6 = imm_7_12u << 2; S8=imm_0_5u | immext0; immext0used=1; ] {
+        local EA:4 = S5i + U6;
         *[ram]:4 EA = S8;
     }
-    :"memw("S5"+"U6")="S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b10 & S5 & imm_7_12u & imm_0_6u & imm_13 & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_0_5u [ U6 = imm_7_12u << 2; S8=imm_0_5u | immext1; immext1used=1; ] {
-        local EA:4 = S5 + U6;
+    :"memw("S5"+"U6")="S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b10 & S5 & S5i & imm_7_12u & imm_0_6u & imm_13 & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_0_5u [ U6 = imm_7_12u << 2; S8=imm_0_5u | immext1; immext1used=1; ] {
+        local EA:4 = S5i + U6;
         *[ram]:4 EA = S8;
     }
 }
 
 with slot: iclass=0b0100 & mode=0 {
-    :"memw(GP + "s11")="T5 is imm_27=1 & imm_25_26 & imm_21_24=0b0100 & imm_16_20u & imm_13u & T5 & imm_0_7u & (hasext0=0 | immext0used=1) [s11 = (imm_0_7u | (imm_13u << 8) | (imm_16_20u << 9) | (imm_25_26 << 14)) << 2;] {
+    :"memw(GP + "s11")="T5 is imm_27=1 & imm_25_26 & imm_21_24=0b0100 & imm_16_20u & imm_13u & T5 & T5i & imm_0_7u & (hasext0=0 | immext0used=1) [s11 = (imm_0_7u | (imm_13u << 8) | (imm_16_20u << 9) | (imm_25_26 << 14)) << 2;] {
         local EA:4 = GP + s11;
-        *[ram]:4 EA = T5;
+        *[ram]:4 EA = T5i;
     }
-    :"memw("v")="T5 is imm_27=1 & imm_25_26 & imm_21_24=0b0100 & imm_16_20u & imm_13u & T5 & imm_0_7u & hasext0=1 & immext0used=0 & immext0 & imm_0_5u [v = (imm_0_5u) | immext0; immext0used=1; ] {
+    :"memw("v")="T5 is imm_27=1 & imm_25_26 & imm_21_24=0b0100 & imm_16_20u & imm_13u & T5 & T5i & imm_0_7u & hasext0=1 & immext0used=0 & immext0 & imm_0_5u [v = (imm_0_5u) | immext0; immext0used=1; ] {
         local EA:4 = v;
-        *[ram]:4 EA = T5;
+        *[ram]:4 EA = T5i;
     }
-    :"memw("v")="T5 is imm_27=1 & imm_25_26 & imm_21_24=0b0100 & imm_16_20u & imm_13u & T5 & imm_0_7u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_0_5u [v = (imm_0_5u) | immext1; immext1used=1; ] {
+    :"memw("v")="T5 is imm_27=1 & imm_25_26 & imm_21_24=0b0100 & imm_16_20u & imm_13u & T5 & T5i & imm_0_7u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_0_5u [v = (imm_0_5u) | immext1; immext1used=1; ] {
         local EA:4 = v;
-        *[ram]:4 EA = T5;
+        *[ram]:4 EA = T5i;
     }
 }
 
 with slot: iclass=0b1010 & mode=0 {
-    :"memw("S5" + "s11")="T5 is imm_27=0 & imm_25_26 & imm_21_24=0b1100 & S5 & imm_13u & T5 & imm_0_7u [s11 = (imm_0_7u | (imm_13u << 8) | (imm_25_26 << 9)) << 2;] {
-        local EA:4 = S5 + s11;
-        *[ram]:4 EA = T5;
+    :"memw("S5" + "s11")="T5 is imm_27=0 & imm_25_26 & imm_21_24=0b1100 & S5 & S5i & imm_13u & T5 & T5i & imm_0_7u [s11 = (imm_0_7u | (imm_13u << 8) | (imm_25_26 << 9)) << 2;] {
+        local EA:4 = S5i + s11;
+        *[ram]:4 EA = T5i;
     }
     :"memw(" S5 "++I:circ(" M1_13 "))=" T5  is imm_21_27=0b1001100 & S5 & M1_13 & T5 & imm_7=0 & imm_2_6=0 & imm_1=1 & imm_0=0 {
 	     local EA:4 = S5;

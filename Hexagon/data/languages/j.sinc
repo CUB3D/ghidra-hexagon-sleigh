@@ -722,8 +722,8 @@ export *[ram]:4 v;
 			goto CJ_R9;
         <bad>
      }
-     :"p0.new = cmp.eq(" S4 "," CJ_imm_8_12u "); if (!p0.new)" j_hint CJ_R9 is CJ_R9 &     imm_27=0 & imm_22_26=0b00001 & imm_20_21 & S4 & CJ_imm_8_12u & imm_1_7 & imm_0=0 & j_hint{
-        if(S4 == CJ_imm_8_12u) goto <bad>;
+     :"p0.new = cmp.eq(" S4 "," CJ_imm_8_12u "); if (!p0.new)" j_hint CJ_R9 is CJ_R9 &     imm_27=0 & imm_22_26=0b00001 & imm_20_21 & S4 & S4i & CJ_imm_8_12u & imm_1_7 & imm_0=0 & j_hint{
+        if(S4i == CJ_imm_8_12u) goto <bad>;
 			goto CJ_R9;
         <bad>
      }

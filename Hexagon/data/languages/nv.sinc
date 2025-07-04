@@ -641,8 +641,8 @@ with slot: iclass=0b0100 & mode=0 {
     }
 }
 with slot: iclass=0b1010 & mode=0 {
-    :"memw(" S5 "+" s11 ")=" T3_new_8_10 is imm_27=0 & imm_25_26 & imm_21_24=0b1101 & S5 & imm_13u & imm_11_12=0b10 & T3_new_8_10 & imm_0_7u [s11 = (imm_0_7u | (imm_13u << 8) | (imm_25_26 << 9)) << 2; ]{
-    	local EA:4 = S5 + s11;
+    :"memw(" S5 "+" s11 ")=" T3_new_8_10".new" is imm_27=0 & imm_25_26 & imm_21_24=0b1101 & S5 & S5i & imm_13u & imm_11_12=0b10 & T3_new_8_10 & imm_0_7u [s11 = (imm_0_7u | (imm_13u << 8) | (imm_25_26 << 9)) << 2; ]{
+    	local EA:4 = S5i + s11;
 	*[ram]:4 EA = T3_new_8_10;	
     }
     :"memwnew4" is imm_21_27=0b1001101 & S5 & imm_13 & imm_11_12=0b10 & imm_8_10 & imm_7=0 & imm_2_6=0 & imm_1=1 & imm_0=0 {
