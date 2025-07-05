@@ -13,10 +13,10 @@
  
 # ALU32/ALU       Decode + pcode up to v79, regcache
 # ALU32/PERM:     Decode + pcode up to v73, regcache
-# ALU32/PRED:     Decode + pcode up to v73
+# ALU32/PRED:     Decode + pcode up to v73, regcache
 # CR:             Decode + pcode up to v73, regcache
 # JR:             Decode + pcode up to v73, regcache
-# J:              Decode + pcode up to v73
+# J:              Decode + pcode up to v73, regcache
 # LD:             Decode up to v51, pcode unfinished
 # LD/Dword:       Decode + pcode up to v73
 # LD/Byte:        Decode up to v51, pcode unfinished
@@ -300,6 +300,7 @@ imm_22_26 = (22, 26)
    T5_dup = (8,12)
    T5_pair = (9,12)
    T4_8_11 = (8,11)
+   T4_8_11i = (8,11)
    
    
    Rs = (27, 27)
@@ -700,7 +701,7 @@ r22
 r23 
 ];
 
-attach variables [ S4i ] [
+attach variables [ S4i T4_8_11i ] [
 r0c
 r1c
 r2c

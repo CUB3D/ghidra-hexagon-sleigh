@@ -63,10 +63,9 @@ with slot: iclass=0b0101 & mode=0 {
 	 	goto [S5i];
         <end>
 	 }
-
-	 :"if("U2_pred") jumpr:nt LR" is imm_21_27=0b0011010 & S5=31 & imm_13=0 & imm_11_12=0b00 & imm_10=0 & U2_pred & imm_0_7=0 & mode=0 {}	 
-	 :"if("U2_pred") jumpr:nt LR" is imm_21_27=0b0011010 & S5=31 & imm_13=0 & imm_11_12=0b00 & imm_10=0 & U2_pred & imm_0_7=0 & mode=1100 {
-        if(U2_pred == 0) goto <end>;
+	 :"if("U2_pred") jumpr:nt LR" is imm_21_27=0b0011010 & S5=31 & imm_13=0 & imm_11_12=0b00 & imm_10=0 & U2_pred & U2_predi & imm_0_7=0 & mode=0 {}	 
+	 :"if("U2_pred") jumpr:nt LR" is imm_21_27=0b0011010 & S5=31 & imm_13=0 & imm_11_12=0b00 & imm_10=0 & U2_pred & U2_predi & imm_0_7=0 & mode=1100 {
+        if(U2_predi == 0) goto <end>;
         return [LRc];
         <end>
 	 }
@@ -80,7 +79,7 @@ with slot: iclass=0b0101 & mode=0 {
 	 
 	 :"if("U2_pred") jumpr:t "S5 is imm_21_27=0b0011010 & S5 & S5i & imm_13=0 & imm_11_12=0b10 & imm_10=0 & U2_pred & U2_predi & imm_0_7=0 & mode=0 {}
 	 :"if("U2_pred") jumpr:t "S5 is imm_21_27=0b0011010 & S5 & S5i & imm_13=0 & imm_11_12=0b10 & imm_10=0 & U2_pred & U2_predi & imm_0_7=0 & mode=1100 {
-        if(U2_pred == 0) goto <end>;
+        if(U2_predi == 0) goto <end>;
         goto [S5i];
         <end>
 	 }
