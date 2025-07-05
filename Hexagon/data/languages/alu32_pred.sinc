@@ -365,8 +365,8 @@ with slot: iclass=0b0111 {
 
      with : hasext0=0 | immext0used=1 {
     # Compare
-	:D2_pred_new "=cmp.eq("S5", "s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b00 & imm_21 & S5 & imm_5_13u & imm_2_4=0b000 & D2_pred_new [s10 = imm_5_13u | (imm_21 << 9);] {
-        if( S5 == s10) goto <good>;
+	:D2_pred_new "=cmp.eq("S5", "s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b00 & imm_21 & S5 & S5i & imm_5_13u & imm_2_4=0b000 & D2_pred_new [s10 = imm_5_13u | (imm_21 << 9);] {
+        if( S5i == s10) goto <good>;
         D2_pred_new = 0;
         goto <end>;
         <good>

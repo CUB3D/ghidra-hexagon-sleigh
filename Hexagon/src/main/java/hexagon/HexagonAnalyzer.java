@@ -36,6 +36,7 @@ import ghidra.program.model.listing.ContextChangeException;
 import ghidra.program.model.listing.Instruction;
 import ghidra.program.model.listing.Listing;
 import ghidra.program.model.listing.Program;
+import ghidra.program.model.listing.ProgramContext;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
 
@@ -44,26 +45,20 @@ import ghidra.util.task.TaskMonitor;
  */
 public class HexagonAnalyzer extends AbstractAnalyzer {
 	
-	Register or1;
-	Register or2;
-	Register or3;
-	Register analysed;
+	private Register or1;
+	private Register or2;
+	private Register or3;
+	private Register analysed;
 
-	Register[] regs_set = {or1, or2, or3};;
+	private Register[] regs_set = {or1, or2, or3};;
 	
 	public HexagonAnalyzer() {
-
-		// Name the analyzer and give it a description.
-
-		super("Hexagon dotnew Analyzer"
-				+ "", "Analyzer description goes here", AnalyzerType.INSTRUCTION_ANALYZER);
+		super("Hexagon dotnew Analyzer", "Sets the output register context required for dotnew (NV/J + NV/ST) instructions", AnalyzerType.INSTRUCTION_ANALYZER);
 	}
 
 	@Override
 	public boolean getDefaultEnablement(Program program) {
-
 		// Return true if analyzer should be enabled by default
-
 		return true;
 	}
 
@@ -81,23 +76,17 @@ public class HexagonAnalyzer extends AbstractAnalyzer {
 		regs_set[0] = or1;
 		regs_set[1] = or2;
 		regs_set[2] = or3;
-
 		
 		return true;
 	}
 
 	@Override
 	public void registerOptions(Options options, Program program) {
-
 		// If this analyzer has custom options, register them here
-
-		options.registerOption("Option name goes here", false, null,
-			"Option description goes here");
 	}
 
 	@Override
-	public boolean added(Program program, AddressSetView set, TaskMonitor monitor, MessageLog log)
-			throws CancelledException{
+	public boolean added(Program program, AddressSetView set, TaskMonitor monitor, MessageLog log) throws CancelledException {
 		
 		final long locationCount = set.getNumAddresses();
 		monitor.initialize(locationCount);
@@ -107,21 +96,9 @@ public class HexagonAnalyzer extends AbstractAnalyzer {
 		long count = 0;
 		
 		Listing list = program.getListing();
-		
-//		for(Register r : program.getProgramContext().getContextRegisters()) {
-//
-//			log.appendMsg("" + r);
-//		}
-		
-		
-		
-//		log.appendMsg("" + or1);
-//		log.appendMsg("" + or2);
-//		log.appendMsg("" + or3);
-		
-		
-//		
-//		
+		ProgramContext pc = program.getProgramContext();
+		Disassembler dis = Disassembler.getDisassembler(program, monitor, null);
+
 	
 		
 		while (addresses.hasNext()) {
@@ -129,7 +106,7 @@ public class HexagonAnalyzer extends AbstractAnalyzer {
 
 			Address addr = addresses.next();
 			
-			BigInteger old_or1 = program.getProgramContext().getValue(analysed, addr, false);
+			BigInteger old_or1 = pc.getValue(analysed, addr, false);
 			if(old_or1 != null) {
 				if(old_or1.intValue() != 0) {
 					continue;
@@ -170,24 +147,32 @@ public class HexagonAnalyzer extends AbstractAnalyzer {
 										
 					outvals.add(val);
 					idx += 1;
+				} else if(g.startsWith("FP")) {
+					outvals.add(29*4);
+					idx += 1;
+				} else if(g.startsWith("SP")) {
+					outvals.add(30*4);
+					idx += 1;
+				} else if(g.startsWith("LR")) {
+					outvals.add(31*4);
+					idx += 1;
 				}
+				
 			}
 			
-			program.getListing().clearCodeUnits(addr, addr.add(2), true);
+			list.clearCodeUnits(addr, addr.add(2), true);
 			
 			try {
-				program.getProgramContext().setValue(analysed, addr, addr, new BigInteger("1"));
+				pc.setValue(analysed, addr, addr, new BigInteger("1"));
 			} catch (ContextChangeException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 
 			for(int idx2 = 0; idx2 < idx; idx2++) {
 				if(idx2 < 3) {
 					int val = outvals.get(idx2);
 					try {
-						program.getProgramContext().setValue(regs_set[idx2], addr, addr, new BigInteger(""+val));
+						pc.setValue(regs_set[idx2], addr, addr, new BigInteger(""+val));
 					} catch (ContextChangeException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -195,18 +180,13 @@ public class HexagonAnalyzer extends AbstractAnalyzer {
 				}
 			}
 			
-			Disassembler dis = Disassembler.getDisassembler(program, monitor, null);
 			AddressSet disassembled = dis.disassemble(addr, null, false);
 			if (!disassembled.contains(addr)) {
-				// give up, the instruction couldn't be disassembled
 				return false;
 			}
 
 			AutoAnalysisManager.getAnalysisManager(program).codeDefined(disassembled);
 		}
-
-		// Perform analysis when things get added to the 'program'.  Return true if the
-		// analysis succeeded.
 
 		return true;
 	}

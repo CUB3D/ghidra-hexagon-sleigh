@@ -310,6 +310,7 @@ imm_22_26 = (22, 26)
 
    D5_pair = (1,4)
    D5 = (0,4)
+   D5i = (0,4)
    D5ref = (0,4)
    D5_dup = (0,4)
    D5_ctrl = (0,4)
@@ -793,7 +794,7 @@ r22c
 r23c
 ];
 
-attach variables [ S5i T5i alu_X5i ] [
+attach variables [ S5i T5i alu_X5i D5i ] [
 r0c
 r1c
 r2c
@@ -1266,116 +1267,38 @@ define pcodeop testCallOther;
 define pcodeop testCallOther1;
 
 attach names [or1test_overlap] [
-"r0"
-_ _ _
-"r1"
-_ _ _
-"r2"
-_ _ _
-"r3"
-_ _ _
-"r4"
-_ _ _
-"r5"
-_ _ _
-"r6"
-_ _ _
-"r7"
-_ _ _
-"r8"
-_ _ _
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
-"hello"
+"r0" _ _ _
+"r1" _ _ _
+"r2" _ _ _
+"r3" _ _ _
+"r4" _ _ _
+"r5" _ _ _
+"r6" _ _ _
+"r7" _ _ _
+"r8" _ _ _
+"r9" _ _ _
+"r10" _ _ _
+"r11" _ _ _
+"r12" _ _ _
+"r13" _ _ _
+"r14" _ _ _
+"r15" _ _ _
+"r16" _ _ _
+"r17" _ _ _
+"r18" _ _ _
+"r19" _ _ _
+"r20" _ _ _
+"r21" _ _ _
+"r22" _ _ _
+"r23" _ _ _
+"r24" _ _ _
+"r25" _ _ _
+"r26" _ _ _
+"r27" _ _ _
+"r28" _ _ _
+"FP" _ _ _
+"SP" _ _ _
+"LR" _ _ _
 ];
 
 # This is special handling for output register referencing in .new instructions
@@ -1395,7 +1318,7 @@ OR2: or3test is or3test {
 	export *[register]:4 tmp;
 }			
 NV_S3_new_16_18: "ILLEGAL" is OR1 { export OR1; }
-NV_S3_new_16_18: OR1 is S3_new_16_18=0b010 & OR1 & pktid=2 {
+NV_S3_new_16_18: OR1 ".new" is S3_new_16_18=0b010 & OR1 & pktid=2 {
 	export OR1;
 }
 
