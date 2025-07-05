@@ -67,7 +67,7 @@ with slot: iclass=0b0010 & mode=0 {
     }
 
 #ns
-    :"if(cmp.eq(" S3_new_16_18 ".new ," imm_8_12u ") jump:nt" nv_j_r9  is imm_22_27=0b010000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9{
+    :"if(cmp.eq(" NV_S3_new_16_18 ".new ," imm_8_12u ") jump:nt" nv_j_r9  is NV_S3_new_16_18 & imm_22_27=0b010000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9{
     }
     :"if(cmp.eq(" S3_new_16_18 "," imm_8_12u ") jump:t" nv_j_r9  is imm_22_27=0b010000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9{
     }
@@ -234,10 +234,10 @@ with slot: iclass=0b0010 & mode=1100 {
     }
 
 #ns
-    :"if(cmp.eq(" S3_new_16_18 "," imm_8_12u ") jump:nt" nv_j_r9  is imm_22_27=0b010000 & imm_20_21 & imm_19=0 & S3_new_16_18 & S3_16_18i & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9{
-    if(S3_16_18i != imm_8_12u) goto <end>;
-	goto nv_j_r9;
-	<end>
+    :"if(cmp.eq(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" nv_j_r9  is NV_S3_new_16_18 & imm_22_27=0b010000 & imm_20_21 & imm_19=0 & S3_new_16_18 & S3_16_18i & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9{
+	    if(NV_S3_new_16_18 != imm_8_12u) goto <end>;
+			goto nv_j_r9;
+		<end>
     }
     :"if(cmp.eq(" S3_new_16_18 "," imm_8_12u ") jump:t" nv_j_r9  is imm_22_27=0b010000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9{
 	if(S3_new_16_18 != imm_8_12u) goto <end>;

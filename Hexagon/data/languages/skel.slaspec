@@ -310,6 +310,7 @@ imm_22_26 = (22, 26)
 
    D5_pair = (1,4)
    D5 = (0,4)
+   D5ref = (0,4)
    D5_dup = (0,4)
    D5_ctrl = (0,4)
    D5_ctrl_pair = (0,4)
@@ -453,7 +454,27 @@ define context testctx
 	
 	
 	mode = (128, 159) noflow
+	
+	# HACK: you can't have a name list on a context register, and get it via ProgramContext on a analyzer
+	or1test = (160, 166) noflow
+	or1test_overlap = (160, 166) noflow
+	
+	analysed = (167, 167) noflow
+	
+	pktid = (192, 223) noflow
+	or2test = (224, 255) noflow
+	or3test = (256, 287) noflow
 ;
+
+#define register offset=0x3000 size=4 [
+#or1ctx
+#];
+
+
+#define context or1ctx
+#or1test = (0, 6) noflow
+#or1test_overlap = (0, 6) noflow
+#;
 
 # high dword: Left
 # lo   dword: Right
@@ -1244,7 +1265,139 @@ attach variables [GD5_pair] [
 define pcodeop testCallOther;
 define pcodeop testCallOther1;
 
+attach names [or1test_overlap] [
+"r0"
+_ _ _
+"r1"
+_ _ _
+"r2"
+_ _ _
+"r3"
+_ _ _
+"r4"
+_ _ _
+"r5"
+_ _ _
+"r6"
+_ _ _
+"r7"
+_ _ _
+"r8"
+_ _ _
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+"hello"
+];
 
+# This is special handling for output register referencing in .new instructions
+# We use an analyser to find the outputs of each sub inst and store in context
+# then map (offset, subins numb) to the correct one
+# TODO: consider doing this with a xbuild down the line
+OR1: or1test_overlap is or1test & or1test_overlap {
+	local tmp:4 = or1test;
+	export *[register]:4 tmp;
+}
+OR2: or2test is or2test {
+	local tmp:4 = or2test;
+	export *[register]:4 tmp;
+}
+OR2: or3test is or3test {
+	local tmp:4 = or3test;
+	export *[register]:4 tmp;
+}			
+NV_S3_new_16_18: "ILLEGAL" is OR1 { export OR1; }
+NV_S3_new_16_18: OR1 is S3_new_16_18=0b010 & OR1 & pktid=2 {
+	export OR1;
+}
 
 
 macro rotl32(out, a, b) {
@@ -1462,12 +1615,12 @@ build_nv_input_3:"" is build_nv_input { build build_nv_input; }
 build_nv_input_4:"" is build_nv_input { build build_nv_input; }
 
 
-slot0: slot is slot &  (parse=0b01 | parse=0b10) & iclass [mode=0;] { build slot; }
-slot1: slot0 is slot0 [mode=0;]  {  build slot0; }
-slot2: slot0 is slot0 [mode=0;]  { build slot0; }
+slot0: slot is slot &  (parse=0b01 | parse=0b10) & iclass [mode=0; pktid=1;] { build slot; }
+slot1: slot0 is slot0 [mode=0; pktid=pktid+1;]  {  build slot0; }
+slot2: slot0 is slot0 [mode=0; pktid=pktid+1;]  { build slot0; }
 
 
-slotX: slot is slot & parse=0b11 [mode=0;]  { 
+slotX: slot is slot & parse=0b11 [mode=0; pktid=pktid+1;]  { 
 	build slot;        
     prolude();
 }
