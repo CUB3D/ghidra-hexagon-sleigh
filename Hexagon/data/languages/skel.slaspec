@@ -18,13 +18,13 @@
 # JR:             Decode + pcode up to v73, regcache
 # J:              Decode + pcode up to v73, regcache
 # LD:             Decode up to v51, pcode unfinished
-# LD/Dword:       Decode + pcode up to v73
+# LD/Dword:       Decode + pcode up to v73, regcache
 # LD/Byte:        Decode up to v51, pcode unfinished
 # LD/Halfword:    Decode up to v51, pcode unfinished
-# LD/ubyte:       Decode + pcode up to v73
+# LD/ubyte:       Decode + pcode up to v73, regcache
 # LD/uHalfword:   Decode up to v51, pcode unfinished
 # LD/word:        Decode + pcode up to v73
-# MEMOP:          Decode + pcode up to v73
+# MEMOP:          Decode + pcode up to v73, regcache
 # NV:             Decode up to v73, pcode unfinished
 # ST/byte:        Decode + pcode up to v73
 # ST/Dword:       Decode up to v73, pcode unfinished
@@ -40,7 +40,7 @@
 # XTYPE/FP:       Decode + pcode up to v79
 # XTYPE/MPY:      Decode up to v73, pcode unfinished
 # XTYPE/PERM:     Decode + pcode up to v73
-# XTYPE/PRED:     Decode + pcode up to v73
+# XTYPE/PRED:     Decode + pcode up to v73, regcache
 # XTYPE/SHIFT:    Decode + pcode up to v73
 
 # TODOs:
