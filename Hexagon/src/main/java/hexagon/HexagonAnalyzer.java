@@ -99,6 +99,9 @@ public class HexagonAnalyzer extends AbstractAnalyzer {
 		ProgramContext pc = program.getProgramContext();
 		Disassembler dis = Disassembler.getDisassembler(program, monitor, null);
 
+		// rX | rXX | LR | FP | SP
+		Pattern regs = Pattern.compile("(r\\d{1,2})|LR|FP|SP\\s*=");
+		List<Integer> outvals = new ArrayList<>();
 	
 		
 		while (addresses.hasNext()) {
@@ -122,13 +125,12 @@ public class HexagonAnalyzer extends AbstractAnalyzer {
 			}
 			
 			String ins = inst.toString();
-			// rX | rXX | LR | FP | SP
-			Pattern regs = Pattern.compile("(r\\d{1,2})|LR|FP|SP\\s*=");
+			
 			Matcher m = regs.matcher(ins);
 //			log.appendMsg(ins);
 //			System.out.println(ins);
 			int idx = 0;
-			List<Integer> outvals = new ArrayList<>();
+			outvals.clear();
 			while(m.find()) {
 				String g = m.group();
 //				log.appendMsg(g);
@@ -142,8 +144,8 @@ public class HexagonAnalyzer extends AbstractAnalyzer {
 //					System.out.println(""+num);
 					int val = Integer.parseInt(num);
 					val *= 4;
-					log.appendMsg(""+val);
-					System.out.println(""+val);
+					//log.appendMsg(""+val);
+					//System.out.println(""+val);
 										
 					outvals.add(val);
 					idx += 1;

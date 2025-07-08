@@ -26,7 +26,10 @@
 # LD/word:        Decode + pcode up to v73
 # MEMOP:          Decode + pcode up to v73
 # NV:             Decode up to v73, pcode unfinished
-# ST:             Decode up to v73, pcode unfinished
+# ST/byte:        Decode + pcode up to v73
+# ST/Dword:       Decode up to v73, pcode unfinished
+# ST/halfword:    Decode up to v73, pcode unfinished
+# ST/word:        Decode + pcode up to v73, regcache
 # SYSTEM/USER:    Decode + pcode up to v79
 # SYSTEM/GUEST:   Decode + pcode up to v66 (latest for this section)
 # SYSTEM/MONITOR: Decode + pcode up to v66 (latest for this section)
@@ -278,6 +281,7 @@ imm_22_26 = (22, 26)
    T2_pred = (8,9)
    T2_predi = (8,9)
    D2_pred = (0,1)
+   D2_predi = (0,1)
    D2_pred_new = (0,1)
    U2_pred_21_22 = (21,22)
    U2_pred_21_22i = (21,22)
@@ -932,7 +936,7 @@ P2
 P3
 ];
 
-attach variables [U2_pred_21_22i T2_predi S2_predi U2_predi U2_5_6i U2i U2_5_6_pred_newi U1_23_24_predi S2i T2i] [
+attach variables [D2_predi U2_pred_21_22i T2_predi S2_predi U2_predi U2_5_6i U2i U2_5_6_pred_newi U1_23_24_predi S2i T2i] [
 P0c
 P1c
 P2c
