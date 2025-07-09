@@ -2,7 +2,7 @@
 
 # List of nice-to-haves in SELIGH
 # arbitrary bit-count sext, not just bytes
-# allow (a+b, a) in tokens, keep getting imm64s wrong 
+# allow (a+b, a) in tokens, keep getting imm64s wrong
 # Allow setting size of local in constructor
 # Fix decompiler for PTRUE
 # Allow setting [a=b;] in imm ctor, have to use [a = b<<0;]
@@ -10,37 +10,37 @@
 #Status:
 # Disas everything up to v73, most common ops have pcode impl
 # Switches don't work yet
- 
-# ALU32/ALU       Decode + pcode up to v79, regcache
-# ALU32/PERM:     Decode + pcode up to v73, regcache
-# ALU32/PRED:     Decode + pcode up to v73, regcache
-# CR:             Decode + pcode up to v73, regcache
-# JR:             Decode + pcode up to v73, regcache
-# J:              Decode + pcode up to v73, regcache
+
+# ALU32/ALU       Decode + pcode up to v79                                 regcache
+# ALU32/PERM:     Decode + pcode up to v73                                 regcache
+# ALU32/PRED:     Decode + pcode up to v73                                 regcache
+# CR:             Decode + pcode up to v73                                 regcache
+# JR:             Decode + pcode up to v73                                 regcache
+# J:              Decode + pcode up to v73                                 regcache
 # LD:             Decode up to v51, pcode unfinished
-# LD/Dword:       Decode + pcode up to v73, regcache
-# LD/Byte:        Decode up to v51, pcode unfinished
-# LD/Halfword:    Decode up to v51, pcode unfinished
-# LD/ubyte:       Decode + pcode up to v73, regcache
-# LD/uHalfword:   Decode up to v51, pcode unfinished
-# LD/word:        Decode + pcode up to v73
-# MEMOP:          Decode + pcode up to v73, regcache
+# LD/Dword:       Decode + pcode up to v73                                 regcache
+# LD/Byte:        Decode + pcode up to v73
+# LD/Halfword:    Decode + pcode up to v73
+# LD/ubyte:       Decode + pcode up to v73                                 regcache
+# LD/uHalfword:   Decode + pcode up to v73    
+# LD/word:        Decode + pcode up to v73                                 regcache
+# MEMOP:          Decode + pcode up to v73                                 regcache
 # NV:             Decode up to v73, pcode unfinished
-# ST/byte:        Decode + pcode up to v73
+# ST/byte:        Decode + pcode up to v73                                 regcache
 # ST/Dword:       Decode up to v73, pcode unfinished
 # ST/halfword:    Decode up to v73, pcode unfinished
-# ST/word:        Decode + pcode up to v73, regcache
+# ST/word:        Decode + pcode up to v73                                 regcache
 # SYSTEM/USER:    Decode + pcode up to v79
 # SYSTEM/GUEST:   Decode + pcode up to v66 (latest for this section)
 # SYSTEM/MONITOR: Decode + pcode up to v66 (latest for this section)
 # XTYPE:          Decode up to v73, pcode unfinished
-# XTYPE/ALU:      Decode + pcode up to v73
-# XTYPE/BIT:      Decode + pcode up to v73
+# XTYPE/ALU:      Decode + pcode up to v73                                 regcache
+# XTYPE/BIT:      Decode + pcode up to v73                                 regcache
 # XTYPE/COMPLEX:  Decode + pcode up to v79
 # XTYPE/FP:       Decode + pcode up to v79
 # XTYPE/MPY:      Decode up to v73, pcode unfinished
-# XTYPE/PERM:     Decode + pcode up to v73
-# XTYPE/PRED:     Decode + pcode up to v73, regcache
+# XTYPE/PERM:     Decode + pcode up to v73                                 regcache
+# XTYPE/PRED:     Decode + pcode up to v73                                 regcache
 # XTYPE/SHIFT:    Decode + pcode up to v73
 
 # TODOs:
@@ -49,12 +49,13 @@
 # caching input values
 # update all insts to display cached as expected
 # check all unsigned / signed imms
+# caching for GP
 
 # Slices explained:
 # Hexagon has strange semantics where an instructions effect might not take place immidiately
-# e.g. branches are grouped to the end of a packet, and ops with new-value inputs take place after 
+# e.g. branches are grouped to the end of a packet, and ops with new-value inputs take place after
 # all new-value producing ops so that they can consume their output
-#  
+#
 # In order to handle this, we break each instruction up into "slices" and generate all ops in a slice before moving to the next slice
 # like this:
 # +--------+--------+
@@ -62,17 +63,17 @@
 # +--------+--------+
 # | branch | branch | # branch slice, mode=1100
 # +--------+--------+
-# 
+#
 # Input value caching:
 # Because a sub-instruction can overwrite a value that is later read by an earlier instruction
 # we need to cache the value of the inputs, e.g. in the following:
-# {{ r0 = r1; r1 = r0; }} 
+# {{ r0 = r1; r1 = r0; }}
 # we must cache the value of r1 and r0 at packet start and write first:
 # r0 = (cached) r1;
 # then, r1 = (cached) r0;
 # The cached inputs are saved in the rXc registers, they are referenced by the <name>i tokens, they should only be used in the semantic section so that
 # in the listing view we still see the original register name for searching
-# 
+#
 # If a new value input is required then the instruction must run in the new-value-input slice, which is after all normal outputs are complete
 # Then using normal, uncached inputs will give the new value
 
@@ -98,7 +99,7 @@ define token instr (32)
 
    imm_27 = (27, 27)
       imm_26 = (26, 26)
- 
+
 
    imm_25_27 = (25, 27)
    imm_25_26 = (25, 26) signed
@@ -120,7 +121,7 @@ imm_22_26 = (22, 26)
    imm_21_27 = (21, 27) signed
    imm_21_24 = (21, 24)
    imm_21_23 = (21, 23)
-   imm_21_23u = (21, 23) 
+   imm_21_23u = (21, 23)
    imm_21_22 = (21, 22) signed
    imm_21_22u = (21, 22)
    imm_21 = (21, 21) signed
@@ -136,9 +137,9 @@ imm_22_26 = (22, 26)
    imm_18_21 = (18, 21)
    imm_18_20 = (18, 20)
    imm_18_19 = (18, 19)
-   
+
       imm_17_27 = (17,27)
-   
+
 
    imm_16_27 = (16, 27) signed
    imm_16_25 = (16, 25) signed
@@ -168,7 +169,7 @@ imm_22_26 = (22, 26)
    imm_10_12 = (10, 12)
       imm_10_11 = (10, 11)
    imm_10 = (10, 10)
-   
+
    imm_9_13 = (9, 13)
    imm_9_11 = (9, 11)
    imm_9_10 = (9, 10)
@@ -182,7 +183,7 @@ imm_22_26 = (22, 26)
       imm_8_11u = (8, 11)
       imm_8_10 = (8, 10)
       imm_8_9 = (8, 9)
-   
+
    imm_8 = (8, 8)
    imm_8u = (8, 8)
 
@@ -264,7 +265,7 @@ imm_22_26 = (22, 26)
    imm_0_1 = (0, 1)
    imm_0_1u = (0, 1)
    imm_0 = (0, 0)
-   
+
 
    D4_16_19 = (16,19)
    D4_8_11 = (8,11)
@@ -295,18 +296,21 @@ imm_22_26 = (22, 26)
    U2_5_6_pred_new = (5,6)
    U2_5_6_pred_newi = (5,6)
    T2_11_12_pred = (11,12)
+   T2_11_12_predi = (11,12)
    T2_11_12_pred_new = (11,12)
    T2_9_10_pred = (9,10)
+   T2_9_10_predi = (9,10)
    T2_9_10_pred_new = (9,10)
 
    T5 = (8,12)
    T5i = (8,12)
    T5_dup = (8,12)
    T5_pair = (9,12)
+   T5_pairi = (9,12)
    T4_8_11 = (8,11)
    T4_8_11i = (8,11)
-   
-   
+
+
    Rs = (27, 27)
    MajOp = (24,26)
    MinOp = (21,23)
@@ -314,6 +318,7 @@ imm_22_26 = (22, 26)
    D6_svctrl = (0,5)
 
    D5_pair = (1,4)
+   D5_pairi = (1,4)
    D5 = (0,4)
    D5i = (0,4)
    D5ref = (0,4)
@@ -348,14 +353,14 @@ imm_22_26 = (22, 26)
    T3_0_2 = (0,2)
    T3_0_2_new = (0,2)
    T3_new_8_10 = (8,10)
-   
+
    M1_13 = (13,13)
 
-   
+
    parse = (14, 15)
   	imm32 = (0, 31)
-  	
-  	
+
+
 	immdup0_12=(12,12)
 	immdup0_11_12=(11,12)
 	immdup0_10_12=(10,12)
@@ -397,7 +402,7 @@ imm_22_26 = (22, 26)
 	immdup0_D4=(0,3)
 	immdup0_D4_pair=(0,3)
 	immdup0_D3_pair=(0,2)
-	
+
 	immdup1_12=(28,28)
 	immdup1_11_12=(27,28)
 	immdup1_10_12=(26,28)
@@ -441,10 +446,10 @@ imm_22_26 = (22, 26)
 	immdup1_D3_pair=(16,18)
 ;
 
-#define register offset=0x200 size=4 [ 
+#define register offset=0x200 size=4 [
 #];
 
-define register offset=0x300 size=64 [ 
+define register offset=0x300 size=64 [
 testctx
 ];
 
@@ -457,16 +462,16 @@ define context testctx
     immext1used = (67,67) noflow
 	# opaque pred for false
 	disabled = (80, 80) noflow
-	
-	
+
+
 	mode = (128, 159) noflow
-	
+
 	# HACK: you can't have a name list on a context register, and get it via ProgramContext on a analyzer
 	or1test = (160, 166) noflow
 	or1test_overlap = (160, 166) noflow
-	
+
 	analysed = (167, 167) noflow
-	
+
 	pktid = (192, 223) noflow
 	or2test = (224, 255) noflow
 	or3test = (256, 287) noflow
@@ -484,40 +489,40 @@ define context testctx
 
 # high dword: Left
 # lo   dword: Right
-define register offset=0x00 size=8 [ 
+define register offset=0x00 size=8 [
 r1r0
-r3r2 
-r5r4 
-r7r6 
-r9r8 
-r11r10 
-r13r12 
-r15r14 
-r17r16 
-r19r18 
-r21r20 
-r23r22 
-r25r24 
-r27r26 
+r3r2
+r5r4
+r7r6
+r9r8
+r11r10
+r13r12
+r15r14
+r17r16
+r19r18
+r21r20
+r23r22
+r25r24
+r27r26
 SPr28
 LRFP
 ];
 
 attach variables [ D5_pair T5_pair S5_pair S5_pair_dup alu_X5_pair immdup0_D4_pair immdup1_D4_pair] [
-r1r0 
-r3r2 
-r5r4 
-r7r6 
-r9r8 
-r11r10 
-r13r12 
-r15r14 
-r17r16 
-r19r18 
-r21r20 
-r23r22 
-r25r24 
-r27r26 
+r1r0
+r3r2
+r5r4
+r7r6
+r9r8
+r11r10
+r13r12
+r15r14
+r17r16
+r19r18
+r21r20
+r23r22
+r25r24
+r27r26
 SPr28
 LRFP
 ];
@@ -525,91 +530,91 @@ LRFP
 
 #TODO: might be wrong
 attach variables [ immdup0_D3_pair immdup1_D3_pair] [
-r1r0 
-r3r2 
-r5r4 
-r7r6 
-r17r16 # correct 
-r11r10 
-r13r12 
-r15r14 
+r1r0
+r3r2
+r5r4
+r7r6
+r17r16 # correct
+r11r10
+r13r12
+r15r14
 ];
 
-define register offset=0x00 size=4 [ 
-r0 
-r1 
-r2 
-r3 
-r4 
-r5 
-r6 
-r7 
-r8 
-r9 
-r10 
-r11 
-r12 
-r13 
-r14 
-r15 
-r16 
-r17 
-r18 
-r19 
-r20 
-r21 
-r22 
-r23 
-r24 
-r25 
-r26 
-r27 
-r28 
+define register offset=0x00 size=4 [
+r0
+r1
+r2
+r3
+r4
+r5
+r6
+r7
+r8
+r9
+r10
+r11
+r12
+r13
+r14
+r15
+r16
+r17
+r18
+r19
+r20
+r21
+r22
+r23
+r24
+r25
+r26
+r27
+r28
 SP
 FP
 LR
  ];
-  define register offset=0x00 size=128 [ 
+  define register offset=0x00 size=128 [
 	all_gprs
  ];
 
 attach variables [ D5 D5_dup S5 S5_dup alu_X5 alu_X5_dup T5 T5_dup ] [
-r0 
-r1 
-r2 
-r3 
-r4 
-r5 
-r6 
-r7 
-r8 
-r9 
-r10 
-r11 
-r12 
-r13 
-r14 
-r15 
-r16 
-r17 
-r18 
-r19 
-r20 
-r21 
-r22 
-r23 
-r24 
-r25 
-r26 
-r27 
-r28 
+r0
+r1
+r2
+r3
+r4
+r5
+r6
+r7
+r8
+r9
+r10
+r11
+r12
+r13
+r14
+r15
+r16
+r17
+r18
+r19
+r20
+r21
+r22
+r23
+r24
+r25
+r26
+r27
+r28
 SP
 FP
 LR
 ];
 
 # caching registers
-define register offset=0x1000 size=4 [ 
+define register offset=0x1000 size=4 [
 r0c
 r1c
 r2c
@@ -643,11 +648,11 @@ SPc
 FPc
 LRc
  ];
- define register offset=0x1000 size=128 [ 
+ define register offset=0x1000 size=128 [
 cached_regs
  ];
 
-define register offset=0x1000 size=8 [ 
+define register offset=0x1000 size=8 [
 r1r0c
 r3r2c
 r5r4c
@@ -666,7 +671,7 @@ SPr28c
 LRFPc
 ];
 
-attach variables [ S5_pairi ] [
+attach variables [ D5_pairi S5_pairi T5_pairi ] [
 r1r0c
 r3r2c
 r5r4c
@@ -687,22 +692,22 @@ LRFPc
 
 
 attach variables [ S4 T4_8_11 D4_16_19 D4_8_11] [
-r0 
-r1 
-r2 
-r3 
-r4 
-r5 
-r6 
-r7 
-r16 
-r17 
-r18 
-r19 
-r20 
-r21 
-r22 
-r23 
+r0
+r1
+r2
+r3
+r4
+r5
+r6
+r7
+r16
+r17
+r18
+r19
+r20
+r21
+r22
+r23
 ];
 
 attach variables [ S4i T4_8_11i ] [
@@ -714,7 +719,7 @@ r4c
 r5c
 r6c
 r7c
-r16c 
+r16c
 r17c
 r18c
 r19c
@@ -729,12 +734,12 @@ r23c
 # TODO: add _new semantics
 # TODO: what is this list, this is wrong, x4 is right
 attach variables [ S3_new_16_18 ] [
-r0 
-r1 
+r0
+r1
 r2
-r3 
+r3
 r4
-r5 
+r5
 r6
 r7
 ];
@@ -752,12 +757,12 @@ r7c
 
 # TODO: what is this list, this is wrong, x5 is right
 attach variables [ T3_new_8_10 T3_0_2_new ] [
-r0 
-r1 
-r2 
-r5 
-r7 
-r8 
+r0
+r1
+r2
+r5
+r7
+r8
 r9
 r10
 ];
@@ -834,7 +839,7 @@ FPc
 LRc
 ];
 
- define register offset=0x80 size=4 [ 
+ define register offset=0x80 size=4 [
 SA0
 LC0
 SA1
@@ -869,10 +874,10 @@ Reserved_29
 Reserved_30
 Reserved_31
  ];
- 
+
  attach variables [M1_13] [M0 M1];
 
- 
+
  attach variables [ D5_ctrl S5_ctrl ] [
  SA0
 LC0
@@ -909,23 +914,23 @@ Reserved_30
 Reserved_31
 ];
 
-define register offset=0x100 size=1 [ 
+define register offset=0x100 size=1 [
 P0
 P1
 P2
 P3
 PTRUE
 ];
-define register offset=0x100 size=4 [ 
+define register offset=0x100 size=4 [
 	all_preds
 ];
-define register offset=0x2000 size=1 [ 
+define register offset=0x2000 size=1 [
 	P0c
 	P1c
 	P2c
 	P3c
 ];
-define register offset=0x2000 size=4 [ 
+define register offset=0x2000 size=4 [
 	cached_preds
 ];
 
@@ -936,7 +941,7 @@ P2
 P3
 ];
 
-attach variables [D2_predi U2_pred_21_22i T2_predi S2_predi U2_predi U2_5_6i U2i U2_5_6_pred_newi U1_23_24_predi S2i T2i] [
+attach variables [D2_predi U2_pred_21_22i T2_predi S2_predi U2_predi U2_5_6i U2i U2_5_6_pred_newi U1_23_24_predi T2_9_10_predi T2_11_12_predi S2i T2i] [
 P0c
 P1c
 P2c
@@ -952,7 +957,7 @@ P2
 P3
 ];
 
-define register offset=0x400 size=4 [ 
+define register offset=0x400 size=4 [
 	SGP0
 	SGP1
 	STID
@@ -1314,16 +1319,16 @@ OR1: or1test_overlap is or1test & or1test_overlap {
 	local tmp:4 = or1test;
 	export *[register]:4 tmp;
 }
-OR2: or2test is or2test {
+OR2: or2test is or2test  {
 	local tmp:4 = or2test;
 	export *[register]:4 tmp;
 }
 OR2: or3test is or3test {
 	local tmp:4 = or3test;
 	export *[register]:4 tmp;
-}			
+}
 NV_S3_new_16_18: "ILLEGAL" is OR1 { export OR1; }
-NV_S3_new_16_18: OR1 ".new" is S3_new_16_18=0b010 & OR1 & pktid=2 {
+NV_S3_new_16_18: OR1 ".new" is S3_new_16_18=0b010 & OR1 & pktid=2 & analysed=1 {
 	export OR1;
 }
 
@@ -1413,7 +1418,7 @@ EXT_LD_U6:val is imm_25_26 & imm_8_11u & hasext0=1 & hasext1=1 & immext0used=1 &
 }
 
 
- 
+
 @include "alu32_alu.sinc"
 @include "alu32_perm.sinc"
 @include "alu32_pred.sinc"
@@ -1478,7 +1483,7 @@ macro prelude() {
     # when a predicate is set to true it should be = 0xFF but ghidra can't recognise that a condition is constant if the true condition isn't either 1 or a power of 2?????
     # When ghidra works, remove this and replace with constant FF everywhere
     PTRUE = 1;
-    
+
     # Copy all gprs to cached registers
     cached_regs = all_gprs;
     cached_preds = all_preds;
@@ -1548,33 +1553,33 @@ slot1: slot0 is slot0 [mode=0; pktid=pktid+1;]  {  build slot0; }
 slot2: slot0 is slot0 [mode=0; pktid=pktid+1;]  { build slot0; }
 
 
-slotX: slot is slot & parse=0b11 [mode=0; pktid=pktid+1;]  { 
-	build slot;        
+slotX: slot is slot & parse=0b11 [mode=0; pktid=pktid+1;]  {
+	build slot;
     prolude();
 }
 
 
 
-slotX: duplex is duplex & parse=0b00 & build_duplex_branches [mode=0;] { 
+slotX: duplex is duplex & parse=0b00 & build_duplex_branches [mode=0;] {
 	build duplex;
 	 prolude();
-	 
+
 	 build build_duplex_branches;
-	 
-	 
+
+
 }
 
 macro endloop0() {
 	     if(LC0 <= 1) goto <endl0>;
         LC0 = LC0 - 1;
         goto [SA0];
-        <endl0> 
+        <endl0>
 }
 macro endloop1() {
 	     if(LC1 <= 1) goto <endl1>;
         LC1 = LC1 - 1;
         goto [SA1];
-        <endl1> 
+        <endl1>
 }
  # 2 ins packets
     :{ slot0 slotX "}:endloop0" is slot0 & parse=0b10 & build_branches_1; slotX & build_branches_2 & terminator [mode=0;]  {
@@ -1583,108 +1588,108 @@ macro endloop1() {
         build slotX;
 
 
-        
+
         build build_branches_1;
        	build build_branches_2;
-       	
+
        	endloop0();
-       	
-        
-     
-        build terminator; 
+
+
+
+        build terminator;
    }
    :{ slot0 slotX } is slot0 & parse=0b01 & build_branches_1 & build_nv_input_1; slotX & build_branches_2 & build_nv_input_2 & terminator [mode=0;] {
-	
+
        prelude();
        build slot0;
        build slotX;
-       
+
        build build_nv_input_1;
        build build_nv_input_2;
-       
-       
+
+
        build build_branches_1;
        build build_branches_2;
-       
-       
-       build terminator; 
+
+
+       build terminator;
    }
 
 
 # 3 ins packet
 
-   
+
    :{ slot0 slot1 slotX } is slot0 & build_branches_1 & parse=0b01;slot1 & build_branches_2 & parse!=0b10;slotX & build_branches_3 & terminator[mode=0;]{
        prelude();
        build slot0;
        build slot1;
        build slotX;
-       
-       
+
+
         build build_branches_1;
        build build_branches_2;
        build build_branches_3;
-       
-       
-       
-		build terminator; 
+
+
+
+		build terminator;
    }
-   
-   
-   
-   
+
+
+
+
    :{ slot0 slot1 slotX "}:endloop0" is slot0 & build_branches_1 &parse=0b10 ; slot1 & build_branches_2 & parse=0b01 ; slotX & build_branches_3 & terminator[mode=0;]{
        prelude();
        build slot0;
        build slot1;
        build slotX;
-       
-       
+
+
         build build_branches_1;
        build build_branches_2;
        build build_branches_3;
-       
+
        endloop0();
-       
-		build terminator; 
+
+		build terminator;
    }
-   
-   
-   
+
+
+
    :{ slot0 slot1 slotX "}:endloop1" is slot0 & build_branches_1 &parse=0b01 ; slot1 & build_branches_2 & parse=0b10 ; slotX & build_branches_3 & terminator[mode=0;]{
        prelude();
        build slot0;
        build slot1;
        build slotX;
-       
-       
+
+
         build build_branches_1;
        build build_branches_2;
        build build_branches_3;
-       
+
        endloop1();
-       
-		build terminator; 
+
+		build terminator;
    }
    :{ slot0 slot1 slotX "}:endloop0:endloop1" is slot0 & build_branches_1 &parse=0b10 ; slot1 & build_branches_2 & parse=0b10 ; slotX & build_branches_3 & terminator[mode=0;]{
        prelude();
        build slot0;
        build slot1;
        build slotX;
-       
-       
+
+
         build build_branches_1;
        build build_branches_2;
        build build_branches_3;
-       
+
        endloop0();
        endloop1();
-       
-		build terminator; 
+
+		build terminator;
    }
    # 4 ins packets
-   
-   
+
+
 
    :{ slot0 slot1 slot2 slotX } is slot0 & build_branches_1 & parse=0b01;slot1 & build_branches_2 & parse!=0b10;slot2 & build_branches_3;slotX &  build_branches_4 & terminator[mode=0;]{
        prelude();
@@ -1692,35 +1697,35 @@ macro endloop1() {
        build slot1;
        build slot2;
        build slotX;
-       
+
 	   build build_branches_1;
        build build_branches_2;
        build build_branches_3;
        build build_branches_4;
-       
-       build terminator; 
-    
+
+       build terminator;
+
 
 
    }
-   
+
    :{ slot0 slot1 slot2 slotX "}:endloop0" is slot0 & build_branches_1 & parse=0b10 ;slot1 & build_branches_2 & parse=0b01;slot2 & build_branches_3;slotX &  build_branches_4 & terminator[mode=0;]{
        prelude();
        build slot0;
        build slot1;
        build slot2;
        build slotX;
-       
+
        build build_branches_1;
        build build_branches_2;
        build build_branches_3;
        build build_branches_4;
-       
-       
+
+
        endloop0();
-       
-       
-       build terminator; 
+
+
+       build terminator;
    }
    :{ slot0 slot1 slot2 slotX "}:endloop1" is slot0 & build_branches_1 & parse=0b01 ;slot1 & build_branches_2 & parse=0b10;slot2 & build_branches_3;slotX &  build_branches_4 & terminator[mode=0;]{
        prelude();
@@ -1728,17 +1733,17 @@ macro endloop1() {
        build slot1;
        build slot2;
        build slotX;
-       
+
        build build_branches_1;
        build build_branches_2;
        build build_branches_3;
        build build_branches_4;
-       
-       
+
+
        endloop1();
-       
-       
-       build terminator; 
+
+
+       build terminator;
    }
    :{ slot0 slot1 slot2 slotX "}:endloop0:endloop1" is slot0 & build_branches_1 & parse=0b10 ;slot1 & build_branches_2 & parse=0b10;slot2 & build_branches_3;slotX &  build_branches_4 & terminator[mode=0;]{
        prelude();
@@ -1746,39 +1751,37 @@ macro endloop1() {
        build slot1;
        build slot2;
        build slotX;
-       
+
        build build_branches_1;
        build build_branches_2;
        build build_branches_3;
        build build_branches_4;
-       
+
        endloop0();
        endloop1();
-       
-       
-       build terminator; 
+
+
+       build terminator;
    }
-   
-   
+
+
 
    :{ slotX } is slotX & mode=0 & build_branches & terminator [mode=0;] {
        prelude();
        build slotX;
-       
-       	 
+
+
 
        build build_branches;
-       
-       
-       build terminator; 
-   } 
-   
-   
+
+
+       build terminator;
+   }
+
+
    # TODO: endloop lpcfg
-   
+
 
 immext_marker:"" is disabled {}
-slot:"immext0(" v ")" is iclass=0b0000 & imm_16_27 & imm_0_13u & hasext0=0 & parse!=0b11 & immext_marker [v= ((imm_0_13u) | (imm_16_27 << 14)) << 6; immext0 = ((imm_0_13u) | (imm_16_27 << 14)) << 6; hasext0=1;] { build immext_marker; } 
-slot:"immext1(" v ")" is iclass=0b0000 & imm_16_27 & imm_0_13u & hasext0=1 & immext_marker  [v=((imm_0_13u) | (imm_16_27 << 14)) << 6; immext1 = ((imm_0_13u) | (imm_16_27 << 14)) << 6; hasext1=1;] { build immext_marker; } 
-
-
+slot:"immext0(" v ")" is iclass=0b0000 & imm_16_27 & imm_0_13u & hasext0=0 & parse!=0b11 & immext_marker [v= ((imm_0_13u) | (imm_16_27 << 14)) << 6; immext0 = ((imm_0_13u) | (imm_16_27 << 14)) << 6; hasext0=1;] { build immext_marker; }
+slot:"immext1(" v ")" is iclass=0b0000 & imm_16_27 & imm_0_13u & hasext0=1 & immext_marker  [v=((imm_0_13u) | (imm_16_27 << 14)) << 6; immext1 = ((imm_0_13u) | (imm_16_27 << 14)) << 6; hasext1=1;] { build immext_marker; }

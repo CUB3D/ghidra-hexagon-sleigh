@@ -6,7 +6,7 @@ with slot: iclass=0b1101 & mode=0 {
     :D2_pred "=boundscheck(" S5_pair "," T5_pair "):raw:lo" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=1 & T5_pair & T5_pairi & imm_5_7=0b100 & imm_2_4=0 & D2_pred {
     	D2_pred = boundscheck_raw_lo(S5_pairi, T5_pairi);
     }
-    :D2_pred "=boundscheck(" S5_pair "," T5_pair "):raw:hi" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & imm_13=1 & T5_pair & imm_5_7=0b101 & imm_2_4=0 & D2_pred {
+    :D2_pred "=boundscheck(" S5_pair "," T5_pair "):raw:hi" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=1 & T5_pair & T5_pairi & imm_5_7=0b101 & imm_2_4=0 & D2_pred {
     	D2_pred = boundscheck_raw_hi(S5_pairi, T5_pairi);
     }
 }
@@ -56,18 +56,18 @@ with slot: iclass=0b1101 & mode=0 {
 # XTYPE/PRED:cmp half
 with slot: iclass=0b1100 & mode=0 {
 	#TODO PRED
-    :D2_pred_new "=cmph.eq(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & S5 & imm_13=0 & T5 & T5i & imm_5_7=0b011 & imm_2_4=0 & D2_pred_new {
+    :D2_pred_new "=cmph.eq(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & imm_2_4=0 & D2_pred_new {
     	D2_pred_new = S5i:2 == T5i:2;
     }
-    :D2_pred_new "=cmph.gt(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & S5 & imm_13=0 & T5 & T5i & imm_5_7=0b100 & imm_2_4=0 & D2_pred_new {
+    :D2_pred_new "=cmph.gt(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & imm_2_4=0 & D2_pred_new {
     	D2_pred_new = S5i:2 s> T5i:2;
     }
-    :D2_pred_new "=cmph.gtu(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & S5 & imm_13=0 & T5 & T5i & imm_5_7=0b101 & imm_2_4=0 & D2_pred_new {
+    :D2_pred_new "=cmph.gtu(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b101 & imm_2_4=0 & D2_pred_new {
     	D2_pred_new = S5i:2 > T5i:2;
     }
 }
 with slot: iclass=0b1101 & mode=0 {
-    :D2_pred_new "=cmph.eq(" S5 "," imm_5_12 ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b00 & S5 & S5 & imm_13=0 & imm_12=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred_new & hasext0=0{
+    :D2_pred_new "=cmph.eq(" S5 "," imm_5_12 ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & imm_12=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred_new & hasext0=0{
     	if (S5i != imm_5_12) goto <bad>;
 		D2_pred_new = PTRUE;
 		goto <end>;
@@ -75,7 +75,7 @@ with slot: iclass=0b1101 & mode=0 {
 		D2_pred_new = 0;
 	<end>
     }
-    :D2_pred_new "=cmph.gt(" S5 "," imm_5_12 ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b01 & S5 & S5 & imm_13=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred_new & hasext0=0{
+    :D2_pred_new "=cmph.gt(" S5 "," imm_5_12 ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred_new & hasext0=0{
     	if (S5i s<= imm_5_12) goto <bad>;
 		D2_pred_new = PTRUE;
 		goto <end>;
@@ -83,7 +83,7 @@ with slot: iclass=0b1101 & mode=0 {
 		D2_pred_new = 0;
 	<end>
     }
-    :D2_pred_new "=cmph.gtu(" S5 "," EXT_imm_5_11u ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b10 & S5 & S5 & imm_13=0 & imm_12=0 & EXT_imm_5_11u & imm_3_4=0b01 & imm_2=0 & D2_pred_new {
+    :D2_pred_new "=cmph.gtu(" S5 "," EXT_imm_5_11u ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b10 & S5 & S5i & imm_13=0 & imm_12=0 & EXT_imm_5_11u & imm_3_4=0b01 & imm_2=0 & D2_pred_new {
     	if (S5i <= EXT_imm_5_11u) goto <bad>;
 		D2_pred_new = PTRUE;
 		goto <end>;
