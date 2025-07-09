@@ -2,11 +2,11 @@
 define pcodeop memw_locked;
 define pcodeop memd_locked;
 with slot: iclass=0b1001 & mode=0 {
-    :D5"=memw_locked("S5")" is imm_21_27=0b0010000 & S5 & imm_12_13=0b00 & imm_5_11=0 & D5 {
-        D5 = memw_locked(S5);
+    :D5"=memw_locked("S5")" is imm_21_27=0b0010000 & S5 & S5i & imm_12_13=0b00 & imm_5_11=0 & D5 {
+        D5 = memw_locked(S5i);
     }
-    :D5_pair"=memd_locked("S5")" is imm_21_27=0b0010000 & S5 & imm_12_13=0b01 & imm_5_11=0 & D5_pair {
-        D5_pair = memd_locked(S5);
+    :D5_pair"=memd_locked("S5")" is imm_21_27=0b0010000 & S5 & S5i & imm_12_13=0b01 & imm_5_11=0 & D5_pair {
+        D5_pair = memd_locked(S5i);
     }
 }
 
@@ -14,22 +14,22 @@ with slot: iclass=0b1001 & mode=0 {
 define pcodeop memw_locked_store;
 define pcodeop memd_locked_store;
 with slot: iclass=0b1010 & mode=0 {
-    :"memw_locked("S5","D2_pred")="T5 is imm_21_27=0b0000101 & S5 & imm_13=0 & T5 & imm_2_7=0 & D2_pred {
-        memw_locked_store(S5, D2_pred, T5);
+    :"memw_locked("S5","D2_pred")="T5 is imm_21_27=0b0000101 & S5 & S5i & imm_13=0 & T5 & T5i & imm_2_7=0 & D2_pred & D2_predi {
+        memw_locked_store(S5i, D2_predi, T5i);
     }
-    :"memd_locked("S5","D2_pred")="T5_pair is imm_21_27=0b0000111 & S5 & imm_13=0 & T5_pair & imm_2_7=0 & D2_pred {
-        memw_locked_store(S5, D2_pred, T5_pair);
+    :"memd_locked("S5","D2_pred")="T5_pair is imm_21_27=0b0000111 & S5 & S5i & imm_13=0 & T5_pair & T5_pairi & imm_2_7=0 & D2_pred & D2_predi {
+        memw_locked_store(S5i, D2_predi, T5_pairi);
     }
 }
 
 #SYSTEM/USER:Zero cache line
 define pcodeop dcache_zero_addr;
 with slot: iclass=0b1010 & mode=0 {
-    :"dczeroa("S5")" is imm_21_27=0b0000110 & S5 & imm_13=0 & imm_0_12=0 {
-		dcache_zero_addr(S5);
+    :"dczeroa("S5")" is imm_21_27=0b0000110 & S5 & S5i & imm_13=0 & imm_0_12=0 {
+		dcache_zero_addr(S5i);
     }
-    :"dczeroa("S5"):nt" is imm_21_27=0b0000110 & S5 & imm_13=1 & imm_0_12=0 {
-		dcache_zero_addr(S5);
+    :"dczeroa("S5"):nt" is imm_21_27=0b0000110 & S5 & S5i & imm_13=1 & imm_0_12=0 {
+		dcache_zero_addr(S5i);
     }
 }
 
@@ -52,12 +52,12 @@ with slot: iclass=0b0110 & mode=0 {
 #SYSTEM/USER:Data cache prefetch
 define pcodeop dcache_fetch;
 with slot: iclass=0b0110 & mode=0 {
-    :"dcfetch("S5"+"u11")" is imm_21_27=0b0100000 & S5 & imm_13=0 & imm_11_12=0 & imm_0_10 [u11 = imm_0_10 << 3; ] {
-    	local EA:4 = S5 + u11;
+    :"dcfetch("S5"+"u11")" is imm_21_27=0b0100000 & S5 & S5i & imm_13=0 & imm_11_12=0 & imm_0_10 [u11 = imm_0_10 << 3; ] {
+    	local EA:4 = S5i + u11;
         dcache_fetch(EA);
     }
-    :"dcfetch("S5"+"u11"):nt" is imm_21_27=0b0100000 & S5 & imm_13=1 & imm_11_12=0 & imm_0_10 [u11 = imm_0_10 << 3; ] {
-    	local EA:4 = S5 + u11;
+    :"dcfetch("S5"+"u11"):nt" is imm_21_27=0b0100000 & S5 & S5i & imm_13=1 & imm_11_12=0 & imm_0_10 [u11 = imm_0_10 << 3; ] {
+    	local EA:4 = S5i + u11;
         dcache_fetch(EA);
     }
 }
@@ -67,14 +67,14 @@ define pcodeop dcache_clean_addr;
 define pcodeop dcache_cleaninv_addr;
 define pcodeop dcache_inv_addr;
 with slot: iclass=0b1010 & mode=0 {
-    :"dccleana("S5")" is imm_21_27=0b0000000 & S5 & imm_0_13=0  {
-        dcache_clean_addr(S5);
+    :"dccleana("S5")" is imm_21_27=0b0000000 & S5 & S5i & imm_0_13=0  {
+        dcache_clean_addr(S5i);
     }
-    :"dccleaninva("S5")" is imm_21_27=0b0000001 & S5 & imm_0_13=0  {
-        dcache_cleaninv_addr(S5);
+    :"dccleaninva("S5")" is imm_21_27=0b0000001 & S5 & S5i & imm_0_13=0  {
+        dcache_cleaninv_addr(S5i);
     }
-    :"dcinva("S5")" is imm_21_27=0b0000010 & S5 & imm_0_13=0  {
-        dcache_inv_addr(S5);
+    :"dcinva("S5")" is imm_21_27=0b0000010 & S5 & S5i & imm_0_13=0  {
+        dcache_inv_addr(S5i);
     }
 }
 
@@ -83,23 +83,23 @@ define pcodeop diag;
 define pcodeop diag0;
 define pcodeop diag1;
 with slot: iclass=0b01100 & mode=0 {
-    :"diag("S5")" is imm_21_27=0b0010010 & S5 & imm_8_13=0 & imm_5_7=0b001 &  imm_0_4=0  {
-        diag(S5);
+    :"diag("S5")" is imm_21_27=0b0010010 & S5 & S5i & imm_8_13=0 & imm_5_7=0b001 &  imm_0_4=0  {
+        diag(S5i);
     }
 
-    :"diag0("S5_pair","T5_pair")" is imm_21_27=0b0010010 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b010 & imm_0_4=0  {
-        diag0(S5_pair, T5_pair);
+    :"diag0("S5_pair","T5_pair")" is imm_21_27=0b0010010 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & imm_0_4=0  {
+        diag0(S5_pairi, T5_pairi);
     }
-    :"diag1("S5_pair","T5_pair")" is imm_21_27=0b0010010 & S5_pair & imm_13=0 & T5_pair & imm_5_7=0b011 & imm_0_4=0  {
-        diag1(S5_pair, T5_pair);
+    :"diag1("S5_pair","T5_pair")" is imm_21_27=0b0010010 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & imm_0_4=0  {
+        diag1(S5_pairi, T5_pairi);
     }
 }
 
 #SYSTEM/USER: Instruction cache maintenance user operations
 define pcodeop icache_inv_addr;
 with slot: iclass=0b1010 & mode=0 {
-    :"icinva("S5")" is imm_21_27=0b0110110 & S5 & imm_11_13=0b000 & imm_0_10=0  {
-        icache_inv_addr(S5);
+    :"icinva("S5")" is imm_21_27=0b0110110 & S5 & S5i & imm_11_13=0b000 & imm_0_10=0  {
+        icache_inv_addr(S5i);
     }
 }
 
@@ -115,11 +115,11 @@ with slot: iclass=0b0101 & mode=0 {
 #SYSTEM/USER:L2 fetch todo
 define pcodeop l2fetch;
 with slot: iclass=0b1010 & mode=0 {
-    :"l2fetch("S5","T5")" is imm_21_27=0b0110000 & S5 & imm_13=0 & T5 & imm_0_7=0 {
-        l2fetch(S5, T5);
+    :"l2fetch("S5","T5")" is imm_21_27=0b0110000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0 {
+        l2fetch(S5i, T5i);
     }
-    :"l2fetch("S5","T5_pair")" is imm_21_27=0b0110100 & S5 & imm_13=0 & T5_pair & imm_0_7=0 {
-        l2fetch(S5, T5_pair);
+    :"l2fetch("S5","T5_pair")" is imm_21_27=0b0110100 & S5 & S5i & imm_13=0 & T5_pair & T5_pairi & imm_0_7=0 {
+        l2fetch(S5i, T5_pairi);
     }
 }
 
@@ -149,8 +149,8 @@ with slot: iclass=0b1010 & mode=0 {
 #SYSTEM/USER:trace
 define pcodeop trace;
 with slot: iclass=0b0110 & mode=0 {
-    :"trace(" S5 ")" is imm_21_27=0b0010010 & S5 & imm_0_13=0 {
-        trace(S5);
+    :"trace(" S5 ")" is imm_21_27=0b0010010 & S5 & S5i & imm_0_13=0 {
+        trace(S5i);
     }
 }
 
@@ -161,8 +161,8 @@ with slot: iclass=0b0101 & mode=0 & mode=0 {
     slot:"trap0(" u8 ")" is imm_22_27=0b010000 & imm_16_21=0 & imm_13=0 & imm_8_12u & imm_5_7 & imm_2_4u & imm_0_1 [u8 = imm_2_4u | (imm_8_12u << 3);] {
         trap0(u8:1);
     }
-    slot:"trap1(" S5 "," u8 ")" is imm_22_27=0b010010 & imm_21=0 & S5 & imm_13=0 & imm_8_12u & imm_5_7 & imm_2_4u & imm_0_1 [u8 = imm_2_4u | (imm_8_12u << 3);] {
-        trap1(S5, u8:1);
+    slot:"trap1(" S5 "," u8 ")" is imm_22_27=0b010010 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7 & imm_2_4u & imm_0_1 [u8 = imm_2_4u | (imm_8_12u << 3);] {
+        trap1(S5i, u8:1);
     }
 }
 

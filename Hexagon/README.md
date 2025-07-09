@@ -9,13 +9,11 @@ Supports:
 - No broken java plugins needed
 - Support for hardware loops
 - Includes support for redacted System/Monitor and System/Guest instructions
-- Pcode implemented for most common ops (Missing < 1% for most binaries)
+- Pcode implemented for most ops, (Only a few never-seen MPY and NV instructions are missing)
 - Function start recovery
-- < 200 unimplemented ops
+- < 150 unimplemented ops
 
 Currently broken / unimplemented:
-- No support for dotnew arguments [wip]
-- COMPLEX instructions are not fully modelled
 - Some immediate extensions are missing for less common ops and most duplexes
 
 

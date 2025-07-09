@@ -84,13 +84,13 @@ with slot: iclass=0b0011 & mode=0 {
 		*[ram]:1 EA = D5i;
 	<end>
     }
-    :"if(" U2_5_6_pred_new ") memb(" S5 "+" T5 "<<" u2 ")=" D5 is imm_21_27=0b0110000 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & U2_5_6_pred_new & D5 & D5i [u2 = imm_7u | (imm_13u << 1);] {
+    :"if(" U2_5_6_pred_new ".new) memb(" S5 "+" T5 "<<" u2 ")=" D5 is imm_21_27=0b0110000 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & U2_5_6_pred_new & D5 & D5i [u2 = imm_7u | (imm_13u << 1);] {
     	if (U2_5_6_pred_new == 0) goto <end>;
 		local EA:4 = S5i + (T5i << u2);
 		*[ram]:1 EA = D5i;
 	<end>
     }
-    :"if(!" U2_5_6_pred_new ") memb(" S5 "+" T5 "<<" u2 ")=" D5 is imm_21_27=0b0111000 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & U2_5_6_pred_new & D5 & D5i [u2 = imm_7u | (imm_13u << 1);] {
+    :"if(!" U2_5_6_pred_new ".new) memb(" S5 "+" T5 "<<" u2 ")=" D5 is imm_21_27=0b0111000 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & U2_5_6_pred_new & D5 & D5i [u2 = imm_7u | (imm_13u << 1);] {
     	if (U2_5_6_pred_new != 0) goto <end>;
 		local EA:4 = S5i + (T5i << u2);
 		*[ram]:1 EA = D5i;

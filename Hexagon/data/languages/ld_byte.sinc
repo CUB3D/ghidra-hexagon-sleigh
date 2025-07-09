@@ -187,46 +187,46 @@ with slot: iclass=0b1001 & mode=0 {
 	:D5_pair"=memb_fifo("S5"+"s11")" is imm_27=0 & imm_25_26 & imm_21_24=0b0100 & S5 & imm_5_13u & D5_pair & (hasext0=0 | immext0used=1) [ s11 = ((imm_5_13u | (imm_25_26 << 9)));]{
         local EA:4 = S5 + s11;
         local tmp:1 = *[ram]:1 EA;
-        D5_pair = (D5_pair << 8) | tmp;
+        D5_pair = (D5_pair << 8) | zext(tmp);
     }
     
     :D5_pair "=memb_fifo(" S5 "++" imm_5_8 ":circ(" M1_13 "))"  is imm_21_27=0b1000100 & S5 & M1_13 & imm_12=0 & imm_10_11=0 & imm_9=0 & imm_5_8 & D5_pair {
     	local EA:4 = S5;
     	S5 = circ_add(S5, imm_5_8:1, M1_13);
     	local tmp = *[ram]:1 EA;
-    	D5_pair = (D5_pair << 8) | tmp; 
+    	D5_pair = (D5_pair << 8) | zext(tmp); 
     }
     :D5_pair "=memb_fifo(" S5 "++I:circ(" M1_13 "))" is imm_21_27=0b1000100 & S5 & M1_13 & imm_12=0 & imm_10_11=0 & imm_9=1 & imm_8=0 & imm_7=0 & imm_5_6=0 & D5_pair {
     	local EA:4 = S5;
     	S5 = circ_add(S5, (M1_13:1) << 3, M1_13);
     	local tmp = *[ram]:1 EA;
-    	D5_pair = (D5_pair << 8) | tmp;
+    	D5_pair = (D5_pair << 8) | zext(tmp);
     }
     
     :D5_pair"=memb_fifo("S5"="u6")" is imm_21_27=0b1010100 & S5 & imm_12_13=0b01 & imm_8_11u & imm_7=0 & imm_5_6u & D5_pair [ u6 = imm_5_6u | (imm_8_11u << 2);] {
         local EA:4 = S5;
         S5 = S5+u6;
         local tmp = *[ram]:1 EA;
-    	D5_pair = (D5_pair << 8) | tmp;
+    	D5_pair = (D5_pair << 8) | zext(tmp);
     }
 
     :D5_pair"=memb_fifo(" S5 "++" imm_5_8 ")" is imm_21_27=0b1010100 & S5 & imm_12_13=0b00 & imm_9_11=0 & imm_5_8 & D5_pair {
         local EA:4 = S5;
         S5 = S5+imm_5_8;
         local tmp = *[ram]:1 EA;
-    	D5_pair = (D5_pair << 8) | tmp;
+    	D5_pair = (D5_pair << 8) | zext(tmp);
     }
     :D5_pair"=memb_fifo(" T5 "<<" u2 "+" U6 ")" is imm_21_27=0b1100100 & T5 & imm_13u & imm_12=1 & imm_8_11u & imm_7u & imm_5_6u & D5_pair [ u2 = imm_7u | (imm_13u << 1); U6 = imm_5_6u | (imm_8_11u << 2);] {
         local EA:4 = (T5 << u2) + U6;
         local tmp = *[ram]:1 EA;
-    	D5_pair = (D5_pair << 8) | tmp;
+    	D5_pair = (D5_pair << 8) | zext(tmp);
     }
 
     :D5_pair "=memb_fifo(" S5 "++" M1_13 ")" is imm_21_27=0b1100100 & S5 & M1_13 & imm_12=0 & imm_8_12=0 & imm_7=0 & imm_5_6=0 & D5_pair {
     	local EA:4 = S5;
         S5 = S5+M1_13;
         local tmp = *[ram]:1 EA;
-    	D5_pair = (D5_pair << 8) | tmp;
+    	D5_pair = (D5_pair << 8) | zext(tmp);
     }
     :D5_pair "=memb_fifo(" S5 "++" M1_13 ":brev)" is imm_21_27=0b1110100 & S5 & M1_13 & imm_12=0 & imm_8_12=0 & imm_7=0 & imm_5_6=0 & D5_pair {
     	local rx_h:2 = S5(2);
@@ -234,6 +234,6 @@ with slot: iclass=0b1001 & mode=0 {
     	local EA:4 = zext(rx_h | rx_l);
         S5 = S5+M1_13;
         local tmp = *[ram]:1 EA;
-    	D5_pair = (D5_pair << 8) | tmp;
+    	D5_pair = (D5_pair << 8) | zext(tmp);
     }
 }

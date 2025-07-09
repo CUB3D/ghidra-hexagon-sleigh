@@ -17,7 +17,7 @@
 # CR:             Decode + pcode up to v73                                 regcache
 # JR:             Decode + pcode up to v73                                 regcache
 # J:              Decode + pcode up to v73                                 regcache
-# LD:             Decode up to v51, pcode unfinished
+# LD:             Decode + pcode up to v73
 # LD/Dword:       Decode + pcode up to v73                                 regcache
 # LD/Byte:        Decode + pcode up to v73
 # LD/Halfword:    Decode + pcode up to v73
@@ -26,19 +26,20 @@
 # LD/word:        Decode + pcode up to v73                                 regcache
 # MEMOP:          Decode + pcode up to v73                                 regcache
 # NV:             Decode up to v73, pcode unfinished
+# ST:             Decode + pcode up to v73
 # ST/byte:        Decode + pcode up to v73                                 regcache
-# ST/Dword:       Decode up to v73, pcode unfinished
-# ST/halfword:    Decode up to v73, pcode unfinished
+# ST/Dword:       Decode + pcode up to v73
+# ST/halfword:    Decode + pcode up to v73
 # ST/word:        Decode + pcode up to v73                                 regcache
-# SYSTEM/USER:    Decode + pcode up to v79
-# SYSTEM/GUEST:   Decode + pcode up to v66 (latest for this section)
-# SYSTEM/MONITOR: Decode + pcode up to v66 (latest for this section)
+# SYSTEM/USER:    Decode + pcode up to v79                                 regcache
+# SYSTEM/GUEST:   Decode + pcode up to v66 (latest for this section)       regcache
+# SYSTEM/MONITOR: Decode + pcode up to v66 (latest for this section)       regcache
 # XTYPE:          Decode up to v73, pcode unfinished
 # XTYPE/ALU:      Decode + pcode up to v73                                 regcache
 # XTYPE/BIT:      Decode + pcode up to v73                                 regcache
 # XTYPE/COMPLEX:  Decode + pcode up to v79
 # XTYPE/FP:       Decode + pcode up to v79
-# XTYPE/MPY:      Decode up to v73, pcode unfinished
+# XTYPE/MPY:      Decode up to v73, pcode unfinished                       regcache
 # XTYPE/PERM:     Decode + pcode up to v73                                 regcache
 # XTYPE/PRED:     Decode + pcode up to v73                                 regcache
 # XTYPE/SHIFT:    Decode + pcode up to v73
@@ -46,10 +47,8 @@
 # TODOs:
 # finish ops
 # move nv inputs to own slice
-# caching input values
-# update all insts to display cached as expected
 # check all unsigned / signed imms
-# caching for GP
+# caching for GP / GD5 / SGP?
 
 # Slices explained:
 # Hexagon has strange semantics where an instructions effect might not take place immidiately
