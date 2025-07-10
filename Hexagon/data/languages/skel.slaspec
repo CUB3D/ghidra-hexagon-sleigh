@@ -17,12 +17,12 @@
 # CR:             Decode + pcode up to v73                                 regcache
 # JR:             Decode + pcode up to v73                                 regcache
 # J:              Decode + pcode up to v73                                 regcache
-# LD:             Decode + pcode up to v73
+# LD:             Decode + pcode up to v73                                 regcache
 # LD/Dword:       Decode + pcode up to v73                                 regcache
-# LD/Byte:        Decode + pcode up to v73
-# LD/Halfword:    Decode + pcode up to v73
+# LD/Byte:        Decode + pcode up to v73                                 regcache
+# LD/Halfword:    Decode + pcode up to v73                                 regcache
 # LD/ubyte:       Decode + pcode up to v73                                 regcache
-# LD/uHalfword:   Decode + pcode up to v73    
+# LD/uHalfword:   Decode + pcode up to v73                                 regcache
 # LD/word:        Decode + pcode up to v73                                 regcache
 # MEMOP:          Decode + pcode up to v73                                 regcache
 # NV:             Decode up to v73, pcode unfinished
