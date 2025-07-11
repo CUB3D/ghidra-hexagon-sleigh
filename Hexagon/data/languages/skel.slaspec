@@ -28,8 +28,8 @@
 # NV:             Decode up to v73, pcode unfinished
 # ST:             Decode + pcode up to v73
 # ST/byte:        Decode + pcode up to v73                                 regcache
-# ST/Dword:       Decode + pcode up to v73
-# ST/halfword:    Decode + pcode up to v73
+# ST/Dword:       Decode + pcode up to v73                                 regcache
+# ST/halfword:    Decode + pcode up to v73                                 regcache
 # ST/word:        Decode + pcode up to v73                                 regcache
 # SYSTEM/USER:    Decode + pcode up to v79                                 regcache
 # SYSTEM/GUEST:   Decode + pcode up to v66 (latest for this section)       regcache
@@ -1326,7 +1326,9 @@ OR2: or3test is or3test {
 	local tmp:4 = or3test;
 	export *[register]:4 tmp;
 }
-NV_S3_new_16_18: "ILLEGAL" is OR1 { export OR1; }
+
+define pcodeop _unimpl_nv;
+NV_S3_new_16_18: "ILLEGAL" is OR1 { _unimpl_nv(); export OR1; }
 NV_S3_new_16_18: OR1 ".new" is S3_new_16_18=0b010 & OR1 & pktid=2 & analysed=1 {
 	export OR1;
 }
