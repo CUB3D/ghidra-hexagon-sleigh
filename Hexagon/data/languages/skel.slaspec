@@ -11,47 +11,52 @@
 # Disas everything up to v73, most common ops have pcode impl
 # Switches don't work yet
 
-# ALU32/ALU       Decode + pcode up to v79                                 regcache
-# ALU32/PERM:     Decode + pcode up to v73                                 regcache
-# ALU32/PRED:     Decode + pcode up to v73                                 regcache
-# CR:             Decode + pcode up to v73                                 regcache
-# JR:             Decode + pcode up to v73                                 regcache
-# J:              Decode + pcode up to v73                                 regcache
-# LD:             Decode + pcode up to v73                                 regcache
-# LD/Dword:       Decode + pcode up to v73                                 regcache
-# LD/Byte:        Decode + pcode up to v73                                 regcache
-# LD/Halfword:    Decode + pcode up to v73                                 regcache
-# LD/ubyte:       Decode + pcode up to v73                                 regcache
-# LD/uHalfword:   Decode + pcode up to v73                                 regcache
-# LD/word:        Decode + pcode up to v73                                 regcache
-# MEMOP:          Decode + pcode up to v73                                 regcache
-# NV:             Decode up to v73, pcode unfinished
-# ST:             Decode + pcode up to v73
-# ST/byte:        Decode + pcode up to v73                                 regcache
-# ST/Dword:       Decode + pcode up to v73                                 regcache
-# ST/halfword:    Decode + pcode up to v73                                 regcache
-# ST/word:        Decode + pcode up to v73                                 regcache
-# SYSTEM/USER:    Decode + pcode up to v79                                 regcache
-# SYSTEM/GUEST:   Decode + pcode up to v66 (latest for this section)       regcache
-# SYSTEM/MONITOR: Decode + pcode up to v66 (latest for this section)       regcache
-# XTYPE:          Decode up to v73, pcode unfinished
-# XTYPE/ALU:      Decode + pcode up to v73                                 regcache
-# XTYPE/BIT:      Decode + pcode up to v73                                 regcache
-# XTYPE/COMPLEX:  Decode + pcode up to v79
-# XTYPE/FP:       Decode + pcode up to v79
-# XTYPE/MPY:      Decode up to v73, pcode unfinished                       regcache
-# XTYPE/PERM:     Decode + pcode up to v73                                 regcache
-# XTYPE/PRED:     Decode + pcode up to v73                                 regcache
-# XTYPE/SHIFT:    Decode + pcode up to v73
+# ALU32/ALU       Decode + pcode up to v79                                 regcache ever0
+# ALU32/PERM:     Decode + pcode up to v73                                 regcache ever0
+# ALU32/PRED:     Decode + pcode up to v73                                 regcache ever0
+# CR:             Decode + pcode up to v73                                 regcache ever0
+# JR:             Decode + pcode up to v73                                 regcache ever0
+# J:              Decode + pcode up to v73                                 regcache ever0
+# LD:             Decode + pcode up to v73                                 regcache ever0
+# LD/Dword:       Decode + pcode up to v73                                 regcache ever0
+# LD/Byte:        Decode + pcode up to v73                                 regcache ever0
+# LD/Halfword:    Decode + pcode up to v73                                 regcache ever0
+# LD/ubyte:       Decode + pcode up to v73                                 regcache ever0
+# LD/uHalfword:   Decode + pcode up to v73                                 regcache ever0
+# LD/word:        Decode + pcode up to v73                                 regcache ever0
+# MEMOP:          Decode + pcode up to v73                                 regcache ever0
+# NV:             Decode up to v73, pcode unfinished                       regcache ever0
+# ST:             Decode + pcode up to v73                                 regcache ever0
+# ST/byte:        Decode + pcode up to v73                                 regcache ever0
+# ST/Dword:       Decode + pcode up to v73                                 regcache ever0
+# ST/halfword:    Decode + pcode up to v73                                 regcache ever0
+# ST/word:        Decode + pcode up to v73                                 regcache ever0
+# SYSTEM/USER:    Decode + pcode up to v79                                 regcache ever0
+# SYSTEM/GUEST:   Decode + pcode up to v66 (latest for this section)       regcache ever0
+# SYSTEM/MONITOR: Decode + pcode up to v66 (latest for this section)       regcache ever0
+# XTYPE:          Decode up to v73, pcode unfinished                       regcache ever0
+# XTYPE/ALU:      Decode + pcode up to v73                                 regcache ever0
+# XTYPE/BIT:      Decode + pcode up to v73                                 regcache ever0
+# XTYPE/COMPLEX:  Decode + pcode up to v79                                 regcache ever0
+# XTYPE/FP:       Decode + pcode up to v79                                 regcache ever0
+# XTYPE/MPY:      Decode up to v73, pcode unfinished                       regcache ever0
+# XTYPE/PERM:     Decode + pcode up to v73                                 regcache ever0
+# XTYPE/PRED:     Decode + pcode up to v73                                 regcache ever0
+# XTYPE/SHIFT:    Decode + pcode up to v73                                 regcache ever0
+# duplex          Decode + pcode up to v73                                 regcache ever0
+
 
 # TODOs:
 # finish ops
 # move nv inputs to own slice
 # check all unsigned / signed imms
 # caching for GP / GD5 / SGP?
+# immext0used doesn't work well with slces, reset it at start of each slice and use a different var immext0_ever_used to track missing immext
+# ^ This will also be broken for ops that have extenders but only exist in the normal slice?
+# Consider having a context to tag packetid as having a specific extender, so we don't need to dupe the whole isa to keep immext in sync?
 
 # Slices explained:
-# Hexagon has strange semantics where an instructions effect might not take place immidiately
+# Hexagon has strange semantics where an instructions effect might not take place immediately
 # e.g. branches are grouped to the end of a packet, and ops with new-value inputs take place after
 # all new-value producing ops so that they can consume their output
 #
@@ -344,6 +349,7 @@ imm_22_26 = (22, 26)
    alu_X5i = (16,20)
    alu_X5_dup = (16,20)
    alu_X5_pair = (17,20)
+   alu_X5_pairi = (17,20)
 
    U2 = (8,9)
    U2i = (8,9)
@@ -399,8 +405,10 @@ imm_22_26 = (22, 26)
 	immdup0_S4=(4,7)
 	immdup0_S4i=(4,7)
 	immdup0_D4=(0,3)
+	immdup0_D4i=(0,3)
 	immdup0_D4_pair=(0,3)
 	immdup0_D3_pair=(0,2)
+	immdup0_D3_pairi=(0,2)
 
 	immdup1_12=(28,28)
 	immdup1_11_12=(27,28)
@@ -441,8 +449,10 @@ imm_22_26 = (22, 26)
 	immdup1_S4=(20,23)
 	immdup1_S4i=(20,23)
 	immdup1_D4=(16,19)
+	immdup1_D4i=(16,19)
 	immdup1_D4_pair=(16,19)
 	immdup1_D3_pair=(16,18)
+	immdup1_D3_pairi=(16,18)
 ;
 
 #define register offset=0x200 size=4 [
@@ -459,6 +469,7 @@ define context testctx
 	hasext1 = (65,65) noflow
     immext0used = (66,66) noflow
     immext1used = (67,67) noflow
+    immext0everused = (68, 68) noflow
 	# opaque pred for false
 	disabled = (80, 80) noflow
 
@@ -472,19 +483,14 @@ define context testctx
 	analysed = (167, 167) noflow
 
 	pktid = (192, 223) noflow
-	or2test = (224, 255) noflow
-	or3test = (256, 287) noflow
+	
+	or2test = (224, 230) noflow
+	or2test_overlap = (224, 230) noflow
+	
+	or3test = (256, 262) noflow
+	or3test_overlap = (256, 262) noflow
 ;
 
-#define register offset=0x3000 size=4 [
-#or1ctx
-#];
-
-
-#define context or1ctx
-#or1test = (0, 6) noflow
-#or1test_overlap = (0, 6) noflow
-#;
 
 # high dword: Left
 # lo   dword: Right
@@ -528,7 +534,7 @@ LRFP
 
 
 #TODO: might be wrong
-attach variables [ immdup0_D3_pair immdup1_D3_pair] [
+attach variables [ immdup0_D3_pair immdup1_D3_pair immdup0_D3_pairi immdup1_D3_pairi] [
 r1r0
 r3r2
 r5r4
@@ -670,7 +676,7 @@ SPr28c
 LRFPc
 ];
 
-attach variables [ D5_pairi S5_pairi T5_pairi ] [
+attach variables [ D5_pairi S5_pairi T5_pairi alu_X5_pairi] [
 r1r0c
 r3r2c
 r5r4c
@@ -754,18 +760,6 @@ r6c
 r7c
 ];
 
-# TODO: what is this list, this is wrong, x5 is right
-attach variables [ T3_new_8_10 T3_0_2_new ] [
-r0
-r1
-r2
-r5
-r7
-r8
-r9
-r10
-];
-
 attach variables [ immdup0_D4 immdup1_D4 immdup0_S4 immdup1_S4 ] [
 r0
 r1
@@ -784,7 +778,7 @@ r21
 r22
 r23
 ];
-attach variables [ immdup0_S4i immdup1_S4i ] [
+attach variables [ immdup0_S4i immdup1_S4i immdup0_D4i immdup1_D4i ] [
 r0c
 r1c
 r2c
@@ -1275,7 +1269,7 @@ attach variables [GD5_pair] [
 define pcodeop testCallOther;
 define pcodeop testCallOther1;
 
-attach names [or1test_overlap] [
+attach names [or1test_overlap or2test_overlap or3test_overlap] [
 "r0" _ _ _
 "r1" _ _ _
 "r2" _ _ _
@@ -1318,20 +1312,34 @@ OR1: or1test_overlap is or1test & or1test_overlap {
 	local tmp:4 = or1test;
 	export *[register]:4 tmp;
 }
-OR2: or2test is or2test  {
+OR2: or2test_overlap is or2test & or2test_overlap  {
 	local tmp:4 = or2test;
 	export *[register]:4 tmp;
 }
-OR2: or3test is or3test {
+OR3: or3test_overlap is or3test & or3test_overlap {
 	local tmp:4 = or3test;
 	export *[register]:4 tmp;
 }
 
 define pcodeop _unimpl_nv;
-NV_S3_new_16_18: "ILLEGAL" is OR1 { _unimpl_nv(); export OR1; }
-NV_S3_new_16_18: OR1 ".new" is S3_new_16_18=0b010 & OR1 & pktid=2 & analysed=1 {
-	export OR1;
-}
+NV_S3_new_16_18: "ILLEGAL pkt:" pktid ", S3:" S3_new_16_18 is OR1 & pktid & S3_new_16_18 { _unimpl_nv(); export OR1; }
+
+
+NV_S3_new_16_18: OR1 ".new" is S3_new_16_18=0b010 & OR1 & pktid=2 & analysed=1 { export OR1; }
+NV_S3_new_16_18: OR2 ".new" is S3_new_16_18=0b100 & OR2 & pktid=2 & analysed=1 { export OR2; }
+NV_S3_new_16_18: OR3 ".new" is S3_new_16_18=0b110 & OR3 & pktid=2 & analysed=1 { export OR3; }
+
+NV_T3_new_8_10: "ILLEGAL pkt:" pktid ", S3:" T3_new_8_10 is OR1 & pktid & T3_new_8_10 { _unimpl_nv(); export OR1; }
+
+NV_T3_new_8_10: OR1 ".new" is T3_new_8_10=0b010 & OR1 & pktid=2 & analysed=1 { export OR1; }
+NV_T3_new_8_10: OR2 ".new" is T3_new_8_10=0b100 & OR2 & pktid=2 & analysed=1 { export OR2; }
+NV_T3_new_8_10: OR3 ".new" is T3_new_8_10=0b110 & OR3 & pktid=2 & analysed=1 { export OR3; }
+
+NV_T3_0_2_new: "ILLEGAL pkt:" pktid ", S3:" T3_0_2_new is OR1 & pktid & T3_0_2_new { _unimpl_nv(); export OR1; }
+NV_T3_0_2_new: OR1 ".new" is T3_0_2_new=0b010 & OR1 & pktid=2 & analysed=1 { export OR1; }
+
+
+
 
 
 macro rotl32(out, a, b) {
@@ -1351,7 +1359,7 @@ macro rotl64(out, a, b) {
 EXT_imm_5_12u:imm_5_12u is imm_5_12u & (hasext0=0 | immext0used=1) {
 	export *[const]:4 imm_5_12u;
 }
-EXT_imm_5_12u:val is imm_5_12u & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;] {
+EXT_imm_5_12u:val is imm_5_12u & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;] {
 	export *[const]:4 val;
 }
 EXT_imm_5_12u:val is imm_5_12u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [ val = immext1 | imm_5_10u; immext1used=1;] {
@@ -1361,7 +1369,7 @@ EXT_imm_5_12u:val is imm_5_12u & hasext0=1 & hasext1=1 & immext0used=1 & immext1
 EXT_imm_5_12:imm_5_12 is imm_5_12 & (hasext0=0 | immext0used=1) {
 	export *[const]:4 imm_5_12;
 }
-EXT_imm_5_12:val is imm_5_12u & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;] {
+EXT_imm_5_12:val is imm_5_12u & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;] {
 	export *[const]:4 val;
 }
 EXT_imm_5_12:val is imm_5_12u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [ val = immext1 | imm_5_10u; immext1used=1;] {
@@ -1371,7 +1379,7 @@ EXT_imm_5_12:val is imm_5_12u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 
 EXT_imm_5_11u:imm_5_11u is imm_5_11u & (hasext0=0 | immext0used=1) {
 	export *[const]:4 imm_5_11u;
 }
-EXT_imm_5_11u:val is imm_5_11u & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;] {
+EXT_imm_5_11u:val is imm_5_11u & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;] {
 	export *[const]:4 val;
 }
 EXT_imm_5_11u:val is imm_5_11u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [ val = immext1 | imm_5_10u; immext1used=1;] {
@@ -1381,7 +1389,7 @@ EXT_imm_5_11u:val is imm_5_11u & hasext0=1 & hasext1=1 & immext0used=1 & immext1
 EXT_imm_5_10u:imm_5_10u is imm_5_10u & (hasext0=0 | immext0used=1) {
 	export *[const]:4 imm_5_10u;
 }
-EXT_imm_5_10u:val is imm_5_10u & hasext0=1 & immext0used=0 & immext0  [ val = immext0 | imm_5_10u; immext0used=1;] {
+EXT_imm_5_10u:val is imm_5_10u & hasext0=1 & immext0used=0 & immext0  [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;] {
 	export *[const]:4 val;
 }
 EXT_imm_5_10u:val is imm_5_10u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [ val = immext1 | imm_5_10u; immext1used=1;] {
@@ -1391,7 +1399,7 @@ EXT_imm_5_10u:val is imm_5_10u & hasext0=1 & hasext1=1 & immext0used=1 & immext1
 EXT_imm_0_5u:imm_0_5u is imm_0_5u & (hasext0=0 | immext0used=1) {
 	export *[const]:4 imm_0_5u;
 }
-EXT_imm_0_5u:val is imm_0_5u & hasext0=1 & immext0used=0 & immext0 [ val = immext0 | imm_0_5u; immext0used=1;] {
+EXT_imm_0_5u:val is imm_0_5u & hasext0=1 & immext0used=0 & immext0 [ val = immext0 | imm_0_5u; immext0used=1;immext0everused=1;] {
 	export *[const]:4 val;
 }
 EXT_imm_0_5u:val is imm_0_5u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [ val = immext1 | imm_0_5u; immext1used=1;] {
@@ -1401,7 +1409,7 @@ EXT_imm_0_5u:val is imm_0_5u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [
 EXT_LD_S11_dword:s11 is imm_25_26 & imm_5_13u & (hasext0=0 | immext0used=1) [ s11 = ((imm_5_13u | (imm_25_26 << 9))<<3);] {
 	export *[const]:4 s11;
 }
-EXT_LD_S11_dword:s11 is imm_25_26 & imm_5_13u & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ s11 = immext0 | imm_5_10u; immext0used=1; ] {
+EXT_LD_S11_dword:s11 is imm_25_26 & imm_5_13u & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ s11 = immext0 | imm_5_10u; immext0used=1;immext0everused=1; ] {
 	export *[const]:4 s11;
 }
 EXT_LD_S11_dword:s11 is imm_25_26 & imm_5_13u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [ s11 = immext1 | imm_5_10u; immext1used=1; ] {
@@ -1411,7 +1419,7 @@ EXT_LD_S11_dword:s11 is imm_25_26 & imm_5_13u & hasext0=1 & hasext1=1 & immext0u
 EXT_LD_U6:val is imm_25_26 & (hasext0=0 | immext0used=1) & imm_8_11u & imm_5_6u [ val = imm_5_6u | (imm_8_11u << 2);] {
 	export *[const]:4 val;
 }
-EXT_LD_U6:val is imm_25_26 & hasext0=1 & immext0used=0 & immext0 & imm_5_6u & imm_8_11u [val = (imm_5_6u | (imm_8_11u << 2)) | immext0; immext0used=1;] {
+EXT_LD_U6:val is imm_25_26 & hasext0=1 & immext0used=0 & immext0 & imm_5_6u & imm_8_11u [val = (imm_5_6u | (imm_8_11u << 2)) | immext0; immext0used=1;immext0everused=1;] {
 	export *[const]:4 val;
 }
 EXT_LD_U6:val is imm_25_26 & imm_8_11u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_6u [val = (imm_5_6u | (imm_8_11u << 2)) | immext1; immext1used=1;] {
@@ -1511,7 +1519,7 @@ missing_ext1();
 }
 terminator:"" is disabled {}
 
-terminator:"" is disabled & hasext0=1 & immext0used=0 & missing_marker0{
+terminator:"" is disabled & hasext0=1 & immext0everused=0 & missing_marker0{
 build missing_marker0;
 }
 terminator:"" is disabled & hasext0=1 & immext0used=1 {}
@@ -1523,17 +1531,16 @@ terminator:"" is disabled & hasext0=1 & immext0used=1 & hasext1=1 & immext1used=
 # Fallback for branch mode
 slot:"" is mode=1100 {}
 
-build_branches:"" is slot [mode=1100; ] {
+build_branches:"" is parse != 0b00 & slot [mode=1100; immext0used=0; ] {
 	build slot;
+}
+build_branches:"" is parse=0b00 & duplex [mode=1100; ] {
+	build duplex;
 }
 build_branches_1:"" is build_branches { build build_branches; }
 build_branches_2:"" is build_branches { build build_branches; }
 build_branches_3:"" is build_branches { build build_branches; }
 build_branches_4:"" is build_branches { build build_branches; }
-
-build_duplex_branches:"" is duplex [mode=1100;] {
-	build duplex;
-}
 
 
 # fallback from nv input
@@ -1558,16 +1565,9 @@ slotX: slot is slot & parse=0b11 [mode=0; pktid=pktid+1;]  {
 	build slot;
     prolude();
 }
-
-
-
-slotX: duplex is duplex & parse=0b00 & build_duplex_branches [mode=0;] {
+slotX: duplex is duplex & parse=0b00 [mode=0;] {
 	build duplex;
 	 prolude();
-
-	 build build_duplex_branches;
-
-
 }
 
 macro endloop0() {

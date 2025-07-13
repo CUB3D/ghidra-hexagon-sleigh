@@ -10,11 +10,11 @@ with slot: iclass=0b0100 & mode=0 {
         local tmp2:4 = GP + u16;
         D5_pair = *[ram]:8 tmp2;
     }
-    :D5_pair "=memd(" u16 ")" is imm_27=1 & imm_25_26u & imm_21_24=0b1110 & imm_16_20u & imm_5_13u & D5_pair & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [u16 = immext0 | imm_5_10u; immext0used=1; ]{
+    :D5_pair "=memd(" u16 ")" is imm_27=1 & imm_25_26u & imm_21_24=0b1110 & imm_16_20u & imm_5_13u & D5_pair & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [u16 = immext0 | imm_5_10u; immext0used=1; immext0everused=1;]{
         local tmp2:4 = u16;
         D5_pair = *[ram]:8 tmp2;
     }
-    :D5_pair "=memd(" u16 ")" is imm_27=1 & imm_25_26u & imm_21_24=0b1110 & imm_16_20u & imm_5_13u & D5_pair & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [u16 = immext1 | imm_5_10u; immext1used=1; ]{
+    :D5_pair "=memd(" u16 ")" is imm_27=1 & imm_25_26u & imm_21_24=0b1110 & imm_16_20u & imm_5_13u & D5_pair & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [u16 = immext1 | imm_5_10u; immext1used=1; immext0everused=1;]{
         local tmp2:4 = u16;
         D5_pair = *[ram]:8 tmp2;
     }

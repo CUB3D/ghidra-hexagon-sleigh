@@ -26,7 +26,7 @@ with slot: iclass=0b1001 & mode=0 {
         local EA:4 = S5i + s11;
         D5 = *[ram]:4 EA;
     }
-    :D5"=memw("S5"+"s11")" is imm_27=0 & imm_25_26 & imm_21_24=0b1100 & S5 & S5i & imm_5_13u & D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [s11 = (immext0) | imm_5_10u; immext0used=1;] {
+    :D5"=memw("S5"+"s11")" is imm_27=0 & imm_25_26 & imm_21_24=0b1100 & S5 & S5i & imm_5_13u & D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [s11 = (immext0) | imm_5_10u; immext0used=1; immext0everused=1;] {
         local EA:4 = S5i + s11;
         D5 = *[ram]:4 EA;
     }
@@ -50,7 +50,7 @@ with slot: iclass=0b1001 & mode=0 {
 	D5 = *[ram]:4 EA;
 	S5 = EA;
     }
-    :D5 "=memw(" S5 "=" u6")" is imm_21_27=0b1011100 & S5 & S5i & imm_12_13=0b01 & imm_8_11u & imm_7=0 & imm_5_6u & D5 & hasext0=1 & immext0used=0 & immext0 [u6 = immext0 | (imm_5_6u | (imm_8_11u<<2)); immext0used=1;] {
+    :D5 "=memw(" S5 "=" u6")" is imm_21_27=0b1011100 & S5 & S5i & imm_12_13=0b01 & imm_8_11u & imm_7=0 & imm_5_6u & D5 & hasext0=1 & immext0used=0 & immext0 [u6 = immext0 | (imm_5_6u | (imm_8_11u<<2)); immext0used=1; immext0everused=1;] {
     	local EA:4 = u6;
 	D5 = *[ram]:4 EA;
 	S5 = EA;
@@ -70,7 +70,7 @@ with slot: iclass=0b1001 & mode=0 {
         local EA:4 = (S5i << u2) + u6;
         D5 = *[ram]:4 EA;
     }
-    :D5 "=memw(" S5 "<<" u2 "+" u6 ")" is imm_21_27=0b1101100 & S5 & S5i & imm_13u & imm_12=1 & imm_8_11u & imm_7u & imm_5_6u & D5 & hasext0=1 & immext0used=0 [u2 = imm_7u | (imm_13u << 1); u6 = immext0 | (imm_5_6u  | (imm_8_11u << 2)); immext0used=1;] {
+    :D5 "=memw(" S5 "<<" u2 "+" u6 ")" is imm_21_27=0b1101100 & S5 & S5i & imm_13u & imm_12=1 & imm_8_11u & imm_7u & imm_5_6u & D5 & hasext0=1 & immext0used=0 [u2 = imm_7u | (imm_13u << 1); u6 = immext0 | (imm_5_6u  | (imm_8_11u << 2)); immext0used=1; immext0everused=1;] {
         local EA:4 = (S5i << u2) + u6;
         D5 = *[ram]:4 EA;
     }
@@ -106,13 +106,13 @@ with slot: iclass=0b1001 & mode=0 {
 ld_w_cond_u6_1: val is imm_5_10u & (hasext0=0 | immext0used=1) [val = imm_5_10u << 2;] {
 	export *[const]:4 val;
 }
-ld_w_cond_u6_1: val is imm_5_10u & hasext0=1 & immext0used=0 & immext0 [val = imm_5_10u | immext0; immext0used=1;] {
+ld_w_cond_u6_1: val is imm_5_10u & hasext0=1 & immext0used=0 & immext0 [val = imm_5_10u | immext0; immext0used=1; immext0everused=1;] {
 	export *[const]:4 val;
 }
 ld_w_cond_u6_2: val is imm_16_20u & imm_8u & (hasext0=0 | immext0used=1) [val = imm_8u | (imm_16_20u << 1);] {
 	export *[const]:4 val;
 }
-ld_w_cond_u6_2: val is imm_16_20u & imm_8u & hasext0=1 & immext0used=0 & immext0 [val = imm_8u | (imm_16_20u << 1) | immext0; immext0used=1;] {
+ld_w_cond_u6_2: val is imm_16_20u & imm_8u & hasext0=1 & immext0used=0 & immext0 [val = imm_8u | (imm_16_20u << 1) | immext0; immext0used=1; immext0everused=1;] {
 	export *[const]:4 val;
 }
 ld_w_cond_u6_2: val is imm_16_20u & imm_8u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [val = imm_8u | (imm_16_20u << 1) | immext1; immext1used=1;] {

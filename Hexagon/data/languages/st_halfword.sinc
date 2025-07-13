@@ -40,7 +40,7 @@ with slot: iclass=0b0100 & mode=0 {
     	local EA:4 = GP + u16;
 		*[ram]:2 EA = T5i;
     }
-    :"memh("v")="T5 is imm_27=1 & imm_25_26u & imm_21_24=0b0010 & imm_16_20u & imm_13u & T5 & T5i & imm_0_7u & hasext0=1 & immext0 & immext0used=0 & imm_0_5u [v = imm_0_5u | immext0; immext0used=1; ] {
+    :"memh("v")="T5 is imm_27=1 & imm_25_26u & imm_21_24=0b0010 & imm_16_20u & imm_13u & T5 & T5i & imm_0_7u & hasext0=1 & immext0 & immext0used=0 & imm_0_5u [v = imm_0_5u | immext0; immext0used=1; immext0everused=1;] {
     	local EA:4 = GP + v;
 		*[ram]:2 EA = T5i:2;
     }
@@ -49,7 +49,7 @@ with slot: iclass=0b0100 & mode=0 {
     	local EA:4 = GP + u16;
 		*[ram]:2 EA = T5i(2);
     }
-    :"memh("v")="T5 ".H" is imm_27=1 & imm_25_26u & imm_21_24=0b0011 & imm_16_20u & imm_13u & T5 & T5i & imm_0_7u & hasext0=1 & immext0 & immext0used=0 & imm_0_5u [v = imm_0_5u | immext0; immext0used=1; ] {
+    :"memh("v")="T5 ".H" is imm_27=1 & imm_25_26u & imm_21_24=0b0011 & imm_16_20u & imm_13u & T5 & T5i & imm_0_7u & hasext0=1 & immext0 & immext0used=0 & imm_0_5u [v = imm_0_5u | immext0; immext0used=1;immext0everused=1; ] {
     	local EA:4 = GP + v;
 		*[ram]:2 EA = T5i(2);
     }
@@ -150,7 +150,7 @@ with slot: iclass=0b1010 & mode=0 {
 ST_COND_1_s6: s6 is imm_0_4u & imm_13 & (hasext0=0 | immext0used=1) [s6 = imm_0_4u | (imm_13 << 5);] {
 	export *[const]:4 s6;
 }
-ST_COND_1_s6: s6 is imm_0_4u & imm_13 & hasext0=1 & immext0used=0 & immext0 [s6 = (imm_0_4u | (imm_13 << 5)) | immext0; immext0used=1; ] {
+ST_COND_1_s6: s6 is imm_0_4u & imm_13 & hasext0=1 & immext0used=0 & immext0 [s6 = (imm_0_4u | (imm_13 << 5)) | immext0; immext0used=1; immext0everused=1;] {
 	export *[const]:4 s6;
 }
 ST_COND_1_s6: s6 is imm_0_4u & imm_13 & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [s6 = (imm_0_4u | (imm_13 << 5)) | immext1; immext1used=1; ] {

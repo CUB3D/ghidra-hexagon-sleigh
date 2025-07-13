@@ -416,16 +416,19 @@ with slot: iclass=0b1110 & mode=0 {
 }
 
 # XTYPE/MPY: Mul and use upper
+define pcodeop mpy_rnd;
+
 with slot: iclass=0b1110 & mode=0 {
-    :"mpy0" is imm_21_27=0b1101001 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
-       _stub();
+    :D5 "=mpy(" S5 "," T5 "):rnd" is imm_21_27=0b1101001 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
+       D5 = mpy_rnd(S5i, T5i);
     }
     :D5 = "mpyu(" S5 "," T5 ")" is imm_21_27=0b1101010 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
-    	local tmp1:8 = sext(S5i) * sext(T5i);
-	D5 = tmp1(4);
+    	local tmp1:8 = zext(S5i) * zext(T5i);
+		D5 = tmp1(4);
     }
-    :"mpy2" is imm_21_27=0b1101011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
-       _stub();
+    :D5 = "mpysu(" S5 "," T5 ")" is imm_21_27=0b1101011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
+       local tmp1:8 = sext(S5i) * zext(T5i);
+		D5 = tmp1(4);
     }
     :"mpy3" is imm_21_27=0b1101101 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
        _stub();
@@ -442,8 +445,9 @@ with slot: iclass=0b1110 & mode=0 {
     :"mpy7" is imm_21_27=0b1101111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 {
        _stub();
     }
-    :"mpy8" is imm_24_27=0b1101 & imm_23 & imm_22=0 & imm_21 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6 & D5 {
-       _stub();
+    :D5 "=mpy(" S5 "," T5 "):<<" imm_5_6u is imm_24_27=0b1101 & imm_23 & imm_22=0 & imm_21 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6u & D5 {
+       local tmp1:8 = zext(S5i) * zext(T5i);
+		D5 = tmp1(4) << imm_5_6u;
     }
 
     :"mpy9" is imm_21_27=0b1111011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
@@ -467,7 +471,7 @@ with slot: iclass=0b1110 & mode=0 {
 
     :D5_pair "+=mpy(" S5 "," T5 ")" is imm_21_27=0b0111000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5_pair {
         local tmp:8 = zext(S5i)*zext(T5i);
-	D5_pair = D5_pair + tmp;
+		D5_pair = D5_pair + tmp;
     }
     :"-=mpy" is imm_21_27=0b0111001 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
        _stub();
@@ -478,8 +482,11 @@ with slot: iclass=0b1110 & mode=0 {
 
     	D5_pair = D5_pairi + (A * B);
     }
-    :"mpy14" is imm_21_27=0b0111011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
-       _stub();
+    :D5_pair "-=mpyu(" S5 "," T5 ")" is imm_21_27=0b0111011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5_pair & D5_pairi {
+       local A:8 = sext(S5i);
+    	local B:8 = sext(T5i);
+
+    	D5_pair = D5_pairi - (A * B);
     }
 }
 

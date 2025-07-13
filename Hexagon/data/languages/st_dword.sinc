@@ -10,7 +10,7 @@ with slot: iclass=0b0100 & mode=0 {
         local EA:4 = GP + s11;
         *[ram]:8 EA = T5_pair;
     }
-    :"memw("v")="T5_pair is imm_27=1 & imm_25_26 & imm_21_24=0b0110 & imm_16_20u & imm_13u & T5_pair & T5_pairi & imm_0_7u & hasext0=1 & immext0used=0 & immext0 & imm_0_5u [v = (imm_0_5u) | immext0; immext0used=1; ] {
+    :"memw("v")="T5_pair is imm_27=1 & imm_25_26 & imm_21_24=0b0110 & imm_16_20u & imm_13u & T5_pair & T5_pairi & imm_0_7u & hasext0=1 & immext0used=0 & immext0 & imm_0_5u [v = (imm_0_5u) | immext0; immext0used=1; immext0everused=1;] {
         local EA:4 = v;
         *[ram]:8 EA = T5_pairi;
     }

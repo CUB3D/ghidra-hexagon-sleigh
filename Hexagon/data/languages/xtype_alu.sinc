@@ -41,11 +41,11 @@ with slot: iclass=0b1101 & mode=0 {
 	    }
     }
     with : hasext0=1 & immext0used=0  {
-	    :T5 "=add(" S5 ", add(" D5 "," s6 "))" is imm_23_27=0b10110 & imm_21_22 & S5 & S5i & imm_13u & T5 & T5i & imm_5_7u & D5 & D5i & immext0 [ s6 = (imm_5_7u | (imm_13u << 3) | (imm_21_22 << 4)) | immext0; immext0used=1;] {
+	    :T5 "=add(" S5 ", add(" D5 "," s6 "))" is imm_23_27=0b10110 & imm_21_22 & S5 & S5i & imm_13u & T5 & T5i & imm_5_7u & D5 & D5i & immext0 [ s6 = (imm_5_7u | (imm_13u << 3) | (imm_21_22 << 4)) | immext0; immext0used=1; immext0everused=1;] {
 		local EA:4 = D5i + s6;
 		T5 = EA + S5i;
 	    }
-	    :T5 "=add(" S5 ", sub(" s6 "," D5 "))" is imm_23_27=0b10111 & imm_21_22 & S5 & S5i & imm_13u & T5 & T5i & imm_5_7u & D5 & D5i & immext0 [ s6 = (imm_5_7u | (imm_13u << 3) | (imm_21_22 << 4)) | immext0; immext0used=1;] {
+	    :T5 "=add(" S5 ", sub(" s6 "," D5 "))" is imm_23_27=0b10111 & imm_21_22 & S5 & S5i & imm_13u & T5 & T5i & imm_5_7u & D5 & D5i & immext0 [ s6 = (imm_5_7u | (imm_13u << 3) | (imm_21_22 << 4)) | immext0; immext0used=1; immext0everused=1;] {
 		local EA:4 = s6 - D5i;
 		T5 = EA + S5i;
 	    }
@@ -217,7 +217,7 @@ with slot: iclass=0b1101 & mode=0 {
         local EA:4 = S5i & s10;
         S5 = D5i | EA;
     }
-    :S5"=or("D5",and("S5_dup","s10"))" is imm_22_27=0b101001 & imm_21 & S5 & S5i & S5_dup & imm_5_13u & D5 & D5i & hasext0=1 & immext0used=0 & imm_5_10u [s10 = imm_5_10u | immext0; immext0used=1;] {
+    :S5"=or("D5",and("S5_dup","s10"))" is imm_22_27=0b101001 & imm_21 & S5 & S5i & S5_dup & imm_5_13u & D5 & D5i & hasext0=1 & immext0used=0 & imm_5_10u [s10 = imm_5_10u | immext0; immext0used=1; immext0everused=1;] {
         local EA:4 = S5i & s10;
         S5 = D5i | EA;
     }

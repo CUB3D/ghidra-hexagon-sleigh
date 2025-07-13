@@ -9,7 +9,7 @@ with slot: iclass=0b0011 & mode=0 {
         local EA:4 = S5i + U6;
         *[ram]:4 EA = S8;
     }
-    :"memw("S5"+"U6")="S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b10 & S5 & S5i & imm_7_12u & imm_0_6u & imm_13 & hasext0=1 & immext0used=0 & immext0 & imm_0_5u [ U6 = imm_7_12u << 2; S8=imm_0_5u | immext0; immext0used=1; ] {
+    :"memw("S5"+"U6")="S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b10 & S5 & S5i & imm_7_12u & imm_0_6u & imm_13 & hasext0=1 & immext0used=0 & immext0 & imm_0_5u [ U6 = imm_7_12u << 2; S8=imm_0_5u | immext0; immext0used=1;immext0everused=1; ] {
         local EA:4 = S5i + U6;
         *[ram]:4 EA = S8;
     }
@@ -24,7 +24,7 @@ with slot: iclass=0b0100 & mode=0 {
         local EA:4 = GP + s11;
         *[ram]:4 EA = T5i;
     }
-    :"memw("v")="T5 is imm_27=1 & imm_25_26 & imm_21_24=0b0100 & imm_16_20u & imm_13u & T5 & T5i & imm_0_7u & hasext0=1 & immext0used=0 & immext0 & imm_0_5u [v = (imm_0_5u) | immext0; immext0used=1; ] {
+    :"memw("v")="T5 is imm_27=1 & imm_25_26 & imm_21_24=0b0100 & imm_16_20u & imm_13u & T5 & T5i & imm_0_7u & hasext0=1 & immext0used=0 & immext0 & imm_0_5u [v = (imm_0_5u) | immext0; immext0used=1;immext0everused=1; ] {
         local EA:4 = v;
         *[ram]:4 EA = T5i;
     }
@@ -145,7 +145,7 @@ with slot: iclass=0b0011 & mode=0 {
 ST_W_COND_0_u6: s6 is imm_3_7u & imm_13u & (hasext0=0 | immext0used=1) [s6 = (imm_3_7u | (imm_13u << 5)) << 2;] {
 	export *[const]:4 s6;
 }
-ST_W_COND_0_u6: s6 is imm_3_7u & imm_13u & hasext0=1 & immext0used=0 & immext0 [s6 = (imm_3_7u | (imm_13u << 5)) | immext0; immext0used=1; ] {
+ST_W_COND_0_u6: s6 is imm_3_7u & imm_13u & hasext0=1 & immext0used=0 & immext0 [s6 = (imm_3_7u | (imm_13u << 5)) | immext0; immext0used=1;immext0everused=1; ] {
 	export *[const]:4 s6;
 }
 with slot: iclass=0b0100 & mode=0 {
@@ -211,25 +211,25 @@ with slot: iclass=0b1010 & mode=0 {
         *[ram]:4 EA = T5i;
 	<end>
     }
-    :"if(" D2_pred ") memw(" u6 ")=" T5 is imm_21_27=0b1111100 & imm_18_20=0 & imm_16_17u & imm_13=0 & T5 & T5i & imm_7=1 & imm_3_6u & imm_2=1 & imm_0_1 & D2_pred & D2_predi [u6 = (imm_3_6u | (imm_16_17u << 4)) | immext0; immext0used=1; ]{
+    :"if(" D2_pred ") memw(" u6 ")=" T5 is imm_21_27=0b1111100 & imm_18_20=0 & imm_16_17u & imm_13=0 & T5 & T5i & imm_7=1 & imm_3_6u & imm_2=1 & imm_0_1 & D2_pred & D2_predi [u6 = (imm_3_6u | (imm_16_17u << 4)) | immext0; immext0used=1; immext0everused=1;]{
         if(D2_predi == 0) goto <end>;
 	        local EA:4 = u6;
 	        *[ram]:4 EA = T5i;
 		<end>
     }
-    :"if(" !D2_pred ") memw(" u6 ")=" T5 is imm_21_27=0b1111100 & imm_18_20=0 & imm_16_17u & imm_13=1 & T5 & T5i & imm_7=1 & imm_3_6u & imm_2=0 & imm_0_1 & D2_pred & D2_predi [u6 = (imm_3_6u | (imm_16_17u << 4)) | immext0; immext0used=1; ]{
+    :"if(" !D2_pred ") memw(" u6 ")=" T5 is imm_21_27=0b1111100 & imm_18_20=0 & imm_16_17u & imm_13=1 & T5 & T5i & imm_7=1 & imm_3_6u & imm_2=0 & imm_0_1 & D2_pred & D2_predi [u6 = (imm_3_6u | (imm_16_17u << 4)) | immext0; immext0used=1;immext0everused=1; ]{
         if(D2_predi != 0) goto <end>;
 	        local EA:4 = u6;
 	        *[ram]:4 EA = T5i;
 		<end>
     }
-    :"if(" D2_pred_new ") memw(" u6 ")=" T5 is imm_21_27=0b1111100 & imm_18_20=0 & imm_16_17u & imm_13=1 & T5 & T5i & imm_7=1 & imm_3_6u & imm_2=1 & imm_0_1 & D2_pred_new [u6 = (imm_3_6u | (imm_16_17u << 4)) | immext0; immext0used=1; ]{
+    :"if(" D2_pred_new ") memw(" u6 ")=" T5 is imm_21_27=0b1111100 & imm_18_20=0 & imm_16_17u & imm_13=1 & T5 & T5i & imm_7=1 & imm_3_6u & imm_2=1 & imm_0_1 & D2_pred_new [u6 = (imm_3_6u | (imm_16_17u << 4)) | immext0; immext0used=1; immext0everused=1;]{
         if(D2_pred_new == 0) goto <end>;
 	        local EA:4 = u6;
 	        *[ram]:4 EA = T5i;
 		<end>
     }
-    :"if(" !D2_pred_new ") memw(" u6 ")=" T5 is imm_21_27=0b1111100 & imm_18_20=0 & imm_16_17u & imm_13=1 & T5 & T5i & imm_7=1 & imm_3_6u & imm_2=1 & D2_pred_new & hasext0=1 & immext0used=0 & immext0 [u6 = (imm_3_6u | (imm_16_17u << 4)) | immext0; immext0used=1; ] {
+    :"if(" !D2_pred_new ") memw(" u6 ")=" T5 is imm_21_27=0b1111100 & imm_18_20=0 & imm_16_17u & imm_13=1 & T5 & T5i & imm_7=1 & imm_3_6u & imm_2=1 & D2_pred_new & hasext0=1 & immext0used=0 & immext0 [u6 = (imm_3_6u | (imm_16_17u << 4)) | immext0; immext0used=1;immext0everused=1; ] {
     	if(D2_pred_new != 0) goto <end>;
 	        local EA:4 = u6;
 	        *[ram]:4 EA = T5i;

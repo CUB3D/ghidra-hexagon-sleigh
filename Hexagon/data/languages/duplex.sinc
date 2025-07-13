@@ -1,111 +1,111 @@
 EXT_immdup1_8_11w: v is immdup1_8_11 & (hasext0=0 | immext0used=1) [ v = immdup1_8_11 << 2;] {
     export *[const]:4 v;
 }
-EXT_immdup1_8_11w: v is immdup1_8_11 & hasext0=1 & immext0used=0 & immext0 [ v = immdup1_8_11 | immext0; immext0used=1;] {
+EXT_immdup1_8_11w: v is immdup1_8_11 & hasext0=1 & immext0used=0 & immext0 [ v = immdup1_8_11 | immext0; immext0used=1; immext0everused=1;] {
     export *[const]:4 v;
 }
 
-L1L:immdup0_D4 "=memw(" immdup0_S4 "+" v ")" is immdup0_12=0 & immdup0_8_11 & immdup0_S4 & immdup0_D4 & mode=0  [v = immdup0_8_11 << 2;]{
-	local EA:4 = immdup0_S4 + v;
+L1L:immdup0_D4 "=memw(" immdup0_S4 "+" v ")" is immdup0_12=0 & immdup0_8_11 & immdup0_S4 & immdup0_S4i & immdup0_D4 & mode=0  [v = immdup0_8_11 << 2;]{
+	local EA:4 = immdup0_S4i + v;
 	immdup0_D4 = *[ram]:4 EA;
 }
-L1R:immdup1_D4 "=memw(" immdup1_S4 "+" EXT_immdup1_8_11w ")" is immdup1_12=0 & EXT_immdup1_8_11w & immdup1_S4 & immdup1_D4 & mode=0 {
-	local EA:4 = immdup1_S4 + EXT_immdup1_8_11w;
+L1R:immdup1_D4 "=memw(" immdup1_S4 "+" EXT_immdup1_8_11w ")" is immdup1_12=0 & EXT_immdup1_8_11w & immdup1_S4 & immdup1_S4i & immdup1_D4 & mode=0 {
+	local EA:4 = immdup1_S4i + EXT_immdup1_8_11w;
 	immdup1_D4 = *[ram]:4 EA;
 }
 
 
-L1L:immdup0_D4 "=memub(" immdup0_S4 "+" immdup0_8_11 ")" is immdup0_12=1 & immdup0_8_11 & immdup0_S4 & immdup0_D4 & mode=0 {
-	local EA:4 = immdup0_S4 + immdup0_8_11;
+L1L:immdup0_D4 "=memub(" immdup0_S4 "+" immdup0_8_11 ")" is immdup0_12=1 & immdup0_8_11 & immdup0_S4 & immdup0_S4i & immdup0_D4 & mode=0 {
+	local EA:4 = immdup0_S4i + immdup0_8_11;
 	immdup0_D4 = *[ram]:1 EA;
 }
-L1R:immdup1_D4 "=memub(" immdup1_S4 "+" immdup1_8_11 ")" is immdup1_12=1 & immdup1_8_11 & immdup1_S4 & immdup1_D4 & mode=0 {
-	local EA:4 = immdup1_S4 + immdup1_8_11;
+L1R:immdup1_D4 "=memub(" immdup1_S4 "+" immdup1_8_11 ")" is immdup1_12=1 & immdup1_8_11 & immdup1_S4 & immdup1_S4i & immdup1_D4 & mode=0 {
+	local EA:4 = immdup1_S4i + immdup1_8_11;
 	immdup1_D4 = *[ram]:1 EA;
 }
 
 # Duplex/S1
 
-S1L:"memw(" immdup0_S4 "+" v ")=" immdup0_D4 is immdup0_12=0 & immdup0_8_11 & immdup0_S4 & immdup0_D4 & mode=0 [v = immdup0_8_11 << 2;]{
-	local EA:4 = immdup0_S4 + v;
-	*[ram]:4 EA = immdup0_D4;
+S1L:"memw(" immdup0_S4 "+" v ")=" immdup0_D4 is immdup0_12=0 & immdup0_8_11 & immdup0_S4 & immdup0_S4i & immdup0_D4 & immdup0_D4i & mode=0 [v = immdup0_8_11 << 2;]{
+	local EA:4 = immdup0_S4i + v;
+	*[ram]:4 EA = immdup0_D4i;
 }
-S1R:"memw(" immdup1_S4 "+" EXT_immdup1_8_11w ")=" immdup1_D4 is immdup1_12=0 & EXT_immdup1_8_11w & immdup1_S4 & immdup1_D4 & mode=0 {
-	local EA:4 = immdup1_S4 + EXT_immdup1_8_11w;
-	*[ram]:4 EA = immdup1_D4;
+S1R:"memw(" immdup1_S4 "+" EXT_immdup1_8_11w ")=" immdup1_D4 is immdup1_12=0 & EXT_immdup1_8_11w & immdup1_S4 & immdup1_S4i & immdup1_D4 & immdup1_D4i & mode=0 {
+	local EA:4 = immdup1_S4i + EXT_immdup1_8_11w;
+	*[ram]:4 EA = immdup1_D4i;
 }
 
-S1L:"memb("immdup0_S4 "+" immdup0_8_11 ")=" immdup0_D4 is immdup0_12=1 & immdup0_8_11 & immdup0_S4 & immdup0_D4 & mode=0 {
-	local EA:4 = immdup0_S4 + immdup0_8_11;
-	*[ram]:1 EA = immdup0_D4;
+S1L:"memb("immdup0_S4 "+" immdup0_8_11 ")=" immdup0_D4 is immdup0_12=1 & immdup0_8_11 & immdup0_S4 & immdup0_S4i & immdup0_D4 & immdup0_D4i & mode=0 {
+	local EA:4 = immdup0_S4i + immdup0_8_11;
+	*[ram]:1 EA = immdup0_D4i;
 }
-S1R:"memb("immdup1_S4 "+" immdup1_8_11 ")=" immdup1_D4 is immdup1_12=1 & immdup1_8_11 & immdup1_S4 & immdup1_D4 & mode=0 {
-	local EA:4 = immdup1_S4 + immdup1_8_11;
-	*[ram]:1 EA = immdup1_D4;
+S1R:"memb("immdup1_S4 "+" immdup1_8_11 ")=" immdup1_D4 is immdup1_12=1 & immdup1_8_11 & immdup1_S4 & immdup1_S4i & immdup1_D4 & immdup1_D4i & mode=0 {
+	local EA:4 = immdup1_S4i + immdup1_8_11;
+	*[ram]:1 EA = immdup1_D4i;
 }
 
  #Duplex/L2 
-L2L:immdup0_D4 "=memh(" immdup0_S4 "+" v ")" is immdup0_11_12=0b00 & immdup0_8_10 & immdup0_S4 & immdup0_D4 & mode=0 [v = immdup0_8_10 << 1;] {
-	local EA:4 = immdup0_S4 + v;
+L2L:immdup0_D4 "=memh(" immdup0_S4 "+" v ")" is immdup0_11_12=0b00 & immdup0_8_10 & immdup0_S4 & immdup0_S4i & immdup0_D4 & mode=0 [v = immdup0_8_10 << 1;] {
+	local EA:4 = immdup0_S4i + v;
 	immdup0_D4 = *[ram]:2 EA;
 }
-L2R:immdup1_D4 "=memh(" immdup1_S4 "+" v ")" is immdup1_11_12=0b00 & immdup1_8_10 & immdup1_S4 & immdup1_D4 & mode=0  [v = immdup1_8_10 << 1;]{
-	local EA:4 = immdup1_S4 + v;
+L2R:immdup1_D4 "=memh(" immdup1_S4 "+" v ")" is immdup1_11_12=0b00 & immdup1_8_10 & immdup1_S4 & immdup1_S4i & immdup1_D4 & mode=0  [v = immdup1_8_10 << 1;]{
+	local EA:4 = immdup1_S4i + v;
 	immdup1_D4 = *[ram]:2 EA;
 }
 
-L2L:immdup0_D4 "=memuh(" immdup0_S4 "+" v ")" is immdup0_11_12=0b01 & immdup0_8_10 & immdup0_S4 & immdup0_D4 & mode=0 [v = immdup0_8_10 << 1;] {
-	local EA:4 = immdup0_S4 + v;
+L2L:immdup0_D4 "=memuh(" immdup0_S4 "+" v ")" is immdup0_11_12=0b01 & immdup0_8_10 & immdup0_S4 & immdup0_S4i & immdup0_D4 & mode=0 [v = immdup0_8_10 << 1;] {
+	local EA:4 = immdup0_S4i + v;
 	immdup0_D4 = *[ram]:2 EA;
 }
-L2R:immdup1_D4 "=memuh(" immdup1_S4 "+" v ")" is immdup1_11_12=0b01 & immdup1_8_10 & immdup1_S4 & immdup1_D4 & mode=0 [v = immdup1_8_10 << 1;]{
-	local EA:4 = immdup1_S4 + v;
+L2R:immdup1_D4 "=memuh(" immdup1_S4 "+" v ")" is immdup1_11_12=0b01 & immdup1_8_10 & immdup1_S4 & immdup1_S4i & immdup1_D4 & mode=0 [v = immdup1_8_10 << 1;]{
+	local EA:4 = immdup1_S4i + v;
 	immdup1_D4 = *[ram]:2 EA;
 }
 
 
-L2L:immdup0_D4 "=memb(" immdup0_S4 "+" v ")" is immdup0_11_12=0b10 & immdup0_8_10 & immdup0_S4 & immdup0_D4 & mode=0 [v = immdup0_8_10 << 1;] {
-	local EA:4 = immdup0_S4 + v;
+L2L:immdup0_D4 "=memb(" immdup0_S4 "+" v ")" is immdup0_11_12=0b10 & immdup0_8_10 & immdup0_S4 & immdup0_S4i & immdup0_D4 & mode=0 [v = immdup0_8_10 << 1;] {
+	local EA:4 = immdup0_S4i + v;
 	immdup0_D4 = *[ram]:1 EA;
 }
-L2R:immdup1_D4 "=memb(" immdup1_S4 "+" v ")" is immdup1_11_12=0b10 & immdup1_8_10 & immdup1_S4 & immdup1_D4 & mode=0 [v = immdup1_8_10 << 1;]{
-	local EA:4 = immdup1_S4 + v;
+L2R:immdup1_D4 "=memb(" immdup1_S4 "+" v ")" is immdup1_11_12=0b10 & immdup1_8_10 & immdup1_S4 & immdup1_S4i & immdup1_D4 & mode=0 [v = immdup1_8_10 << 1;]{
+	local EA:4 = immdup1_S4i + v;
 	immdup1_D4 = *[ram]:1 EA;
 }
 
 L2L:immdup0_D4 "=memw(SP+" v ")" is immdup0_9_12=0b1110 & immdup0_4_8 & immdup0_D4 & mode=0 [v = immdup0_4_8 << 2;]{
-	local EA:4 = SP + v;
+	local EA:4 = SPc + v;
 	immdup0_D4 = *[ram]:4 EA;
 }
 L2R:immdup1_D4 "=memw(SP+" v ")" is immdup1_9_12=0b1110 & immdup1_4_8 & immdup1_D4 & mode=0 [v = immdup1_4_8 << 2;] {
-	local EA:4 = SP + v;
+	local EA:4 = SPc + v;
 	immdup1_D4 = *[ram]:4 EA;
 }
 
 L2L:immdup0_D3_pair "=memd(SP+" v ")" is immdup0_8_12=0b11110 & immdup0_3_7 & immdup0_D3_pair & mode=0 [v = immdup0_3_7 << 3;] {
-	local EA:4 = SP + v;
+	local EA:4 = SPc + v;
 	immdup0_D3_pair = *[ram]:8 EA;
 }
 L2R:immdup1_D3_pair "=memd(SP+" v ")" is immdup1_8_12=0b11110 & immdup1_3_7 & immdup1_D3_pair & mode=0 [v = immdup1_3_7 << 3;] {
-	local EA:4 = SP + v;
+	local EA:4 = SPc + v;
 	immdup1_D3_pair = *[ram]:8 EA;
 }
 
 L2L:"deallocframe" is immdup0_6_12=0b1111100 & immdup0_3_5=0 & immdup0_2=0 & immdup0_0_1=0 & mode=0 {
-	local EA:4 = FP;
+	local EA:4 = FPc;
         local tmp:8 = *[ram]:8 EA;
         LRFP = tmp;
         SP=EA+8;
 }
 L2R:"deallocframe" is immdup1_6_12=0b1111100 & immdup1_3_5=0 & immdup1_2=0 & immdup1_0_1=0 & mode=0 {
-	local EA:4 = FP;
+	local EA:4 = FPc;
         local tmp:8 = *[ram]:8 EA;
         LRFP = tmp;
         SP=EA+8;
 }
 
 L2L:"dealloc_return" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_2=0 & immdup0_0_1=0 & mode=0 {
-        local EA:4 = FP;
+        local EA:4 = FPc;
         local tmp:8 = *[ram]:8 EA;
         LRFP = tmp;
 
@@ -115,7 +115,7 @@ L2L:"dealloc_return" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_2=0 & i
         SP = EA+8;
 }
 L2L:"dealloc_return" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_2=0 & immdup0_0_1=0 & mode=1100 {
-        local EA:4 = FP;
+        local EA:4 = FPc;
         local tmp:8 = *[ram]:8 EA;
 
         local tmp2:8 = tmp>>32;
@@ -124,7 +124,7 @@ L2L:"dealloc_return" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_2=0 & i
 		return [tmp3];
 }
 L2R:"dealloc_return" is immdup1_6_12=0b1111101 & immdup1_3_5=0 & immdup1_2=0 & immdup1_0_1=0 & mode=0 {
-        local EA:4 = FP;
+        local EA:4 = FPc;
         local tmp:8 = *[ram]:8 EA;
         LRFP = tmp;
 
@@ -134,7 +134,7 @@ L2R:"dealloc_return" is immdup1_6_12=0b1111101 & immdup1_3_5=0 & immdup1_2=0 & i
         SP = EA+8;
 }
 L2R:"dealloc_return" is immdup1_6_12=0b1111101 & immdup1_3_5=0 & immdup1_2=0 & immdup1_0_1=0 & mode=1100 {
-        local EA:4 = FP;
+        local EA:4 = FPc;
         local tmp:8 = *[ram]:8 EA;
         
         local tmp2:8 = tmp>>32;
@@ -177,148 +177,148 @@ L2R:"ret_fnew" is immdup1_6_12=0b1111101 & immdup1_3_5=0 & immdup1_0_2=0b111 & m
 
 L2L:"jumpr LR" is immdup0_6_12=0b1111111 & immdup0_3_5=0 & immdup0_2=0 & immdup0_0_1=0 & mode=0 {}
 L2L:"jumpr LR" is immdup0_6_12=0b1111111 & immdup0_3_5=0 & immdup0_2=0 & immdup0_0_1=0 & mode=1100 {
-	return [LR];
+	return [LRc];
 }
 L2R:"jumpr LR" is immdup1_6_12=0b1111111 & immdup1_3_5=0 & immdup1_2=0 & immdup1_0_1=0 & mode=0 {}
 L2R:"jumpr LR" is immdup1_6_12=0b1111111 & immdup1_3_5=0 & immdup1_2=0 & immdup1_0_1=0 & mode=1100 {
-	return [LR];
+	return [LRc];
 }
 L2L:"if(p0) jumpr:nt LR" is immdup0_6_12=0b1111111 & immdup0_3_5=0 & immdup0_0_2=0b100 & mode=0 {}
 L2L:"if(p0) jumpr:nt LR" is immdup0_6_12=0b1111111 & immdup0_3_5=0 & immdup0_0_2=0b100 & mode=1100 {
-	if(P0 == 0) goto <end>;
-	return [LR];
+	if(P0c == 0) goto <end>;
+	return [LRc];
 	<end>
 }
 L2R:"if(p0) jumpr:nt LR" is immdup1_6_12=0b1111111 & immdup1_3_5=0 & immdup1_0_2=0b100 & mode=0 {}
 L2R:"if(p0) jumpr:nt LR" is immdup1_6_12=0b1111111 & immdup1_3_5=0 & immdup1_0_2=0b100 & mode=1100 {
-	if(P0 == 0) goto <end>;
-	return [LR];
+	if(P0c == 0) goto <end>;
+	return [LRc];
 	<end>
 }
 L2L:"if(!p0) jumpr:nt LR" is immdup0_6_12=0b1111111 & immdup0_3_5=0 & immdup0_0_2=0b101 & mode=0 {}
 L2L:"if(!p0) jumpr:nt LR" is immdup0_6_12=0b1111111 & immdup0_3_5=0 & immdup0_0_2=0b101 & mode=1100 {
-	if(P0 != 0) goto <end>;
-	return [LR];
+	if(P0c != 0) goto <end>;
+	return [LRc];
 	<end>
 }
 L2R:"if(!p0) jumpr:nt LR" is immdup1_6_12=0b1111111 & immdup1_3_5=0 & immdup1_0_2=0b101 & mode=0 {}
 L2R:"if(!p0) jumpr:nt LR" is immdup1_6_12=0b1111111 & immdup1_3_5=0 & immdup1_0_2=0b101 & mode=1100 {
-	if(P0 != 0) goto <end>;
-	return [LR];
+	if(P0c != 0) goto <end>;
+	return [LRc];
 	<end>
 }
 
 L2L:"if(p0.new) jumpr:nt LR" is immdup0_6_12=0b1111111 & immdup0_3_5=0 & immdup0_0_2=0b110 & mode=0 {}
 L2L:"if(p0.new) jumpr:nt LR" is immdup0_6_12=0b1111111 & immdup0_3_5=0 & immdup0_0_2=0b110 & mode=1100 {
 	if(P0 == 0) goto <end>;
-	return [LR];
+	return [LRc];
 	<end>
 }
 L2R:"if(p0.new) jumpr:nt LR" is immdup1_6_12=0b1111111 & immdup1_3_5=0 & immdup1_0_2=0b110 & mode=0 {}
 L2R:"if(p0.new) jumpr:nt LR" is immdup1_6_12=0b1111111 & immdup1_3_5=0 & immdup1_0_2=0b110 & mode=1100 {
 	if(P0 == 0) goto <end>;
-	return [LR];
+	return [LRc];
 	<end>
 }
 L2L:"if(!p0.new) jumpr:nt LR" is immdup0_6_12=0b1111111 & immdup0_3_5=0 & immdup0_0_2=0b111 & mode=0 {}
 L2L:"if(!p0.new) jumpr:nt LR" is immdup0_6_12=0b1111111 & immdup0_3_5=0 & immdup0_0_2=0b111 & mode=1100 {
 	if(P0 != 0) goto <end>;
-	return [LR];
+	return [LRc];
 	<end>
 }
 L2R:"if(!p0.new) jumpr:nt LR" is immdup1_6_12=0b1111111 & immdup1_3_5=0 & immdup1_0_2=0b111 & mode=0 {}
 L2R:"if(!p0.new) jumpr:nt LR" is immdup1_6_12=0b1111111 & immdup1_3_5=0 & immdup1_0_2=0b111 & mode=1100 {
 	if(P0 != 0) goto <end>;
-	return [LR];
+	return [LRc];
 	<end>
 }
 
 with : mode=0 {
 
 # Duplex/S2
-S2L:immdup0_D4 "=memh(" immdup0_S4 "+" v ")" is immdup0_11_12=0b00 & immdup0_8_10 & immdup0_S4 & immdup0_D4 [ v = immdup0_8_10 << 1; ] {
-    local EA:4 = immdup0_S4 + v;
+S2L:immdup0_D4 "=memh(" immdup0_S4 "+" v ")" is immdup0_11_12=0b00 & immdup0_8_10 & immdup0_S4 & immdup0_S4i & immdup0_D4 [ v = immdup0_8_10 << 1; ] {
+    local EA:4 = immdup0_S4i + v;
     immdup0_D4 = *[ram]:2 EA;
 }
-S2R:immdup1_D4 "=memh(" immdup1_S4 "+" v ")" is immdup1_11_12=0b00 & immdup1_8_10 & immdup1_S4 & immdup1_D4 [ v = immdup1_8_10 << 1; ] {
-    local EA:4 = immdup1_S4 + v;
+S2R:immdup1_D4 "=memh(" immdup1_S4 "+" v ")" is immdup1_11_12=0b00 & immdup1_8_10 & immdup1_S4 & immdup1_S4i & immdup1_D4 [ v = immdup1_8_10 << 1; ] {
+    local EA:4 = immdup1_S4i + v;
     immdup1_D4 = *[ram]:2 EA;
 }
 
 S2L:"memw(SP+" a ") =" immdup0_D4 is immdup0_9_12=0b0100 & immdup0_4_8 & immdup0_D4 [a = immdup0_4_8 << 2;]{
-	local EA:4 = SP + a;
-	*[ram]:4 EA = immdup0_D4;
+	local EA:4 = SPc + a;
+	*[ram]:4 EA = immdup0_D4i;
 }
 S2R:"memw(SP+" a ") =" immdup1_D4 is immdup1_9_12=0b0100 & immdup1_4_8 & immdup1_D4 [a = immdup1_4_8 << 2;]{
-	local EA:4 = SP + a;
-	*[ram]:4 EA = immdup1_D4;
+	local EA:4 = SPc + a;
+	*[ram]:4 EA = immdup1_D4i;
 }
 
-S2L:"memd(SP+" a ") =" immdup0_D3_pair is immdup0_9_12=0b0101 & immdup0_3_8 & immdup0_D3_pair [a = immdup0_3_8 << 3;]{
-	local EA:4 = SP + a;
-	*[ram]:8 EA = immdup0_D3_pair;
+S2L:"memd(SP+" a ") =" immdup0_D3_pair is immdup0_9_12=0b0101 & immdup0_3_8 & immdup0_D3_pair & immdup0_D3_pairi [a = immdup0_3_8 << 3;]{
+	local EA:4 = SPc + a;
+	*[ram]:8 EA = immdup0_D3_pairi;
 }
-S2R:"memd(SP+" a ") =" immdup1_D3_pair is immdup1_9_12=0b0101 & immdup1_3_8 & immdup1_D3_pair [a = immdup1_3_8 << 3;]{
-	local EA:4 = SP + a;
-	*[ram]:8 EA = immdup1_D3_pair;
+S2R:"memd(SP+" a ") =" immdup1_D3_pair is immdup1_9_12=0b0101 & immdup1_3_8 & immdup1_D3_pair & immdup1_D3_pairi [a = immdup1_3_8 << 3;]{
+	local EA:4 = SPc + a;
+	*[ram]:8 EA = immdup1_D3_pairi;
 }
 
-S2L:"memw(" immdup0_S4 "+"v ") = 0" is immdup0_8_12=0b10000 & immdup0_S4 & immdup0_0_3 [v = immdup0_0_3 << 2;] {
-	local EA:4 = immdup0_S4 + v;
+S2L:"memw(" immdup0_S4 "+"v ") = 0" is immdup0_8_12=0b10000 & immdup0_S4 & immdup0_S4i & immdup0_0_3 [v = immdup0_0_3 << 2;] {
+	local EA:4 = immdup0_S4i + v;
 	*[ram]:4 EA = 0;
 }
-S2R:"memw(" immdup1_S4 "+"v ") = 0" is immdup1_8_12=0b10000 & immdup1_S4 & immdup1_0_3 [v = immdup1_0_3 << 2;] {
-	local EA:4 = immdup1_S4 + v;
+S2R:"memw(" immdup1_S4 "+"v ") = 0" is immdup1_8_12=0b10000 & immdup1_S4 & immdup1_S4i & immdup1_0_3 [v = immdup1_0_3 << 2;] {
+	local EA:4 = immdup1_S4i + v;
 	*[ram]:4 EA = 0;
 }
 
-S2L:"memw(" immdup0_S4 "+"v ") = 1" is immdup0_8_12=0b10001 & immdup0_S4 & immdup0_0_3 [v = immdup0_0_3 << 2;] {
-	local EA:4 = immdup0_S4 + v;
+S2L:"memw(" immdup0_S4 "+"v ") = 1" is immdup0_8_12=0b10001 & immdup0_S4 & immdup0_S4i & immdup0_0_3 [v = immdup0_0_3 << 2;] {
+	local EA:4 = immdup0_S4i + v;
 	*[ram]:4 EA = 1;
 }
-S2R:"memw(" immdup1_S4 "+"v ") = 1" is immdup1_8_12=0b10001 & immdup1_S4 & immdup1_0_3 [v = immdup1_0_3 << 2;] {
-	local EA:4 = immdup1_S4 + v;
+S2R:"memw(" immdup1_S4 "+"v ") = 1" is immdup1_8_12=0b10001 & immdup1_S4 & immdup1_S4i & immdup1_0_3 [v = immdup1_0_3 << 2;] {
+	local EA:4 = immdup1_S4i + v;
 	*[ram]:4 EA = 1;
 }
 
-S2L:"memb(" immdup0_S4 "+" immdup0_0_3 ") = 0" is immdup0_8_12=0b10010 & immdup0_S4 & immdup0_0_3 {
-	local EA:4 = immdup0_S4 +  immdup0_0_3;
+S2L:"memb(" immdup0_S4 "+" immdup0_0_3 ") = 0" is immdup0_8_12=0b10010 & immdup0_S4 & immdup0_S4i & immdup0_0_3 {
+	local EA:4 = immdup0_S4i +  immdup0_0_3;
 	*[ram]:1 EA = 0;
 }
-S2R:"memb(" immdup1_S4 "+" immdup1_0_3 ") = 0" is immdup1_8_12=0b10010 & immdup1_S4 & immdup1_0_3  {
-	local EA:4 = immdup1_S4 +  immdup1_0_3;
+S2R:"memb(" immdup1_S4 "+" immdup1_0_3 ") = 0" is immdup1_8_12=0b10010 & immdup1_S4 & immdup1_S4i & immdup1_0_3  {
+	local EA:4 = immdup1_S4i +  immdup1_0_3;
 	*[ram]:1 EA = 0;
 }
 
-S2L:"memb(" immdup0_S4 "+" immdup0_0_3 ") = 1" is immdup0_8_12=0b10011 & immdup0_S4 & immdup0_0_3 {
-	local EA:4 = immdup0_S4 + immdup0_0_3;
+S2L:"memb(" immdup0_S4 "+" immdup0_0_3 ") = 1" is immdup0_8_12=0b10011 & immdup0_S4 & immdup0_S4i & immdup0_0_3 {
+	local EA:4 = immdup0_S4i + immdup0_0_3;
 	*[ram]:1 EA = 1;
 }
-S2R:"memb(" immdup1_S4 "+" immdup1_0_3 ") = 1" is immdup1_8_12=0b10011 & immdup1_S4 & immdup1_0_3 {
-	local EA:4 = immdup1_S4 + immdup1_0_3;
+S2R:"memb(" immdup1_S4 "+" immdup1_0_3 ") = 1" is immdup1_8_12=0b10011 & immdup1_S4 & immdup1_S4i & immdup1_0_3 {
+	local EA:4 = immdup1_S4i + immdup1_0_3;
 	*[ram]:1 EA = 1;
 }
 
 S2L:"allocframe("v")" is immdup0_9_12=0b1110 & immdup0_4_8 & immdup0_0_3=0 [v = immdup0_4_8 << 3;] {
-        local EA:4 = SP - 8;
-        *[ram]:8 EA = LRFP;
+        local EA:4 = SPc - 8;
+        *[ram]:8 EA = LRFPc;
         FP = EA;
         SP = EA - v;
 }
 S2R:"allocframe("v")" is immdup1_9_12=0b1110 & immdup1_4_8 & immdup1_0_3=0 [v = immdup1_4_8 << 3;]{
-        local EA:4 = SP - 8;
-        *[ram]:8 EA = LRFP;
+        local EA:4 = SPc - 8;
+        *[ram]:8 EA = LRFPc;
         FP = EA;
         SP = EA - v;
 }
 
 
 # Duplex/A
-A1L:immdup0_D4 "=add(self," immdup0_4_10 ")" is immdup0_11_12=0b00 & immdup0_4_10 & immdup0_D4 {
-	immdup0_D4 = immdup0_D4 + immdup0_4_10;
+A1L:immdup0_D4 "=add(self," immdup0_4_10 ")" is immdup0_11_12=0b00 & immdup0_4_10 & immdup0_D4 & immdup0_D4i {
+	immdup0_D4 = immdup0_D4i + immdup0_4_10;
 }
-A1R:immdup1_D4 "=add(self," immdup1_4_10 ")" is immdup1_11_12=0b00 & immdup1_4_10 & immdup1_D4 {
-	immdup1_D4 = immdup1_D4 + immdup1_4_10;
+A1R:immdup1_D4 "=add(self," immdup1_4_10 ")" is immdup1_11_12=0b00 & immdup1_4_10 & immdup1_D4 & immdup1_D4i {
+	immdup1_D4 = immdup1_D4i + immdup1_4_10;
 }
 
 # seti
@@ -328,88 +328,88 @@ A1L:immdup0_D4"="immdup0_4_9 is immdup0_10_12=0b010 & immdup0_4_9 & immdup0_D4 {
 A1R:immdup1_D4"="immdup1_4_9 is immdup1_10_12=0b010 & immdup1_4_9 & immdup1_D4 & (hasext0=0 | immext0used=1) {
     immdup1_D4 = immdup1_4_9;
 }
-A1R:immdup1_D4"="v is immdup1_10_12=0b010 & immdup1_4_9 & immdup1_D4 & hasext0=1 & immext0used=0 [v = immdup1_4_9 | immext0; immext0used=1;] {
+A1R:immdup1_D4"="v is immdup1_10_12=0b010 & immdup1_4_9 & immdup1_D4 & hasext0=1 & immext0used=0 [v = immdup1_4_9 | immext0; immext0used=1; immext0everused=1;] {
     immdup1_D4 = v;
 }
 
 A1L:immdup0_D4"=add(SP, " v ")" is immdup0_10_12=0b011 & immdup0_4_9 & immdup0_D4 [v = immdup0_4_9 << 2; ]{
-    immdup0_D4 = SP + v;
+    immdup0_D4 = SPc + v;
 }
 A1R:immdup1_D4"=add(SP, " v ")" is immdup1_10_12=0b011 & immdup1_4_9 & immdup1_D4 [v = immdup1_4_9 << 2; ]{
-    immdup1_D4 = SP + v;
+    immdup1_D4 = SPc + v;
 }
 
 # tfr
-A1L:immdup0_D4 "=" immdup0_S4 is immdup0_8_12=0b10000 & immdup0_S4 & immdup0_S4i & immdup0_D4 {
+A1L:immdup0_D4 "=" immdup0_S4 is immdup0_8_12=0b10000 & immdup0_S4 & immdup0_S4i & immdup0_S4i & immdup0_D4 {
     immdup0_D4 = immdup0_S4i;
 }
-A1R:immdup1_D4 "=" immdup1_S4 is immdup1_8_12=0b10000 & immdup1_S4 & immdup1_S4i & immdup1_D4 {
+A1R:immdup1_D4 "=" immdup1_S4 is immdup1_8_12=0b10000 & immdup1_S4 & immdup1_S4i & immdup1_S4i & immdup1_D4 {
     immdup1_D4 = immdup1_S4i;
 }
 
 #inc
-A1L:immdup0_D4 "=add("immdup0_S4",1)"  is immdup0_8_12=0b10001 & immdup0_S4 & immdup0_D4 {
-    immdup0_D4 = immdup0_S4 + 1;
+A1L:immdup0_D4 "=add("immdup0_S4",1)"  is immdup0_8_12=0b10001 & immdup0_S4 & immdup0_S4i & immdup0_D4 {
+    immdup0_D4 = immdup0_S4i + 1;
 }
-A1R:immdup1_D4 "=add("immdup1_S4",1)"  is immdup1_8_12=0b10001 & immdup1_S4 & immdup1_D4 {
-    immdup1_D4 = immdup1_S4 + 1;
-}
-
-A1L:immdup0_D4 "=and("immdup0_S4",1)"  is immdup0_8_12=0b10010 & immdup0_S4 & immdup0_D4 {
-    immdup0_D4 = immdup0_S4 & 1;
-}
-A1R:immdup1_D4 "=and("immdup1_S4",1)"  is immdup1_8_12=0b10010 & immdup1_S4 & immdup1_D4 {
-    immdup1_D4 = immdup1_S4 & 1;
+A1R:immdup1_D4 "=add("immdup1_S4",1)"  is immdup1_8_12=0b10001 & immdup1_S4 & immdup1_S4i & immdup1_D4 {
+    immdup1_D4 = immdup1_S4i + 1;
 }
 
-A1L:immdup0_D4 "=sub(" immdup0_S4 ",1)" is immdup0_8_12=0b10011 & immdup0_S4 & immdup0_D4 {
-	immdup0_D4 = immdup0_S4 - 1;
+A1L:immdup0_D4 "=and("immdup0_S4",1)"  is immdup0_8_12=0b10010 & immdup0_S4 & immdup0_S4i & immdup0_D4 {
+    immdup0_D4 = immdup0_S4i & 1;
 }
-A1R:immdup1_D4 "=sub(" immdup1_S4 ",1)" is immdup1_8_12=0b10011 & immdup1_S4 & immdup1_D4 {
-	immdup1_D4 = immdup1_S4 - 1;
-}
-
-A1L:immdup0_D4"=sxth(" immdup0_S4 ")" is immdup0_8_12=0b10100 & immdup0_S4 & immdup0_D4 {
-	immdup0_D4 = sext(immdup0_S4:2);
-}
-A1R:immdup1_D4"=sxth(" immdup1_S4 ")" is immdup1_8_12=0b10100 & immdup1_S4 & immdup1_D4 {
-	immdup1_D4 = sext(immdup1_S4:2);
+A1R:immdup1_D4 "=and("immdup1_S4",1)"  is immdup1_8_12=0b10010 & immdup1_S4 & immdup1_S4i & immdup1_D4 {
+    immdup1_D4 = immdup1_S4i & 1;
 }
 
-A1L:immdup0_D4"=sxtb(" immdup0_S4 ")" is immdup0_8_12=0b10101 & immdup0_S4 & immdup0_D4 {
-	immdup0_D4 = sext(immdup0_S4:1);
+A1L:immdup0_D4 "=sub(" immdup0_S4 ",1)" is immdup0_8_12=0b10011 & immdup0_S4 & immdup0_S4i & immdup0_D4 {
+	immdup0_D4 = immdup0_S4i - 1;
 }
-A1R:immdup1_D4"=sxtb(" immdup1_S4 ")" is immdup1_8_12=0b10101 & immdup1_S4 & immdup1_D4 {
-	immdup1_D4 = sext(immdup1_S4:1);
+A1R:immdup1_D4 "=sub(" immdup1_S4 ",1)" is immdup1_8_12=0b10011 & immdup1_S4 & immdup1_S4i & immdup1_D4 {
+	immdup1_D4 = immdup1_S4i - 1;
 }
 
+A1L:immdup0_D4"=sxth(" immdup0_S4 ")" is immdup0_8_12=0b10100 & immdup0_S4 & immdup0_S4i & immdup0_D4 {
+	immdup0_D4 = sext(immdup0_S4i:2);
+}
+A1R:immdup1_D4"=sxth(" immdup1_S4 ")" is immdup1_8_12=0b10100 & immdup1_S4 & immdup1_S4i & immdup1_D4 {
+	immdup1_D4 = sext(immdup1_S4i:2);
+}
 
+A1L:immdup0_D4"=sxtb(" immdup0_S4 ")" is immdup0_8_12=0b10101 & immdup0_S4 & immdup0_S4i & immdup0_D4 {
+	immdup0_D4 = sext(immdup0_S4i:1);
+}
+A1R:immdup1_D4"=sxtb(" immdup1_S4 ")" is immdup1_8_12=0b10101 & immdup1_S4 & immdup1_S4i & immdup1_D4 {
+	immdup1_D4 = sext(immdup1_S4i:1);
+}
 
 
 
-A1L:immdup0_D4"=zxth(" immdup0_S4 ")" is immdup0_8_12=0b10110 & immdup0_S4 & immdup0_D4 {
+
+
+A1L:immdup0_D4"=zxth(" immdup0_S4 ")" is immdup0_8_12=0b10110 & immdup0_S4 & immdup0_S4i & immdup0_D4 {
 	immdup0_D4 = zext(immdup0_S4:2);
 }
-A1R:immdup1_D4"=zxth(" immdup1_S4 ")" is immdup1_8_12=0b10110 & immdup1_S4 & immdup1_D4 {
+A1R:immdup1_D4"=zxth(" immdup1_S4 ")" is immdup1_8_12=0b10110 & immdup1_S4 & immdup1_S4i & immdup1_D4 {
 	immdup1_D4 = zext(immdup1_S4:2);
 }
 
-A1L:immdup0_D4"=zxtb(" immdup0_S4 ")" is immdup0_8_12=0b10111 & immdup0_S4 & immdup0_D4 {
+A1L:immdup0_D4"=zxtb(" immdup0_S4 ")" is immdup0_8_12=0b10111 & immdup0_S4 & immdup0_S4i & immdup0_D4 {
 	immdup0_D4 = zext(immdup0_S4:1);
 }
-A1R:immdup1_D4"=zxtb(" immdup1_S4 ")" is immdup1_8_12=0b10111 & immdup1_S4 & immdup1_D4 {
+A1R:immdup1_D4"=zxtb(" immdup1_S4 ")" is immdup1_8_12=0b10111 & immdup1_S4 & immdup1_S4i & immdup1_D4 {
 	immdup1_D4 = zext(immdup1_S4:1);
 }
 
-A1L:immdup0_D4 "=add(self," immdup0_S4 ")" is immdup0_8_12=0b11000 & immdup0_S4 & immdup0_D4 {
+A1L:immdup0_D4 "=add(self," immdup0_S4 ")" is immdup0_8_12=0b11000 & immdup0_S4 & immdup0_S4i & immdup0_D4 {
 	immdup0_D4 = immdup0_D4 + immdup0_S4;	
 }
-A1R:immdup1_D4 "=add(self," immdup1_S4 ")" is immdup1_8_12=0b11000 & immdup1_S4 & immdup1_D4 {
+A1R:immdup1_D4 "=add(self," immdup1_S4 ")" is immdup1_8_12=0b11000 & immdup1_S4 & immdup1_S4i & immdup1_D4 {
 	immdup1_D4 = immdup1_D4 + immdup1_S4;	
 }
 
 
-A1L:"p0 = cmp.eq(" immdup0_S4 "," immdup0_0_1 ")" is immdup0_8_12=0b11001 & immdup0_S4 & immdup0_2_3=0 & immdup0_0_1 {
+A1L:"p0 = cmp.eq(" immdup0_S4 "," immdup0_0_1 ")" is immdup0_8_12=0b11001 & immdup0_S4 & immdup0_S4i & immdup0_2_3=0 & immdup0_0_1 {
 	if(immdup0_S4 != immdup0_0_1) goto <bad>;
 	P0 = PTRUE;
 	goto <end>;
@@ -417,7 +417,7 @@ A1L:"p0 = cmp.eq(" immdup0_S4 "," immdup0_0_1 ")" is immdup0_8_12=0b11001 & immd
 	P0 = 0;
 	<end>
 }
-A1R:"p0 = cmp.eq(" immdup1_S4 "," immdup1_0_1 ")" is immdup1_8_12=0b11001 & immdup1_S4 & immdup1_2_3=0 & immdup1_0_1 {
+A1R:"p0 = cmp.eq(" immdup1_S4 "," immdup1_0_1 ")" is immdup1_8_12=0b11001 & immdup1_S4 & immdup1_S4i & immdup1_2_3=0 & immdup1_0_1 {
 	if(immdup1_S4 != immdup1_0_1) goto <bad>;
 	P0 = PTRUE;
 	goto <end>;
@@ -505,19 +505,19 @@ A1R:immdup1_D3_pair "=combine(3," immdup1_5_6 ")" is immdup1_10_12=0b111 & immdu
 	immdup1_D3_pair = 3 | (immdup1_5_6 << 32);
 }
 
-A1L:immdup0_D3_pair "=combine(0," immdup0_S4 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=1 & immdup0_S4 & immdup0_3=0 & immdup0_D3_pair {
+A1L:immdup0_D3_pair "=combine(0," immdup0_S4 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=1 & immdup0_S4 & immdup0_S4i & immdup0_3=0 & immdup0_D3_pair {
 	immdup0_D3_pair = zext(immdup0_S4);
 	immdup0_D3_pair = immdup0_D3_pair << 32;
 }
-A1R:immdup1_D3_pair "=combine(0," immdup1_S4 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=1 & immdup1_S4 & immdup1_3=0 & immdup1_D3_pair {
+A1R:immdup1_D3_pair "=combine(0," immdup1_S4 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=1 & immdup1_S4 & immdup1_S4i & immdup1_3=0 & immdup1_D3_pair {
 	immdup1_D3_pair = zext(immdup1_S4);
 	immdup1_D3_pair = immdup1_D3_pair << 32;
 }
 
-A1L:immdup0_D3_pair "=combine(" immdup0_S4 ", 0)" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=1 & immdup0_S4 & immdup0_3=1 & immdup0_D3_pair {
+A1L:immdup0_D3_pair "=combine(" immdup0_S4 ", 0)" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=1 & immdup0_S4 & immdup0_S4i & immdup0_3=1 & immdup0_D3_pair {
 	immdup0_D3_pair = zext(immdup0_S4);
 }
-A1R:immdup1_D3_pair "=combine(" immdup1_S4 ", 0)" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=1 & immdup1_S4 & immdup1_3=1 & immdup1_D3_pair {
+A1R:immdup1_D3_pair "=combine(" immdup1_S4 ", 0)" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=1 & immdup1_S4 & immdup1_S4i & immdup1_3=1 & immdup1_D3_pair {
 	immdup1_D3_pair = zext(immdup1_S4);
 }
 
@@ -602,3 +602,6 @@ duplex:"{{"S2R", "S2L"}}" is imm_29_31=0b111 & imm_13=0 & S2R & S2L {
 }
 define pcodeop duplex_0f_reserved;
 duplex:"duplex_0xf_reserved" is imm_29_31=0b111 & imm_13=1 {duplex_0f_reserved();}
+
+duplex: "duplex_branch_filler" is mode=1100 {}
+

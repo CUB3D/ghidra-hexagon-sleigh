@@ -25,7 +25,7 @@ with slot: iclass=0b1010 & mode=0 {
         local EA:4 = S5i + s11;
         *[ram]:1 EA = T5i;
     }
-    :"memb("S5"+"s11")="T5 is imm_27=0 & imm_25_26 & imm_21_24=0b1000 & S5 & S5i & imm_13 & T5 & T5i & imm_0_7 & hasext0=1 & immext0used=0 & immext0 & imm_0_5u [ s11 = (imm_0_5u) | immext0; immext0used=1;]{
+    :"memb("S5"+"s11")="T5 is imm_27=0 & imm_25_26 & imm_21_24=0b1000 & S5 & S5i & imm_13 & T5 & T5i & imm_0_7 & hasext0=1 & immext0used=0 & immext0 & imm_0_5u [ s11 = (imm_0_5u) | immext0; immext0used=1; immext0everused=1;]{
         local EA:4 = S5i + s11;
         *[ram]:1 EA = T5i;
     }
@@ -53,7 +53,7 @@ with slot: iclass=0b1010 & mode=0 {
         local EA:4 = (S5i << u2) + U6;
         *[ram]:1 EA = T5i;
     }
-    :"memb(" S5 "<<" u2 "+" U6 ")=" T5 is imm_21_27=0b1101000 & S5 & S5i & imm_13u & T5 & T5i & imm_12=1 & imm_8_11u & imm_7u & imm_5_6u & D5 & D5i & hasext0=1 & immext0used=0 & immext0 [ u2 = imm_7u | (imm_13u << 1); U6 = (imm_5_6u | (imm_8_11u << 2)) | immext0; immext0used=1;] {
+    :"memb(" S5 "<<" u2 "+" U6 ")=" T5 is imm_21_27=0b1101000 & S5 & S5i & imm_13u & T5 & T5i & imm_12=1 & imm_8_11u & imm_7u & imm_5_6u & D5 & D5i & hasext0=1 & immext0used=0 & immext0 [ u2 = imm_7u | (imm_13u << 1); U6 = (imm_5_6u | (imm_8_11u << 2)) | immext0; immext0used=1;immext0everused=1;] {
         local EA:4 = (S5i << u2) + U6;
         *[ram]:1 EA = T5i;
     }
@@ -100,7 +100,7 @@ with slot: iclass=0b0011 & mode=0 {
 st_by_cond_u6_1: val is imm_7_12u & (hasext0=0 | immext0used=1) [val = imm_7_12u << 0;] {
 	export *[const]:4 val;
 }
-st_by_cond_u6_1: val is imm_7_12u & hasext0=1 & immext0used=0 & immext0 [val = imm_7_12u | immext0; immext0used=1;] {
+st_by_cond_u6_1: val is imm_7_12u & hasext0=1 & immext0used=0 & immext0 [val = imm_7_12u | immext0; immext0used=1;immext0everused=1;] {
 	export *[const]:4 val;
 }
 with slot: iclass=0b0011 & mode=0 {
@@ -132,7 +132,7 @@ with slot: iclass=0b0011 & mode=0 {
 st_by_cond_u6_2: val is imm_3_7u & imm_13u & (hasext0=0 | immext0used=1) [val = imm_3_7u | (imm_13u << 5);] {
 	export *[const]:4 val;
 }
-st_by_cond_u6_2: val is imm_3_7u & imm_13u & hasext0=1 & immext0used=0 & immext0 [val = (imm_3_7u) | (imm_13u << 5) | immext0; immext0used=1;] {
+st_by_cond_u6_2: val is imm_3_7u & imm_13u & hasext0=1 & immext0used=0 & immext0 [val = (imm_3_7u) | (imm_13u << 5) | immext0; immext0used=1;immext0everused=1;] {
 	export *[const]:4 val;
 }
 with slot: iclass=0b0100 & mode=0 {
@@ -191,25 +191,25 @@ with slot: iclass=0b1010 & mode=0 {
 	<end>
     }
 
-    :"if(" D2_pred ") memb(" u6 ")=" T5 is imm_21_27=0b1111000 & imm_18_20=0 & imm_16_17u & imm_13=0 & T5 & T5i & imm_7=1 & imm_3_6u & imm_2=0 & D2_pred & D2_predi [u6 = (imm_3_6u | (imm_16_17u << 4)) | immext0; immext0used=1; ]{
+    :"if(" D2_pred ") memb(" u6 ")=" T5 is imm_21_27=0b1111000 & imm_18_20=0 & imm_16_17u & imm_13=0 & T5 & T5i & imm_7=1 & imm_3_6u & imm_2=0 & D2_pred & D2_predi [u6 = (imm_3_6u | (imm_16_17u << 4)) | immext0; immext0used=1; immext0everused=1;]{
     	if(D2_predi == 0) goto <end>;
         	local EA:4 = u6;
         	*[ram]:1 EA = T5i;
 		<end>
     }
-    :"if(" !D2_pred ") memb(" u6 ")=" T5 is imm_21_27=0b1111000 & imm_18_20=0 & imm_16_17u & imm_13=0 & T5 & T5i & imm_7=1 & imm_3_6u & imm_2=1 & D2_pred & D2_predi [u6 = (imm_3_6u | (imm_16_17u << 4)) | immext0; immext0used=1; ]{
+    :"if(" !D2_pred ") memb(" u6 ")=" T5 is imm_21_27=0b1111000 & imm_18_20=0 & imm_16_17u & imm_13=0 & T5 & T5i & imm_7=1 & imm_3_6u & imm_2=1 & D2_pred & D2_predi [u6 = (imm_3_6u | (imm_16_17u << 4)) | immext0; immext0used=1;immext0everused=1; ]{
     	if(D2_predi != 0) goto <end>;
         	local EA:4 = u6;
         	*[ram]:1 EA = T5i;
 		<end>
     }
-    :"if(" D2_pred_new ".new) memb(" u6 ")=" T5 is imm_21_27=0b1111000 & imm_18_20=0 & imm_16_17u & imm_13=1 & T5 & T5i & imm_7=1 & imm_3_6u & imm_2=0 & D2_pred_new [u6 = (imm_3_6u | (imm_16_17u << 4)) | immext0; immext0used=1; ] {
+    :"if(" D2_pred_new ".new) memb(" u6 ")=" T5 is imm_21_27=0b1111000 & imm_18_20=0 & imm_16_17u & imm_13=1 & T5 & T5i & imm_7=1 & imm_3_6u & imm_2=0 & D2_pred_new [u6 = (imm_3_6u | (imm_16_17u << 4)) | immext0; immext0used=1;immext0everused=1; ] {
     	if(D2_pred_new == 0) goto <end>;
         	local EA:4 = u6;
         	*[ram]:1 EA = T5i;
 		<end>
     }
-    :"if(" !D2_pred_new ".new) memb(" u6 ")=" T5 is imm_21_27=0b1111000 & imm_18_20=0 & imm_16_17u & imm_13=1 & T5 & T5i & imm_7=1 & imm_3_6u & imm_2=1 & D2_pred_new & hasext0=1 & immext0used=0 & immext0 [u6 = (imm_3_6u | (imm_16_17u << 4)) | immext0; immext0used=1; ] {
+    :"if(" !D2_pred_new ".new) memb(" u6 ")=" T5 is imm_21_27=0b1111000 & imm_18_20=0 & imm_16_17u & imm_13=1 & T5 & T5i & imm_7=1 & imm_3_6u & imm_2=1 & D2_pred_new & hasext0=1 & immext0used=0 & immext0 [u6 = (imm_3_6u | (imm_16_17u << 4)) | immext0; immext0used=1; immext0everused=1;] {
     	if(D2_pred_new != 0) goto <end>;
         	local EA:4 = u6;
         	*[ram]:1 EA = T5i;
