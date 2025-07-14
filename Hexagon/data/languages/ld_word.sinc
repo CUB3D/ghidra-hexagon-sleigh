@@ -12,7 +12,7 @@ with slot: iclass=0b0100 & mode=0 {
         local EA:4 = GP + v;
         D5 = *[ram]:4 EA;
     }
-    :D5"=memw("v")" is imm_27=1 & imm_25_26 & imm_21_24=0b1100 & imm_16_20u & imm_5_13u & D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [v = (immext0) | imm_5_10u; immext0used=1; ]  {
+    :D5"=memw("v")" is imm_27=1 & imm_25_26 & imm_21_24=0b1100 & imm_16_20u & imm_5_13u & D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [v = (immext0) | imm_5_10u; immext0used=1; immext0everused=1; ]  {
         local EA:4 = v;
         D5 = *[ram]:4 EA;
     }

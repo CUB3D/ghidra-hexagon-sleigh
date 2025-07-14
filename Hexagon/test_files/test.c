@@ -15,6 +15,11 @@ int test_s3_new() {
 
    //asm("{ if(cmp.eq(r0.NEW, #0)) jump:nt foo; r0 = #10; } ");
    asm("{ if(cmp.eq(r28.NEW, #0)) jump:nt foo; r28 = #10; } ");
+   asm("{ if(cmp.eq(r28.NEW, #0)) jump:nt foo; r0=#10; r28 = #10; } ");
+   asm("{ if(cmp.eq(r28.NEW, #0)) jump:nt foo; r1=#20; r0=#10; r28 = #10; } ");
+   asm("{ if(cmp.eq(r28.NEW, #0x1)) jump:nt foo; r1=#20; r0=#10; r28 = #10; } ");
+   asm("{ if(cmp.eq(r28.NEW, #1)) jump:nt foo; r1=#20; r28 = #10; } ");
+   asm("{ if(cmp.eq(r28.NEW, #1)) jump:nt foo; r28 = #10; } ");
    /*asm("{ if(cmp.eq(r1.NEW, #0)) jump:nt foo; r1 = #10; } ");
    asm("{ if(cmp.eq(r2.NEW, #0)) jump:nt foo; r2 = #10; } ");
    asm("{ if(cmp.eq(r3.NEW, #0)) jump:nt foo; r3 = #10; } ");

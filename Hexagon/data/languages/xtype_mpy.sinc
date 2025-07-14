@@ -42,7 +42,7 @@ with slot: iclass=0b1110 & mode=0 {
         local tmp1:8 = sext(S5i) * tmp;
         D5 = tmp1:4; 
     }
-    :D5 "=+mpyi("S5","val")" is imm_23_27=0b00000 & imm_21_22=0 & S5 & S5i & imm_13=0 & imm_5_12 & D5 & hasext0=1 & immext0used=0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;]  {
+    :D5 "=+mpyi("S5","val")" is imm_23_27=0b00000 & imm_21_22=0 & S5 & S5i & imm_13=0 & imm_5_12 & D5 & hasext0=1 & immext0used=0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1; immext0everused=1;]  {
         local tmp:8 = val;
         local tmp1:8 = sext(S5i) * tmp;
 	#TODO: abs?
@@ -153,8 +153,10 @@ with slot: iclass=0b1110 & mode=0 {
 
 # XTYPE/MPY: Mul signed hw
 with slot: iclass=0b1110 & mode=0 {
-    :"mulshw00" is imm_24_27=0b0100 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b00 & D5 {
-    _stub();
+    :D5_pair "=mpy(" S5 ".L, " T5 ".L):<<" imm_23u is imm_24_27=0b0100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b00 & D5_pair {
+    	local a=S5i:2;
+    	local b=T5i:2;
+    	D5_pair = (zext(a) * zext(b)) << imm_23u; 
     }
     :"mulshw01" is imm_24_27=0b0100 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b01 & D5 {
     _stub();
@@ -417,6 +419,7 @@ with slot: iclass=0b1110 & mode=0 {
 
 # XTYPE/MPY: Mul and use upper
 define pcodeop mpy_rnd;
+define pcodeop mpy_sat;
 
 with slot: iclass=0b1110 & mode=0 {
     :D5 "=mpy(" S5 "," T5 "):rnd" is imm_21_27=0b1101001 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
@@ -430,31 +433,31 @@ with slot: iclass=0b1110 & mode=0 {
        local tmp1:8 = sext(S5i) * zext(T5i);
 		D5 = tmp1(4);
     }
-    :"mpy3" is imm_21_27=0b1101101 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
-       _stub();
+    :D5 = "mpy(" S5 "," T5 ".H):<<1:sat" is imm_21_27=0b1101101 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
+       D5 = mpy_sat(S5i, T5i(2)) << 1;
     }
-    :"mpy4" is imm_21_27=0b1101101 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
-       _stub();
+    :D5 = "mpy(" S5 "," T5 ".L):<<1:sat" is imm_21_27=0b1101101 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
+       D5 = mpy_sat(S5i, T5i:2) << 1;
     }
-    :"mpy5" is imm_21_27=0b1101101 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 {
-       _stub();
+    :D5 = "mpy(" S5 "," T5 ".H):<<1:rnd:sat" is imm_21_27=0b1101101 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 {
+       D5 = mpy_rnd_sat(S5i, T5i(2)) << 1;
     }
-    :"mpy6" is imm_21_27=0b1101111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
-       _stub();
+    :D5 = "mpy(" S5 "," T5 "):<<1:sat" is imm_21_27=0b1101111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
+       D5 = mpy_sat(S5i, T5i:2) << 1;
     }
-    :"mpy7" is imm_21_27=0b1101111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 {
-       _stub();
+    :D5 = "mpy(" S5 "," T5 ".L):<<1:rnd:sat"  is imm_21_27=0b1101111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 {
+       D5 = mpy_rnd_sat(S5i, T5i:2) << 1;
     }
     :D5 "=mpy(" S5 "," T5 "):<<" imm_5_6u is imm_24_27=0b1101 & imm_23 & imm_22=0 & imm_21 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6u & D5 {
        local tmp1:8 = zext(S5i) * zext(T5i);
 		D5 = tmp1(4) << imm_5_6u;
     }
 
-    :"mpy9" is imm_21_27=0b1111011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
-       _stub();
+    :D5 += "mpy(" S5 "," T5 "):<<1:sat" is imm_21_27=0b1111011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 & D5i {
+       D5 = D5i + mpy_sat(S5i, T5i:2) << 1;
     }
-    :"mpy10" is imm_21_27=0b1111011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
-       _stub();
+    :D5 += "mpy(" S5 "," T5 "):<<1:sat" is imm_21_27=0b1111011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 & D5i {
+       D5 = D5i - mpy_sat(S5i, T5i:2) << 1;
     }
 }
 

@@ -49,7 +49,7 @@ with slot: iclass=0b1000 & mode=0 {
     }
     :alu_X5_pair "-=asl(" S5_pair "," imm_8_13u ")" is imm_22_27=0b001000 & imm_21=0 & S5_pair & S5_pairi & imm_8_13u & imm_5_7=0b010 & alu_X5_pair & alu_X5_pairi  {
         alu_X5_pair = alu_X5_pair - (S5_pairi << imm_8_13u);
-    }i
+    }
     :alu_X5_pair "-=rol(" S5_pair "," imm_8_13u ")" is imm_22_27=0b001000 & imm_21=0 & S5_pair & S5_pairi & imm_8_13u & imm_5_7=0b011 & alu_X5_pair & alu_X5_pairi  {
     	local out:8 = 0;
     	rotl64(out, S5_pairi, imm_8_13u);

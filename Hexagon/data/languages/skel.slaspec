@@ -81,7 +81,7 @@
 # When an extender is reached it sets the hasext0 flag, when it consumes it it sets immext0used, immext0everused and immext0pos. If another extender is hit it will set hasext=1 and the consumer will set immext1used.
 # The *everused flags track if a consumer is missing and add a marker if so.
 # This only applies to normal slice parsing, if in a difference slice then instead consumers should check for pktid=ext0pos, this is because there are holes in other slices so re-parsing all this state requires pointless duplication. 
-#
+# Splitting extenders into slices has a dramatic effect on sla compile times, so we only do this for extenders that are consumed in non-normal slices.
 #
 #
 # TODO: is this needed, dotnew's always reference their new register so have to come after the producer?
@@ -479,6 +479,7 @@ define context testctx
     immext0everused = (68, 68) noflow
     
     immext0pos = (69, 73)
+    immext1pos = (74, 78)
     
 	# opaque pred for false
 	disabled = (80, 80) noflow
@@ -1332,21 +1333,46 @@ OR3: or3test_overlap is or3test & or3test_overlap {
 }
 
 define pcodeop _unimpl_nv;
-NV_S3_new_16_18: "ILLEGAL pkt:" pktid ", S3:" S3_new_16_18 is OR1 & pktid & S3_new_16_18 { _unimpl_nv(); export OR1; }
+NV_S3_new_16_18: "ILLEGAL 1618 pkt:" pktid ", S3:" S3_new_16_18 is OR1 & pktid & S3_new_16_18 { _unimpl_nv(); export OR1; }
 
 
-NV_S3_new_16_18: OR1 ".new" is S3_new_16_18=0b010 & OR1 & pktid=2 & analysed=1 { export OR1; }
-NV_S3_new_16_18: OR2 ".new" is S3_new_16_18=0b100 & OR2 & pktid=2 & analysed=1 { export OR2; }
-NV_S3_new_16_18: OR3 ".new" is S3_new_16_18=0b110 & OR3 & pktid=2 & analysed=1 { export OR3; }
+NV_S3_new_16_18: OR1 ".new" is S3_new_16_18=0b010 & OR1 & pktid=2 & analysed=1 { export OR1; } # p2
 
-NV_T3_new_8_10: "ILLEGAL pkt:" pktid ", S3:" T3_new_8_10 is OR1 & pktid & T3_new_8_10 { _unimpl_nv(); export OR1; }
+NV_S3_new_16_18: OR2 ".new" is S3_new_16_18=0b010 & OR2 & pktid=3 & analysed=1 { export OR2; } # p3
+NV_S3_new_16_18: OR1 ".new" is S3_new_16_18=0b100 & OR1 & pktid=3 & analysed=1 { export OR1; } # p3
 
-NV_T3_new_8_10: OR1 ".new" is T3_new_8_10=0b010 & OR1 & pktid=2 & analysed=1 { export OR1; }
-NV_T3_new_8_10: OR2 ".new" is T3_new_8_10=0b100 & OR2 & pktid=2 & analysed=1 { export OR2; }
-NV_T3_new_8_10: OR3 ".new" is T3_new_8_10=0b110 & OR3 & pktid=2 & analysed=1 { export OR3; }
+NV_S3_new_16_18: OR3 ".new" is S3_new_16_18=0b010 & OR3 & pktid=4 & analysed=1 { export OR3; } # p4
+NV_S3_new_16_18: OR2 ".new" is S3_new_16_18=0b100 & OR2 & pktid=4 & analysed=1 { export OR2; } # p4
+NV_S3_new_16_18: OR1 ".new" is S3_new_16_18=0b110 & OR1 & pktid=4 & analysed=1 { export OR1; } # p4
 
-NV_T3_0_2_new: "ILLEGAL pkt:" pktid ", S3:" T3_0_2_new is OR1 & pktid & T3_0_2_new { _unimpl_nv(); export OR1; }
-NV_T3_0_2_new: OR1 ".new" is T3_0_2_new=0b010 & OR1 & pktid=2 & analysed=1 { export OR1; }
+
+
+
+NV_T3_new_8_10: "ILLEGAL 810 pkt:" pktid ", S3:" T3_new_8_10 is OR1 & pktid & T3_new_8_10 { _unimpl_nv(); export OR1; }
+
+NV_T3_new_8_10: OR1 ".new" is T3_new_8_10=0b010 & OR1 & pktid=2 & analysed=1 { export OR1; } # p2
+
+NV_T3_new_8_10: OR2 ".new" is T3_new_8_10=0b010 & OR2 & pktid=3 & analysed=1 { export OR2; } # p3
+NV_T3_new_8_10: OR1 ".new" is T3_new_8_10=0b100 & OR1 & pktid=3 & analysed=1 { export OR1; } # p3
+
+NV_T3_new_8_10: OR3 ".new" is T3_new_8_10=0b010 & OR3 & pktid=4 & analysed=1 { export OR3; } # p4
+NV_T3_new_8_10: OR2 ".new" is T3_new_8_10=0b100 & OR2 & pktid=4 & analysed=1 { export OR2; } # p4
+NV_T3_new_8_10: OR1 ".new" is T3_new_8_10=0b110 & OR1 & pktid=4 & analysed=1 { export OR1; } # p4
+
+
+
+
+NV_T3_0_2_new: "ILLEGAL 302 pkt:" pktid ", S3:" T3_0_2_new is OR1 & pktid & T3_0_2_new { _unimpl_nv(); export OR1; }
+
+NV_T3_0_2_new: OR1 ".new" is T3_0_2_new=0b010 & OR1 & pktid=2 & analysed=1 { export OR1; } # p2
+
+NV_T3_0_2_new: OR2 ".new" is T3_0_2_new=0b010 & OR2 & pktid=3 & analysed=1 { export OR2; } # p3
+NV_T3_0_2_new: OR1 ".new" is T3_0_2_new=0b100 & OR1 & pktid=3 & analysed=1 { export OR1; } # p3
+
+NV_T3_0_2_new: OR3 ".new" is T3_0_2_new=0b010 & OR3 & pktid=4 & analysed=1 { export OR3; } # p4
+NV_T3_0_2_new: OR2 ".new" is T3_0_2_new=0b100 & OR2 & pktid=4 & analysed=1 { export OR2; } # p4
+NV_T3_0_2_new: OR1 ".new" is T3_0_2_new=0b110 & OR1 & pktid=4 & analysed=1 { export OR1; } # p4
+
 
 
 
@@ -1366,84 +1392,111 @@ macro rotl64(out, a, b) {
 }
 
 # Constant extender helpers
+#EXT_imm_5_12u:imm_5_12u is imm_5_12u & (mode=0 & (hasext0=0 | immext0used=1)) | (mode=1100) { export *[const]:4 imm_5_12u; }
+#EXT_imm_5_12u:val is (mode=0 & hasext0=1 & immext0used=0) | (mode=1100 & immext0pos=pktid) & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1; immext0pos=pktid;] { export *[const]:4 val; }
+#EXT_imm_5_12u:val is (mode = 0 & hasext0=1 & hasext1=1 & immext0used=1) | (mode=1100 & immext1pos=pktid) & immext1 & imm_5_10u [ val = immext1 | imm_5_10u; immext1used=1; immext1pos=pktid;] { export *[const]:4 val; }
+#
+#EXT_imm_5_12:imm_5_12 is imm_5_12 & mode=0 & (hasext0=0 | immext0used=1) { export *[const]:4 imm_5_12; }
+#EXT_imm_5_12:imm_5_12 is imm_5_12 & mode=1100 { export *[const]:4 imm_5_12; }
+#EXT_imm_5_12:val is (mode=0 & hasext0=1 & immext0used=0) | (mode=1100 & immext0pos=pktid) & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1; immext0pos=pktid;] { export *[const]:4 val; }
+#EXT_imm_5_12:val is (mode=0 & hasext0=1 & hasext1=1 & immext0used=1) | (mode=1100 & immext1pos=pktid) & immext1 & imm_5_10u [ val = immext1 | imm_5_10u; immext1used=1; immext1pos=pktid;] { export *[const]:4 val; }
+
+#EXT_imm_5_11u:imm_5_11u is imm_5_11u & (mode=0 & hasext0=0 | immext0used=1) | (mode=1100) { export *[const]:4 imm_5_11u; }
+#EXT_imm_5_11u:val is (mode=0 & hasext0=1 & immext0used=0) | (mode=1100 & immext0pos=pktid) & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1; immext0pos=pktid;] { export *[const]:4 val; }
+#EXT_imm_5_11u:val is (mode=0 & hasext0=1 & hasext1=1 & immext0used=1) | (mode=1100 & immext1pos=pktid) & immext1 & imm_5_10u [ val = immext1 | imm_5_10u; immext1used=1; immext1pos=pktid;] { export *[const]:4 val; }
+
+#EXT_imm_5_10u:imm_5_10u is imm_5_10u & mode=0 & (hasext0=0 | immext0used=1) { export *[const]:4 imm_5_10u; }
+#EXT_imm_5_10u:imm_5_10u is imm_5_10u & mode=1100 { export *[const]:4 imm_5_10u; }
+#EXT_imm_5_10u:val is imm_5_10u & (mode=0 & hasext0=1 & immext0used=0) | (mode=1100 & immext0pos=pktid) & immext0  [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1; immext0pos=pktid;] { export *[const]:4 val;}
+#EXT_imm_5_10u:val is imm_5_10u & (mode=0 & hasext0=1 & hasext1=1 & immext0used=1) | (mode=1100 & immext1pos=pktid) & immext1 [ val = immext1 | imm_5_10u; immext1used=1; immext1pos=pktid;] { export *[const]:4 val; }
+
+#EXT_imm_0_5u:imm_0_5u is imm_0_5u & mode=0 & (hasext0=0 | immext0used=1) { export *[const]:4 imm_0_5u; }
+#EXT_imm_0_5u:imm_0_5u is imm_0_5u & mode=1100 { export *[const]:4 imm_0_5u; }
+#EXT_imm_0_5u:val is imm_0_5u & (mode=0 & hasext0=1 & immext0used=0) | (mode=1100 & immext0pos=pktid) & immext0 [ val = immext0 | imm_0_5u; immext0used=1;immext0everused=1; immext0pos=pktid;] { export *[const]:4 val; }
+#EXT_imm_0_5u:val is imm_0_5u & (mode=0 & hasext0=1 & hasext1=1 & immext0used=1) | (mode=1100 & immext1pos=pktid) & immext1 [ val = immext1 | imm_0_5u; immext1used=1; immext1pos=pktid;] { export *[const]:4 val; }
+
+#EXT_LD_S11_dword:s11 is imm_25_26 & imm_5_13u & (mode=0 & hasext0=0 | immext0used=1) | (mode=1100) [ s11 = ((imm_5_13u | (imm_25_26 << 9))<<3);] { export *[const]:4 s11; }
+#EXT_LD_S11_dword:s11 is (mode=0 & hasext0=1 & immext0used=0) | (mode=1100 & immext0pos=pktid) & immext0 & imm_5_10u [ s11 = immext0 | imm_5_10u; immext0used=1;immext0everused=1; immext0pos=pktid;] { export *[const]:4 s11; }
+#EXT_LD_S11_dword:s11 is (mode=0 & hasext0=1 & hasext1=1 & immext0used=1) | (mode=1100 & immext1pos=pktid) & immext1 & imm_5_10u [ s11 = immext1 | imm_5_10u; immext1used=1; immext1pos=pktid;] {export *[const]:4 s11; }
+#
+#EXT_LD_U6:val is imm_25_26 & (mode=0 & hasext0=0 | immext0used=1) | (mode=1100) & imm_8_11u & imm_5_6u [ val = imm_5_6u | (imm_8_11u << 2);] { export *[const]:4 val; }
+#EXT_LD_U6:val is (mode=0 & hasext0=1 & immext0used=0) | (mode=1100 & immext0pos=pktid) & immext0 & imm_5_6u & imm_8_11u [val = (imm_5_6u | (imm_8_11u << 2)) | immext0; immext0used=1;immext0everused=1;immext0pos=pktid;] { export *[const]:4 val; }
+#EXT_LD_U6:val is (mode=0 & hasext0=1 & hasext1=1 & immext0used=1) | (mode=1100 & immext1pos=pktid)  & immext1 & imm_5_6u & imm_8_11u [val = (imm_5_6u | (imm_8_11u << 2)) | immext1; immext1used=1;immext1pos=pktid;] { export *[const]:4 val; }
+
+
 EXT_imm_5_12u:imm_5_12u is imm_5_12u & (hasext0=0 | immext0used=1) {
-	export *[const]:4 imm_5_12u;
+       export *[const]:4 imm_5_12u;
 }
 EXT_imm_5_12u:val is imm_5_12u & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;] {
-	export *[const]:4 val;
+       export *[const]:4 val;
 }
 EXT_imm_5_12u:val is imm_5_12u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [ val = immext1 | imm_5_10u; immext1used=1;] {
-	export *[const]:4 val;
+       export *[const]:4 val;
 }
 
 EXT_imm_5_12:imm_5_12 is imm_5_12 & (hasext0=0 | immext0used=1) {
-	export *[const]:4 imm_5_12;
+       export *[const]:4 imm_5_12;
 }
 EXT_imm_5_12:val is imm_5_12u & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;] {
-	export *[const]:4 val;
+       export *[const]:4 val;
 }
 EXT_imm_5_12:val is imm_5_12u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [ val = immext1 | imm_5_10u; immext1used=1;] {
-	export *[const]:4 val;
+       export *[const]:4 val;
 }
 
 EXT_imm_5_11u:imm_5_11u is imm_5_11u & (hasext0=0 | immext0used=1) {
-	export *[const]:4 imm_5_11u;
+       export *[const]:4 imm_5_11u;
 }
 EXT_imm_5_11u:val is imm_5_11u & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;] {
-	export *[const]:4 val;
+       export *[const]:4 val;
 }
 EXT_imm_5_11u:val is imm_5_11u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [ val = immext1 | imm_5_10u; immext1used=1;] {
-	export *[const]:4 val;
+       export *[const]:4 val;
 }
 
 EXT_imm_5_10u:imm_5_10u is imm_5_10u & (hasext0=0 | immext0used=1) {
-	export *[const]:4 imm_5_10u;
+       export *[const]:4 imm_5_10u;
 }
 EXT_imm_5_10u:val is imm_5_10u & hasext0=1 & immext0used=0 & immext0  [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;] {
-	export *[const]:4 val;
+       export *[const]:4 val;
 }
 EXT_imm_5_10u:val is imm_5_10u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [ val = immext1 | imm_5_10u; immext1used=1;] {
-	export *[const]:4 val;
+       export *[const]:4 val;
 }
 
 EXT_imm_0_5u:imm_0_5u is imm_0_5u & (hasext0=0 | immext0used=1) {
-	export *[const]:4 imm_0_5u;
+       export *[const]:4 imm_0_5u;
 }
 EXT_imm_0_5u:val is imm_0_5u & hasext0=1 & immext0used=0 & immext0 [ val = immext0 | imm_0_5u; immext0used=1;immext0everused=1;] {
-	export *[const]:4 val;
+       export *[const]:4 val;
 }
 EXT_imm_0_5u:val is imm_0_5u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [ val = immext1 | imm_0_5u; immext1used=1;] {
-	export *[const]:4 val;
+       export *[const]:4 val;
 }
 
 EXT_LD_S11_dword:s11 is imm_25_26 & imm_5_13u & (hasext0=0 | immext0used=1) [ s11 = ((imm_5_13u | (imm_25_26 << 9))<<3);] {
-	export *[const]:4 s11;
+       export *[const]:4 s11;
 }
 EXT_LD_S11_dword:s11 is imm_25_26 & imm_5_13u & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ s11 = immext0 | imm_5_10u; immext0used=1;immext0everused=1; ] {
-	export *[const]:4 s11;
+       export *[const]:4 s11;
 }
 EXT_LD_S11_dword:s11 is imm_25_26 & imm_5_13u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [ s11 = immext1 | imm_5_10u; immext1used=1; ] {
-	export *[const]:4 s11;
+       export *[const]:4 s11;
 }
-
 EXT_LD_U6:val is imm_25_26 & (hasext0=0 | immext0used=1) & imm_8_11u & imm_5_6u [ val = imm_5_6u | (imm_8_11u << 2);] {
-	export *[const]:4 val;
+       export *[const]:4 val;
 }
 EXT_LD_U6:val is imm_25_26 & hasext0=1 & immext0used=0 & immext0 & imm_5_6u & imm_8_11u [val = (imm_5_6u | (imm_8_11u << 2)) | immext0; immext0used=1;immext0everused=1;] {
-	export *[const]:4 val;
+       export *[const]:4 val;
 }
 EXT_LD_U6:val is imm_25_26 & imm_8_11u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_6u [val = (imm_5_6u | (imm_8_11u << 2)) | immext1; immext1used=1;] {
-	export *[const]:4 val;
+       export *[const]:4 val;
 }
-
 
 
 @include "alu32_alu.sinc"
 @include "alu32_perm.sinc"
 @include "alu32_pred.sinc"
-
-
-
 @include "cr.sinc"
 @include "jr.sinc"
 @include "j.sinc"
@@ -1453,29 +1506,12 @@ define pcodeop circ_add;
 define pcodeop brev;
 
 @include "ld.sinc"
-
 @include "memop.sinc"
 @include "nv.sinc"
 @include "st.sinc"
-
-
-
-
-
 @include "system_guest.sinc"
 @include "system_monitor.sinc"
 @include "system_user.sinc"
-
-define pcodeop isync;
-slot:"isync" is iclass=0b0101 & imm_16_27=0b011111000000 & imm_13=0 & imm_10_12=0 & imm_0_9=0b0000000010 & mode=0 {
-	isync();
-}
-
-
-
-
-
-
 
 
 # XTYPE - pain starts here
@@ -1487,9 +1523,7 @@ slot:"isync" is iclass=0b0101 & imm_16_27=0b011111000000 & imm_13=0 & imm_10_12=
 @include "xtype_perm.sinc"
 @include "xtype_pred.sinc"
 @include "xtype_shift.sinc"
-
 ### ---- end of normal ops ----
-
 @include "duplex.sinc"
 
 
@@ -1508,11 +1542,6 @@ macro prelude() {
     cached_preds = all_preds;
 
 }
-macro prolude() {
-}
-
-
-
 
 
 
@@ -1521,64 +1550,43 @@ macro prolude() {
 
 define pcodeop missing_ext0;
 define pcodeop missing_ext1;
-missing_marker0:"" is disabled {
-missing_ext0();
-}
-missing_marker1:"" is disabled {
-missing_ext1();
-}
-terminator:"" is disabled {}
 
-terminator:"" is disabled & hasext0=1 & immext0everused=0 & missing_marker0{
-build missing_marker0;
-}
+terminator:"" is disabled {}
+terminator:"" is disabled & hasext0=1 & immext0used=1 & hasext1=1 & immext1used=0 { missing_ext1(); }
+terminator:"" is disabled & hasext0=1 & immext0everused=0 { missing_ext0(); }
 terminator:"" is disabled & hasext0=1 & immext0used=1 {}
-terminator:"" is disabled & hasext0=1 & immext0used=1 & hasext1=1 & immext1used=0 & missing_marker1{
-build missing_marker1;
-}
 terminator:"" is disabled & hasext0=1 & immext0used=1 & hasext1=1 & immext1used=1 {}
 
 # Fallback for branch mode
 slot:"" is mode=1100 {}
 
-build_branches:"" is parse != 0b00 & slot [mode=1100; immext0used=0; ] {
-	build slot;
-}
-build_branches:"" is parse=0b00 & duplex [mode=1100; ] {
-	build duplex;
-}
-build_branches_1:"" is build_branches [pktid=1;] { build build_branches; }
-build_branches_2:"" is build_branches [pktid=2;] { build build_branches; }
-build_branches_3:"" is build_branches [pktid=3;] { build build_branches; }
-build_branches_4:"" is build_branches [pktid=4;] { build build_branches; }
+# Note: don't set packet id, we hit the immediate ctors of the branches directly after the normal slice
+build_branches:"" is (parse=0b01 | parse=0b10 | parse=0b11) & slot [mode=1100; immext0used=0; ] { build slot; }
+build_branches:"" is parse=0b00 & duplex [mode=1100; ] { build duplex; }
+build_branches_1:"" is build_branches { build build_branches; }
+build_branches_2:"" is build_branches { build build_branches; }
+build_branches_3:"" is build_branches { build build_branches; }
+build_branches_4:"" is build_branches { build build_branches; }
 
 
 # fallback from nv input
-slot:"" is mode=200 {}
+#slot:"" is mode=200 {}
 
-build_nv_input:"" is slot [mode=200;] {
-	build slot;
-}
-
-build_nv_input_1:"" is build_nv_input { build build_nv_input; }
-build_nv_input_2:"" is build_nv_input { build build_nv_input; }
-build_nv_input_3:"" is build_nv_input { build build_nv_input; }
-build_nv_input_4:"" is build_nv_input { build build_nv_input; }
+#build_nv_input:"" is slot [mode=200;] { build slot; }
+#
+#build_nv_input_1:"" is build_nv_input { build build_nv_input; }
+#build_nv_input_2:"" is build_nv_input { build build_nv_input; }
+#build_nv_input_3:"" is build_nv_input { build build_nv_input; }
+#build_nv_input_4:"" is build_nv_input { build build_nv_input; }
 
 
 slot0: slot is slot &  (parse=0b01 | parse=0b10) & iclass [mode=0; pktid=1;] { build slot; }
-slot1: slot0 is slot0 [mode=0; pktid=pktid+1;]  {  build slot0; }
-slot2: slot0 is slot0 [mode=0; pktid=pktid+1;]  { build slot0; }
+slot1: slot is slot &  (parse=0b01 | parse=0b10) & iclass [mode=0; pktid=pktid+1;] { build slot; }
+slot2: slot is slot &  (parse=0b01 | parse=0b10) & iclass [mode=0; pktid=pktid+1;] { build slot; }
 
 
-slotX: slot is slot & parse=0b11 [mode=0; pktid=pktid+1;]  {
-	build slot;
-    prolude();
-}
-slotX: duplex is duplex & parse=0b00 [mode=0; pktid=pktid+1;] {
-	build duplex;
-	 prolude();
-}
+slotX: slot is slot & parse=0b11 [mode=0; pktid=pktid+1;]  { build slot; }
+slotX: duplex is duplex & parse=0b00 [mode=0; pktid=pktid+1;] { build duplex; }
 
 macro endloop0() {
 	     if(LC0 <= 1) goto <endl0>;
@@ -1593,7 +1601,7 @@ macro endloop1() {
         <endl1>
 }
  # 2 ins packets
-    :{ slot0 slotX "}:endloop0" is slot0 & parse=0b10 & build_branches_1; slotX & build_branches_2 & terminator [mode=0;]  {
+    :{ slot0 slotX "}:endloop0" is slot0 & parse=0b10 & build_branches_1; slotX & build_branches_2 & terminator [mode=0; pktid=0;]  {
         prelude();
         build slot0;
         build slotX;
@@ -1609,14 +1617,14 @@ macro endloop1() {
 
         build terminator;
    }
-   :{ slot0 slotX } is slot0 & parse=0b01 & build_branches_1 & build_nv_input_1; slotX & build_branches_2 & build_nv_input_2 & terminator [mode=0;] {
+   :{ slot0 slotX } is slot0 & parse=0b01 & build_branches_1; slotX & build_branches_2 & terminator [mode=0;pktid=0;] {
 
        prelude();
        build slot0;
        build slotX;
 
-       build build_nv_input_1;
-       build build_nv_input_2;
+#       build build_nv_input_1;
+#       build build_nv_input_2;
 
 
        build build_branches_1;
@@ -1630,7 +1638,7 @@ macro endloop1() {
 # 3 ins packet
 
 
-   :{ slot0 slot1 slotX } is slot0 & build_branches_1 & parse=0b01;slot1 & build_branches_2 & parse!=0b10;slotX & build_branches_3 & terminator[mode=0;]{
+   :{ slot0 slot1 slotX } is slot0 & build_branches_1 & parse=0b01;slot1 & build_branches_2 & (parse=0b00 | parse=0b01 | parse=0b11);slotX & build_branches_3 & terminator[mode=0;pktid=0;]{
        prelude();
        build slot0;
        build slot1;
@@ -1649,7 +1657,7 @@ macro endloop1() {
 
 
 
-   :{ slot0 slot1 slotX "}:endloop0" is slot0 & build_branches_1 &parse=0b10 ; slot1 & build_branches_2 & parse=0b01 ; slotX & build_branches_3 & terminator[mode=0;]{
+   :{ slot0 slot1 slotX "}:endloop0" is slot0 & build_branches_1 &parse=0b10 ; slot1 & build_branches_2 & parse=0b01 ; slotX & build_branches_3 & terminator[mode=0;pktid=0;]{
        prelude();
        build slot0;
        build slot1;
@@ -1667,7 +1675,7 @@ macro endloop1() {
 
 
 
-   :{ slot0 slot1 slotX "}:endloop1" is slot0 & build_branches_1 &parse=0b01 ; slot1 & build_branches_2 & parse=0b10 ; slotX & build_branches_3 & terminator[mode=0;]{
+   :{ slot0 slot1 slotX "}:endloop1" is slot0 & build_branches_1 &parse=0b01 ; slot1 & build_branches_2 & parse=0b10 ; slotX & build_branches_3 & terminator[mode=0;pktid=0;]{
        prelude();
        build slot0;
        build slot1;
@@ -1682,7 +1690,7 @@ macro endloop1() {
 
 		build terminator;
    }
-   :{ slot0 slot1 slotX "}:endloop0:endloop1" is slot0 & build_branches_1 &parse=0b10 ; slot1 & build_branches_2 & parse=0b10 ; slotX & build_branches_3 & terminator[mode=0;]{
+   :{ slot0 slot1 slotX "}:endloop0:endloop1" is slot0 & build_branches_1 &parse=0b10 ; slot1 & build_branches_2 & parse=0b10 ; slotX & build_branches_3 & terminator[mode=0;pktid=0;]{
        prelude();
        build slot0;
        build slot1;
@@ -1702,7 +1710,7 @@ macro endloop1() {
 
 
 
-   :{ slot0 slot1 slot2 slotX } is slot0 & build_branches_1 & parse=0b01;slot1 & build_branches_2 & parse!=0b10;slot2 & build_branches_3;slotX &  build_branches_4 & terminator[mode=0;]{
+   :{ slot0 slot1 slot2 slotX } is slot0 & build_branches_1 & parse=0b01;slot1 & build_branches_2 & (parse=0b00 | parse=0b01 | parse=0b11);slot2 & build_branches_3;slotX &  build_branches_4 & terminator[mode=0;pktid=0;]{
        prelude();
        build slot0;
        build slot1;
@@ -1720,7 +1728,7 @@ macro endloop1() {
 
    }
 
-   :{ slot0 slot1 slot2 slotX "}:endloop0" is slot0 & build_branches_1 & parse=0b10 ;slot1 & build_branches_2 & parse=0b01;slot2 & build_branches_3;slotX &  build_branches_4 & terminator[mode=0;]{
+   :{ slot0 slot1 slot2 slotX "}:endloop0" is slot0 & build_branches_1 & parse=0b10 ;slot1 & build_branches_2 & parse=0b01;slot2 & build_branches_3;slotX &  build_branches_4 & terminator[mode=0;pktid=0;]{
        prelude();
        build slot0;
        build slot1;
@@ -1738,7 +1746,7 @@ macro endloop1() {
 
        build terminator;
    }
-   :{ slot0 slot1 slot2 slotX "}:endloop1" is slot0 & build_branches_1 & parse=0b01 ;slot1 & build_branches_2 & parse=0b10;slot2 & build_branches_3;slotX &  build_branches_4 & terminator[mode=0;]{
+   :{ slot0 slot1 slot2 slotX "}:endloop1" is slot0 & build_branches_1 & parse=0b01 ;slot1 & build_branches_2 & parse=0b10;slot2 & build_branches_3;slotX &  build_branches_4 & terminator[mode=0;pktid=0;]{
        prelude();
        build slot0;
        build slot1;
@@ -1756,7 +1764,7 @@ macro endloop1() {
 
        build terminator;
    }
-   :{ slot0 slot1 slot2 slotX "}:endloop0:endloop1" is slot0 & build_branches_1 & parse=0b10 ;slot1 & build_branches_2 & parse=0b10;slot2 & build_branches_3;slotX &  build_branches_4 & terminator[mode=0;]{
+   :{ slot0 slot1 slot2 slotX "}:endloop0:endloop1" is slot0 & build_branches_1 & parse=0b10 ;slot1 & build_branches_2 & parse=0b10;slot2 & build_branches_3;slotX &  build_branches_4 & terminator[mode=0;pktid=0;]{
        prelude();
        build slot0;
        build slot1;
@@ -1777,7 +1785,7 @@ macro endloop1() {
 
 
 
-   :{ slotX } is slotX & mode=0 & build_branches & terminator [mode=0;] {
+   :{ slotX } is slotX & mode=0 & build_branches & terminator [mode=0;pktid=0;] {
        prelude();
        build slotX;
 
@@ -1794,5 +1802,5 @@ macro endloop1() {
 
 
 immext_marker:"" is disabled {}
-slot:"immext0(" v ")" is iclass=0b0000 & imm_16_27 & imm_0_13u & hasext0=0 & parse!=0b11 & immext_marker [v= ((imm_0_13u) | (imm_16_27 << 14)) << 6; immext0 = ((imm_0_13u) | (imm_16_27 << 14)) << 6; hasext0=1;] { build immext_marker; }
-slot:"immext1(" v ")" is iclass=0b0000 & imm_16_27 & imm_0_13u & hasext0=1 & immext_marker  [v=((imm_0_13u) | (imm_16_27 << 14)) << 6; immext1 = ((imm_0_13u) | (imm_16_27 << 14)) << 6; hasext1=1;] { build immext_marker; }
+slot:"immext0(" v ")" is iclass=0b0000 & imm_16_27 & imm_0_13u & hasext0=0 & (parse=0b00 | parse=0b01 | parse=0b10) & immext_marker [v= ((imm_0_13u) | (imm_16_27 << 14)) << 6; immext0 = ((imm_0_13u) | (imm_16_27 << 14)) << 6; hasext0=1; pktid=pktid-1;] { build immext_marker; }
+slot:"immext1(" v ")" is iclass=0b0000 & imm_16_27 & imm_0_13u & hasext0=1 & immext_marker  [v=((imm_0_13u) | (imm_16_27 << 14)) << 6; immext1 = ((imm_0_13u) | (imm_16_27 << 14)) << 6; hasext1=1;pktid=pktid-1; ] { build immext_marker; }

@@ -15,7 +15,7 @@ with slot: iclass=0b0100 & mode=0 {
     	local EA:4 = GP + u16;
 	*[ram]:1 EA = T5;
     }
-    :"memb("v")="T5 is imm_27=1 & imm_25_26u & imm_21_24=0b0000 & imm_16_20u & imm_13u & T5 & T5i & imm_0_7u & hasext0=1 & immext0 & immext0used=0 & imm_0_5u [v = imm_0_5u | immext0; immext0used=1; ] {
+    :"memb("v")="T5 is imm_27=1 & imm_25_26u & imm_21_24=0b0000 & imm_16_20u & imm_13u & T5 & T5i & imm_0_7u & hasext0=1 & immext0 & immext0used=0 & imm_0_5u [v = imm_0_5u | immext0; immext0used=1; immext0everused=1;] {
     	local EA:4 = GP + v;
 		*[ram]:1 EA = T5i;
     }

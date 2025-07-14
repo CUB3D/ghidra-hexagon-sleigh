@@ -281,7 +281,7 @@ with slot: iclass=0b0111 {
     PRED_TRANS_S12:s12 is imm_5_12u & imm_16_19 & (hasext0=0 | immext0used=1) [ s12 = imm_5_12u | (imm_16_19 << 8);] {
         export *[const]:4 s12;
     }
-    PRED_TRANS_S12:s12 is imm_5_10u & hasext0=1 & immext0used=0 & immext0 [ s12 = imm_5_10u | immext0; immext0used=1; ] {
+    PRED_TRANS_S12:s12 is imm_5_10u & hasext0=1 & immext0used=0 & immext0 [ s12 = imm_5_10u | immext0; immext0used=1; immext0everused=1;] {
         export *[const]:4 s12;
     }
     PRED_TRANS_S12:s12 is imm_5_10u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [ s12 = imm_5_10u | immext1; immext1used=1; ] {

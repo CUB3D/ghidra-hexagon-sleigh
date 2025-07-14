@@ -173,3 +173,9 @@ with slot: iclass=0b0101 & mode=0 {
         unpause();
     }
 }
+
+define pcodeop isync;
+slot:"isync" is iclass=0b0101 & imm_16_27=0b011111000000 & imm_13=0 & imm_10_12=0 & imm_0_9=0b0000000010 & mode=0 {
+	isync();
+}
+
