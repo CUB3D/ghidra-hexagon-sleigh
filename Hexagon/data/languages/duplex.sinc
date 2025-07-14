@@ -245,11 +245,11 @@ S2R:immdup1_D4 "=memh(" immdup1_S4 "+" v ")" is immdup1_11_12=0b00 & immdup1_8_1
     immdup1_D4 = *[ram]:2 EA;
 }
 
-S2L:"memw(SP+" a ") =" immdup0_D4 is immdup0_9_12=0b0100 & immdup0_4_8 & immdup0_D4 [a = immdup0_4_8 << 2;]{
+S2L:"memw(SP+" a ") =" immdup0_D4 is immdup0_9_12=0b0100 & immdup0_4_8 & immdup0_D4 & immdup0_D4i [a = immdup0_4_8 << 2;]{
 	local EA:4 = SPc + a;
 	*[ram]:4 EA = immdup0_D4i;
 }
-S2R:"memw(SP+" a ") =" immdup1_D4 is immdup1_9_12=0b0100 & immdup1_4_8 & immdup1_D4 [a = immdup1_4_8 << 2;]{
+S2R:"memw(SP+" a ") =" immdup1_D4 is immdup1_9_12=0b0100 & immdup1_4_8 & immdup1_D4 & immdup1_D4i [a = immdup1_4_8 << 2;]{
 	local EA:4 = SPc + a;
 	*[ram]:4 EA = immdup1_D4i;
 }
@@ -340,10 +340,10 @@ A1R:immdup1_D4"=add(SP, " v ")" is immdup1_10_12=0b011 & immdup1_4_9 & immdup1_D
 }
 
 # tfr
-A1L:immdup0_D4 "=" immdup0_S4 is immdup0_8_12=0b10000 & immdup0_S4 & immdup0_S4i & immdup0_S4i & immdup0_D4 {
+A1L:immdup0_D4 "=" immdup0_S4 is immdup0_8_12=0b10000 & immdup0_S4 & immdup0_S4i & immdup0_D4 {
     immdup0_D4 = immdup0_S4i;
 }
-A1R:immdup1_D4 "=" immdup1_S4 is immdup1_8_12=0b10000 & immdup1_S4 & immdup1_S4i & immdup1_S4i & immdup1_D4 {
+A1R:immdup1_D4 "=" immdup1_S4 is immdup1_8_12=0b10000 & immdup1_S4 & immdup1_S4i & immdup1_D4 {
     immdup1_D4 = immdup1_S4i;
 }
 

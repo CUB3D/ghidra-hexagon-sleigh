@@ -122,67 +122,67 @@ with slot: iclass=0b0010 & mode=0 {
     }
 }
 with slot: iclass=0b0010 & mode=1100 {
-    :"if(cmp.eq("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.eq("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 != T5i) goto <end>;
 	goto nv_j_r9;
 	<end>
     }
-    :"if(cmp.eq("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.eq("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 != T5i) goto <end>;
 	goto nv_j_r9;
 	<end>
     }
-    :"if(!cmp.eq("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.eq("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 == T5i) goto <end>;
 	goto nv_j_r9;
 	<end>
     }
-    :"if(!cmp.eq("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.eq("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 == T5i) goto <end>;
 	goto nv_j_r9;
 	<end>
     }
 
-    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 s<= T5i) goto <end>;
 	goto nv_j_r9;
 	<end>
     }
-    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 s<= T5i) goto <end>;
 	goto nv_j_r9;
 	<end>
     }
-    :"if(!cmp.gt("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gt("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 s> T5i) goto <end>;
 	goto nv_j_r9;
 	<end>
     }
-    :"if(!cmp.gt("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gt("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 s> T5i) goto <end>;
 	goto nv_j_r9;
 	<end>
     }
 
-    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000100 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000100 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 s<= T5i) goto <end>;
 	goto nv_j_r9;
 	<end>
     }
-    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000100 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000100 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 <= T5i) goto <end>;
 	goto nv_j_r9;
 	<end>
     }
 
-    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000101 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000101 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 > T5i) goto <end>;
 		goto nv_j_r9;
 
 	<end>
     }
 #np
-    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000101 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000101 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 > T5i) goto <end>;
 	goto nv_j_r9;
 	<end>
@@ -192,42 +192,42 @@ with slot: iclass=0b0010 & mode=1100 {
 
 
 
-    :"if(cmp.gt(" T5 "," NV_S3_new_16_18 ") jmp:nt "nv_j_r9 is imm_22_27=0b000110 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt(" T5 "," NV_S3_new_16_18 ") jmp:nt "nv_j_r9 is imm_22_27=0b000110 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
 	if(T5i s<= NV_S3_new_16_18) goto <end>;
 	goto nv_j_r9;
 	<end>
     }
-    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000110 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000110 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
 	if(T5i s<= NV_S3_new_16_18) goto <end>;
 	goto nv_j_r9;
 	<end>
     }
-    :"if(cmp.gt(" T5 "," NV_S3_new_16_18 ") jmp:nt "nv_j_r9 is imm_22_27=0b000111 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt(" T5 "," NV_S3_new_16_18 ") jmp:nt "nv_j_r9 is imm_22_27=0b000111 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
 	if(T5i s> NV_S3_new_16_18) goto <end>;
 	goto nv_j_r9;
 	<end>
     }
-    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000111 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000111 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
 	if(T5i s> NV_S3_new_16_18) goto <end>;
 	goto nv_j_r9;
 	<end>
     }
-    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b001000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b001000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 <= T5i) goto <end>;
 	goto nv_j_r9;
 	<end>
     }
-    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b001000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b001000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 <= T5i) goto <end>;
 	goto nv_j_r9;
 	<end>
     }
-    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b001001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b001001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 > T5i) goto <end>;
 	goto nv_j_r9;
 	<end>
     }
-    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b001001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b001001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 > T5i) goto <end>;
 	goto nv_j_r9;
 	<end>
@@ -455,7 +455,7 @@ with slot: iclass=0b0100 & mode=0 {
 		export *[const]:4 val;
 	}
 	
-    :"if(" D2_pred ") memb(" S5 "+" NVBC_1 ")=" NV_T3_new_8_10 is imm_21_27=0b0000101 & S5 & S5i & imm_13u & imm_11_12=0b00 & NV_T3_new_8_10 & imm_3_7u & imm_2=0 & D2_pred & NVBC_1 {
+    :"if(" D2_pred ") memb(" S5 "+" NVBC_1 ")=" NV_T3_new_8_10 is imm_21_27=0b0000101 & S5 & S5i & imm_13u & imm_11_12=0b00 & NV_T3_new_8_10 & imm_3_7u & imm_2=0 & D2_pred & D2_predi & NVBC_1 {
     	if(D2_predi == 0) goto <end>;
 		local EA:4 = S5i + NVBC_1;
 		*[ram]:1 EA = NV_T3_new_8_10;
@@ -467,7 +467,7 @@ with slot: iclass=0b0100 & mode=0 {
 		*[ram]:1 EA = NV_T3_new_8_10;
 	<end>
     }
-    :"if(!" D2_pred ") memb(" S5 "+" NVBC_1 ")=" NV_T3_new_8_10 is imm_21_27=0b0100101 & S5 & S5i & imm_13u & imm_11_12=0b00 & NV_T3_new_8_10 & imm_3_7u & imm_2=0 & D2_pred & NVBC_1 {
+    :"if(!" D2_pred ") memb(" S5 "+" NVBC_1 ")=" NV_T3_new_8_10 is imm_21_27=0b0100101 & S5 & S5i & imm_13u & imm_11_12=0b00 & NV_T3_new_8_10 & imm_3_7u & imm_2=0 & D2_pred & D2_predi & NVBC_1 {
     	if(D2_predi != 0) goto <end>;
 		local EA:4 = S5i + NVBC_1;
 		*[ram]:1 EA = NV_T3_new_8_10;
@@ -587,7 +587,7 @@ with slot: iclass=0b0100 & mode=0 {
 	NVHC_1:val is hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_3_7u & imm_13u [ val = immext1 | (imm_3_7u | (imm_13u <<5)); immext1used=1;] {
 		export *[const]:4 val;
 	}
-    :"if(" D2_pred ") memh(" S5 "+" NVHC_1 ")=" NV_T3_new_8_10 is imm_21_27=0b0000101 & S5 & S5i & imm_13u & imm_11_12=0b01 & NV_T3_new_8_10 & imm_3_7u & imm_2=0 & D2_pred & NVHC_1 {
+    :"if(" D2_pred ") memh(" S5 "+" NVHC_1 ")=" NV_T3_new_8_10 is imm_21_27=0b0000101 & S5 & S5i & imm_13u & imm_11_12=0b01 & NV_T3_new_8_10 & imm_3_7u & imm_2=0 & D2_pred & D2_predi & NVHC_1 {
     	if(D2_predi == 0) goto <end>;
 		local EA:4 = S5i + NVHC_1;
 		*[ram]:2 EA = NV_T3_new_8_10;
@@ -599,7 +599,7 @@ with slot: iclass=0b0100 & mode=0 {
 		*[ram]:2 EA = NV_T3_new_8_10;
 	<end>
     }
-    :"if(!" D2_pred ") memh(" S5 "+" NVHC_1 ")=" NV_T3_new_8_10 is imm_21_27=0b0100101 & S5 & S5i & imm_13u & imm_11_12=0b01 & NV_T3_new_8_10 & imm_3_7u & imm_2=0 & D2_pred & NVHC_1 {
+    :"if(!" D2_pred ") memh(" S5 "+" NVHC_1 ")=" NV_T3_new_8_10 is imm_21_27=0b0100101 & S5 & S5i & imm_13u & imm_11_12=0b01 & NV_T3_new_8_10 & imm_3_7u & imm_2=0 & D2_pred & D2_predi & NVHC_1 {
     	if(D2_predi != 0) goto <end>;
 		local EA:4 = S5i + NVHC_1;
 		*[ram]:2 EA = NV_T3_new_8_10;
@@ -662,7 +662,7 @@ with slot: iclass=0b0100 & mode=0 {
     }
 }
 with slot: iclass=0b1010 & mode=0 {
-    :"memw(" S5 "+" s11 ")=" NV_T3_new_8_10 is imm_27=0 & imm_25_26 & imm_21_24=0b1101 & S5 & S5i & S5i & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_0_7u [s11 = (imm_0_7u | (imm_13u << 8) | (imm_25_26 << 9)) << 2; ]{
+    :"memw(" S5 "+" s11 ")=" NV_T3_new_8_10 is imm_27=0 & imm_25_26 & imm_21_24=0b1101 & S5 & S5i & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_0_7u [s11 = (imm_0_7u | (imm_13u << 8) | (imm_25_26 << 9)) << 2; ]{
     	local EA:4 = S5i + s11;
 	*[ram]:4 EA = NV_T3_new_8_10;	
     }
@@ -726,7 +726,7 @@ st_nvw_cond_u6_1: val is imm_3_7u & imm_13u & hasext0=1 & immext0used=0 & immext
 	export *[const]:4 val;
 }
 with slot: iclass=0b0100 & mode=0 {
-    :"if(" D2_pred ") memw(" S5 "+" st_nvw_cond_u6_1 ")=" NV_T3_new_8_10 is imm_21_27=0b0000101 & S5 & S5i & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_3_7u & imm_2=0 & D2_pred & st_nvw_cond_u6_1 {
+    :"if(" D2_pred ") memw(" S5 "+" st_nvw_cond_u6_1 ")=" NV_T3_new_8_10 is imm_21_27=0b0000101 & S5 & S5i & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_3_7u & imm_2=0 & D2_pred & D2_predi & st_nvw_cond_u6_1 {
     	if(D2_predi == 0) goto <end>;
 		local EA:4 = S5i + st_nvw_cond_u6_1;
 		*[ram]:4 EA = NV_T3_new_8_10;
@@ -738,7 +738,7 @@ with slot: iclass=0b0100 & mode=0 {
 		*[ram]:4 EA = NV_T3_new_8_10;
 	<end>
     }
-    :"if(!" D2_pred ") memw(" S5 "+" st_nvw_cond_u6_1 ")=" NV_T3_new_8_10 is imm_21_27=0b0100101 & S5 & S5i & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_3_7u & imm_2=0 & D2_pred & st_nvw_cond_u6_1 {
+    :"if(!" D2_pred ") memw(" S5 "+" st_nvw_cond_u6_1 ")=" NV_T3_new_8_10 is imm_21_27=0b0100101 & S5 & S5i & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_3_7u & imm_2=0 & D2_pred & D2_predi & st_nvw_cond_u6_1 {
     	if(D2_predi != 0) goto <end>;
 		local EA:4 = S5i + st_nvw_cond_u6_1;
 		*[ram]:4 EA = NV_T3_new_8_10;

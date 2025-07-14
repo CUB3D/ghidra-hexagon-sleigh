@@ -92,6 +92,13 @@
       </output>
       <unaffected>
       
+      <register name="r0" />
+      <register name="r1" />
+      <register name="r2" />
+      <register name="r3" />
+      
+
+
         <register name="r16" />
         <register name="r17" />
         <register name="r18" />
@@ -127,10 +134,7 @@
         <register name="r7" />
       </unaffected>
       <killedbycall>
-      <register name="r0" />
-      <register name="r1" />
-      <register name="r2" />
-      <register name="r3" />
+      
           
         
         <register name="r6" />

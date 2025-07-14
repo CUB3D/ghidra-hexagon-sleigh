@@ -116,7 +116,7 @@ with slot: iclass=0b1001 & mode=0 {
 		local rx_l:2 = brev(S5i:2);
     	local EA:4 = zext(rx_h | rx_l);
         S5 = S5+M1_13;
-        D5 = sext(*[ram]:2 EA;)
+        D5 = sext(*[ram]:2 EA);
     }
 }
 
@@ -169,7 +169,7 @@ with slot: iclass=0b0100 & mode=0 {
     :"if(!" T2_11_12_pred_new ".new)" D5 "=memh(" S5 "+" u6 ")" is imm_21_27=0b0111010 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10u & D5 [ u6 = imm_5_10u << 1;] {
     	if(T2_11_12_pred_new != 0) goto <end>;
 		local EA:4 = S5i + u6;
-		DD5 = sext(*[ram]:2 EA);
+		D5 = sext(*[ram]:2 EA);
 	<end>
     }
 }
