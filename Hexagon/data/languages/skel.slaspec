@@ -9,7 +9,6 @@
 
 #Status:
 # Disas everything up to v73, most common ops have pcode impl
-# Switches don't work yet
 
 # ALU32/ALU       Decode + pcode up to v79                                 regcache ever0
 # ALU32/PERM:     Decode + pcode up to v73                                 regcache ever0
@@ -51,7 +50,7 @@
 # move nv inputs to own slice
 # check all unsigned / signed imms
 # caching for GP / GD5 / SGP?
-# immext0used doesn't work well with slces, reset it at start of each slice and use a different var immext0_ever_used to track missing immext
+# immext0used doesn't work well with slices, reset it at start of each slice and use a different var immext0_ever_used to track missing immext
 # ^ This will also be broken for ops that have extenders but only exist in the normal slice?
 # Consider having a context to tag packetid as having a specific extender, so we don't need to dupe the whole isa to keep immext in sync?
 
@@ -78,6 +77,14 @@
 # The cached inputs are saved in the rXc registers, they are referenced by the <name>i tokens, they should only be used in the semantic section so that
 # in the listing view we still see the original register name for searching
 #
+# Handling of immediate extension
+# When an extender is reached it sets the hasext0 flag, when it consumes it it sets immext0used, immext0everused and immext0pos. If another extender is hit it will set hasext=1 and the consumer will set immext1used.
+# The *everused flags track if a consumer is missing and add a marker if so.
+# This only applies to normal slice parsing, if in a difference slice then instead consumers should check for pktid=ext0pos, this is because there are holes in other slices so re-parsing all this state requires pointless duplication. 
+#
+#
+#
+# TODO: is this needed, dotnew's always reference their new register so have to come after the producer?
 # If a new value input is required then the instruction must run in the new-value-input slice, which is after all normal outputs are complete
 # Then using normal, uncached inputs will give the new value
 
@@ -470,6 +477,9 @@ define context testctx
     immext0used = (66,66) noflow
     immext1used = (67,67) noflow
     immext0everused = (68, 68) noflow
+    
+    immext0pos = (69, 73)
+    
 	# opaque pred for false
 	disabled = (80, 80) noflow
 
@@ -1537,10 +1547,10 @@ build_branches:"" is parse != 0b00 & slot [mode=1100; immext0used=0; ] {
 build_branches:"" is parse=0b00 & duplex [mode=1100; ] {
 	build duplex;
 }
-build_branches_1:"" is build_branches { build build_branches; }
-build_branches_2:"" is build_branches { build build_branches; }
-build_branches_3:"" is build_branches { build build_branches; }
-build_branches_4:"" is build_branches { build build_branches; }
+build_branches_1:"" is build_branches [pktid=1;] { build build_branches; }
+build_branches_2:"" is build_branches [pktid=2;] { build build_branches; }
+build_branches_3:"" is build_branches [pktid=3;] { build build_branches; }
+build_branches_4:"" is build_branches [pktid=4;] { build build_branches; }
 
 
 # fallback from nv input
@@ -1565,7 +1575,7 @@ slotX: slot is slot & parse=0b11 [mode=0; pktid=pktid+1;]  {
 	build slot;
     prolude();
 }
-slotX: duplex is duplex & parse=0b00 [mode=0;] {
+slotX: duplex is duplex & parse=0b00 [mode=0; pktid=pktid+1;] {
 	build duplex;
 	 prolude();
 }

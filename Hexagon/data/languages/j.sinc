@@ -1,14 +1,18 @@
 #J
 #J:Call subroutine
 with slot: iclass=0b0101 {
-      Call_R152: v is imm_22_23 & imm_16_20u & imm_13u & imm_1_7u & (hasext0=0 | immext0used=1) [v = inst_start + (((imm_22_23 << 13) | (imm_16_20u << 8)| (imm_13u << 7) | (imm_1_7u)) << 2); ] {
-        export *[ram]:4 v;
-      }
-      
-      
-Call_R152: v is imm_22_23 & imm_16_20u & imm_13u & imm_1_7u & hasext0=1 & immext0used=0 & immext0 & imm_1_6u [v = inst_start + (imm_1_6u | immext0); immext0used=1; immext0everused=1;] {
-export *[ram]:4 v;
-      }
+	Call_R152: v is imm_22_23 & imm_16_20u & imm_13u & imm_1_7u & (mode=0 & (hasext0=0 | immext0used=1)) | (mode=1100 ) [v = inst_start + (((imm_22_23 << 13) | (imm_16_20u << 8)| (imm_13u << 7) | (imm_1_7u)) << 2);] {
+		export *[ram]:4 v;
+	}
+	  
+	  
+	Call_R152: v is imm_22_23 & imm_16_20u & imm_13u & imm_1_7u & (mode = 0 & hasext0=1 & immext0used=0) | (mode=1100 & immext0pos=pktid) & immext0 & imm_1_6u [v = inst_start + (imm_1_6u | immext0); immext0used=1; immext0everused=1; immext0pos=pktid;] {
+		export *[ram]:4 v;
+	}
+	
+#	Call_R152: v is imm_22_23 & imm_16_20u & imm_13u & imm_1_7u & (mode=0 & hasext0=1 & immext0used=0) | (mode=1100 & immext0pos=pktid) & immext0 & imm_1_6u [v = inst_start + (imm_1_6u | immext0); immext0used=1; immext0everused=1; immext0pos=pktid;] {
+#		export *[ram]:4 v;
+#	}
 
 Call_V: v is imm_1_13u & imm_16_24 & (hasext0=0 | immext0used=1)  [v = inst_start + (((imm_1_13u) | (imm_16_24 << 13)) << 2) ;] {
 export *[ram]:4 v;

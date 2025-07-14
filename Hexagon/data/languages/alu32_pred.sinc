@@ -434,7 +434,7 @@ with slot: iclass=0b0111 {
         D2_pred_new = PTRUE;
         <end>
 	}  
-	:D2_pred_new "=cmp.gt("S5", "s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b01 & imm_21 & S5 & S5i & imm_5_13 & imm_2_4=0b000 & D2_pred_new & immext0 & imm_5_10u [s10 = imm_5_10u | immext0; immext0used=1; immext0everused=1;]{
+	:D2_pred_new "=cmp.gt("S5", "s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b01 & imm_21 & S5 & S5i & imm_5_13 & imm_2_4=0b000 & D2_pred_new & immext0 & imm_5_10u [s10 = imm_5_10u | immext0; immext0used=1; immext0everused=1; immext0pos=pktid;]{
         if( S5i s> s10) goto <good>;
         D2_pred_new = 0;
         goto <end>;

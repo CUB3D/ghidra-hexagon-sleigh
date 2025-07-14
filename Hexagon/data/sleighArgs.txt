@@ -5,4 +5,5 @@
 # IMPORTANT: The -a option should NOT be specified
 #
 -n
--t
+#-t
+-u

@@ -109,9 +109,6 @@ L2L:"dealloc_return" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_2=0 & i
         local tmp:8 = *[ram]:8 EA;
         LRFP = tmp;
 
-        local tmp2:8 = tmp>>32;
-        local tmp3:4 = tmp2:4;
-
         SP = EA+8;
 }
 L2L:"dealloc_return" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_2=0 & immdup0_0_1=0 & mode=1100 {
@@ -127,9 +124,6 @@ L2R:"dealloc_return" is immdup1_6_12=0b1111101 & immdup1_3_5=0 & immdup1_2=0 & i
         local EA:4 = FPc;
         local tmp:8 = *[ram]:8 EA;
         LRFP = tmp;
-
-        local tmp2:8 = tmp>>32;
-        local tmp3:4 = tmp2:4;
 
         SP = EA+8;
 }
