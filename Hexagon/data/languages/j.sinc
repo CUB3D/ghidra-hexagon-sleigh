@@ -6,16 +6,21 @@ with slot: iclass=0b0101 {
 	Call_R152: v is imm_22_23 & imm_16_20u & imm_13u & imm_1_7u & mode=0 & (hasext0=0 | immext0used=1) [v = inst_start + (((imm_22_23 << 13) | (imm_16_20u << 8)| (imm_13u << 7) | (imm_1_7u)) << 2);] { export *[ram]:4 v;}
 	Call_R152: v is imm_22_23 & imm_16_20u & imm_13u & imm_1_7u & mode=1100 [v = inst_start + (((imm_22_23 << 13) | (imm_16_20u << 8)| (imm_13u << 7) | (imm_1_7u)) << 2);] { export *[ram]:4 v;}
 	
-	Call_R152: v is mode = 0 & (hasext0=1 & immext0used=0) & immext0 & imm_1_6u [v = inst_start + (imm_1_6u | immext0); immext0used=1; immext0everused=1; immext0pos=pktid;] { export *[ram]:4 v; }
+	Call_R152: v is mode = 0 & hasext0=1 & immext0used=0 & immext0 & imm_1_6u [v = inst_start + (imm_1_6u | immext0); immext0used=1; immext0everused=1; immext0pos=pktid;] { export *[ram]:4 v; }
 	Call_R152: v is mode=1100 & immext0pos=pktid & immext0 & imm_1_6u [v = inst_start + (imm_1_6u | immext0); immext0used=1; immext0everused=1; immext0pos=pktid;] { export *[ram]:4 v; }
 	
-	Call_R152: v is mode = 0 & (hasext0=1 & immext0used=1 & hasext1=1) & immext1 & imm_1_6u [v = inst_start + (imm_1_6u | immext1); immext1used=1; immext1pos=pktid;] { export *[ram]:4 v; }
+	Call_R152: v is mode = 0 & hasext0=1 & immext0used=1 & hasext1=1 & immext1 & imm_1_6u [v = inst_start + (imm_1_6u | immext1); immext1used=1; immext1pos=pktid;] { export *[ram]:4 v; }
 	Call_R152: v is mode=1100 & immext1pos=pktid & immext1 & imm_1_6u [v = inst_start + (imm_1_6u | immext1); immext1used=1; immext1pos=pktid;] { export *[ram]:4 v; }
 
 
-Call_V: v is imm_1_13u & imm_16_24 & (hasext0=0 | immext0used=1)  [v = inst_start + (((imm_1_13u) | (imm_16_24 << 13)) << 2) ;] {
-export *[ram]:4 v;
-      }
+Call_V: v is imm_1_13u & imm_16_24 & mode=0 & (hasext0=0 | immext0used=1)  [v = inst_start + (((imm_1_13u) | (imm_16_24 << 13)) << 2) ;] { export *[ram]:4 v;}
+Call_V: v is imm_1_13u & imm_16_24 & mode=1100 [v = inst_start + (((imm_1_13u) | (imm_16_24 << 13)) << 2) ;] { export *[ram]:4 v;}
+
+Call_V: v is mode = 0 & hasext0=1 & immext0used=0 & immext0 & imm_1_6u  [v = inst_start + (imm_1_6u | immext0); immext0used=1; immext0everused=1; immext0pos=pktid;] { export *[ram]:4 v;}
+Call_V: v is mode = 1100 & immext0pos=pktid & immext0 & imm_1_6u  [v = inst_start + (imm_1_6u | immext0); immext0used=1; immext0everused=1; immext0pos=pktid;] { export *[ram]:4 v;}
+
+Call_V: v is mode = 0 & hasext0=1 & immext0used=1 & hasext1=1 & immext1 & imm_1_6u  [v = inst_start + (imm_1_6u | immext1); immext1used=1; immext1pos=pktid;] { export *[ram]:4 v;}
+Call_V: v is mode = 1100 & immext1pos=pktid & immext1 & imm_1_6u  [v = inst_start + (imm_1_6u | immext1); immext1used=1;] { export *[ram]:4 v;}
 
 	 :^"call" Call_V is imm_25_27=0b101 & imm_16_24 & imm_1_13u & imm_0=0 & Call_V & mode=0  {}
 	 :^"call" Call_V is imm_25_27=0b101 & imm_16_24 & imm_1_13u & imm_0=0 & Call_V & mode=1100 {
@@ -41,9 +46,12 @@ export *[ram]:4 v;
 	 }
  }
  
-  CJ_R9:r9 is  imm_20_21 & imm_1_7u [ r9 = inst_start+((imm_1_7u | (imm_20_21 << 7))<<2);] {
-    export *[ram]:4 r9;
-  }
+  CJ_R9:r9 is  imm_20_21 & imm_1_7u & mode=0 & (hasext0=0 | immext0used=1) [ r9 = inst_start+((imm_1_7u | (imm_20_21 << 7))<<2);] {export *[ram]:4 r9;}
+  CJ_R9:r9 is  imm_20_21 & imm_1_7u & mode=1100 [ r9 = inst_start+((imm_1_7u | (imm_20_21 << 7))<<2);] {export *[ram]:4 r9;}
+  CJ_R9:r9 is  imm_20_21 & imm_1_7u & mode=0 & hasext0=1 & immext0used=0 & immext0 & imm_1_6u [ r9 = inst_start+(imm_1_6u | immext0); immext0used=1; immext0everused=1; immext0pos=pktid;] {export *[ram]:4 r9;}
+  CJ_R9:r9 is  imm_20_21 & imm_1_7u & mode=1100 & immext0pos=pktid & immext0 & imm_1_6u [ r9 = inst_start+(imm_1_6u | immext0); immext0used=1; immext0everused=1; ] {export *[ram]:4 r9;}
+  CJ_R9:r9 is  imm_20_21 & imm_1_7u & mode=0 & hasext0=1 & immext0used=1 & hasext1=1 & immext1 & imm_1_6u [ r9 = inst_start+(imm_1_6u | immext1); immext1used=1; immext1pos=pktid;] {export *[ram]:4 r9;}
+  CJ_R9:r9 is  imm_20_21 & imm_1_7u & mode=1100 & immext1pos=pktid & immext1 & imm_1_6u [ r9 = inst_start+(imm_1_6u | immext1); immext1used=1; ] {export *[ram]:4 r9;}
   
   CJ_imm_8_12u:imm_8_12u is imm_8_12u & mode=0 & (hasext0=0 | immext0used=1) { export *[const]:4 imm_8_12u; }
   CJ_imm_8_12u:imm_8_12u is imm_8_12u & mode=1100 { export *[const]:4 imm_8_12u; }

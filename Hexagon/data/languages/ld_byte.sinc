@@ -51,8 +51,8 @@ with slot: iclass=0b1001 & mode=0 {
         S5 = S5i+imm_5_8;
         D5 = sext(*[ram]:1 EA);
     }
-    :D5"=memb(" T5 "<<" u2 "+" U6 ")" is imm_21_27=0b1101000 & T5 & T5i & imm_13u & imm_12=1 & imm_8_11u & imm_7u & imm_5_6u & D5 [ u2 = imm_7u | (imm_13u << 1); U6 = imm_5_6u | (imm_8_11u << 2);] {
-        local EA:4 = (T5i << u2) + U6;
+    :D5"=memb(" T5 "<<" u2 "+" LD_U6_SL ")" is imm_21_27=0b1101000 & T5 & T5i & imm_13u & imm_12=1 & imm_8_11u & imm_7u & imm_5_6u & D5 & LD_U6_SL [ u2 = imm_7u | (imm_13u << 1); ] {
+        local EA:4 = (T5i << u2) + LD_U6_SL;
         D5 = sext(*[ram]:1 EA);
     }
 

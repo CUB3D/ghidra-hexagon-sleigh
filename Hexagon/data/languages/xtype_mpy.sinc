@@ -420,6 +420,7 @@ with slot: iclass=0b1110 & mode=0 {
 # XTYPE/MPY: Mul and use upper
 define pcodeop mpy_rnd;
 define pcodeop mpy_sat;
+define pcodeop mpy_rnd_sat;
 
 with slot: iclass=0b1110 & mode=0 {
     :D5 "=mpy(" S5 "," T5 "):rnd" is imm_21_27=0b1101001 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
@@ -434,13 +435,16 @@ with slot: iclass=0b1110 & mode=0 {
 		D5 = tmp1(4);
     }
     :D5 = "mpy(" S5 "," T5 ".H):<<1:sat" is imm_21_27=0b1101101 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
-       D5 = mpy_sat(S5i, T5i(2)) << 1;
+    	local t5l:2 = T5i(2);
+       local tmp:4 = mpy_sat(S5i, t5l);
+       D5 = tmp << 1;
     }
     :D5 = "mpy(" S5 "," T5 ".L):<<1:sat" is imm_21_27=0b1101101 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
        D5 = mpy_sat(S5i, T5i:2) << 1;
     }
     :D5 = "mpy(" S5 "," T5 ".H):<<1:rnd:sat" is imm_21_27=0b1101101 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 {
-       D5 = mpy_rnd_sat(S5i, T5i(2)) << 1;
+       local t5l:2 = T5i(2);
+       D5 = mpy_rnd_sat(S5i, t5l) << 1;
     }
     :D5 = "mpy(" S5 "," T5 "):<<1:sat" is imm_21_27=0b1101111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
        D5 = mpy_sat(S5i, T5i:2) << 1;

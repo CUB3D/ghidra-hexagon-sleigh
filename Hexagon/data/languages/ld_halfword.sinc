@@ -96,8 +96,8 @@ with slot: iclass=0b1001 & mode=0 {
         S5 = S5i+v;
         D5 = sext(*[ram]:2 EA);
     }
-    :D5"=memh(" S5 "<<" u2 "+" U6 ")" is imm_21_27=0b1101010 & S5 & S5i & imm_13u & imm_12=1 & imm_8_11u & imm_7u & imm_5_6u & D5 [ u2 = imm_7u | (imm_13u << 1); U6 = imm_5_6u | (imm_8_11u << 2);] {
-        local EA:4 = (S5i << u2) + U6;
+    :D5"=memh(" S5 "<<" u2 "+" LD_U6_SL ")" is imm_21_27=0b1101010 & S5 & S5i & imm_13u & imm_12=1 & imm_8_11u & imm_7u & imm_5_6u & D5 & LD_U6_SL [ u2 = imm_7u | (imm_13u << 1); ] {
+        local EA:4 = (S5i << u2) + LD_U6_SL;
         D5 = sext(*[ram]:2 EA);
     }
     :D5 "=memh(" S5 "<<" u2 "+" u6 ")" is imm_21_27=0b1101010 & S5 & S5i & imm_13u & imm_12=1 & imm_8_11 & imm_7u & imm_5_6 & D5 & hasext0=1 & immext0used=0 & immext0 [u2 = imm_7u | (imm_13u << 1); u6 = (imm_5_6  | (imm_8_11 << 2)) | immext0; immext0used=1; immext0everused=1;] {

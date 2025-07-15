@@ -1,5 +1,5 @@
 # ALU32/PRED:Compare add
-with slot: iclass=0b0111 {
+with slot: iclass=0b0111 & mode=0 {
 	with : hasext0 = 0 | immext0used=1 {
 	    :"if ("U2_pred_21_22") "D5"=add("S5","EXT_imm_5_12")" is Rs=0 & MajOp=0b100 & imm_23=0 & U2_pred_21_22 & U2_pred_21_22i & S5 & S5i & imm_13=0 & EXT_imm_5_12 & D5 {
 		if(U2_pred_21_22i == 0) goto <end>;
@@ -47,7 +47,7 @@ with slot: iclass=0b0111 {
 	    }
 	}
 }
-with slot: iclass=0b1111 {
+with slot: iclass=0b1111 & mode=0 {
     :"if(" U2_5_6 ") " D5 "=add(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_21=0 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & U2_5_6 & U2_5_6i & D5 {
 		if(U2_5_6i == 0) goto <end>;
 		D5 = S5i + T5i;
@@ -71,7 +71,7 @@ with slot: iclass=0b1111 {
 }
 
 # ALU32/PRED:Cond shift hw
-with slot: iclass=0b0111 {
+with slot: iclass=0b0111 & mode=0 {
     :"if(" U2 ") " D5 "=aslh(" S5 ")" is Rs=0 & MajOp=0b000 & MinOp=0b000 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b00 & U2 & U2i & imm_5_7=0 & D5 {
         if(U2i == 0) goto <end>;
 		D5 = S5i << 16;
@@ -116,7 +116,7 @@ with slot: iclass=0b0111 {
 }
 
 # ALU32/PRED:Cond comb
-with slot: iclass=0b1111 {
+with slot: iclass=0b1111 & mode=0 {
     :"if(" U2_5_6 ")" D5_pair "=combine(" S5 "," T5 ")" is Rs=1 & MajOp=0b101 & MinOp=0b000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & U2_5_6 & U2_5_6i & D5_pair {
     	if(U2_5_6i == 0) goto <end>;
 	local tmp:8 = zext(S5i);
@@ -143,7 +143,7 @@ with slot: iclass=0b1111 {
     }
 }
 # ALU32/PRED:Cond logical
-with slot: iclass=0b1111 {
+with slot: iclass=0b1111 & mode=0 {
     :"if(" U2_5_6 ") " D5 "=and(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & U2_5_6 & U2_5_6i & D5 {
     	if(U2_5_6i == 0) goto <end>;
 	D5 = S5i & T5i;
@@ -208,7 +208,7 @@ with slot: iclass=0b1111 {
     }
 }
 # ALU32/PRED:Cond sub
-with slot: iclass=0b1111 {
+with slot: iclass=0b1111 & mode=0 {
     :"if(" U2_5_6 ") " D5 "=sub(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_22=0 & imm_21=1 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & U2_5_6 & U2_5_6i & D5 {
     	if(U2_5_6i == 0) goto <end>;
 	D5 = S5i - T5i;
@@ -232,7 +232,7 @@ with slot: iclass=0b1111 {
 }
 
 # ALU32/PRED:sext
-with slot: iclass=0b0111 {
+with slot: iclass=0b0111 & mode=0 {
     :"if(" U2_pred ") " D5 "=sxtb(" S5 ")" is imm_21_27=0b0000101 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b00 & U2_pred & U2_predi & imm_5_7=0 & D5 {
     	if(U2_predi == 0) goto <end>;
 	D5 = sext(S5i:1);
@@ -277,7 +277,7 @@ with slot: iclass=0b0111 {
 }
 
 # ALU32/PRED:trans
-with slot: iclass=0b0111 {
+with slot: iclass=0b0111 & mode=0 {
     PRED_TRANS_S12:s12 is imm_5_12u & imm_16_19 & (hasext0=0 | immext0used=1) [ s12 = imm_5_12u | (imm_16_19 << 8);] {
         export *[const]:4 s12;
     }
@@ -316,7 +316,7 @@ with slot: iclass=0b0111 {
 }
 
 # ALU32/PRED:zext
-with slot: iclass=0b0111 {
+with slot: iclass=0b0111 & mode=0 {
     :"if(" U2_pred ") " D5 "=zxtb(" S5 ")" is imm_21_27=0b0000100 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b00 & U2_pred & U2_predi & imm_5_7=0 & D5 {
     	if(U2_predi == 0) goto <end>;
 	D5 = zext(S5i:1);
@@ -361,114 +361,114 @@ with slot: iclass=0b0111 {
 }
 
 # ALU32/PRED:cmp
- with slot: iclass=0b0111 {
+ with slot: iclass=0b0111 & mode=0 {
 
      with : hasext0=0 | immext0used=1 {
-    # Compare
-	:D2_pred_new "=cmp.eq("S5", "s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b00 & imm_21 & S5 & S5i & imm_5_13u & imm_2_4=0b000 & D2_pred_new [s10 = imm_5_13u | (imm_21 << 9);] {
-        if( S5i == s10) goto <good>;
-        D2_pred_new = 0;
-        goto <end>;
-        <good>
-        D2_pred_new = PTRUE;
-        <end>
-	}  
-
-	:D2_pred_new "=!cmp.eq("S5", "s10")"is Rs = 0 & MajOp=0b101 & imm_22_23=0b00 & imm_21 & S5 & S5i & imm_5_13 & imm_2_4=0b100 & D2_pred_new [s10 = imm_5_13 | (imm_21 << 9);]{
-        if( S5i != s10) goto <good>;
-        D2_pred_new = 0;
-        goto <end>;
-        <good>
-        D2_pred_new = PTRUE;
-        <end>
-	}  
-	:D2_pred_new "=cmp.gt("S5", "s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b01 & imm_21 & S5 & S5i & imm_5_13 & imm_2_4=0b000 & D2_pred_new [s10 = imm_5_13 | (imm_21 << 9);]{
-        if( S5i s> s10) goto <good>;
-        D2_pred_new = 0;
-        goto <end>;
-        <good>
-        D2_pred_new = PTRUE;
-        <end>
-	}  
-	:D2_pred_new "=!cmp.gt("S5", "s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b01 & imm_21 & S5 & S5i & imm_5_13 & imm_2_4=0b100 & D2_pred_new [s10 = imm_5_13 | (imm_21 << 9);]{
-        if( S5i s<= s10) goto <good>;
-        D2_pred_new = 0;
-        goto <end>;
-        <good>
-        D2_pred_new = PTRUE;
-        <end>
-	}  
-	:D2_pred_new "=cmp.gtu(" S5 "," imm_5_13 ")" is Rs = 0 & MajOp=0b101 & imm_21_23=0b100 & S5 & S5i & imm_5_13 & imm_2_4=0b000 & D2_pred_new {
-		if( S5i > imm_5_13) goto <good>;
-		D2_pred_new = 0;
-        goto <end>;
-        <good>
-		D2_pred_new = PTRUE;
-        <end>
-	}  
-	:D2_pred_new "=!cmp.gtu("S5", "imm_5_13")" is Rs = 0 & MajOp=0b101 & imm_21_23=0b100 & S5 & S5i & imm_5_13 & imm_2_4=0b100 & D2_pred_new {
-        if( S5i <= imm_5_13) goto <good>;
-        D2_pred_new = 0;
-        goto <end>;
-        <good>
-        D2_pred_new = PTRUE;
-        <end>
-	}  
+	    # Compare
+		:D2_pred_new "=cmp.eq("S5", "s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b00 & imm_21 & S5 & S5i & imm_5_13u & imm_2_4=0b000 & D2_pred_new [s10 = imm_5_13u | (imm_21 << 9);] {
+	        if( S5i == s10) goto <good>;
+	        D2_pred_new = 0;
+	        goto <end>;
+	        <good>
+	        D2_pred_new = PTRUE;
+	        <end>
+		}  
+	
+		:D2_pred_new "=!cmp.eq("S5", "s10")"is Rs = 0 & MajOp=0b101 & imm_22_23=0b00 & imm_21 & S5 & S5i & imm_5_13 & imm_2_4=0b100 & D2_pred_new [s10 = imm_5_13 | (imm_21 << 9);]{
+	        if( S5i != s10) goto <good>;
+	        D2_pred_new = 0;
+	        goto <end>;
+	        <good>
+	        D2_pred_new = PTRUE;
+	        <end>
+		}  
+		:D2_pred_new "=cmp.gt("S5", "s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b01 & imm_21 & S5 & S5i & imm_5_13 & imm_2_4=0b000 & D2_pred_new [s10 = imm_5_13 | (imm_21 << 9);]{
+	        if( S5i s> s10) goto <good>;
+	        D2_pred_new = 0;
+	        goto <end>;
+	        <good>
+	        D2_pred_new = PTRUE;
+	        <end>
+		}  
+		:D2_pred_new "=!cmp.gt("S5", "s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b01 & imm_21 & S5 & S5i & imm_5_13 & imm_2_4=0b100 & D2_pred_new [s10 = imm_5_13 | (imm_21 << 9);]{
+	        if( S5i s<= s10) goto <good>;
+	        D2_pred_new = 0;
+	        goto <end>;
+	        <good>
+	        D2_pred_new = PTRUE;
+	        <end>
+		}  
+		:D2_pred_new "=cmp.gtu(" S5 "," imm_5_13 ")" is Rs = 0 & MajOp=0b101 & imm_21_23=0b100 & S5 & S5i & imm_5_13 & imm_2_4=0b000 & D2_pred_new {
+			if( S5i > imm_5_13) goto <good>;
+			D2_pred_new = 0;
+	        goto <end>;
+	        <good>
+			D2_pred_new = PTRUE;
+	        <end>
+		}  
+		:D2_pred_new "=!cmp.gtu("S5", "imm_5_13")" is Rs = 0 & MajOp=0b101 & imm_21_23=0b100 & S5 & S5i & imm_5_13 & imm_2_4=0b100 & D2_pred_new {
+	        if( S5i <= imm_5_13) goto <good>;
+	        D2_pred_new = 0;
+	        goto <end>;
+	        <good>
+	        D2_pred_new = PTRUE;
+	        <end>
+		}  
     }
      with : hasext0=1 & immext0used=0 {
-    # Compare
-	:D2_pred_new "=cmp.eq("S5", "s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b00 & imm_21 & S5 & S5i & imm_5_13u & imm_2_4=0b000 & D2_pred_new & immext0 & imm_5_10u [s10 = imm_5_10u | immext0; immext0used=1; immext0everused=1;] {
-        if( S5i == s10) goto <good>;
-        D2_pred_new = 0;
-        goto <end>;
-        <good>
-        D2_pred_new = PTRUE;
-        <end>
-	}  
-
-	:D2_pred_new "=!cmp.eq("S5", "s10")"is Rs = 0 & MajOp=0b101 & imm_22_23=0b00 & imm_21 & S5 & S5i & imm_5_13 & imm_2_4=0b100 & D2_pred_new & immext0 & imm_5_10u [s10 = imm_5_10u | immext0; immext0used=1;immext0everused=1; ]{
-        if( S5i != s10) goto <good>;
-        D2_pred_new = 0;
-        goto <end>;
-        <good>
-        D2_pred_new = PTRUE;
-        <end>
-	}  
-	:D2_pred_new "=cmp.gt("S5", "s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b01 & imm_21 & S5 & S5i & imm_5_13 & imm_2_4=0b000 & D2_pred_new & immext0 & imm_5_10u [s10 = imm_5_10u | immext0; immext0used=1; immext0everused=1; immext0pos=pktid;]{
-        if( S5i s> s10) goto <good>;
-        D2_pred_new = 0;
-        goto <end>;
-        <good>
-        D2_pred_new = PTRUE;
-        <end>
-	}  
-	:D2_pred_new "=!cmp.gt("S5", "s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b01 & imm_21 & S5 & S5i & imm_5_13 & imm_2_4=0b100 & D2_pred_new & immext0 & imm_5_10u [s10 = imm_5_10u | immext0; immext0used=1;immext0everused=1; ]{
-        if( S5i s<= s10) goto <good>;
-        D2_pred_new = 0;
-        goto <end>;
-        <good>
-        D2_pred_new = PTRUE;
-        <end>
-	}  
-	:D2_pred_new "=cmp.gtu(" S5 "," val ")" is Rs = 0 & MajOp=0b101 & imm_21_23=0b100 & S5 & S5i & imm_5_13 & imm_2_4=0b000 & D2_pred_new & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;] {
-        if( S5i > val) goto <good>;
-            D2_pred_new = 0;
-            goto <end>;
-        <good>
-            D2_pred_new = PTRUE;
-        <end>
-	}  
-	:D2_pred_new "=!cmp.gtu("S5", "val")" is Rs = 0 & MajOp=0b101 & imm_21_23=0b100 & S5 & S5i & imm_5_13 & imm_2_4=0b100 & D2_pred_new & immext0 & imm_5_10u [val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;] {
-        if( S5i <= val) goto <good>;
-            D2_pred_new = 0;
-            goto <end>;
-        <good>
-            D2_pred_new = PTRUE;
-        <end>
-	}  
+	    # Compare
+		:D2_pred_new "=cmp.eq("S5", "s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b00 & imm_21 & S5 & S5i & imm_5_13u & imm_2_4=0b000 & D2_pred_new & immext0 & imm_5_10u [s10 = imm_5_10u | immext0; immext0used=1; immext0everused=1;] {
+	        if( S5i == s10) goto <good>;
+	        D2_pred_new = 0;
+	        goto <end>;
+	        <good>
+	        D2_pred_new = PTRUE;
+	        <end>
+		}  
+	
+		:D2_pred_new "=!cmp.eq("S5", "s10")"is Rs = 0 & MajOp=0b101 & imm_22_23=0b00 & imm_21 & S5 & S5i & imm_5_13 & imm_2_4=0b100 & D2_pred_new & immext0 & imm_5_10u [s10 = imm_5_10u | immext0; immext0used=1;immext0everused=1; ]{
+	        if( S5i != s10) goto <good>;
+	        D2_pred_new = 0;
+	        goto <end>;
+	        <good>
+	        D2_pred_new = PTRUE;
+	        <end>
+		}  
+		:D2_pred_new "=cmp.gt("S5", "s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b01 & imm_21 & S5 & S5i & imm_5_13 & imm_2_4=0b000 & D2_pred_new & immext0 & imm_5_10u [s10 = imm_5_10u | immext0; immext0used=1; immext0everused=1; immext0pos=pktid;]{
+	        if( S5i s> s10) goto <good>;
+	        D2_pred_new = 0;
+	        goto <end>;
+	        <good>
+	        D2_pred_new = PTRUE;
+	        <end>
+		}  
+		:D2_pred_new "=!cmp.gt("S5", "s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b01 & imm_21 & S5 & S5i & imm_5_13 & imm_2_4=0b100 & D2_pred_new & immext0 & imm_5_10u [s10 = imm_5_10u | immext0; immext0used=1;immext0everused=1; ]{
+	        if( S5i s<= s10) goto <good>;
+	        D2_pred_new = 0;
+	        goto <end>;
+	        <good>
+	        D2_pred_new = PTRUE;
+	        <end>
+		}  
+		:D2_pred_new "=cmp.gtu(" S5 "," val ")" is Rs = 0 & MajOp=0b101 & imm_21_23=0b100 & S5 & S5i & imm_5_13 & imm_2_4=0b000 & D2_pred_new & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;] {
+	        if( S5i > val) goto <good>;
+	            D2_pred_new = 0;
+	            goto <end>;
+	        <good>
+	            D2_pred_new = PTRUE;
+	        <end>
+		}  
+		:D2_pred_new "=!cmp.gtu("S5", "val")" is Rs = 0 & MajOp=0b101 & imm_21_23=0b100 & S5 & S5i & imm_5_13 & imm_2_4=0b100 & D2_pred_new & immext0 & imm_5_10u [val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;] {
+	        if( S5i <= val) goto <good>;
+	            D2_pred_new = 0;
+	            goto <end>;
+	        <good>
+	            D2_pred_new = PTRUE;
+	        <end>
+		}  
     }
 }
-with slot: iclass=0b1111 {
+with slot: iclass=0b1111 & mode=0 {
 
 	:D2_pred_new "=cmp.eq("S5","T5")" is Rs = 0 & MajOp=0b010 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & imm_2_4=0b000 & D2_pred_new {
         if( S5i == T5i) goto <good>;
@@ -524,7 +524,7 @@ with slot: iclass=0b1111 {
 }
 
 # ALU32/PRED:cmp gen
-with slot: iclass=0b0111 {
+with slot: iclass=0b0111 & mode=0 {
     :D5 "=cmp.eq(" S5 "," imm_5_12 ")" is imm_24_27=0b0011 & imm_23=0 & imm_21_22=0b10 & S5 & S5i & imm_13=1 & imm_5_12 & D5 {
     	D5 = zext(S5i == imm_5_12);
     }
@@ -532,7 +532,7 @@ with slot: iclass=0b0111 {
     	D5 = zext(S5i != imm_5_12);
     }
 }
-with slot: iclass=0b1111 {
+with slot: iclass=0b1111 & mode=0 {
     :D5 "=cmp.eq(" S5 "," T5 ")" is imm_21_27=0b0011010 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & D5 {
     	D5 = zext(S5i == T5i);
     }

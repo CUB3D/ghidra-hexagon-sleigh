@@ -92,7 +92,7 @@ with slot: iclass=0b1000 & mode=0 {
     :alu_X5"+=lsr("S5","imm_8_12u")" is imm_22_27=0b111000 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b101 & alu_X5 & alu_X5i {
         alu_X5 = alu_X5i + (S5i >> imm_8_12u);
     }
-    :alu_X5"+=asl("S5","imm_8_12u")" is imm_22_27=0b111000 & imm_21=1 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b110 & alu_X5 & alu_X5i {
+    :alu_X5"+=asl("S5","imm_8_12u")" is imm_22_27=0b111000 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b110 & alu_X5 & alu_X5i {
         alu_X5 = alu_X5i + (S5i << imm_8_12u);
     }
     :alu_X5"+=rol(" S5 "," imm_8_12u ")" is imm_22_27=0b111000 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b111 & alu_X5 & alu_X5i {
