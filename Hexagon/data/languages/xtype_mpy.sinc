@@ -151,159 +151,256 @@ with slot: iclass=0b1110 & mode=0 {
     }
 }
 
-# XTYPE/MPY: Mul signed hw
+# XTYPE/MPY: Mul signed hw#
+define pcodeop mpy_rnd;
+
 with slot: iclass=0b1110 & mode=0 {
     :D5_pair "=mpy(" S5 ".L, " T5 ".L):<<" imm_23u is imm_24_27=0b0100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b00 & D5_pair {
     	local a=S5i:2;
     	local b=T5i:2;
-    	D5_pair = (zext(a) * zext(b)) << imm_23u; 
+    	D5_pair = (zext(a) * zext(b)) << imm_23u;
     }
-    :"mulshw01" is imm_24_27=0b0100 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b01 & D5 {
-    _stub();
+    :D5_pair "=mpy(" S5 ".L, " T5 ".H):<<" imm_23u is imm_24_27=0b0100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b01 & D5_pair {
+    	local a:2=S5i:2;
+    	local b:2=T5i(2);
+    	D5_pair = (zext(a) * zext(b)) << imm_23u;
     }
-    :"mulshw02" is imm_24_27=0b0100 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b10 & D5 {
-    _stub();
+    :D5_pair "=mpy(" S5 ".H, " T5 ".L):<<" imm_23u is imm_24_27=0b0100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b10 & D5_pair {
+    	local a:2=S5i(2);
+    	local b:2=T5i:2;
+    	D5_pair = (zext(a) * zext(b)) << imm_23u;
     }
-    :"mulshw03" is imm_24_27=0b0100 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b11 & D5 {
-    _stub();
+    :D5_pair "=mpy(" S5 ".H, " T5 ".H):<<" imm_23 is imm_24_27=0b0100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b11 & D5_pair {
+    	local a:2=S5i(2);
+    	local b:2=T5i(2);
+    	D5_pair = (zext(a) * zext(b)) << imm_23u;
     }
 
-    :"mulshw04" is imm_24_27=0b0100 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b00 & D5 {
-    _stub();
+    :D5_pair "=mpy(" S5 ".L, " T5 ".L):<<" imm_23u ":rnd" is imm_24_27=0b0100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b00 & D5_pair {
+    	local a:2 = S5i:2;
+    	local b:2 = T5i:2;
+    	D5_pair = mpy_rnd(a, b) << imm_23u; 
     }
-    :"mulshw05" is imm_24_27=0b0100 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b01 & D5 {
-    _stub();
+    :D5_pair "=mpy(" S5 ".L, " T5 ".H):<<" imm_23u ":rnd" is imm_24_27=0b0100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b01 & D5_pair {
+    	local a:2 = S5i:2;
+    	local b:2 = T5i(2);
+    	D5_pair = mpy_rnd(a, b) << imm_23u;
     }
-    :"mulshw06" is imm_24_27=0b0100 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b10 & D5 {
-    _stub();
+    :D5_pair "=mpy(" S5 ".H, " T5 ".L):<<" imm_23u ":rnd" is imm_24_27=0b0100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b10 & D5_pair {
+    	local a:2 = S5i(2);
+    	local b:2 = T5i:2;
+    	D5_pair = mpy_rnd(a, b) << imm_23u;
     }
-    :"mulshw07" is imm_24_27=0b0100 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b11 & D5 {
-    _stub();
+    :D5_pair "=mpy(" S5 ".H, " T5 ".H):<<" imm_23u ":rnd" is imm_24_27=0b0100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b11 & D5_pair {
+    	local a:2 = S5i(2);
+    	local b:2 = T5i(2);
+    	D5_pair = mpy_rnd(a, b) << imm_23u;
     }
 #np
-    :"mulshw08" is imm_24_27=0b0110 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
-    _stub();
+    :D5_pair "+=mpy(" S5 ".L, " T5 ".L):<<" imm_23u  is imm_24_27=0b0110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5_pair & D5_pairi {
+    	local a:2 = S5i:2;
+    	local b:2 = T5i:2;
+    	D5_pair = D5_pairi + (zext(a) * zext(b)) << imm_23u;
     }
-    :"mulshw09" is imm_24_27=0b0110 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
-    _stub();
+    :D5_pair "+=mpy(" S5 ".L, " T5 ".H):<<" imm_23u  is imm_24_27=0b0110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5_pair & D5_pairi {
+    	local a:2 = S5i:2;
+    	local b:2 = T5i(2);
+    	D5_pair = D5_pairi + (zext(a) * zext(b)) << imm_23u;
     }
-    :"mulshw10" is imm_24_27=0b0110 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5 {
-    _stub();
+    :D5_pair "+=mpy(" S5 ".H, " T5 ".L):<<" imm_23u is imm_24_27=0b0110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5_pair & D5_pairi {
+    	local a:2 = S5i(2);
+    	local b:2 = T5i:2;
+    	D5_pair = D5_pairi + (zext(a) * zext(b)) << imm_23u;
     }
-    :"mulshw11" is imm_24_27=0b0110 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5 {
-    _stub();
+    :"D5_pair "+=mpy(" S5 ".H, " T5 ".H):<<" imm_23u" is imm_24_27=0b0110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5_pair & D5_pairi {
+    	local a:2 = S5i(2);
+    	local b:2 = T5i(2);
+    	D5_pair = D5_pairi + (zext(a) * zext(b)) << imm_23u;
     }
 
-    :"mulshw12" is imm_24_27=0b0110 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
-    _stub();
+    :D5_pair "-=mpy(" S5 ".L, " T5 ".L):<<" imm_23u  is imm_24_27=0b0110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5_pair & D5_pairi {
+    	local a:2 = S5i:2;
+    	local b:2 = T5i:2;
+    	D5_pair = D5_pairi - (zext(a) * zext(b)) << imm_23u;
     }:
-    :"mulshw13" is imm_24_27=0b0110 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
-    _stub();
+    :D5_pair "-=mpy(" S5 ".L, " T5 ".H):<<" imm_23u is imm_24_27=0b0110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5_pair & D5_pairi {
+    	local a:2 = S5i:2;
+    	local b:2 = T5i(2);
+    	D5_pair = D5_pairi - (zext(a) * zext(b)) << imm_23u;
     }
-    :"mulshw14" is imm_24_27=0b0110 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5 {
-    _stub();
+    :D5_pair "-=mpy(" S5 ".H, " T5 ".L):<<" imm_23u is imm_24_27=0b0110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5_pair & D5_pairi {
+    	local a:2 = S5i(2);
+    	local b:2 = T5i:2;
+    	D5_pair = D5_pairi - (zext(a) * zext(b)) << imm_23u;
     }
-    :"mulshw15" is imm_24_27=0b0110 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5 {
-    _stub();
+    :"D5_pair "-=mpy(" S5 ".H, " T5 ".H):<<" imm_23u" is imm_24_27=0b0110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5_pair & D5_pairi {
+    	local a:2 = S5i(2);
+    	local b:2 = T5i(2);
+    	D5_pair = D5_pairi - (zext(a) * zext(b)) << imm_23u;
     }
 #ns
-    :"mulshw16" is imm_24_27=0b1100 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
-    _stub();
+    :D5 "=mpy(" S5 ".L, " T5 ".L):<<" imm_23u is imm_24_27=0b1100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
+    	local a=S5i:2;
+    	local b=T5i:2;
+    	D5 = (zext(a) * zext(b)) << imm_23u;
     }
-    :"mulshw17" is imm_24_27=0b1100 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
-    _stub();
+    :D5 "=mpy(" S5 ".L, " T5 ".H):<<" imm_23u is imm_24_27=0b1100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
+    	local a=S5i:2;
+    	local b=T5i(2);
+    	D5 = (zext(a) * zext(b)) << imm_23u;
     }
-    :"mulshw18" is imm_24_27=0b1100 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5 {
-    _stub();
+    :D5 "=mpy(" S5 ".H, " T5 ".L):<<" imm_23u is imm_24_27=0b1100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5 {
+    	local a=S5i(2);
+    	local b=T5i:2;
+    	D5 = (zext(a) * zext(b)) << imm_23u;
     }
-    :"mulshw19" is imm_24_27=0b1100 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5 {
-    _stub();
+    :D5 "=mpy(" S5 ".H, " T5 ".H):<<" imm_23u is imm_24_27=0b1100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5 {
+    	local a=S5i(2);
+    	local b=T5i(2);
+    	D5 = (zext(a) * zext(b)) << imm_23u;
     }
-    :"mulshw20" is imm_24_27=0b1100 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 {
-    _stub();
+    
+    :D5 "=mpy(" S5 ".L, " T5 ".L):<<" imm_23u ":sat" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 {
+    	local a=S5i:2;
+    	local b=T5i:2;
+    	D5 = mpy_sat(a, b) << imm_23u;
     }
-    :"mulshw21" is imm_24_27=0b1100 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b101 & D5 {
-    _stub();
+    :D5 "=mpy(" S5 ".L, " T5 ".H):<<" imm_23u ":sat" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b101 & D5 {
+    	local a=S5i:2;
+    	local b=T5i(2);
+    	D5 = mpy_sat(a, b) << imm_23u;
     }
-    :"mulshw22" is imm_24_27=0b1100 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 {
-    _stub();
+    :D5 "=mpy(" S5 ".H, " T5 ".L):<<" imm_23u ":sat" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 {
+    	local a=S5i(2);
+    	local b=T5i:2;
+    	D5 = mpy_sat(a, b) << imm_23u;
     }
-    :"mulshw23" is imm_24_27=0b1100 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 {
-    _stub();
-    }
-
-    :"mulshw24" is imm_24_27=0b1100 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
-    _stub();
-    }
-    :"mulshw25" is imm_24_27=0b1100 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
-    _stub();
-    }
-    :"mulshw26" is imm_24_27=0b1100 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5 {
-    _stub();
-    }
-    :"mulshw27" is imm_24_27=0b1100 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5 {
-    _stub();
-    }
-    :"mulshw28" is imm_24_27=0b1100 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 {
-    _stub();
-    }
-    :"mulshw29" is imm_24_27=0b1100 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b101 & D5 {
-    _stub();
-    }
-    :"mulshw30" is imm_24_27=0b1100 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 {
-    _stub();
-    }
-    :"mulshw31" is imm_24_27=0b1100 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 {
-    _stub();
+    :D5 "=mpy(" S5 ".H, " T5 ".H):<<" imm_23u ":sat" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 {
+    	local a=S5i(2);
+    	local b=T5i(2);
+    	D5 = mpy_sat(a, b) << imm_23u;
     }
 
-    :"mulshw32" is imm_24_27=0b1110 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
-    _stub();
+    :D5 "=mpy(" S5 ".L, " T5 ".L):<<" imm_23u ":rnd" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
+    	local a=S5i:2;
+    	local b=T5i:2;
+    	D5 = mpy_rnd(a, b) << imm_23u;
     }
-    :"mulshw33" is imm_24_27=0b1110 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
-    _stub();
+    :D5 "=mpy(" S5 ".L, " T5 ".H):<<" imm_23u ":rnd" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
+    	local a=S5i:2;
+    	local b=T5i(2);
+    	D5 = mpy_rnd(a, b) << imm_23u;
     }
-    :"mulshw34" is imm_24_27=0b1110 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5 {
-    _stub();
+    :D5 "=mpy(" S5 ".H, " T5 ".L):<<" imm_23u ":rnd" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5 {
+    	local a=S5i(2);
+    	local b=T5i:2;
+    	D5 = mpy_rnd(a, b) << imm_23u;
     }
-    :"mulshw35" is imm_24_27=0b1110 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5 {
-    _stub();
+    :D5 "=mpy(" S5 ".H, " T5 ".H):<<" imm_23u ":rnd" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5 {
+    	local a=S5i(2);
+    	local b=T5i(2);
+    	D5 = mpy_rnd(a, b) << imm_23u;
     }
-    :"mulshw36" is imm_24_27=0b1110 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 {
-    _stub();
+    :D5 "=mpy(" S5 ".L, " T5 ".L):<<" imm_23u ":rnd:sat" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 {
+    	local a=S5i:2;
+    	local b=T5i:2;
+    	D5 = mpy_rnd_sat(a, b) << imm_23u;
     }
-    :"mulshw37" is imm_24_27=0b1110 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b101 & D5 {
-    _stub();
+    :D5 "=mpy(" S5 ".L, " T5 ".H):<<" imm_23u ":rnd:sat" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b101 & D5 {
+    	local a=S5i:2;
+    	local b=T5i(2);
+    	D5 = mpy_rnd_sat(a, b) << imm_23u;
     }
-    :"mulshw38" is imm_24_27=0b1110 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 {
-    _stub();
+    :D5 "=mpy(" S5 ".H, " T5 ".L):<<" imm_23u ":rnd:sat" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 {
+    	local a=S5i(2);
+    	local b=T5i:2;
+    	D5 = mpy_rnd_sat(a, b) << imm_23u;
     }
-    :"mulshw39" is imm_24_27=0b1110 & imm_23 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 {
-    _stub();
+    :D5 "=mpy(" S5 ".H, " T5 ".H):<<" imm_23u ":rnd:sat" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 {
+    	local a=S5i(2);
+    	local b=T5i(2);
+    	D5 = mpy_rnd_sat(a, b) << imm_23u;
     }
-    :"mulshw40" is imm_24_27=0b1110 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
-    _stub();
+
+    :D5 "+=mpy(" S5 ".L, " T5 ".L):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 & D5i {
+    	local a=S5i:2;
+    	local b=T5i:2;
+    	D5 = D5i + ((zext(a) * zext(b)) << imm_23u);
     }
-    :"mulshw41" is imm_24_27=0b1110 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
-    _stub();
+    :D5 "+=mpy(" S5 ".L, " T5 ".H):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 & D5i {
+    	local a=S5i:2;
+    	local b=T5i(2);
+    	D5 = D5i + ((zext(a) * zext(b)) << imm_23u);
     }
-    :"mulshw42" is imm_24_27=0b1110 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5 {
-    _stub();
+    :D5 "+=mpy(" S5 ".H, " T5 ".L):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5 & D5i {
+    	local a=S5i(2);
+    	local b=T5i:2;
+    	D5 = D5i + ((zext(a) * zext(b)) << imm_23u);
     }
-    :"mulshw43" is imm_24_27=0b1110 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5 {
-    _stub();
+    :D5 "+=mpy(" S5 ".H, " T5 ".H):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5 & D5i {
+    	local a=S5i(2);
+    	local b=T5i(2);
+    	D5 = D5i + ((zext(a) * zext(b)) << imm_23u);
     }
-    :"mulshw44" is imm_24_27=0b1110 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 {
-    _stub();
+    :D5 "+=mpy(" S5 ".L, " T5 ".L):<<" imm_23u ":sat" is imm_24_27=0b1110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 & D5i {
+    	local a=S5i:2;
+    	local b=T5i:2;
+    	D5 = D5i + mpy_sat(a, b) << imm_23u;
     }
-    :"mulshw45" is imm_24_27=0b1110 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b101 & D5 {
-    _stub();
+    :D5 "+=mpy(" S5 ".L, " T5 ".H):<<" imm_23u ":sat" is imm_24_27=0b1110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b101 & D5 & D5i {
+    	local a=S5i:2;
+    	local b=T5i(2);
+    	D5 = D5i + mpy_sat(a, b) << imm_23u;
     }
-    :"mulshw46" is imm_24_27=0b1110 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 {
-    _stub();
+    :D5 "+=mpy(" S5 ".H, " T5 ".L):<<" imm_23u ":sat" is imm_24_27=0b1110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 & D5i {
+    	local a=S5i(2);
+    	local b=T5i:2;
+    	D5 = D5i + mpy_sat(a, b) << imm_23u;
     }
-    :"mulshw47" is imm_24_27=0b1110 & imm_23 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 {
-    _stub();
+    :D5 "+=mpy(" S5 ".H, " T5 ".H):<<" imm_23u ":sat" is imm_24_27=0b1110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 & D5i {
+    	local a=S5i(2);
+    	local b=T5i(2);
+    	D5 = D5i + mpy_sat(a, b) << imm_23u;
+    }
+    :D5 "-=mpy(" S5 ".L, " T5 ".L):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 & D5i {
+    	local a=S5i:2;
+    	local b=T5i:2;
+    	D5 = D5i - ((zext(a) * zext(b)) << imm_23u);
+    }
+    :D5 "-=mpy(" S5 ".L, " T5 ".H):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 & D5i {
+    	local a=S5i:2;
+    	local b=T5i(2);
+    	D5 = D5i - ((zext(a) * zext(b)) << imm_23u);
+    }
+    :D5 "-=mpy(" S5 ".H, " T5 ".L):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5 & D5i {
+    	local a=S5i(2);
+    	local b=T5i:2;
+    	D5 = D5i - ((zext(a) * zext(b)) << imm_23u);
+    }
+    :D5 "-=mpy(" S5 ".H, " T5 ".H):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5 & D5i {
+    	local a=S5i(2);
+    	local b=T5i(2);
+    	D5 = D5i - ((zext(a) * zext(b)) << imm_23u);
+    }
+    :D5 "-=mpy(" S5 ".L, " T5 ".L):<<" imm_23u ":sat" is imm_24_27=0b1110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 & D5i {
+    	local a=S5i:2;
+    	local b=T5i:2;
+    	D5 = D5i - mpy_sat(a, b) << imm_23u;
+    }
+    :D5 "-=mpy(" S5 ".L, " T5 ".H):<<" imm_23u ":sat" is imm_24_27=0b1110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b101 & D5 & D5i {
+    	local a=S5i:2;
+    	local b=T5i(2);
+    	D5 = D5i - mpy_sat(a, b) << imm_23u;
+    }
+    :D5 "-=mpy(" S5 ".H, " T5 ".L):<<" imm_23u ":sat" is imm_24_27=0b1110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 & D5i {
+    	local a=S5i(2);
+    	local b=T5i:2;
+    	D5 = D5i - mpy_sat(a, b) << imm_23u;
+    }
+    :D5 "-=mpy(" S5 ".H, " T5 ".H):<<" imm_23u ":sat" is imm_24_27=0b1110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 & D5i {
+    	local a=S5i(2);
+    	local b=T5i(2);
+    	D5 = D5i - mpy_sat(a, b) << imm_23u;
     }
 }
 
