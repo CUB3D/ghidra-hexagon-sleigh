@@ -46,7 +46,7 @@ with slot: iclass=0b1010 & mode=0 {
     	*[ram]:4 EA = T5i; 
      }
      :"memw(" S5 "++" s4 ":circ(" M1_13 "))=" T5 is imm_21_27=0b1001100 & S5 & S5i & M1_13 & T5 & T5i & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0 [s4 = imm_3_6 << 0;] {
-	    local EA:4 = S5i;
+        local EA:4 = S5i;
     	S5 = circ_add(S5i, s4:1, M1_13);
     	*[ram]:4 EA = T5i;
      }
