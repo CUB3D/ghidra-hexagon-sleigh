@@ -5,9 +5,9 @@ LD_COND_u6: val is imm_8u & imm_16_20u & hasext0=1 & immext0used=0 & immext0 [va
 LD_COND_u6: val is imm_8u & imm_16_20u & hasext0=1 & immext0used=1 & hasext1=1 & immext1 [val = immext1 | imm_8u | (imm_16_20u << 1);] {export *[const]:4 val;}
 
 
-LD_U6_SL: u6 is imm_5_6u & imm_8_11u & (hasext0=0 | immext0used=1) [u6 = imm_5_6u | (imm_8_11u << 2);] { export *[const] u6;}
-LD_U6_SL: u6 is imm_5_6u & imm_8_11u & hasext0=1 & immext0used=0 & immext0 [u6 = immext0 | imm_5_6u | (imm_8_11u << 2); immext0used=1; immext0everused=1;] { export *[const] u6;}
-LD_U6_SL: u6 is imm_5_6u & imm_8_11u & hasext0=1 & immext0used=1 & hasext1=1 & immext1 [u6 = immext1 | imm_5_6u | (imm_8_11u << 2); immext1used=1;] { export *[const] u6;}
+LD_U6_SL: u6 is imm_5_6u & imm_8_11u & (hasext0=0 | immext0used=1) [u6 = imm_5_6u | (imm_8_11u << 2);] { export *[const]:4 u6;}
+LD_U6_SL: u6 is imm_5_6u & imm_8_11u & hasext0=1 & immext0used=0 & immext0 [u6 = immext0 | imm_5_6u | (imm_8_11u << 2); immext0used=1; immext0everused=1;] { export *[const]:4 u6;}
+LD_U6_SL: u6 is imm_5_6u & imm_8_11u & hasext0=1 & immext0used=1 & hasext1=1 & immext1 [u6 = immext1 | imm_5_6u | (imm_8_11u << 2); immext1used=1;] { export *[const]:4 u6;}
 
 @include "ld_dword.sinc"
 @include "ld_byte.sinc"
@@ -73,18 +73,21 @@ with slot: iclass=0b1001 {
 }
 
 #LD:Ld and unpack by to hw TODO
+define pcodeop membh;
+define pcodeop memubh;
+
 with slot: iclass=0b1001 & mode=0 {
-	:"ldunpck00" is imm_27=0 & imm_25_26 & imm_21_24=0b0001 & S5 & imm_5_13 & D5 {
-		_stub();
+	:D5 "=membh(" S5 "+" s11 ")" is imm_27=0 & imm_25_26 & imm_21_24=0b0001 & S5 & imm_5_13u & D5 [s11 = (imm_5_13u | (imm_25_26 << 9)) << 1;] {
+		D5 = membh(S5 + s11:4);
 	}
-	:"ldunpck01" is imm_27=0 & imm_25_26 & imm_21_24=0b0011 & S5 & imm_5_13 & D5 {
-		_stub();
+	:D5 "=memubh(" S5 "+" s11 ")" is imm_27=0 & imm_25_26 & imm_21_24=0b0011 & S5 & imm_5_13u & D5 [s11 = (imm_5_13u | (imm_25_26 << 9)) << 1;] {
+		D5 = memubh(S5 + s11:4);
 	}
-	:"ldunpck02" is imm_27=0 & imm_25_26 & imm_21_24=0b0101 & S5 & imm_5_13 & D5 {
-		_stub();
+	:D5_pair "=memubh(" S5 "+" s11 ")" is imm_27=0 & imm_25_26 & imm_21_24=0b0101 & S5 & imm_5_13u & D5_pair [s11 = (imm_5_13u | (imm_25_26 << 9)) << 2;] {
+		D5_pair = memubh(S5 + s11:4);
 	}
-	:"ldunpck03" is imm_27=0 & imm_25_26 & imm_21_24=0b0111 & S5 & imm_5_13 & D5 {
-		_stub();
+	:D5_pair "=membh(" S5 "+" s11 ")" is imm_27=0 & imm_25_26 & imm_21_24=0b0111 & S5 & imm_5_13u & D5_pair [s11 = (imm_5_13u | (imm_25_26 << 9)) << 2;] {
+		D5_pair = membh(S5 + s11:4);
 	}
 	
 	
@@ -94,4 +97,6 @@ with slot: iclass=0b1001 & mode=0 {
 	:"ldunpck05" is imm_21_27=0b1000001 & S5 & imm_13 & imm_12=0 & imm_10_11=0 & imm_9=1 & imm_8=0 & imm_7=0 & imm_5_6=0 & D5 {
 		_stub();
 	}
+	
+	#TODO: there are more of these
 }

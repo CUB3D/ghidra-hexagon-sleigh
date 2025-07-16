@@ -33,12 +33,12 @@
 # SYSTEM/USER:    Decode + pcode up to v79                                 regcache ever0
 # SYSTEM/GUEST:   Decode + pcode up to v66 (latest for this section)       regcache ever0
 # SYSTEM/MONITOR: Decode + pcode up to v66 (latest for this section)       regcache ever0
-# XTYPE:          Decode up to v73, pcode unfinished                       regcache ever0
+# XTYPE:          Decode + pcode up to v73                                 regcache ever0
 # XTYPE/ALU:      Decode + pcode up to v73                                 regcache ever0
 # XTYPE/BIT:      Decode + pcode up to v73                                 regcache ever0
 # XTYPE/COMPLEX:  Decode + pcode up to v79                                 regcache ever0
 # XTYPE/FP:       Decode + pcode up to v79                                 regcache ever0
-# XTYPE/MPY:      Decode up to v73, pcode unfinished                       regcache ever0
+# XTYPE/MPY:      Decode + pcode up to v73                                 regcache ever0
 # XTYPE/PERM:     Decode + pcode up to v73                                 regcache ever0
 # XTYPE/PRED:     Decode + pcode up to v73                                 regcache ever0
 # XTYPE/SHIFT:    Decode + pcode up to v73                                 regcache ever0

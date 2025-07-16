@@ -24,7 +24,7 @@ with slot: iclass=0b1001 & mode=0 {
         local EA:4 = S5 + EXT_LD_S11_dword;
         D5_pair = *[ram]:8 EA;
     }
-    :D5_pair "=memd("	S5 "++" s4 ":circ(" M1_13 "))"  is imm_21_27=0b1001110 & S5 & S5i & M1_13 & imm_12=0 & imm_10_11=0 & imm_9=0 & imm_5_8 & D5_pair [s4 = imm_5_8 << 3;] {
+    :D5_pair "=memd(" S5 "++" s4 ":circ(" M1_13 "))"  is imm_21_27=0b1001110 & S5 & S5i & M1_13 & imm_12=0 & imm_10_11=0 & imm_9=0 & imm_5_8 & D5_pair [s4 = imm_5_8 << 3;] {
     	local EA:4 = S5i;
     	S5 = circ_add(S5i, s4:1, M1_13);
     	D5_pair = *[ram]:8 EA; 
