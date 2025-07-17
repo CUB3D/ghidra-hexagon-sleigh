@@ -1,6 +1,5 @@
 
 # NV/J
-# TODO: this should be dotnew, for now this will work-ish
 
 nv_j_r9: r9 is imm_1_7u & imm_20_21 & (hasext0=0 | immext0used=1) [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]  {
 	export *[ram]:4 r9;

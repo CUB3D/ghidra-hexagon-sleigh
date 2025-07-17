@@ -7,10 +7,10 @@
             variant="default"
             version="1.0"
             slafile="skel.sla"
-            processorspec="skel.pspec"
+            processorspec="hexagon.pspec"
             id="QDSP6:LE:32:default">
     <description>Hexagon QDSP6 V79</description>
-    <compiler name="default" spec="skel.cspec" id="default"/>
+    <compiler name="default" spec="hexagon.cspec" id="default"/>
   </language> 
 
 </language_definitions>

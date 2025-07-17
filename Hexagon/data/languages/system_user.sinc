@@ -112,7 +112,7 @@ with slot: iclass=0b0101 & mode=0 {
     }
 }
 
-#SYSTEM/USER:L2 fetch todo
+#SYSTEM/USER:L2 fetch
 define pcodeop l2fetch;
 with slot: iclass=0b1010 & mode=0 {
     :"l2fetch("S5","T5")" is imm_21_27=0b0110000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0 {

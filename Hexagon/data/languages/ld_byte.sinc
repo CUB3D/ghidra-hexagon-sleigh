@@ -140,7 +140,6 @@ with slot: iclass=0b1001 & mode=0 {
         D5 = sext(*[ram]:1 EA);
         <end>
     }
-    #TODO: check all dotnew, they will need change later
     :"if("T2_9_10_pred".new) "D5"=memb("S5"++#"s4")" is imm_21_27=0b1011000 & S5 & S5i & imm_11_13=0b110 &   T2_9_10_pred & imm_5_8 & D5 [s4 = imm_5_8 << 3;] {
         if(T2_9_10_pred == 0) goto <end>;
         local EA:4 = S5i;

@@ -91,11 +91,11 @@ with slot: iclass=0b1001 & mode=0 {
 	}
 	
 	
-        :D5 "=membh(" S5 "++" s4 ":circ(" M1_13 "))"  is imm_21_27=0b1000000 & S5 & S5i & M1_13 & imm_12=0 & imm_10_11=0 & imm_9=0 & imm_5_8 & D5 [s4 = imm_5_8 << 1;] {
-        	local EA:4 = S5i;
-        	S5 = circ_add(S5i, s4:1, M1_13);
-        	D5 = membh(*[ram]:2 EA);
-        }
+    :D5 "=membh(" S5 "++" s4 ":circ(" M1_13 "))"  is imm_21_27=0b1000000 & S5 & S5i & M1_13 & imm_12=0 & imm_10_11=0 & imm_9=0 & imm_5_8 & D5 [s4 = imm_5_8 << 1;] {
+    	local EA:4 = S5i;
+    	S5 = circ_add(S5i, s4:1, M1_13);
+    	D5 = membh(*[ram]:2 EA);
+    }
     :D5 "=membh(" S5 "++I:circ(" M1_13 "))" is imm_21_27=0b1000001 & S5 & S5i & M1_13 & imm_12=0 & imm_10_11=0 & imm_9=1 & imm_8=0 & imm_7=0 & imm_5_6=0 & D5 {
     	local EA:4 = S5i;
     	S5 = circ_add(S5, (M1_13:1) << 3, M1_13);

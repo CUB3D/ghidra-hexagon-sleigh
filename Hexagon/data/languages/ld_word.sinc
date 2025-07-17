@@ -123,13 +123,13 @@ with slot: iclass=0b0011 & mode=0 {
 		D5 = *[ram]:4 EA;
 	<end>
     }
-    :"if(" U2_5_6_pred_new ")" D5 "=memw(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0010100 & S5 & S5i & imm_13u & T5 & T5i & imm_8_12 & imm_7u & U2_5_6_pred_new & D5 [u2 = imm_7u | (imm_13u << 1);] {
+    :"if(" U2_5_6_pred_new ".new)" D5 "=memw(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0010100 & S5 & S5i & imm_13u & T5 & T5i & imm_8_12 & imm_7u & U2_5_6_pred_new & D5 [u2 = imm_7u | (imm_13u << 1);] {
     	if(U2_5_6_pred_new == 0) goto <end>;
 		local EA:4 = S5i + (T5i << u2);
 		D5 = *[ram]:4 EA;
 	<end>
     }
-    :"if(!" U2_5_6_pred_new ")" D5 "=memw(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0011100 & S5 & S5i & imm_13u & T5 & T5i & imm_8_12 & imm_7u & U2_5_6_pred_new & D5 [u2 = imm_7u | (imm_13u << 1);] {
+    :"if(!" U2_5_6_pred_new ".new)" D5 "=memw(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0011100 & S5 & S5i & imm_13u & T5 & T5i & imm_8_12 & imm_7u & U2_5_6_pred_new & D5 [u2 = imm_7u | (imm_13u << 1);] {
     	if(U2_5_6_pred_new != 0) goto <end>;
 		local EA:4 = S5i + (T5i << u2);
 		D5 = *[ram]:4 EA;
@@ -144,7 +144,7 @@ with slot: iclass=0b0100 & mode=0 {
 	D5 = *[ram]:4 EA;
 	<end>
     }
-    :"if(" T2_11_12_pred_new ")" D5 "=memw(" S5 "+" ld_w_cond_u6_1 ")" is imm_21_27=0b0011100 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10u & D5 & ld_w_cond_u6_1 {
+    :"if(" T2_11_12_pred_new ".new)" D5 "=memw(" S5 "+" ld_w_cond_u6_1 ")" is imm_21_27=0b0011100 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10u & D5 & ld_w_cond_u6_1 {
         local cond:1 = T2_11_12_pred_new != 0;
     	if(!cond) goto <end>;
 	local EA:4 = S5i + ld_w_cond_u6_1;
@@ -158,7 +158,7 @@ with slot: iclass=0b0100 & mode=0 {
 	D5 = *[ram]:4 EA;
 	<end>
     }
-    :"if(!" T2_11_12_pred_new ")" D5 "=memw(" S5 "+" ld_w_cond_u6_1 ")" is imm_21_27=0b0111100 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10u & D5 & ld_w_cond_u6_1 {
+    :"if(!" T2_11_12_pred_new ".new)" D5 "=memw(" S5 "+" ld_w_cond_u6_1 ")" is imm_21_27=0b0111100 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10u & D5 & ld_w_cond_u6_1 {
         local cond:1 = T2_11_12_pred_new != 0;
     	if(cond) goto <end>;
 	local EA:4 = S5i + ld_w_cond_u6_1;

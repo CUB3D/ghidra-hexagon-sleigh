@@ -25,7 +25,6 @@ with slot: iclass=0b0110 & mode=0 {
 }
 
 # CR: Loops
-#TODO: need analyser for these
 with slot: iclass=0b0110 & mode=0 {
     :"loop0("tmp","S5")" is imm_21_27=0b0000000 & S5 & S5i & imm_13=0 & imm_8_12 & imm_5_7=0 & imm_3_4u & imm_0_2=0 [ tmp = inst_start + ((((imm_3_4u) | (imm_8_12 << 2))<<2) & (~3)); ] {
         SA0 = tmp;

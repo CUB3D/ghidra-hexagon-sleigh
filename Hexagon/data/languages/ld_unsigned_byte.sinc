@@ -104,13 +104,13 @@ with slot: iclass=0b0011 & mode=0 {
 		D5 = zext(*[ram]:1 EA);
 	<end>
     }
-    :"if(" U2_5_6_pred_new ")" D5 "=memub(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0010001 & S5 & S5i & imm_13u & T5 & T5i & imm_8_12 & imm_7u & U2_5_6_pred_new & D5 [u2 = imm_7u | (imm_13u << 1);] {
+    :"if(" U2_5_6_pred_new ".new)" D5 "=memub(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0010001 & S5 & S5i & imm_13u & T5 & T5i & imm_8_12 & imm_7u & U2_5_6_pred_new & D5 [u2 = imm_7u | (imm_13u << 1);] {
     	if(U2_5_6_pred_new == 0) goto <end>;
 		local EA:4 = S5i + (T5i << u2);
 		D5 = zext(*[ram]:1 EA);
 	<end>
     }
-    :"if(!" U2_5_6_pred_new ")" D5 "=memub(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0011001 & S5 & S5i & imm_13u & T5 & T5i & imm_8_12 & imm_7u & U2_5_6_pred_new & D5 [u2 = imm_7u | (imm_13u << 1);] {
+    :"if(!" U2_5_6_pred_new ".new)" D5 "=memub(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0011001 & S5 & S5i & imm_13u & T5 & T5i & imm_8_12 & imm_7u & U2_5_6_pred_new & D5 [u2 = imm_7u | (imm_13u << 1);] {
     	if(U2_5_6_pred_new != 0) goto <end>;
 		local EA:4 = S5i + (T5i << u2);
 		D5 = zext(*[ram]:1 EA);
@@ -133,7 +133,7 @@ with slot: iclass=0b0100 & mode=0 {
 		D5 = zext(*[ram]:1 EA);
 	<end>
     }
-    :"if (" T2_11_12_pred_new ") " D5 "=memub(" S5 "+" ld_uby_cond_u6_1 ")" is imm_21_27=0b0011001 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10u & D5 & ld_uby_cond_u6_1 {
+    :"if (" T2_11_12_pred_new ".new) " D5 "=memub(" S5 "+" ld_uby_cond_u6_1 ")" is imm_21_27=0b0011001 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10u & D5 & ld_uby_cond_u6_1 {
     	if(T2_11_12_pred_new == 0) goto <end>;
 		local EA:4 = S5i + ld_uby_cond_u6_1;
 		D5 = zext(*[ram]:1 EA);
@@ -145,7 +145,7 @@ with slot: iclass=0b0100 & mode=0 {
 		D5 = zext(*[ram]:1 EA);
 	<end>
     }
-    :"if (!" T2_11_12_pred_new ") " D5 "=memub(" S5 "+" ld_uby_cond_u6_1 ")" is imm_21_27=0b0111001 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10u & D5 & ld_uby_cond_u6_1 {
+    :"if (!" T2_11_12_pred_new ".new) " D5 "=memub(" S5 "+" ld_uby_cond_u6_1 ")" is imm_21_27=0b0111001 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10u & D5 & ld_uby_cond_u6_1 {
     	if(T2_11_12_pred_new != 0) goto <end>;
 		local EA:4 = S5i + ld_uby_cond_u6_1;
 		D5 = zext(*[ram]:1 EA);
@@ -165,13 +165,13 @@ with slot: iclass=0b1001 & mode=0 {
 			S5 = S5i + imm_5_8;
 		<end>
     }
-    :"if(" T2_9_10_pred_new ")" D5 "=memub("S5 "++" imm_5_8 ")" is imm_21_27=0b1011001 & S5 & S5i & imm_11_13=0b110 & T2_9_10_pred_new & imm_5_8 & D5  {
+    :"if(" T2_9_10_pred_new ".new)" D5 "=memub("S5 "++" imm_5_8 ")" is imm_21_27=0b1011001 & S5 & S5i & imm_11_13=0b110 & T2_9_10_pred_new & imm_5_8 & D5  {
         if(T2_9_10_pred_new != 0) goto <end>;
 			D5 = zext(*[ram]:1 S5i);
 			S5 = S5i + imm_5_8;
 		<end>
     }
-    :"if(!" T2_9_10_pred_new ")" D5 "=memub("S5 "++" imm_5_8 ")" is imm_21_27=0b1011001 & S5 & S5i & imm_11_13=0b111 & T2_9_10_pred_new & imm_5_8 & D5  {
+    :"if(!" T2_9_10_pred_new ".new)" D5 "=memub("S5 "++" imm_5_8 ")" is imm_21_27=0b1011001 & S5 & S5i & imm_11_13=0b111 & T2_9_10_pred_new & imm_5_8 & D5  {
     	if(T2_9_10_pred_new != 0) goto <end>;
 			D5 = zext(*[ram]:1 S5i);
 			S5 = S5i + imm_5_8;
@@ -190,13 +190,13 @@ with slot: iclass=0b1001 & mode=0 {
 	        D5 = zext(*[ram]:1 EA);
         <end>
     }
-    :"if(" T2_9_10_pred_new ")" D5 "=memub(" LD_COND_u6 ")" is imm_21_27=0b1111001 & imm_16_20 & imm_11_13=0b110 & T2_9_10_pred_new & imm_8 & imm_7=1 & imm_5_6=0 & D5  & LD_COND_u6{
+    :"if(" T2_9_10_pred_new ".new)" D5 "=memub(" LD_COND_u6 ")" is imm_21_27=0b1111001 & imm_16_20 & imm_11_13=0b110 & T2_9_10_pred_new & imm_8 & imm_7=1 & imm_5_6=0 & D5  & LD_COND_u6{
     	if(T2_9_10_pred_new == 0) goto <end>;
 	        local EA:4 = LD_COND_u6;
 	        D5 = zext(*[ram]:1 EA);
         <end>
     }
-    :"if(!" T2_9_10_pred_new ")" D5 "=memub(" LD_COND_u6 ")" is imm_21_27=0b1111001 & imm_16_20 & imm_11_13=0b111 & T2_9_10_pred_new & imm_8 & imm_7=1 & imm_5_6=0 & D5  & LD_COND_u6{
+    :"if(!" T2_9_10_pred_new ".new)" D5 "=memub(" LD_COND_u6 ")" is imm_21_27=0b1111001 & imm_16_20 & imm_11_13=0b111 & T2_9_10_pred_new & imm_8 & imm_7=1 & imm_5_6=0 & D5  & LD_COND_u6{
     	if(T2_9_10_pred_new != 0) goto <end>;
 	        local EA:4 = LD_COND_u6;
 	        D5 = zext(*[ram]:1 EA);

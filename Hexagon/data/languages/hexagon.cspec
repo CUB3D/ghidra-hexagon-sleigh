@@ -92,11 +92,12 @@
       </output>
       <unaffected>
       
-      <register name="r0" />
+      
       <register name="r1" />
       <register name="r2" />
       <register name="r3" />
-      
+      <register name="r4" />
+      <register name="r5" />
 
 
         <register name="r16" />
@@ -118,10 +119,7 @@
 
        
         
-        <!-- <register name="P0.new" />
-        <register name="P1.new" />
-        <register name="P2.new" />
-        <register name="P3.new" /> -->
+        
         <register name="P0" />
         <register name="P1" />
         <register name="P2" />
@@ -129,16 +127,13 @@
         <register name="LC0" />
                 <register name="SA0" />
         
-        
-        
-        <register name="r7" />
+
       </unaffected>
       <killedbycall>
       
           
         
         <register name="r6" />
-        <!-- <register name="X7" /> -->
         <register name="r8" />
         <register name="r9" />
         <register name="r10" />
@@ -153,6 +148,7 @@
     </prototype>
   </default_proto>
   
+  <!--
   <prototype name="regsave" extrapop="0" stackshift="0">
       <input>
         <pentry minsize="1" maxsize="4">
@@ -180,10 +176,6 @@
         
         
         
-        <!-- <register name="P0.new" />
-        <register name="P1.new" />
-        <register name="P2.new" />
-        <register name="P3.new" /> -->
         <register name="P0" />
         <register name="P1" />
         <register name="P2" />
@@ -195,6 +187,8 @@
         
       </unaffected>
     </prototype>
+    
+    -->
     
     <!--
     

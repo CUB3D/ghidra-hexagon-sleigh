@@ -24,7 +24,7 @@
 # LD/uHalfword:   Decode + pcode up to v73                                 regcache ever0
 # LD/word:        Decode + pcode up to v73                                 regcache ever0
 # MEMOP:          Decode + pcode up to v73                                 regcache ever0
-# NV:             Decode up to v73, pcode unfinished                       regcache ever0
+# NV:             Decode + pcode up to v73                                 regcache ever0
 # ST:             Decode + pcode up to v73                                 regcache ever0
 # ST/byte:        Decode + pcode up to v73                                 regcache ever0
 # ST/Dword:       Decode + pcode up to v73                                 regcache ever0
@@ -46,8 +46,8 @@
 
 
 # TODOs:
-# finish ops
-# move nv inputs to own slice
+# move nv inputs to own slice: e.g.  if (!P0.new) r0=add(r1,0x0) ; P0.new=cmp.eq ; jmp
+#  cant have jump and add in same slice if jump is first, cant have add before eq, must have normal slice: cmp, nv slice: add, branch slice: jmp
 # check all unsigned / signed imms
 # caching for GP / GD5 / SGP?
 # immext0used doesn't work well with slices, reset it at start of each slice and use a different var immext0_ever_used to track missing immext
@@ -62,9 +62,11 @@
 # In order to handle this, we break each instruction up into "slices" and generate all ops in a slice before moving to the next slice
 # like this:
 # +--------+--------+
-# | normal | normal | # normal slice, mode=0
+# | normal | normal | # normal slice, mode=0 (display and norma ops)
 # +--------+--------+
-# | branch | branch | # branch slice, mode=1100
+# | nv     | nv     | # nv slice, mode=200   (ops with dotnew input, non branching)
+# +--------+--------+
+# | branch | branch | # branch slice, mode=1100 (branches)
 # +--------+--------+
 #
 # Input value caching:
@@ -1391,58 +1393,13 @@ macro rotl64(out, a, b) {
 	out = out1;
 }
 
-# Constant extender helpers
-#EXT_imm_5_12u:imm_5_12u is imm_5_12u & (mode=0 & (hasext0=0 | immext0used=1)) | (mode=1100) { export *[const]:4 imm_5_12u; }
-#EXT_imm_5_12u:val is (mode=0 & hasext0=1 & immext0used=0) | (mode=1100 & immext0pos=pktid) & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1; immext0pos=pktid;] { export *[const]:4 val; }
-#EXT_imm_5_12u:val is (mode = 0 & hasext0=1 & hasext1=1 & immext0used=1) | (mode=1100 & immext1pos=pktid) & immext1 & imm_5_10u [ val = immext1 | imm_5_10u; immext1used=1; immext1pos=pktid;] { export *[const]:4 val; }
-#
-#EXT_imm_5_12:imm_5_12 is imm_5_12 & mode=0 & (hasext0=0 | immext0used=1) { export *[const]:4 imm_5_12; }
-#EXT_imm_5_12:imm_5_12 is imm_5_12 & mode=1100 { export *[const]:4 imm_5_12; }
-#EXT_imm_5_12:val is (mode=0 & hasext0=1 & immext0used=0) | (mode=1100 & immext0pos=pktid) & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1; immext0pos=pktid;] { export *[const]:4 val; }
-#EXT_imm_5_12:val is (mode=0 & hasext0=1 & hasext1=1 & immext0used=1) | (mode=1100 & immext1pos=pktid) & immext1 & imm_5_10u [ val = immext1 | imm_5_10u; immext1used=1; immext1pos=pktid;] { export *[const]:4 val; }
+EXT_imm_5_12u:imm_5_12u is imm_5_12u & (hasext0=0 | immext0used=1) { export *[const]:4 imm_5_12u;}
+EXT_imm_5_12u:val is imm_5_12u & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;] { export *[const]:4 val; }
+EXT_imm_5_12u:val is imm_5_12u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [ val = immext1 | imm_5_10u; immext1used=1;] { export *[const]:4 val; }
 
-#EXT_imm_5_11u:imm_5_11u is imm_5_11u & (mode=0 & hasext0=0 | immext0used=1) | (mode=1100) { export *[const]:4 imm_5_11u; }
-#EXT_imm_5_11u:val is (mode=0 & hasext0=1 & immext0used=0) | (mode=1100 & immext0pos=pktid) & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1; immext0pos=pktid;] { export *[const]:4 val; }
-#EXT_imm_5_11u:val is (mode=0 & hasext0=1 & hasext1=1 & immext0used=1) | (mode=1100 & immext1pos=pktid) & immext1 & imm_5_10u [ val = immext1 | imm_5_10u; immext1used=1; immext1pos=pktid;] { export *[const]:4 val; }
-
-#EXT_imm_5_10u:imm_5_10u is imm_5_10u & mode=0 & (hasext0=0 | immext0used=1) { export *[const]:4 imm_5_10u; }
-#EXT_imm_5_10u:imm_5_10u is imm_5_10u & mode=1100 { export *[const]:4 imm_5_10u; }
-#EXT_imm_5_10u:val is imm_5_10u & (mode=0 & hasext0=1 & immext0used=0) | (mode=1100 & immext0pos=pktid) & immext0  [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1; immext0pos=pktid;] { export *[const]:4 val;}
-#EXT_imm_5_10u:val is imm_5_10u & (mode=0 & hasext0=1 & hasext1=1 & immext0used=1) | (mode=1100 & immext1pos=pktid) & immext1 [ val = immext1 | imm_5_10u; immext1used=1; immext1pos=pktid;] { export *[const]:4 val; }
-
-#EXT_imm_0_5u:imm_0_5u is imm_0_5u & mode=0 & (hasext0=0 | immext0used=1) { export *[const]:4 imm_0_5u; }
-#EXT_imm_0_5u:imm_0_5u is imm_0_5u & mode=1100 { export *[const]:4 imm_0_5u; }
-#EXT_imm_0_5u:val is imm_0_5u & (mode=0 & hasext0=1 & immext0used=0) | (mode=1100 & immext0pos=pktid) & immext0 [ val = immext0 | imm_0_5u; immext0used=1;immext0everused=1; immext0pos=pktid;] { export *[const]:4 val; }
-#EXT_imm_0_5u:val is imm_0_5u & (mode=0 & hasext0=1 & hasext1=1 & immext0used=1) | (mode=1100 & immext1pos=pktid) & immext1 [ val = immext1 | imm_0_5u; immext1used=1; immext1pos=pktid;] { export *[const]:4 val; }
-
-#EXT_LD_S11_dword:s11 is imm_25_26 & imm_5_13u & (mode=0 & hasext0=0 | immext0used=1) | (mode=1100) [ s11 = ((imm_5_13u | (imm_25_26 << 9))<<3);] { export *[const]:4 s11; }
-#EXT_LD_S11_dword:s11 is (mode=0 & hasext0=1 & immext0used=0) | (mode=1100 & immext0pos=pktid) & immext0 & imm_5_10u [ s11 = immext0 | imm_5_10u; immext0used=1;immext0everused=1; immext0pos=pktid;] { export *[const]:4 s11; }
-#EXT_LD_S11_dword:s11 is (mode=0 & hasext0=1 & hasext1=1 & immext0used=1) | (mode=1100 & immext1pos=pktid) & immext1 & imm_5_10u [ s11 = immext1 | imm_5_10u; immext1used=1; immext1pos=pktid;] {export *[const]:4 s11; }
-#
-#EXT_LD_U6:val is imm_25_26 & (mode=0 & hasext0=0 | immext0used=1) | (mode=1100) & imm_8_11u & imm_5_6u [ val = imm_5_6u | (imm_8_11u << 2);] { export *[const]:4 val; }
-#EXT_LD_U6:val is (mode=0 & hasext0=1 & immext0used=0) | (mode=1100 & immext0pos=pktid) & immext0 & imm_5_6u & imm_8_11u [val = (imm_5_6u | (imm_8_11u << 2)) | immext0; immext0used=1;immext0everused=1;immext0pos=pktid;] { export *[const]:4 val; }
-#EXT_LD_U6:val is (mode=0 & hasext0=1 & hasext1=1 & immext0used=1) | (mode=1100 & immext1pos=pktid)  & immext1 & imm_5_6u & imm_8_11u [val = (imm_5_6u | (imm_8_11u << 2)) | immext1; immext1used=1;immext1pos=pktid;] { export *[const]:4 val; }
-
-
-EXT_imm_5_12u:imm_5_12u is imm_5_12u & (hasext0=0 | immext0used=1) {
-       export *[const]:4 imm_5_12u;
-}
-EXT_imm_5_12u:val is imm_5_12u & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;] {
-       export *[const]:4 val;
-}
-EXT_imm_5_12u:val is imm_5_12u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [ val = immext1 | imm_5_10u; immext1used=1;] {
-       export *[const]:4 val;
-}
-
-EXT_imm_5_12:imm_5_12 is imm_5_12 & (hasext0=0 | immext0used=1) {
-       export *[const]:4 imm_5_12;
-}
-EXT_imm_5_12:val is imm_5_12u & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;] {
-       export *[const]:4 val;
-}
-EXT_imm_5_12:val is imm_5_12u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [ val = immext1 | imm_5_10u; immext1used=1;] {
-       export *[const]:4 val;
-}
+EXT_imm_5_12:imm_5_12 is imm_5_12 & (hasext0=0 | immext0used=1) { export *[const]:4 imm_5_12; }
+EXT_imm_5_12:val is imm_5_12u & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;] { export *[const]:4 val; }
+EXT_imm_5_12:val is imm_5_12u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [ val = immext1 | imm_5_10u; immext1used=1;] { export *[const]:4 val; }
 
 EXT_imm_5_11u:imm_5_11u is imm_5_11u & (hasext0=0 | immext0used=1) {
        export *[const]:4 imm_5_11u;
@@ -1570,14 +1527,14 @@ build_branches_4:"" is build_branches { build build_branches; }
 
 
 # fallback from nv input
-#slot:"" is mode=200 {}
+slot:"" is mode=200 {}
 
-#build_nv_input:"" is slot [mode=200;] { build slot; }
-#
-#build_nv_input_1:"" is build_nv_input { build build_nv_input; }
-#build_nv_input_2:"" is build_nv_input { build build_nv_input; }
-#build_nv_input_3:"" is build_nv_input { build build_nv_input; }
-#build_nv_input_4:"" is build_nv_input { build build_nv_input; }
+build_nv_input:"" is slot [mode=200;] { build slot; }
+
+build_nv_input_1:"" is build_nv_input { build build_nv_input; }
+build_nv_input_2:"" is build_nv_input { build build_nv_input; }
+build_nv_input_3:"" is build_nv_input { build build_nv_input; }
+build_nv_input_4:"" is build_nv_input { build build_nv_input; }
 
 
 slot0: slot is slot &  (parse=0b01 | parse=0b10) & iclass [mode=0; pktid=1;] { build slot; }
@@ -1638,14 +1595,19 @@ macro endloop1() {
 # 3 ins packet
 
 
-   :{ slot0 slot1 slotX } is slot0 & build_branches_1 & parse=0b01;slot1 & build_branches_2 & (parse=0b00 | parse=0b01 | parse=0b11);slotX & build_branches_3 & terminator[mode=0;pktid=0;]{
+   :{ slot0 slot1 slotX } is slot0 & build_branches_1 & build_nv_input_1 & parse=0b01;slot1 & build_branches_2 & build_nv_input_2 & (parse=0b00 | parse=0b01 | parse=0b11);slotX & build_branches_3 & build_nv_input_3 & terminator[mode=0;pktid=0;]{
        prelude();
        build slot0;
        build slot1;
        build slotX;
 
 
-        build build_branches_1;
+       build build_nv_input_1;
+       build build_nv_input_2;
+       build build_nv_input_3;
+
+
+       build build_branches_1;
        build build_branches_2;
        build build_branches_3;
 

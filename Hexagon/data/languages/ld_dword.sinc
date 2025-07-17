@@ -88,13 +88,13 @@ with slot: iclass=0b0011 & mode=0 {
 		D5_pair = *[ram]:8 EA;
 	<end>
     }
-    :"if(" U2_5_6_pred_new ")" D5_pair "=memd(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0010110 & S5 & S5i & imm_13u & T5 & T5i & imm_8_12 & imm_7u & U2_5_6_pred_new & D5_pair [u2 = imm_7u | (imm_13u << 1);] {
+    :"if(" U2_5_6_pred_new ".new)" D5_pair "=memd(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0010110 & S5 & S5i & imm_13u & T5 & T5i & imm_8_12 & imm_7u & U2_5_6_pred_new & D5_pair [u2 = imm_7u | (imm_13u << 1);] {
     	if(U2_5_6_pred_new == 0) goto <end>;
 		local EA:4 = S5i + (T5i << u2);
 		D5_pair = *[ram]:8 EA;
 	<end>
     }
-    :"if(!" U2_5_6_pred_new ")" D5_pair "=memd(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0011110 & S5 & S5i & imm_13u & T5 & T5i & imm_8_12 & imm_7u & U2_5_6_pred_new & D5_pair [u2 = imm_7u | (imm_13u << 1);] {
+    :"if(!" U2_5_6_pred_new ".new)" D5_pair "=memd(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b0011110 & S5 & S5i & imm_13u & T5 & T5i & imm_8_12 & imm_7u & U2_5_6_pred_new & D5_pair [u2 = imm_7u | (imm_13u << 1);] {
     	if(U2_5_6_pred_new != 0) goto <end>;
 		local EA:4 = S5i + (T5i << u2);
 		D5_pair = *[ram]:8 EA;
@@ -108,7 +108,7 @@ with slot: iclass=0b0100 & mode=0 {
         D5_pair = *[ram]:8 EA;
         <end>
     }
-    :"if("T2_11_12_pred_new") "D5_pair"=memd("S5"+#"u6")" is imm_21_27=0b0011110 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10 & D5_pair [ u6 = imm_5_10 << 3;]{
+    :"if("T2_11_12_pred_new".new) "D5_pair"=memd("S5"+#"u6")" is imm_21_27=0b0011110 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10 & D5_pair [ u6 = imm_5_10 << 3;]{
         if(T2_11_12_pred_new == 0) goto <end>;
         local EA:4 = S5i + u6;
         D5_pair = *[ram]:8 EA;
@@ -120,7 +120,7 @@ with slot: iclass=0b0100 & mode=0 {
         D5_pair = *[ram]:8 EA;
         <end>
     }
-    :"if(!"T2_11_12_pred_new") "D5_pair"=memd("S5"+#"u6")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10 & D5_pair [ u6 = imm_5_10 << 3;]{
+    :"if(!"T2_11_12_pred_new".new) "D5_pair"=memd("S5"+#"u6")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10 & D5_pair [ u6 = imm_5_10 << 3;]{
         if(T2_11_12_pred_new != 0) goto <end>;
         local EA:4 = S5i + u6;
         D5_pair = *[ram]:8 EA;
@@ -142,7 +142,6 @@ with slot: iclass=0b1001 & mode=0 {
         D5_pair = *[ram]:8 EA;
         <end>
     }
-    #TODO: check all dotnew, they will need change later
     :"if("T2_9_10_pred".new) "D5_pair"=memd("S5"++#"s4")" is imm_21_27=0b1011110 & S5 & S5i & imm_11_13=0b110 &   T2_9_10_pred & imm_5_8 & D5_pair [s4 = imm_5_8 << 3;] {
         if(T2_9_10_pred == 0) goto <end>;
         local EA:4 = S5i;

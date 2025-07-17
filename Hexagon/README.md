@@ -4,14 +4,13 @@ This is a WIP implementation of the Qualcomm Hexagon "QDSP6" architecture in Ghi
 
 
 Supports:
-- Dissassembly up to v73
+- Dissassembly up to v73, all instructions supported
 - Most commonly used constant extenders supported
 - No broken java plugins needed
 - Support for hardware loops
 - Includes support for redacted System/Monitor and System/Guest instructions
 - Pcode implemented for most ops, (Only a few never-seen MPY and NV instructions are missing)
 - Function start recovery
-- < 150 unimplemented ops
 
 Currently broken / unimplemented:
 - Some immediate extensions are missing for less common ops and most duplexes

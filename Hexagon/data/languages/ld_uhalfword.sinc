@@ -168,7 +168,7 @@ with slot: iclass=0b1001 & mode=0 {
 	<end>
     }
 
-    :"if(!"T2_9_10_pred_new") "D5"=memuh("u6")" is imm_21_27=0b1111011 & imm_16_20u & imm_11_13=0b111 & T2_9_10_pred_new & imm_8u & imm_7=1 & imm_5_6=0 & D5 [u6 = imm_8u | (imm_16_20u << 1);] {
+    :"if(!"T2_9_10_pred_new".new) "D5"=memuh("u6")" is imm_21_27=0b1111011 & imm_16_20u & imm_11_13=0b111 & T2_9_10_pred_new & imm_8u & imm_7=1 & imm_5_6=0 & D5 [u6 = imm_8u | (imm_16_20u << 1);] {
         if(T2_9_10_pred_new != 0) goto <end>;
         local EA:4 = u6;
         D5 = zext(*[ram]:2 EA);
