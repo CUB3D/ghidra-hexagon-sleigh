@@ -158,7 +158,7 @@ with slot: iclass=0b1001 & mode=0 {
         D5_pair = memubh(*[ram]:2 EA);
     }
 
-    :D5_pair"=memubh("S5"++"v")" is imm_21_27=0b1010011 & S5 & S5i & imm_12_13=0b00 & imm_9_11 & imm_5_8 & D5_pair [v = imm_5_8 << 2;] {
+    :D5_pair"=memubh("S5"++"v")" is imm_21_27=0b1010101 & S5 & S5i & imm_12_13=0b00 & imm_9_11 & imm_5_8 & D5_pair [v = imm_5_8 << 2;] {
         local EA:4 = S5i;
         S5 = S5i+v;
         D5_pair = memubh(*[ram]:2 EA);
