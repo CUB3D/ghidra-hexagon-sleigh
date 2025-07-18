@@ -47,6 +47,8 @@
 
 # TODOs:
 # move nv inputs to own slice: e.g.  if (!P0.new) r0=add(r1,0x0) ; P0.new=cmp.eq ; jmp
+# move nv stores to own slice
+# fix signed compares in j / nv:j
 #  cant have jump and add in same slice if jump is first, cant have add before eq, must have normal slice: cmp, nv slice: add, branch slice: jmp
 # check all unsigned / signed imms
 # caching for GP / GD5 / SGP?
@@ -68,6 +70,12 @@
 # +--------+--------+
 # | branch | branch | # branch slice, mode=1100 (branches)
 # +--------+--------+
+# 
+# The normal slice handles most common parts of ops and display
+# The NV slice handles parts of ops that consume dotnew inputs but produce new values e.g. alu32_pred if(p0.new) r0=add(r0,1)
+# TODO: the nvst slice handles parts of ops that consume dotnew inputs but don't produce any e.g. if(p0.new) memw(S5+1)=r0.new
+# The branch slice handles the part of an op that branches to a new address
+
 #
 # Input value caching:
 # Because a sub-instruction can overwrite a value that is later read by an earlier instruction
@@ -1558,35 +1566,32 @@ macro endloop1() {
         <endl1>
 }
  # 2 ins packets
-    :{ slot0 slotX "}:endloop0" is slot0 & parse=0b10 & build_branches_1; slotX & build_branches_2 & terminator [mode=0; pktid=0;]  {
+    :{ slot0 slotX "}:endloop0" is slot0 & parse=0b10 & build_branches_1 & build_nv_input_1; slotX & build_branches_2 & build_nv_input_2 & terminator [mode=0; pktid=0;]  {
         prelude();
         build slot0;
         build slotX;
 
-
+        build build_nv_input_1;
+        build build_nv_input_2;
 
         build build_branches_1;
        	build build_branches_2;
 
        	endloop0();
 
-
-
         build terminator;
    }
-   :{ slot0 slotX } is slot0 & parse=0b01 & build_branches_1; slotX & build_branches_2 & terminator [mode=0;pktid=0;] {
+   :{ slot0 slotX } is slot0 & parse=0b01 & build_branches_1 & build_nv_input_1; slotX & build_branches_2 & build_nv_input_2 & terminator [mode=0;pktid=0;] {
 
        prelude();
        build slot0;
        build slotX;
 
-#       build build_nv_input_1;
-#       build build_nv_input_2;
-
+       build build_nv_input_1;
+       build build_nv_input_2;
 
        build build_branches_1;
        build build_branches_2;
-
 
        build terminator;
    }
@@ -1601,50 +1606,52 @@ macro endloop1() {
        build slot1;
        build slotX;
 
-
        build build_nv_input_1;
        build build_nv_input_2;
        build build_nv_input_3;
-
 
        build build_branches_1;
        build build_branches_2;
        build build_branches_3;
 
-
-
-		build terminator;
+	   build terminator;
    }
 
 
 
 
-   :{ slot0 slot1 slotX "}:endloop0" is slot0 & build_branches_1 &parse=0b10 ; slot1 & build_branches_2 & parse=0b01 ; slotX & build_branches_3 & terminator[mode=0;pktid=0;]{
+   :{ slot0 slot1 slotX "}:endloop0" is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b01 ; slotX & build_branches_3 & build_nv_input_3 & terminator[mode=0;pktid=0;]{
        prelude();
        build slot0;
        build slot1;
        build slotX;
 
+       build build_nv_input_1;
+       build build_nv_input_2;
+       build build_nv_input_3;
 
-        build build_branches_1;
+       build build_branches_1;
        build build_branches_2;
        build build_branches_3;
 
        endloop0();
 
-		build terminator;
+       build terminator;
    }
 
 
 
-   :{ slot0 slot1 slotX "}:endloop1" is slot0 & build_branches_1 &parse=0b01 ; slot1 & build_branches_2 & parse=0b10 ; slotX & build_branches_3 & terminator[mode=0;pktid=0;]{
+   :{ slot0 slot1 slotX "}:endloop1" is slot0 & build_branches_1 & build_nv_input_1 & parse=0b01 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b10 ; slotX & build_branches_3 & build_nv_input_3 & terminator[mode=0;pktid=0;]{
        prelude();
        build slot0;
        build slot1;
        build slotX;
 
+       build build_nv_input_1;
+       build build_nv_input_2;
+       build build_nv_input_3;
 
-        build build_branches_1;
+       build build_branches_1;
        build build_branches_2;
        build build_branches_3;
 
@@ -1652,32 +1659,39 @@ macro endloop1() {
 
 		build terminator;
    }
-   :{ slot0 slot1 slotX "}:endloop0:endloop1" is slot0 & build_branches_1 &parse=0b10 ; slot1 & build_branches_2 & parse=0b10 ; slotX & build_branches_3 & terminator[mode=0;pktid=0;]{
+   :{ slot0 slot1 slotX "}:endloop0:endloop1" is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b10 ; slotX & build_branches_3 & build_nv_input_3 & terminator[mode=0;pktid=0;]{
        prelude();
        build slot0;
        build slot1;
        build slotX;
+       
+       build build_nv_input_1;
+       build build_nv_input_2;
+       build build_nv_input_3;
 
-
-        build build_branches_1;
+       build build_branches_1;
        build build_branches_2;
        build build_branches_3;
 
        endloop0();
        endloop1();
 
-		build terminator;
+	   build terminator;
    }
    # 4 ins packets
 
 
-
-   :{ slot0 slot1 slot2 slotX } is slot0 & build_branches_1 & parse=0b01;slot1 & build_branches_2 & (parse=0b00 | parse=0b01 | parse=0b11);slot2 & build_branches_3;slotX &  build_branches_4 & terminator[mode=0;pktid=0;]{
+   :{ slot0 slot1 slot2 slotX } is slot0 & build_branches_1 & build_nv_input_1 & parse=0b01;slot1 & build_branches_2 & build_nv_input_2 & (parse=0b00 | parse=0b01 | parse=0b11);slot2 & build_branches_3 & build_nv_input_3 ; slotX &  build_branches_4 & build_nv_input_4 & terminator [mode=0;pktid=0;]{
        prelude();
        build slot0;
        build slot1;
        build slot2;
        build slotX;
+
+       build build_nv_input_1;
+       build build_nv_input_2;
+       build build_nv_input_3;
+       build build_nv_input_4;
 
 	   build build_branches_1;
        build build_branches_2;
@@ -1685,53 +1699,19 @@ macro endloop1() {
        build build_branches_4;
 
        build terminator;
-
-
-
    }
 
-   :{ slot0 slot1 slot2 slotX "}:endloop0" is slot0 & build_branches_1 & parse=0b10 ;slot1 & build_branches_2 & parse=0b01;slot2 & build_branches_3;slotX &  build_branches_4 & terminator[mode=0;pktid=0;]{
+   :{ slot0 slot1 slot2 slotX "}:endloop0" is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b01 ; slot2 & build_branches_3 & build_nv_input_3 ; slotX &  build_branches_4 & build_nv_input_4 & terminator[mode=0;pktid=0;]{
        prelude();
        build slot0;
        build slot1;
        build slot2;
        build slotX;
-
-       build build_branches_1;
-       build build_branches_2;
-       build build_branches_3;
-       build build_branches_4;
-
-
-       endloop0();
-
-
-       build terminator;
-   }
-   :{ slot0 slot1 slot2 slotX "}:endloop1" is slot0 & build_branches_1 & parse=0b01 ;slot1 & build_branches_2 & parse=0b10;slot2 & build_branches_3;slotX &  build_branches_4 & terminator[mode=0;pktid=0;]{
-       prelude();
-       build slot0;
-       build slot1;
-       build slot2;
-       build slotX;
-
-       build build_branches_1;
-       build build_branches_2;
-       build build_branches_3;
-       build build_branches_4;
-
-
-       endloop1();
-
-
-       build terminator;
-   }
-   :{ slot0 slot1 slot2 slotX "}:endloop0:endloop1" is slot0 & build_branches_1 & parse=0b10 ;slot1 & build_branches_2 & parse=0b10;slot2 & build_branches_3;slotX &  build_branches_4 & terminator[mode=0;pktid=0;]{
-       prelude();
-       build slot0;
-       build slot1;
-       build slot2;
-       build slotX;
+       
+       build build_nv_input_1;
+       build build_nv_input_2;
+       build build_nv_input_3;
+       build build_nv_input_4;
 
        build build_branches_1;
        build build_branches_2;
@@ -1739,22 +1719,61 @@ macro endloop1() {
        build build_branches_4;
 
        endloop0();
+
+       build terminator;
+   }
+   :{ slot0 slot1 slot2 slotX "}:endloop1" is slot0 & build_branches_1 & build_nv_input_1 & parse=0b01 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b10;slot2 & build_branches_3 & build_nv_input_3 ; slotX &  build_branches_4 & build_nv_input_4 & terminator [mode=0;pktid=0;]{
+       prelude();
+       build slot0;
+       build slot1;
+       build slot2;
+       build slotX;
+       
+       build build_nv_input_1;
+       build build_nv_input_2;
+       build build_nv_input_3;
+       build build_nv_input_4;
+
+       build build_branches_1;
+       build build_branches_2;
+       build build_branches_3;
+       build build_branches_4;
+
        endloop1();
 
+       build terminator;
+   }
+   :{ slot0 slot1 slot2 slotX "}:endloop0:endloop1" is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b10;slot2 & build_branches_3 & build_nv_input_3 ; slotX &  build_branches_4 & build_nv_input_4 & terminator [mode=0;pktid=0;]{
+       prelude();
+       build slot0;
+       build slot1;
+       build slot2;
+       build slotX;
+       
+       build build_nv_input_1;
+       build build_nv_input_2;
+       build build_nv_input_3;
+       build build_nv_input_4;
+
+       build build_branches_1;
+       build build_branches_2;
+       build build_branches_3;
+       build build_branches_4;
+
+       endloop0();
+       endloop1();
 
        build terminator;
    }
 
-
-
-   :{ slotX } is slotX & mode=0 & build_branches & terminator [mode=0;pktid=0;] {
+	# 1 instruction packet
+   :{ slotX } is slotX & mode=0 & build_branches & build_nv_input_1 & terminator [mode=0;pktid=0;] {
        prelude();
        build slotX;
 
-
+	   build build_nv_input_1;
 
        build build_branches;
-
 
        build terminator;
    }
