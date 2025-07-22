@@ -15,10 +15,10 @@ define pcodeop memw_locked_store;
 define pcodeop memd_locked_store;
 with slot: iclass=0b1010 & mode=0 {
     :"memw_locked("S5","D2_pred")="T5 is imm_21_27=0b0000101 & S5 & S5i & imm_13=0 & T5 & T5i & imm_2_7=0 & D2_pred & D2_predi {
-        memw_locked_store(S5i, D2_predi, T5i);
+        D2_pred = memw_locked_store(S5i, T5i);
     }
     :"memd_locked("S5","D2_pred")="T5_pair is imm_21_27=0b0000111 & S5 & S5i & imm_13=0 & T5_pair & T5_pairi & imm_2_7=0 & D2_pred & D2_predi {
-        memw_locked_store(S5i, D2_predi, T5_pairi);
+        D2_pred = memw_locked_store(S5i, T5_pairi);
     }
 }
 

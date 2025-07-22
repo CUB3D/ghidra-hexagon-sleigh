@@ -1526,7 +1526,7 @@ terminator:"" is disabled & hasext0=1 & immext0used=1 & hasext1=1 & immext1used=
 slot:"" is mode=1100 {}
 
 # Note: don't set packet id, we hit the immediate ctors of the branches directly after the normal slice
-build_branches:"" is (parse=0b01 | parse=0b10 | parse=0b11) & slot [mode=1100; immext0used=0; ] { build slot; }
+build_branches:"" is (parse=0b01 | parse=0b10 | parse=0b11) & slot [mode=1100;] { build slot; }
 build_branches:"" is parse=0b00 & duplex [mode=1100; ] { build duplex; }
 build_branches_1:"" is build_branches { build build_branches; }
 build_branches_2:"" is build_branches { build build_branches; }
