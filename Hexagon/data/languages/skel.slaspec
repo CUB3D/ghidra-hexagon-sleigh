@@ -755,31 +755,6 @@ r22c
 r23c
 ];
 
-#TODO: are the nv ops wrong?
-#TODO: run tests for this
-# TODO: add _new semantics
-# TODO: what is this list, this is wrong, x4 is right
-attach variables [ S3_new_16_18 ] [
-r0
-r1
-r2
-r3
-r4
-r5
-r6
-r7
-];
-
-attach variables [ S3_16_18i ] [
-r0c
-r1c
-r2c
-r3c
-r4c
-r5c
-r6c
-r7c
-];
 
 attach variables [ immdup0_D4 immdup1_D4 immdup0_S4 immdup1_S4 ] [
 r0
