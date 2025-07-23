@@ -1,0 +1,83 @@
+# NV/ST:ST new-value word
+with slot: iclass=0b0011 {
+    :"memw(" S5 "+" T5 "<<" u2 ")=" NV_T3_0_2_new is imm_21_27=0b1011101 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & imm_5_6=0 & imm_3_4=0b10 & NV_T3_0_2_new & mode=0 [ u2 = imm_7u | (imm_13u << 1);] {}
+    :"memw(" S5 "+" T5 "<<" u2 ")=" NV_T3_0_2_new is imm_21_27=0b1011101 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & imm_5_6=0 & imm_3_4=0b10 & NV_T3_0_2_new & mode=200 [ u2 = imm_7u | (imm_13u << 1);] {
+        local EA:4 = S5i + (T5i << u2);
+        *[ram]:4 EA = NV_T3_0_2_new;
+    }
+}
+with slot: iclass=0b0100 {
+    :"memw(GP+"u16")="NV_T3_new_8_10 is imm_27=1 & imm_25_26u & imm_21_24=0b0101 & imm_16_20u & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_0_7u & (hasext0=0 | immext0used=1) & mode=0 [u16 = imm_0_7u | imm_13u << 8 | imm_16_20u<<9 | imm_25_26u <<14;] {}
+    :"memw(GP+"u16")="NV_T3_new_8_10 is imm_27=1 & imm_25_26u & imm_21_24=0b0101 & imm_16_20u & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_0_7u & (hasext0=0 | immext0used=1) & mode=200 [u16 = imm_0_7u | imm_13u << 8 | imm_16_20u<<9 | imm_25_26u <<14;] {
+    	local EA:4 = GP + u16;
+		*[ram]:4 EA = NV_T3_new_8_10;
+    }
+    
+    :"memw("v")="NV_T3_new_8_10 is imm_27=1 & imm_25_26u & imm_21_24=0b0101 & imm_16_20u & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_0_7u & hasext0=1 & immext0used=0 & immext0 & imm_0_5u & mode=0 [v = imm_0_5u | immext0; immext0used=1; immext0everused=1;] {}
+    :"memw("v")="NV_T3_new_8_10 is imm_27=1 & imm_25_26u & imm_21_24=0b0101 & imm_16_20u & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_0_7u & hasext0=1 & immext0used=0 & immext0 & imm_0_5u & mode=200 [v = imm_0_5u | immext0; immext0used=1; immext0everused=1;] {
+    	local EA:4 = v;
+		*[ram]:4 EA = NV_T3_new_8_10;
+    }
+    
+    :"memw("v")="NV_T3_new_8_10 is imm_27=1 & imm_25_26u & imm_21_24=0b0101 & imm_16_20u & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_0_7u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_0_5u & mode=0 [v = imm_0_5u | immext1; immext1used=1;] {}
+    :"memw("v")="NV_T3_new_8_10 is imm_27=1 & imm_25_26u & imm_21_24=0b0101 & imm_16_20u & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_0_7u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_0_5u & mode=200 [v = imm_0_5u | immext1; immext1used=1;] {
+    	local EA:4 = v;
+		*[ram]:4 EA = NV_T3_new_8_10;
+    }
+}
+with slot: iclass=0b1010 {
+    :"memw(" S5 "+" s11 ")=" NV_T3_new_8_10 is imm_27=0 & imm_25_26 & imm_21_24=0b1101 & S5 & S5i & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_0_7u & mode=0 [s11 = (imm_0_7u | (imm_13u << 8) | (imm_25_26 << 9)) << 2; ]{}
+    :"memw(" S5 "+" s11 ")=" NV_T3_new_8_10 is imm_27=0 & imm_25_26 & imm_21_24=0b1101 & S5 & S5i & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_0_7u & mode=200 [s11 = (imm_0_7u | (imm_13u << 8) | (imm_25_26 << 9)) << 2; ]{
+    	local EA:4 = S5i + s11;
+		*[ram]:4 EA = NV_T3_new_8_10;	
+    }
+    
+    :"memw(" S5 "++" "I:circ(" M1_13 "))=" NV_T3_new_8_10 is imm_21_27=0b1001101 & S5 & S5i & M1_13 & imm_11_12=0b10 & NV_T3_new_8_10 & imm_7=0 & imm_2_6=0 & imm_1=1 & imm_0=0 & mode=0 {}
+    :"memw(" S5 "++" "I:circ(" M1_13 "))=" NV_T3_new_8_10 is imm_21_27=0b1001101 & S5 & S5i & M1_13 & imm_11_12=0b10 & NV_T3_new_8_10 & imm_7=0 & imm_2_6=0 & imm_1=1 & imm_0=0 & mode=200 {
+        local EA:4 = S5i;
+        local m:4 = M1_13:4;
+    	S5 = circ_add(S5i, m << 2, M1_13);
+    	*[ram]:4 EA = NV_T3_new_8_10; 
+    }
+    
+    :"memw(" S5 "++" s4 ":circ(" M1_13 "))=" NV_T3_new_8_10 is imm_21_27=0b1001101 & S5 & S5i & M1_13 & imm_11_12=0b10 & NV_T3_new_8_10 & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0 & mode=0 [s4 = imm_3_6 << 1;] {}
+    :"memw(" S5 "++" s4 ":circ(" M1_13 "))=" NV_T3_new_8_10 is imm_21_27=0b1001101 & S5 & S5i & M1_13 & imm_11_12=0b10 & NV_T3_new_8_10 & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0 & mode=200 [s4 = imm_3_6 << 1;] {
+        local EA:4 = S5i;
+    	S5 = circ_add(S5i, s4:1, M1_13);
+    	*[ram]:4 EA = NV_T3_new_8_10;
+    }
+    
+    :"memw(" S5 "=" u6 ")=" NV_T3_new_8_10  is imm_21_27=0b1011101 & S5 & S5i & imm_11_13=0b010 & NV_T3_new_8_10 & imm_7=1 & imm_6=0 & imm_0_5u & mode=0 [u6 = imm_0_5u << 0; ] {}
+    :"memw(" S5 "=" u6 ")=" NV_T3_new_8_10  is imm_21_27=0b1011101 & S5 & S5i & imm_11_13=0b010 & NV_T3_new_8_10 & imm_7=1 & imm_6=0 & imm_0_5u & mode=200 [u6 = imm_0_5u << 0; ] {
+        local EA:4 = S5i;
+        *[ram]:4 EA = NV_T3_new_8_10;
+        S5 = S5i + u6;
+    }
+    
+    :"memw(" S5 "++" s4 ")=" NV_T3_new_8_10 is imm_21_27=0b1011101 & S5 & S5i & imm_11_13=0b010 & NV_T3_new_8_10 & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0 & mode=0 [ s4 = imm_3_6 << 1;] {}
+    :"memw(" S5 "++" s4 ")=" NV_T3_new_8_10 is imm_21_27=0b1011101 & S5 & S5i & imm_11_13=0b010 & NV_T3_new_8_10 & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0 & mode=200 [ s4 = imm_3_6 << 1;] {
+        local EA:4 = S5i;
+        S5 = S5i + s4;
+        *[ram]:4 EA = NV_T3_new_8_10;
+    }
+    
+    :"memw(" S5 "<<" u2 "+" EXT_imm_0_5u ")=" NV_T3_new_8_10 is imm_21_27=0b1101101 & S5 & S5i & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_7=1 & imm_6u & EXT_imm_0_5u & mode=0 [ u2 = imm_6u | (imm_13u << 1); ] {}
+    :"memw(" S5 "<<" u2 "+" EXT_imm_0_5u ")=" NV_T3_new_8_10 is imm_21_27=0b1101101 & S5 & S5i & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_7=1 & imm_6u & EXT_imm_0_5u & mode=200 [ u2 = imm_6u | (imm_13u << 1); ] {
+        local EA:4 = (S5i << u2) + EXT_imm_0_5u;
+        *[ram]:4 EA = NV_T3_new_8_10;
+    }
+    
+    :"memw(" S5 "++" M1_13 ")=" NV_T3_new_8_10 is imm_21_27=0b1101101 & S5 & S5i & M1_13 & imm_11_12=0b10 & NV_T3_new_8_10 & imm_7=0 & imm_0_6 & mode=0 {}
+    :"memw(" S5 "++" M1_13 ")=" NV_T3_new_8_10 is imm_21_27=0b1101101 & S5 & S5i & M1_13 & imm_11_12=0b10 & NV_T3_new_8_10 & imm_7=0 & imm_0_6 & mode=200 {
+        local EA:4 = S5i;
+        S5 = S5i + M1_13;
+        *[ram]:4 EA = NV_T3_new_8_10;
+    }
+    
+    :"memw(" S5 "++" M1_13 ":brev)=" NV_T3_new_8_10 is imm_21_27=0b1111101 & S5 & S5i & M1_13 & imm_11_12=0b10 & NV_T3_new_8_10 & imm_7=0 & imm_0_6 & mode=0 {}
+    :"memw(" S5 "++" M1_13 ":brev)=" NV_T3_new_8_10 is imm_21_27=0b1111101 & S5 & S5i & M1_13 & imm_11_12=0b10 & NV_T3_new_8_10 & imm_7=0 & imm_0_6 & mode=200 {
+        local EA:4 = S5i;
+        S5 = S5i + M1_13;
+        *[ram]:4 EA = NV_T3_new_8_10;
+    }
+}

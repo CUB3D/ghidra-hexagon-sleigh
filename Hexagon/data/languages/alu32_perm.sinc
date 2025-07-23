@@ -13,6 +13,8 @@ with slot: iclass=0b0111 & mode=0 {
         D5_pair = (tmp3 << 32) | tmp2;
     }
 
+
+#TODO: check ext sign
     :D5_pair"=combine("EXT_imm_5_12u","S5")" is Rs=0 & MajOp=0b011 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=1 & EXT_imm_5_12u & D5_pair {
         local tmp1:4 = EXT_imm_5_12u;
         local tmp2:8 = zext(tmp1);
@@ -20,27 +22,14 @@ with slot: iclass=0b0111 & mode=0 {
         D5_pair = (tmp2 << 32) | tmp3;
     }
 
-    :D5_pair"=combine(#"imm_5_12",#"S8")" is Rs=1 & MajOp=0b100 & imm_23=0 & imm_16_22 & imm_13u & imm_5_12 & D5_pair & (hasext0=0 | immext0used=1) [S8 = imm_13u | (imm_16_22<<1);] {
+    :D5_pair"=combine(#"EXT_imm_5_12u",#"S8")" is Rs=1 & MajOp=0b100 & imm_23=0 & imm_16_22 & imm_13u & imm_5_12 & D5_pair & EXT_imm_5_12u [S8 = imm_13u | (imm_16_22<<1);] {
         local tmp:4 = S8;
         local tmp1:8 = zext(tmp);
-        local tmp2:4 = imm_5_12;
+        local tmp2:4 = EXT_imm_5_12u;
         local tmp3:8 = zext(tmp2);
         D5_pair = (tmp3<<32)|tmp1;
     }
-    :D5_pair"=combine(#"imm_5_12",#"S8")" is Rs=1 & MajOp=0b100 & imm_23=0 & imm_16_22 & imm_13u & imm_5_12 & D5_pair & hasext0=1 & immext0used=0 & imm_16_20u & immext0 [S8 = immext0 | imm_13u | (imm_16_20u<<1); immext0used=1; immext0everused=1;] {
-        local tmp:4 = S8;
-        local tmp1:8 = zext(tmp);
-        local tmp2:4 = imm_5_12;
-        local tmp3:8 = zext(tmp2);
-        D5_pair = (tmp3<<32)|tmp1;
-    }
-    :D5_pair"=combine(#"imm_5_12",#"S8")" is Rs=1 & MajOp=0b100 & imm_23=0 & imm_16_22 & imm_13u & imm_5_12 & D5_pair & hasext0=1 & hasext1=1 & immext0used=1 & imm_16_20u & immext1 [S8 = immext1 | imm_13u | (imm_16_20u<<1); immext1used=1; ] {
-        local tmp:4 = S8;
-        local tmp1:8 = zext(tmp);
-        local tmp2:4 = imm_5_12;
-        local tmp3:8 = zext(tmp2);
-        D5_pair = (tmp3<<32)|tmp1;
-    }
+
 
     :D5_pair"=combine(#"imm_5_12",#"U6")" is Rs=1 & MajOp=0b100 & imm_23=1 & imm_21_22=0 & imm_16_20u & imm_13u & imm_5_12 & D5_pair & (hasext0=0 | immext0used=1) [U6 = imm_13u | (imm_16_20u<<1);] {
         local tmp:4 = U6;

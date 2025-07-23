@@ -61,7 +61,11 @@ with slot: iclass=0b1111 & mode=0 {
 }
 
 # ALU32/ALU:negate
-# This is just a sub(0, ..)
+with slot: iclass=0b0111 & mode=0 {
+	:D5"=neg("S5")" is imm_22_27=0b011001 & imm_21=0 & S5 & S5i & imm_5_13u=0 & D5 & (hasext0=0 | immext0used=1) {
+	    D5 = -S5i;
+	} 
+}
 
 # ALU32/ALU:nop
 with slot: iclass=0b0111 & mode=0 {
@@ -70,10 +74,10 @@ with slot: iclass=0b0111 & mode=0 {
 
 # ALU32/ALU:subtract
 with slot: iclass=0b0111 & mode=0 {
-	:D5"=sub("S5","v")" is imm_22_27=0b011001 & imm_21 & S5 & S5i & imm_5_13u & D5 & (hasext0=0 | immext0used=1) [v = imm_5_13u | (imm_21 << 9); ] {
+	:D5"=sub("v","S5")" is imm_22_27=0b011001 & imm_21 & S5 & S5i & imm_5_13u & D5 & (hasext0=0 | immext0used=1) [v = imm_5_13u | (imm_21 << 9); ] {
 		D5 = v - S5i;
 	} 
-	:D5"=sub("S5","v")" is imm_22_27=0b011001 & imm_21 & S5 & S5i & imm_5_13u & D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [v = imm_5_10u | immext0; immext0used=1;immext0everused=1; ] {
+	:D5"=sub("v","S5")" is imm_22_27=0b011001 & imm_21 & S5 & S5i & imm_5_13u & D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [v = imm_5_10u | immext0; immext0used=1;immext0everused=1; ] {
 		D5 = v - S5i;
 	} 
 }

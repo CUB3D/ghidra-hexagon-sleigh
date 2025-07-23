@@ -1,17 +1,6 @@
 
 # NV/J
 
-nv_j_r9: r9 is imm_1_7u & imm_20_21 & (hasext0=0 | immext0used=1) [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]  {
-	export *[ram]:4 r9;
-}
-nv_j_r9: r9 is imm_1_7u & imm_20_21 & hasext0=1 & immext0used=0 & immext0 [ r9 = inst_start + (imm_1_7u | immext0); immext0used=1;  immext0everused=1;]  {
-	export *[ram]:4 r9;
-}
-nv_j_r9: r9 is imm_1_7u & imm_20_21 & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [ r9 = inst_start + (imm_1_7u | immext1); immext1used=1; ]  {
-	export *[ram]:4 r9;
-}
-
-
 NR_nv_j_r9: r9 is imm_1_7u & imm_20_21 & (hasext0=0 | immext0used=1) [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]  { export *[ram]:4 r9; }
 BR_nv_j_r9: r9 is imm_1_7u & imm_20_21 [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]  { export *[ram]:4 r9; }
 
@@ -23,178 +12,178 @@ BR_nv_j_r9: r9 is imm_1_7u & imm_20_21 & immext1pos=pktid & immext1 [ r9 = inst_
 
 
 with slot: iclass=0b0010 & mode=0 {
-    :"if(cmp.eq("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {}
-    :"if(cmp.eq("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.eq("NV_S3_new_16_18","T5") jmp:nt "NR_nv_j_r9 is imm_22_27=0b000000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {}
+    :"if(cmp.eq("NV_S3_new_16_18","T5") jmp:t "NR_nv_j_r9 is imm_22_27=0b000000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
 	
     }
-    :"if(!cmp.eq("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.eq("NV_S3_new_16_18","T5") jmp:nt "NR_nv_j_r9 is imm_22_27=0b000001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
 	
     }
-    :"if(!cmp.eq("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.eq("NV_S3_new_16_18","T5") jmp:t "NR_nv_j_r9 is imm_22_27=0b000001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
 
     }
 
-    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:nt "NR_nv_j_r9 is imm_22_27=0b000010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
 	
     }
-    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:t "NR_nv_j_r9 is imm_22_27=0b000010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
-    :"if(!cmp.gt("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gt("NV_S3_new_16_18","T5") jmp:nt "NR_nv_j_r9 is imm_22_27=0b000011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
-    :"if(!cmp.gt("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
-    }
-
-    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000100 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
-    }
-    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000100 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gt("NV_S3_new_16_18","T5") jmp:t "NR_nv_j_r9 is imm_22_27=0b000011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
 
-    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000101 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:nt "NR_nv_j_r9 is imm_22_27=0b000100 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
+    }
+    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:t "NR_nv_j_r9 is imm_22_27=0b000100 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
+    }
+
+    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:nt "NR_nv_j_r9 is imm_22_27=0b000101 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
 #np
-    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000101 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:t "NR_nv_j_r9 is imm_22_27=0b000101 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
 
 
 
 
 
-    :"if(cmp.gt(" T5 "," NV_S3_new_16_18 ") jmp:nt "nv_j_r9 is imm_22_27=0b000110 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt(" T5 "," NV_S3_new_16_18 ") jump:nt "NR_nv_j_r9 is imm_22_27=0b000110 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
-    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000110 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt("NV_S3_new_16_18","T5") jump:t "NR_nv_j_r9 is imm_22_27=0b000110 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
-    :"if(cmp.gt(" T5 "," NV_S3_new_16_18 ") jmp:nt "nv_j_r9 is imm_22_27=0b000111 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt(" T5 "," NV_S3_new_16_18 ") jump:nt "NR_nv_j_r9 is imm_22_27=0b000111 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
-    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000111 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt("NV_S3_new_16_18","T5") jump:t "NR_nv_j_r9 is imm_22_27=0b000111 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
-    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b001000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gtu("NV_S3_new_16_18","T5") jump:t "NR_nv_j_r9 is imm_22_27=0b001000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
-    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b001000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gtu("NV_S3_new_16_18","T5") jump:t "NR_nv_j_r9 is imm_22_27=0b001000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
-    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b001001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jump:t "NR_nv_j_r9 is imm_22_27=0b001001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
-    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b001001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jump:t "NR_nv_j_r9 is imm_22_27=0b001001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
 
 #ns
-    :"if(cmp.eq(" NV_S3_new_16_18 " ," imm_8_12u ") jump:nt" nv_j_r9  is imm_22_27=0b010000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.eq(" NV_S3_new_16_18 " ," imm_8_12u ") jump:nt" NR_nv_j_r9  is imm_22_27=0b010000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
-    :"if(cmp.eq(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" nv_j_r9  is imm_22_27=0b010000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.eq(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" NR_nv_j_r9  is imm_22_27=0b010000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
-    :"if(!cmp.eq(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" nv_j_r9  is imm_22_27=0b010001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.eq(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" NR_nv_j_r9  is imm_22_27=0b010001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
         
-    :"if(!cmp.eq(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" nv_j_r9  is imm_22_27=0b010001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.eq(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" NR_nv_j_r9  is imm_22_27=0b010001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
 
-    :"if(cmp.gt(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" nv_j_r9  is imm_22_27=0b010010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18  {
+    :"if(cmp.gt(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" NR_nv_j_r9  is imm_22_27=0b010010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18  {
     }
-    :"if(cmp.gt(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" nv_j_r9  is imm_22_27=0b010010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" NR_nv_j_r9  is imm_22_27=0b010010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
-    :"if(!cmp.gt(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" nv_j_r9  is imm_22_27=0b010011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gt(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" NR_nv_j_r9  is imm_22_27=0b010011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
-    :"if(!cmp.gt(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" nv_j_r9  is imm_22_27=0b010011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
-    }
-
-    :"if(cmp.gtu(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" nv_j_r9  is imm_22_27=0b010100 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
-    }
-    :"if(cmp.gtu(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" nv_j_r9  is imm_22_27=0b010100 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
-    }
-    :"if(!cmp.gtu(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" nv_j_r9  is imm_22_27=0b010101 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
-    }
-    :"if(!cmp.gtu(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" nv_j_r9  is imm_22_27=0b010101 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gt(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" NR_nv_j_r9  is imm_22_27=0b010011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
 
-    :"if(tstbit(" NV_S3_new_16_18 ",0) jump:nt" r9  is imm_22_27=0b010110 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18 [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]{
+    :"if(cmp.gtu(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" NR_nv_j_r9  is imm_22_27=0b010100 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
-    :"if(tstbit(" NV_S3_new_16_18 ",0) jump:t" r9  is imm_22_27=0b010110 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18 [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]{
+    :"if(cmp.gtu(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" NR_nv_j_r9  is imm_22_27=0b010100 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     }
-    :"if(!tstbit(" NV_S3_new_16_18 ",0) jump:nt" r9  is imm_22_27=0b010111 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18 [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]{
+    :"if(!cmp.gtu(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" NR_nv_j_r9  is imm_22_27=0b010101 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
+    }
+    :"if(!cmp.gtu(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" NR_nv_j_r9  is imm_22_27=0b010101 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
+    }
+
+    :"if(tstbit(" NV_S3_new_16_18 ",0) jump:nt" NR_nv_j_r9  is imm_22_27=0b010110 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18 & NR_nv_j_r9 {
+    }
+    :"if(tstbit(" NV_S3_new_16_18 ",0) jump:t" NR_nv_j_r9  is imm_22_27=0b010110 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18  & NR_nv_j_r9 {
+    }
+    :"if(!tstbit(" NV_S3_new_16_18 ",0) jump:nt" NR_nv_j_r9  is imm_22_27=0b010111 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18  & NR_nv_j_r9 {
 }
-    :"if(!tstbit(" NV_S3_new_16_18 ",0) jump:t" r9  is imm_22_27=0b010111 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=00 & NV_S3_new_16_18[ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]{
+    :"if(!tstbit(" NV_S3_new_16_18 ",0) jump:t" NR_nv_j_r9  is imm_22_27=0b010111 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=00 & NV_S3_new_16_18  & NR_nv_j_r9 {
 }
-    :"if(cmp.eq(" NV_S3_new_16_18 ",-1) jump:nt" r9  is imm_22_27=0b011000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18 [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]{
+    :"if(cmp.eq(" NV_S3_new_16_18 ",-1) jump:nt" NR_nv_j_r9  is imm_22_27=0b011000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18  & NR_nv_j_r9 {
     }
-    :"if(cmp.eq(" NV_S3_new_16_18 ",-1) jump:t" r9  is imm_22_27=0b011000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18 [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]{
+    :"if(cmp.eq(" NV_S3_new_16_18 ",-1) jump:t" NR_nv_j_r9  is imm_22_27=0b011000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18  & NR_nv_j_r9 {
     }
-    :"if(!cmp.eq(" NV_S3_new_16_18 ",-1) jump:nt" r9  is imm_22_27=0b011001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18 [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]{
+    :"if(!cmp.eq(" NV_S3_new_16_18 ",-1) jump:nt" NR_nv_j_r9  is imm_22_27=0b011001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18  & NR_nv_j_r9 {
     }
-    :"if(!cmp.eq(" NV_S3_new_16_18 ",-1) jump:t" r9  is imm_22_27=0b011001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18 [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]{
+    :"if(!cmp.eq(" NV_S3_new_16_18 ",-1) jump:t" NR_nv_j_r9  is imm_22_27=0b011001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18  & NR_nv_j_r9 {
     }
 
-    :"if(cmp.gt(" NV_S3_new_16_18 ",-1) jump:nt" r9  is imm_22_27=0b011010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18 [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]{
+    :"if(cmp.gt(" NV_S3_new_16_18 ",-1) jump:nt" NR_nv_j_r9  is imm_22_27=0b011010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18  & NR_nv_j_r9 {
     }
-    :"if(cmp.gt(" NV_S3_new_16_18 ",-1) jump:t" r9  is imm_22_27=0b011010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18 [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]{
+    :"if(cmp.gt(" NV_S3_new_16_18 ",-1) jump:t" NR_nv_j_r9  is imm_22_27=0b011010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18  & NR_nv_j_r9 {
     }
-    :"if(!cmp.gt(" NV_S3_new_16_18 ",-1) jump:nt" r9  is imm_22_27=0b011011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18 [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]{
+    :"if(!cmp.gt(" NV_S3_new_16_18 ",-1) jump:nt" NR_nv_j_r9  is imm_22_27=0b011011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18  & NR_nv_j_r9 {
     }
-    :"if(!cmp.gt(" NV_S3_new_16_18 ",-1) jump:t" r9  is imm_22_27=0b011011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18 [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]{
+    :"if(!cmp.gt(" NV_S3_new_16_18 ",-1) jump:t" NR_nv_j_r9  is imm_22_27=0b011011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18  & NR_nv_j_r9 {
     }
 }
 with slot: iclass=0b0010 & mode=1100 {
-    :"if(cmp.eq("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.eq("NV_S3_new_16_18","T5") jmp:nt "BR_nv_j_r9 is imm_22_27=0b000000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 != T5i) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(cmp.eq("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.eq("NV_S3_new_16_18","T5") jmp:t "BR_nv_j_r9 is imm_22_27=0b000000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 != T5i) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(!cmp.eq("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.eq("NV_S3_new_16_18","T5") jmp:nt "BR_nv_j_r9 is imm_22_27=0b000001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 == T5i) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(!cmp.eq("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.eq("NV_S3_new_16_18","T5") jmp:t "BR_nv_j_r9 is imm_22_27=0b000001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 == T5i) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
 
-    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:nt "BR_nv_j_r9 is imm_22_27=0b000010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 s<= T5i) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:t "BR_nv_j_r9 is imm_22_27=0b000010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 s<= T5i) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(!cmp.gt("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gt("NV_S3_new_16_18","T5") jmp:nt "BR_nv_j_r9 is imm_22_27=0b000011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 s> T5i) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(!cmp.gt("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gt("NV_S3_new_16_18","T5") jmp:t "BR_nv_j_r9 is imm_22_27=0b000011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 s> T5i) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
 
-    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000100 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:nt "BR_nv_j_r9 is imm_22_27=0b000100 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 s<= T5i) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000100 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:t "BR_nv_j_r9 is imm_22_27=0b000100 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 <= T5i) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
 
-    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:nt "nv_j_r9 is imm_22_27=0b000101 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:nt "BR_nv_j_r9 is imm_22_27=0b000101 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 > T5i) goto <end>;
-		goto nv_j_r9;
+		goto BR_nv_j_r9;
 
 	<end>
     }
 #np
-    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000101 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:t "BR_nv_j_r9 is imm_22_27=0b000101 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 > T5i) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
 
@@ -202,182 +191,183 @@ with slot: iclass=0b0010 & mode=1100 {
 
 
 
-    :"if(cmp.gt(" T5 "," NV_S3_new_16_18 ") jmp:nt "nv_j_r9 is imm_22_27=0b000110 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt(" T5 "," NV_S3_new_16_18 ") jmp:nt "BR_nv_j_r9 is imm_22_27=0b000110 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(T5i s<= NV_S3_new_16_18) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000110 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:t "BR_nv_j_r9 is imm_22_27=0b000110 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(T5i s<= NV_S3_new_16_18) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(cmp.gt(" T5 "," NV_S3_new_16_18 ") jmp:nt "nv_j_r9 is imm_22_27=0b000111 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt(" T5 "," NV_S3_new_16_18 ") jmp:nt "BR_nv_j_r9 is imm_22_27=0b000111 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(T5i s> NV_S3_new_16_18) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b000111 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt("NV_S3_new_16_18","T5") jmp:t "BR_nv_j_r9 is imm_22_27=0b000111 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(T5i s> NV_S3_new_16_18) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b001000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:t "BR_nv_j_r9 is imm_22_27=0b001000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 <= T5i) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b001000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gtu("NV_S3_new_16_18","T5") jmp:t "BR_nv_j_r9 is imm_22_27=0b001000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 <= T5i) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b001001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:t "BR_nv_j_r9 is imm_22_27=0b001001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 > T5i) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:t "nv_j_r9 is imm_22_27=0b001001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gtu("NV_S3_new_16_18","T5") jmp:t "BR_nv_j_r9 is imm_22_27=0b001001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 > T5i) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
 
 #ns
-    :"if(cmp.eq(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" nv_j_r9  is NV_S3_new_16_18 & imm_22_27=0b010000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9{
+    :"if(cmp.eq(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" BR_nv_j_r9  is NV_S3_new_16_18 & imm_22_27=0b010000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & BR_nv_j_r9{
 	    if(NV_S3_new_16_18 != imm_8_12u) goto <end>;
-			goto nv_j_r9;
+			goto BR_nv_j_r9;
 		<end>
     }
-    :"if(cmp.eq(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" nv_j_r9  is imm_22_27=0b010000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.eq(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" BR_nv_j_r9  is imm_22_27=0b010000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 != imm_8_12u) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(!cmp.eq(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" nv_j_r9  is imm_22_27=0b010001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.eq(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" BR_nv_j_r9  is imm_22_27=0b010001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 == imm_8_12u) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
         
-    :"if(!cmp.eq(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" nv_j_r9  is imm_22_27=0b010001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.eq(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" BR_nv_j_r9  is imm_22_27=0b010001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 == imm_8_12u) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
 
-    :"if(cmp.gt(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" nv_j_r9  is imm_22_27=0b010010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" BR_nv_j_r9  is imm_22_27=0b010010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 s<= imm_8_12u) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(cmp.gt(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" nv_j_r9  is imm_22_27=0b010010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" BR_nv_j_r9  is imm_22_27=0b010010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 s<= imm_8_12u) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(!cmp.gt(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" nv_j_r9  is imm_22_27=0b010011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gt(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" BR_nv_j_r9  is imm_22_27=0b010011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 s> imm_8_12u) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(!cmp.gt(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" nv_j_r9  is imm_22_27=0b010011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gt(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" BR_nv_j_r9  is imm_22_27=0b010011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 s> imm_8_12u) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
 
-    :"if(cmp.gtu(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" nv_j_r9  is imm_22_27=0b010100 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gtu(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" BR_nv_j_r9  is imm_22_27=0b010100 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 <= imm_8_12u) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(cmp.gtu(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" nv_j_r9  is imm_22_27=0b010100 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gtu(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" BR_nv_j_r9  is imm_22_27=0b010100 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 <= imm_8_12u) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(!cmp.gtu(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" nv_j_r9  is imm_22_27=0b010101 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gtu(" NV_S3_new_16_18 "," imm_8_12u ") jump:nt" BR_nv_j_r9  is imm_22_27=0b010101 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12u & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 > imm_8_12u) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(!cmp.gtu(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" nv_j_r9  is imm_22_27=0b010101 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gtu(" NV_S3_new_16_18 "," imm_8_12u ") jump:t" BR_nv_j_r9  is imm_22_27=0b010101 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12u & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 > imm_8_12u) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
 
-    :"if(tstbit(" NV_S3_new_16_18 ",0) jump:nt" nv_j_r9  is imm_22_27=0b010110 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(tstbit(" NV_S3_new_16_18 ",0) jump:nt" BR_nv_j_r9  is imm_22_27=0b010110 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
     	local tmp:1 = (NV_S3_new_16_18 & 1) != 0;
 	if(!tmp) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(tstbit(" NV_S3_new_16_18 ",0) jump:t" nv_j_r9  is imm_22_27=0b010110 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(tstbit(" NV_S3_new_16_18 ",0) jump:t" BR_nv_j_r9  is imm_22_27=0b010110 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
     	local tmp:1 = (NV_S3_new_16_18 & 1) != 0;
 	if(!tmp) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(!tstbit(" NV_S3_new_16_18 ",0) jump:nt" nv_j_r9  is imm_22_27=0b010111 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!tstbit(" NV_S3_new_16_18 ",0) jump:nt" BR_nv_j_r9  is imm_22_27=0b010111 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
     	local tmp:1 = (NV_S3_new_16_18 & 1) != 0;
 	if(tmp) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(!tstbit(" NV_S3_new_16_18 ",0) jump:t" nv_j_r9  is imm_22_27=0b010111 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!tstbit(" NV_S3_new_16_18 ",0) jump:t" BR_nv_j_r9  is imm_22_27=0b010111 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
     	local tmp:1 = (NV_S3_new_16_18 & 1) != 0;
 	if(tmp) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(cmp.eq(" NV_S3_new_16_18 ",-1) jump:nt" nv_j_r9  is imm_22_27=0b011000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.eq(" NV_S3_new_16_18 ",-1) jump:nt" BR_nv_j_r9  is imm_22_27=0b011000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 != -1) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(cmp.eq(" NV_S3_new_16_18 ",-1) jump:t" nv_j_r9  is imm_22_27=0b011000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.eq(" NV_S3_new_16_18 ",-1) jump:t" BR_nv_j_r9  is imm_22_27=0b011000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 != -1) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(!cmp.eq(" NV_S3_new_16_18 ",-1) jump:nt" nv_j_r9  is imm_22_27=0b011001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.eq(" NV_S3_new_16_18 ",-1) jump:nt" BR_nv_j_r9  is imm_22_27=0b011001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 == -1) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(!cmp.eq(" NV_S3_new_16_18 ",-1) jump:t" nv_j_r9  is imm_22_27=0b011001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.eq(" NV_S3_new_16_18 ",-1) jump:t" BR_nv_j_r9  is imm_22_27=0b011001 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 == -1) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
 
-    :"if(cmp.gt(" NV_S3_new_16_18 ",-1) jump:nt" nv_j_r9  is imm_22_27=0b011010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt(" NV_S3_new_16_18 ",-1) jump:nt" BR_nv_j_r9  is imm_22_27=0b011010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 s<= -1) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(cmp.gt(" NV_S3_new_16_18 ",-1) jump:t" nv_j_r9  is imm_22_27=0b011010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(cmp.gt(" NV_S3_new_16_18 ",-1) jump:t" BR_nv_j_r9  is imm_22_27=0b011010 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 s<= -1) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(!cmp.gt(" NV_S3_new_16_18 ",-1) jump:nt" nv_j_r9  is imm_22_27=0b011011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gt(" NV_S3_new_16_18 ",-1) jump:nt" BR_nv_j_r9  is imm_22_27=0b011011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & imm_8_12=0 & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 s> -1) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
-    :"if(!cmp.gt(" NV_S3_new_16_18 ",-1) jump:t" nv_j_r9  is imm_22_27=0b011011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & nv_j_r9 & NV_S3_new_16_18 {
+    :"if(!cmp.gt(" NV_S3_new_16_18 ",-1) jump:t" BR_nv_j_r9  is imm_22_27=0b011011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
 	if(NV_S3_new_16_18 s> -1) goto <end>;
-	goto nv_j_r9;
+	goto BR_nv_j_r9;
 	<end>
     }
 }
 
 # NV/ST:ST new-value byte
-with slot: iclass=0b0011 & mode=0 {
-    :"memb(" S5 "+" T5 "<<" u2 ")=" NV_T3_0_2_new is imm_21_27=0b1011101 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & imm_5_6=0 & imm_3_4=0b00 & NV_T3_0_2_new [ u2 = imm_7u | (imm_13u << 1);] {
+with slot: iclass=0b0011 {
+    :"memb(" S5 "+" T5 "<<" u2 ")=" NV_T3_0_2_new is imm_21_27=0b1011101 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & imm_5_6=0 & imm_3_4=0b00 & NV_T3_0_2_new & mode=0 [ u2 = imm_7u | (imm_13u << 1);] {}
+    :"memb(" S5 "+" T5 "<<" u2 ")=" NV_T3_0_2_new is imm_21_27=0b1011101 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & imm_5_6=0 & imm_3_4=0b00 & NV_T3_0_2_new & mode=200 [ u2 = imm_7u | (imm_13u << 1);] {
         local EA:4 = S5i + (T5i << u2);
         *[ram]:1 EA = NV_T3_0_2_new;
     }
@@ -558,62 +548,8 @@ with slot: iclass=0b1010 & mode=0 {
     }
 }
 
-# NV/ST:ST new-value half word
-with slot: iclass=0b0011 & mode=0 {
-# TODO: shift
-    :"memh(" S5 "+" T5 "<<" u2 ")=" NV_T3_0_2_new is imm_21_27=0b1011101 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & imm_5_6=0 & imm_3_4=0b01 & NV_T3_0_2_new[ u2 = imm_7u | (imm_13u << 1);] {
-        local EA:4 = S5i + (T5i << u2);
-        *[ram]:2 EA = NV_T3_0_2_new;
-    }
-}
-with slot: iclass=0b0100 & mode=0 {
-    :"memh(GP+"u16")="NV_T3_new_8_10 is imm_27=1 & imm_25_26u & imm_21_24=0b0101 & imm_16_20u & imm_13u & imm_11_12=0b01 & NV_T3_new_8_10 & imm_0_7u & (hasext0=0 | immext0used=1) [u16 = imm_0_7u | imm_13u << 8 | imm_16_20u<<9 | imm_25_26u <<14;] {
-    	local EA:4 = GP + u16;
-		*[ram]:2 EA = NV_T3_new_8_10;
-    }
-}
-with slot: iclass=0b1010 & mode=0 {
-    :"memh(" S5 "+" s11 ")=" NV_T3_new_8_10 is imm_27=0 & imm_25_26 & imm_21_24=0b1101 & S5 & S5i & imm_13u & imm_11_12=0b01 & NV_T3_new_8_10 & imm_0_7u [ s11 = imm_0_7u | (imm_13u << 8) | (imm_25_26 << 9); ] {
-        local EA:4 = S5i + s11;
-        *[ram]:2 EA = NV_T3_new_8_10;
-    }
-    :"memh(" S5 "++" "I:circ(" M1_13 "))=" NV_T3_new_8_10 is imm_21_27=0b1001101 & S5 & S5i & M1_13 & imm_11_12=0b01 & NV_T3_new_8_10 & imm_7=0 & imm_2_6=0 & imm_1=1 & imm_0=0 {
-        local EA:4 = S5i;
-        local m:4 = M1_13:4;
-    	S5 = circ_add(S5i, m << 2, M1_13);
-    	*[ram]:2 EA = NV_T3_new_8_10; 
-    }
-    :"memh(" S5 "++" s4 ":circ(" M1_13 "))=" NV_T3_new_8_10 is imm_21_27=0b1001101 & S5 & S5i & M1_13 & imm_11_12=0b01 & NV_T3_new_8_10 & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0 [s4 = imm_3_6 << 1;] {
-        local EA:4 = S5i;
-    	S5 = circ_add(S5i, s4:1, M1_13);
-    	*[ram]:2 EA = NV_T3_new_8_10;
-    }
-    :"memh(" S5 "=" u6 ")=" NV_T3_new_8_10  is imm_21_27=0b1011101 & S5 & S5i & imm_11_13=0b001 & NV_T3_new_8_10 & imm_7=1 & imm_6=0 & imm_0_5u [u6 = imm_0_5u << 0; ] {
-        local EA:4 = S5i;
-        *[ram]:2 EA = NV_T3_new_8_10;
-        S5 = S5i + u6;
-    }
-    
-    :"memh(" S5 "++" s4 ")=" NV_T3_new_8_10 is imm_21_27=0b1011101 & S5 & S5i & imm_11_13=0b001 & NV_T3_new_8_10 & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0 [ s4 = imm_3_6 << 1;] {
-        local EA:4 = S5i;
-        S5 = S5i + s4;
-        *[ram]:2 EA = NV_T3_new_8_10;
-    }
-    :"memh(" S5 "<<" u2 "+" EXT_imm_0_5u ")=" NV_T3_new_8_10 is imm_21_27=0b1101101 & S5 & S5i & imm_13u & imm_11_12=0b01 & NV_T3_new_8_10 & imm_7=1 & imm_6u & EXT_imm_0_5u [ u2 = imm_6u | (imm_13u << 1); ] {
-        local EA:4 = (S5i << u2) + EXT_imm_0_5u;
-        *[ram]:2 EA = NV_T3_new_8_10;
-    }
-    :"memh(" S5 "++" M1_13 ")=" NV_T3_new_8_10 is imm_21_27=0b1101101 & S5 & S5i & M1_13 & imm_11_12=0b01 & NV_T3_new_8_10 & imm_7=0 & imm_0_6 {
-        local EA:4 = S5i;
-        S5 = S5i + M1_13;
-        *[ram]:2 EA = NV_T3_new_8_10;
-    }
-    :"memh(" S5 "++" M1_13 ":brev)=" NV_T3_new_8_10 is imm_21_27=0b1111101 & S5 & S5i & M1_13 & imm_11_12=0b01 & NV_T3_new_8_10 & imm_7=0 & imm_0_6 {
-        local EA:4 = S5i;
-        S5 = S5i + M1_13;
-        *[ram]:2 EA = NV_T3_new_8_10;
-    }
-}
+@include "nv_hw.sinc"
+
 # NV/ST:ST new-value half word cond
 with slot: iclass=0b0011 & mode=0 {    
     :"if(" U2_5_6 ") memh(" S5 "," T5 "<<" u2 ")=" NV_T3_0_2_new is imm_21_27=0b0100101 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & U2_5_6 & U2_5_6i & imm_3_4=0b01 & NV_T3_0_2_new [ u2 = imm_7u | (imm_13u << 1); ] {
@@ -732,69 +668,7 @@ with slot: iclass=0b1010 & mode=0 {
     }
 }
 
-# NV/ST:ST new-value word
-with slot: iclass=0b0011 & mode=0 {
-    :"memw(" S5 "+" T5 "<<" u2 ")=" NV_T3_0_2_new is imm_21_27=0b1011101 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & imm_5_6=0 & imm_3_4=0b10 & NV_T3_0_2_new[ u2 = imm_7u | (imm_13u << 1);] {
-        local EA:4 = S5i + (T5i << u2);
-        *[ram]:4 EA = NV_T3_0_2_new;
-    }
-}
-with slot: iclass=0b0100 & mode=0 {
-    :"memw(GP+"u16")="NV_T3_new_8_10 is imm_27=1 & imm_25_26u & imm_21_24=0b0101 & imm_16_20u & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_0_7u & (hasext0=0 | immext0used=1) [u16 = imm_0_7u | imm_13u << 8 | imm_16_20u<<9 | imm_25_26u <<14;] {
-    	local EA:4 = GP + u16;
-	*[ram]:4 EA = NV_T3_new_8_10;
-    }
-    :"memw("v")="NV_T3_new_8_10 is imm_27=1 & imm_25_26u & imm_21_24=0b0101 & imm_16_20u & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_0_7u & hasext0=1 & immext0used=0 & immext0 & imm_0_5u [v = imm_0_5u | immext0; immext0used=1; immext0everused=1;] {
-    	local EA:4 = v;
-	*[ram]:4 EA = NV_T3_new_8_10;
-    }
-    :"memw("v")="NV_T3_new_8_10 is imm_27=1 & imm_25_26u & imm_21_24=0b0101 & imm_16_20u & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_0_7u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_0_5u [v = imm_0_5u | immext1; immext1used=1;] {
-    	local EA:4 = v;
-	*[ram]:4 EA = NV_T3_new_8_10;
-    }
-}
-with slot: iclass=0b1010 & mode=0 {
-    :"memw(" S5 "+" s11 ")=" NV_T3_new_8_10 is imm_27=0 & imm_25_26 & imm_21_24=0b1101 & S5 & S5i & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_0_7u [s11 = (imm_0_7u | (imm_13u << 8) | (imm_25_26 << 9)) << 2; ]{
-    	local EA:4 = S5i + s11;
-	*[ram]:4 EA = NV_T3_new_8_10;	
-    }
-    :"memw(" S5 "++" "I:circ(" M1_13 "))=" NV_T3_new_8_10 is imm_21_27=0b1001101 & S5 & S5i & M1_13 & imm_11_12=0b10 & NV_T3_new_8_10 & imm_7=0 & imm_2_6=0 & imm_1=1 & imm_0=0 {
-        local EA:4 = S5i;
-        local m:4 = M1_13:4;
-    	S5 = circ_add(S5i, m << 2, M1_13);
-    	*[ram]:4 EA = NV_T3_new_8_10; 
-    }
-    :"memw(" S5 "++" s4 ":circ(" M1_13 "))=" NV_T3_new_8_10 is imm_21_27=0b1001101 & S5 & S5i & M1_13 & imm_11_12=0b10 & NV_T3_new_8_10 & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0 [s4 = imm_3_6 << 1;] {
-        local EA:4 = S5i;
-    	S5 = circ_add(S5i, s4:1, M1_13);
-    	*[ram]:4 EA = NV_T3_new_8_10;
-    }
-    :"memw(" S5 "=" u6 ")=" NV_T3_new_8_10  is imm_21_27=0b1011101 & S5 & S5i & imm_11_13=0b010 & NV_T3_new_8_10 & imm_7=1 & imm_6=0 & imm_0_5u [u6 = imm_0_5u << 0; ] {
-        local EA:4 = S5i;
-        *[ram]:4 EA = NV_T3_new_8_10;
-        S5 = S5i + u6;
-    }
-    
-    :"memw(" S5 "++" s4 ")=" NV_T3_new_8_10 is imm_21_27=0b1011101 & S5 & S5i & imm_11_13=0b010 & NV_T3_new_8_10 & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0 [ s4 = imm_3_6 << 1;] {
-        local EA:4 = S5i;
-        S5 = S5i + s4;
-        *[ram]:4 EA = NV_T3_new_8_10;
-    }
-    :"memw(" S5 "<<" u2 "+" EXT_imm_0_5u ")=" NV_T3_new_8_10 is imm_21_27=0b1101101 & S5 & S5i & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_7=1 & imm_6u & EXT_imm_0_5u [ u2 = imm_6u | (imm_13u << 1); ] {
-        local EA:4 = (S5i << u2) + EXT_imm_0_5u;
-        *[ram]:4 EA = NV_T3_new_8_10;
-    }
-    :"memw(" S5 "++" M1_13 ")=" NV_T3_new_8_10 is imm_21_27=0b1101101 & S5 & S5i & M1_13 & imm_11_12=0b10 & NV_T3_new_8_10 & imm_7=0 & imm_0_6 {
-        local EA:4 = S5i;
-        S5 = S5i + M1_13;
-        *[ram]:4 EA = NV_T3_new_8_10;
-    }
-    :"memw(" S5 "++" M1_13 ":brev)=" NV_T3_new_8_10 is imm_21_27=0b1111101 & S5 & S5i & M1_13 & imm_11_12=0b10 & NV_T3_new_8_10 & imm_7=0 & imm_0_6 {
-        local EA:4 = S5i;
-        S5 = S5i + M1_13;
-        *[ram]:4 EA = NV_T3_new_8_10;
-    }
-}
+@include "nv_word.sinc"
 
 # NV/ST:ST new-value word cond
 with slot: iclass=0b0011 & mode=0 {    

@@ -10,12 +10,12 @@
 #Status:
 # Disas everything up to v73, most common ops have pcode impl
 
-# ALU32/ALU       Decode + pcode up to v79                                 regcache ever0
-# ALU32/PERM:     Decode + pcode up to v73                                 regcache ever0
-# ALU32/PRED:     Decode + pcode up to v73                                 regcache ever0
-# CR:             Decode + pcode up to v73                                 regcache ever0
-# JR:             Decode + pcode up to v73                                 regcache ever0
-# J:              Decode + pcode up to v73                                 regcache ever0
+# ALU32/ALU       Decode + pcode up to v79                                 regcache ever0 nvi
+# ALU32/PERM:     Decode + pcode up to v73                                 regcache ever0 nvi
+# ALU32/PRED:     Decode + pcode up to v73                                 regcache ever0 nvi
+# CR:             Decode + pcode up to v73                                 regcache ever0 nvi
+# JR:             Decode + pcode up to v73                                 regcache ever0 nvi
+# J:              Decode + pcode up to v73                                 regcache ever0 nvi
 # LD:             Decode + pcode up to v73                                 regcache ever0
 # LD/Dword:       Decode + pcode up to v73                                 regcache ever0
 # LD/Byte:        Decode + pcode up to v73                                 regcache ever0
@@ -23,30 +23,31 @@
 # LD/ubyte:       Decode + pcode up to v73                                 regcache ever0
 # LD/uHalfword:   Decode + pcode up to v73                                 regcache ever0
 # LD/word:        Decode + pcode up to v73                                 regcache ever0
-# MEMOP:          Decode + pcode up to v73                                 regcache ever0
-# NV:             Decode + pcode up to v73                                 regcache ever0
-# ST:             Decode + pcode up to v73                                 regcache ever0
+# MEMOP:          Decode + pcode up to v73                                 regcache ever0 nvi
+# NV:             Decode + pcode up to v73                                 regcache ever0 nvi
+# NV/HW:          Decode + pcode up to v73                                 regcache ever0 nvi nvst
+# ST:             Decode + pcode up to v73                                 regcache ever0 
 # ST/byte:        Decode + pcode up to v73                                 regcache ever0
 # ST/Dword:       Decode + pcode up to v73                                 regcache ever0
 # ST/halfword:    Decode + pcode up to v73                                 regcache ever0
 # ST/word:        Decode + pcode up to v73                                 regcache ever0
-# SYSTEM/USER:    Decode + pcode up to v79                                 regcache ever0
-# SYSTEM/GUEST:   Decode + pcode up to v66 (latest for this section)       regcache ever0
-# SYSTEM/MONITOR: Decode + pcode up to v66 (latest for this section)       regcache ever0
+# SYSTEM/USER:    Decode + pcode up to v79                                 regcache ever0 nvi
+# SYSTEM/GUEST:   Decode + pcode up to v66 (latest for this section)       regcache ever0 nvi
+# SYSTEM/MONITOR: Decode + pcode up to v66 (latest for this section)       regcache ever0 nvi
 # XTYPE:          Decode + pcode up to v73                                 regcache ever0
-# XTYPE/ALU:      Decode + pcode up to v73                                 regcache ever0
-# XTYPE/BIT:      Decode + pcode up to v73                                 regcache ever0
-# XTYPE/COMPLEX:  Decode + pcode up to v79                                 regcache ever0
-# XTYPE/FP:       Decode + pcode up to v79                                 regcache ever0
-# XTYPE/MPY:      Decode + pcode up to v73                                 regcache ever0
-# XTYPE/PERM:     Decode + pcode up to v73                                 regcache ever0
-# XTYPE/PRED:     Decode + pcode up to v73                                 regcache ever0
-# XTYPE/SHIFT:    Decode + pcode up to v73                                 regcache ever0
-# duplex          Decode + pcode up to v73                                 regcache ever0
+# XTYPE/ALU:      Decode + pcode up to v73                                 regcache ever0 nvi
+# XTYPE/BIT:      Decode + pcode up to v73                                 regcache ever0 nvi
+# XTYPE/COMPLEX:  Decode + pcode up to v79                                 regcache ever0 nvi
+# XTYPE/FP:       Decode + pcode up to v79                                 regcache ever0 nvi
+# XTYPE/MPY:      Decode + pcode up to v73                                 regcache ever0 nvi
+# XTYPE/PERM:     Decode + pcode up to v73                                 regcache ever0 nvi
+# XTYPE/PRED:     Decode + pcode up to v73                                 regcache ever0 nvi
+# XTYPE/SHIFT:    Decode + pcode up to v73                                 regcache ever0 nvi
+# duplex          Decode + pcode up to v73                                 regcache ever0 <- recheck regcache for pairs
 
 
 # TODOs:
-# move nv inputs to own slice: e.g.  if (!P0.new) r0=add(r1,0x0) ; P0.new=cmp.eq ; jmp
+# move nv inputs to own slice: e.g.  if (!P0.new) r0=add(r1,0x0) ; P0.new=cmp.eq ; jmp -> nvi
 # move nv stores to own slice
 # fix signed compares in j / nv:j
 #  cant have jump and add in same slice if jump is first, cant have add before eq, must have normal slice: cmp, nv slice: add, branch slice: jmp

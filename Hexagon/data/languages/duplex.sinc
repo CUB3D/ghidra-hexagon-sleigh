@@ -294,14 +294,14 @@ S2R:"memb(" immdup1_S4 "+" immdup1_0_3 ") = 1" is immdup1_8_12=0b10011 & immdup1
 }
 
 S2L:"allocframe("v")" is immdup0_9_12=0b1110 & immdup0_4_8 & immdup0_0_3=0 [v = immdup0_4_8 << 3;] {
-        local EA:4 = SPc - 8;
-        *[ram]:8 EA = LRFPc;
+        local EA:4 = SP - 8;
+        *[ram]:8 EA = LRFP;
         FP = EA;
         SP = EA - v;
 }
 S2R:"allocframe("v")" is immdup1_9_12=0b1110 & immdup1_4_8 & immdup1_0_3=0 [v = immdup1_4_8 << 3;]{
-        local EA:4 = SPc - 8;
-        *[ram]:8 EA = LRFPc;
+        local EA:4 = SP - 8;
+        *[ram]:8 EA = LRFP;
         FP = EA;
         SP = EA - v;
 }
@@ -382,29 +382,29 @@ A1R:immdup1_D4"=sxtb(" immdup1_S4 ")" is immdup1_8_12=0b10101 & immdup1_S4 & imm
 
 
 A1L:immdup0_D4"=zxth(" immdup0_S4 ")" is immdup0_8_12=0b10110 & immdup0_S4 & immdup0_S4i & immdup0_D4 {
-	immdup0_D4 = zext(immdup0_S4:2);
+	immdup0_D4 = zext(immdup0_S4i:2);
 }
 A1R:immdup1_D4"=zxth(" immdup1_S4 ")" is immdup1_8_12=0b10110 & immdup1_S4 & immdup1_S4i & immdup1_D4 {
-	immdup1_D4 = zext(immdup1_S4:2);
+	immdup1_D4 = zext(immdup1_S4i:2);
 }
 
 A1L:immdup0_D4"=zxtb(" immdup0_S4 ")" is immdup0_8_12=0b10111 & immdup0_S4 & immdup0_S4i & immdup0_D4 {
-	immdup0_D4 = zext(immdup0_S4:1);
+	immdup0_D4 = zext(immdup0_S4i:1);
 }
 A1R:immdup1_D4"=zxtb(" immdup1_S4 ")" is immdup1_8_12=0b10111 & immdup1_S4 & immdup1_S4i & immdup1_D4 {
-	immdup1_D4 = zext(immdup1_S4:1);
+	immdup1_D4 = zext(immdup1_S4i:1);
 }
 
-A1L:immdup0_D4 "=add(self," immdup0_S4 ")" is immdup0_8_12=0b11000 & immdup0_S4 & immdup0_S4i & immdup0_D4 {
-	immdup0_D4 = immdup0_D4 + immdup0_S4;	
+A1L:immdup0_D4 "=add(self," immdup0_S4 ")" is immdup0_8_12=0b11000 & immdup0_S4 & immdup0_S4i & immdup0_D4 & immdup0_D4i {
+	immdup0_D4 = immdup0_D4i + immdup0_S4i;
 }
-A1R:immdup1_D4 "=add(self," immdup1_S4 ")" is immdup1_8_12=0b11000 & immdup1_S4 & immdup1_S4i & immdup1_D4 {
-	immdup1_D4 = immdup1_D4 + immdup1_S4;	
+A1R:immdup1_D4 "=add(self," immdup1_S4 ")" is immdup1_8_12=0b11000 & immdup1_S4 & immdup1_S4i & immdup1_D4 & immdup1_D4i {
+	immdup1_D4 = immdup1_D4i + immdup1_S4i;
 }
 
 
 A1L:"p0 = cmp.eq(" immdup0_S4 "," immdup0_0_1 ")" is immdup0_8_12=0b11001 & immdup0_S4 & immdup0_S4i & immdup0_2_3=0 & immdup0_0_1 {
-	if(immdup0_S4 != immdup0_0_1) goto <bad>;
+	if(immdup0_S4i != immdup0_0_1) goto <bad>;
 	P0 = PTRUE;
 	goto <end>;
 	<bad>
@@ -412,7 +412,7 @@ A1L:"p0 = cmp.eq(" immdup0_S4 "," immdup0_0_1 ")" is immdup0_8_12=0b11001 & immd
 	<end>
 }
 A1R:"p0 = cmp.eq(" immdup1_S4 "," immdup1_0_1 ")" is immdup1_8_12=0b11001 & immdup1_S4 & immdup1_S4i & immdup1_2_3=0 & immdup1_0_1 {
-	if(immdup1_S4 != immdup1_0_1) goto <bad>;
+	if(immdup1_S4i != immdup1_0_1) goto <bad>;
 	P0 = PTRUE;
 	goto <end>;
 	<bad>
@@ -450,23 +450,23 @@ A1R:"if(!P0.new) " immdup1_D4 "= 0" is immdup1_9_12=0b1101 & immdup1_7_8=0 & imm
 }
 
 A1L:"if(P0) " immdup0_D4 "= 0" is immdup0_9_12=0b1101 & immdup0_7_8=0 & immdup0_4_6=0b110 & immdup0_D4 {
-	if(P0 == 0) goto <end>;
+	if(P0c == 0) goto <end>;
 		immdup0_D4 = 0;
 	<end>
 }
 A1R:"if(P0) " immdup1_D4 "= 0" is immdup1_9_12=0b1101 & immdup1_7_8=0 & immdup1_4_6=0b110 & immdup1_D4 {
-	if(P0 == 0) goto <end>;
+	if(P0c == 0) goto <end>;
 		immdup1_D4 = 0;
 	<end>
 }
 
 A1L:"if(!P0) " immdup0_D4 "= 0" is immdup0_9_12=0b1101 & immdup0_7_8=0 & immdup0_4_6=0b111 & immdup0_D4 {
-	if(P0 != 0) goto <end>;
+	if(P0c != 0) goto <end>;
 		immdup0_D4 = 0;
 	<end>
 }
 A1R:"if(!P0) " immdup1_D4 "= 0" is immdup1_9_12=0b1101 & immdup1_7_8=0 & immdup1_4_6=0b111 & immdup1_D4 {
-	if(P0 != 0) goto <end>;
+	if(P0c != 0) goto <end>;
 		immdup1_D4 = 0;
 	<end>
 }
