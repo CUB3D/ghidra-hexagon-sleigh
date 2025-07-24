@@ -1263,9 +1263,6 @@ attach variables [GD5_pair] [
 
  define pcodeop _stub;
 
-define pcodeop testCallOther;
-define pcodeop testCallOther1;
-
 attach names [or1test_overlap or2test_overlap or3test_overlap] [
 "r0" _ _ _
 "r1" _ _ _

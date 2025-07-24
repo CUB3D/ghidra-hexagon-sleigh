@@ -24,7 +24,7 @@
 	      	<entry size="8" alignment="4" />
 		</size_alignment_map>
   	</data_organization>
-	<stackpointer register="SP" space="ram"/>
+	<stackpointer register="SP" space="ram" growth="negative"/>
 	<spacebase name="FP" register="FP" space="ram"/>
 	<spacebase name="SP" register="SP" space="ram"/>
 	<funcptr align="4" />
@@ -51,6 +51,23 @@
     	<register name="r27r26"/>
     	<register name="SPr28"/>
     	<register name="LRFP"/>
+    	
+    	    	<register name="r1r0c"/>
+    	<register name="r3r2c"/>
+    	<register name="r5r4c"/>
+    	<register name="r7r6c"/>
+    	<register name="r9r8c"/>
+    	<register name="r11r10c"/>
+    	<register name="r13r12c"/>
+    	<register name="r15r14c"/>
+    	<register name="r17r16c"/>
+    	<register name="r19r18c"/>
+    	<register name="r21r20c"/>
+    	<register name="r23r22c"/>
+    	<register name="r25r24c"/>
+    	<register name="r27r26c"/>
+    	<register name="SPr28c"/>
+    	<register name="LRFPc"/>
     </prefersplit>
   	
   	<aggressivetrim signext="true"/>
@@ -165,20 +182,4 @@
     </prototype>
   </default_proto>
     
-    <!--
-    
-    <callotherfixup targetop="testCallOther">
-	    <pcode dynamic="true">
-	    	<input name="testop_something"/>
-	    </pcode>
-    </callotherfixup>
-    <callotherfixup targetop="testCallOther1">
-	    <pcode dynamic="true">
-	    	<input name="testop1_something"/>
-	    </pcode>
-    </callotherfixup>
-    
-    -->
-    
-  	
 </compiler_spec>

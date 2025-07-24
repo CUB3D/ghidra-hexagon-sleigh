@@ -2,4 +2,7 @@
 
 <processor_spec>
   <programcounter register="pc"/>
+  <properties>
+  	<property key="enableNoReturnAnalysis" value="false" />
+  </properties>
 </processor_spec>
