@@ -114,11 +114,6 @@
       <unaffected>
       
       <register name="PTRUE" />
-      <register name="cached_regs" />
-      <register name="cached_preds" />
-      
-      <register name="all_preds" />
-      <register name="all_gprs" />
       
        
       <register name="r1" />
@@ -171,13 +166,6 @@
         
 
       </unaffected>
-      
-        	<internal_storage>
-  		<register name="cached_regs"/>
-  		<register name="cached_preds"/>
-  		<register name="all_gprs"/>
-  		<register name="all_preds"/>
-  	</internal_storage>
       
     </prototype>
   </default_proto>

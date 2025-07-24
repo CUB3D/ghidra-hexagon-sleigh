@@ -276,11 +276,11 @@ S2R:"memw(" immdup1_S4 "+"v ") = 1" is immdup1_8_12=0b10001 & immdup1_S4 & immdu
 }
 
 S2L:"memb(" immdup0_S4 "+" immdup0_0_3 ") = 0" is immdup0_8_12=0b10010 & immdup0_S4 & immdup0_S4i & immdup0_0_3 {
-	local EA:4 = immdup0_S4i +  immdup0_0_3;
+	local EA:4 = immdup0_S4i + immdup0_0_3;
 	*[ram]:1 EA = 0;
 }
 S2R:"memb(" immdup1_S4 "+" immdup1_0_3 ") = 0" is immdup1_8_12=0b10010 & immdup1_S4 & immdup1_S4i & immdup1_0_3  {
-	local EA:4 = immdup1_S4i +  immdup1_0_3;
+	local EA:4 = immdup1_S4i + immdup1_0_3;
 	*[ram]:1 EA = 0;
 }
 
@@ -294,14 +294,14 @@ S2R:"memb(" immdup1_S4 "+" immdup1_0_3 ") = 1" is immdup1_8_12=0b10011 & immdup1
 }
 
 S2L:"allocframe("v")" is immdup0_9_12=0b1110 & immdup0_4_8 & immdup0_0_3=0 [v = immdup0_4_8 << 3;] {
-        local EA:4 = SP - 8;
-        *[ram]:8 EA = LRFP;
+        local EA:4 = SPc - 8;
+        *[ram]:8 EA = LRFPc;
         FP = EA;
         SP = EA - v;
 }
 S2R:"allocframe("v")" is immdup1_9_12=0b1110 & immdup1_4_8 & immdup1_0_3=0 [v = immdup1_4_8 << 3;]{
-        local EA:4 = SP - 8;
-        *[ram]:8 EA = LRFP;
+        local EA:4 = SPc - 8;
+        *[ram]:8 EA = LRFPc;
         FP = EA;
         SP = EA - v;
 }
@@ -470,7 +470,7 @@ A1R:"if(!P0) " immdup1_D4 "= 0" is immdup1_9_12=0b1101 & immdup1_7_8=0 & immdup1
 		immdup1_D4 = 0;
 	<end>
 }
-
+#todo: is this correct way around?
 A1L:immdup0_D4_pair "= combine(0," immdup0_5_6 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=0 & immdup0_7=0 & immdup0_5_6 & immdup0_3_4=0b00 & immdup0_D4_pair {
         immdup0_D4_pair = (immdup0_5_6 << 32);
 }
@@ -499,20 +499,20 @@ A1R:immdup1_D3_pair "=combine(3," immdup1_5_6 ")" is immdup1_10_12=0b111 & immdu
 	immdup1_D3_pair = 3 | (immdup1_5_6 << 32);
 }
 
-A1L:immdup0_D3_pair "=combine(0," immdup0_S4 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=1 & immdup0_S4 & immdup0_S4i & immdup0_3=0 & immdup0_D3_pair {
-	immdup0_D3_pair = zext(immdup0_S4);
-	immdup0_D3_pair = immdup0_D3_pair << 32;
+A1L:immdup0_D3_pair "=combine(0," immdup0_S4 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=1 & immdup0_S4 & immdup0_S4i & immdup0_3=0 & immdup0_D3_pair & immdup0_D3_pairi {
+	immdup0_D3_pair = zext(immdup0_S4i);
+	immdup0_D3_pair = immdup0_D3_pairi << 32;
 }
-A1R:immdup1_D3_pair "=combine(0," immdup1_S4 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=1 & immdup1_S4 & immdup1_S4i & immdup1_3=0 & immdup1_D3_pair {
-	immdup1_D3_pair = zext(immdup1_S4);
-	immdup1_D3_pair = immdup1_D3_pair << 32;
+A1R:immdup1_D3_pair "=combine(0," immdup1_S4 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=1 & immdup1_S4 & immdup1_S4i & immdup1_3=0 & immdup1_D3_pair & immdup1_D3_pairi {
+	immdup1_D3_pair = zext(immdup1_S4i);
+	immdup1_D3_pair = immdup1_D3_pairi << 32;
 }
 
 A1L:immdup0_D3_pair "=combine(" immdup0_S4 ", 0)" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=1 & immdup0_S4 & immdup0_S4i & immdup0_3=1 & immdup0_D3_pair {
-	immdup0_D3_pair = zext(immdup0_S4);
+	immdup0_D3_pair = zext(immdup0_S4i);
 }
 A1R:immdup1_D3_pair "=combine(" immdup1_S4 ", 0)" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=1 & immdup1_S4 & immdup1_S4i & immdup1_3=1 & immdup1_D3_pair {
-	immdup1_D3_pair = zext(immdup1_S4);
+	immdup1_D3_pair = zext(immdup1_S4i);
 }
 
 }

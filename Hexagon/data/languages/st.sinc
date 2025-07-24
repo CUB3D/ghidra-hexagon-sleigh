@@ -25,12 +25,12 @@ with slot: iclass=0b1010 & mode=0 {
         local EA:4 = S5i - 8;
         *[ram]:8 EA = LRFPc;
         FP = EA;
-	    S5 = FP - U11;
+	    S5 = FPc - U11;
     }
     :"allocframe("U11")" is imm_21_27=0b0000100 & S5=29  & imm_11_13=0b000 & imm_0_10 [ U11 = imm_0_10 << 3; ] {
-        local EA:4 = SP - 8;
-        *[ram]:8 EA = LRFP;
+        local EA:4 = SPc - 8;
+        *[ram]:8 EA = LRFPc;
         FP = EA;
-	    SP = FP - (U11);
+	    SP = FPc - U11;
     }
 }

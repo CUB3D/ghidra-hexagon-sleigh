@@ -562,7 +562,7 @@ define pcodeop vacsh;
 with slot: iclass=0b1110 & mode=0 {
     :D5_pair "," U2_5_6 "=vacsh(" S5_pair "," T5_pair ")" is imm_21_27=0b1010101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_7=0 & U2_5_6 & D5_pair {
     	local tmp:8 = vacsh(S5_pairi, T5_pairi);
-    	D5_pair = tmp:4;
+    	D5_pair = zext(tmp:4);
     	U2_5_6 = tmp(1);
     }
 }

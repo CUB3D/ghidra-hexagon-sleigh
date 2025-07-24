@@ -162,8 +162,6 @@ with slot: iclass=0b1111 {
     }
 }
 
-#TODO: nv slice
-
 # ALU32/PRED:Cond logical
 with slot: iclass=0b1111 {
     :"if(" U2_5_6 ") " D5 "=and(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & U2_5_6 & U2_5_6i & D5 & mode=0 {

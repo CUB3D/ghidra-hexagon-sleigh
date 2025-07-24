@@ -225,7 +225,6 @@ with slot: iclass=0b1000 & mode=0 {
     	D5 = D5i ^ out;
     }
 }
-#TODO: not +=
 
 with slot: iclass=0b1101 & mode=0 {
 
@@ -235,11 +234,11 @@ with slot: iclass=0b1101 & mode=0 {
     :alu_X5_dup "=or(" XTYPE_SHIFT_LOG_u8 ",asl(" alu_X5 "," imm_8_12u "))" is imm_24_27=0b1110 & imm_21_23 & alu_X5 & alu_X5i & alu_X5_dup & imm_13 & imm_8_12u & imm_5_7 & imm_4=0 & imm_3 & imm_1_2=0b01 & imm_0=0 & XTYPE_SHIFT_LOG_u8  {
 	    alu_X5 = XTYPE_SHIFT_LOG_u8 | (alu_X5i << imm_8_12u);
 	}
-    :alu_X5_dup "+=and(" XTYPE_SHIFT_LOG_u8 ",lsr(" alu_X5 "," imm_8_12u "))" is imm_24_27=0b1110 & imm_21_23 & alu_X5 & alu_X5i & alu_X5_dup & imm_13 & imm_8_12u & imm_5_7 & imm_4=1 & imm_3 & imm_1_2=0b00 & imm_0=0 & XTYPE_SHIFT_LOG_u8  {
-	    alu_X5 = alu_X5i + (XTYPE_SHIFT_LOG_u8 & (alu_X5i >> imm_8_12u));
+    :alu_X5_dup "=and(" XTYPE_SHIFT_LOG_u8 ",lsr(" alu_X5 "," imm_8_12u "))" is imm_24_27=0b1110 & imm_21_23 & alu_X5 & alu_X5i & alu_X5_dup & imm_13 & imm_8_12u & imm_5_7 & imm_4=1 & imm_3 & imm_1_2=0b00 & imm_0=0 & XTYPE_SHIFT_LOG_u8  {
+	    alu_X5 = (XTYPE_SHIFT_LOG_u8 & (alu_X5i >> imm_8_12u));
 	}
-    :alu_X5_dup "+=or(" XTYPE_SHIFT_LOG_u8 ",lsr(" alu_X5 "," imm_8_12u "))" is imm_24_27=0b1110 & imm_21_23 & alu_X5 & alu_X5i & alu_X5_dup & imm_13 & imm_8_12u & imm_5_7 & imm_4=1 & imm_3 & imm_1_2=0b01 & imm_0=0 & XTYPE_SHIFT_LOG_u8  {
-	    alu_X5 = alu_X5i + (XTYPE_SHIFT_LOG_u8 | (alu_X5i >> imm_8_12u));
+    :alu_X5_dup "=or(" XTYPE_SHIFT_LOG_u8 ",lsr(" alu_X5 "," imm_8_12u "))" is imm_24_27=0b1110 & imm_21_23 & alu_X5 & alu_X5i & alu_X5_dup & imm_13 & imm_8_12u & imm_5_7 & imm_4=1 & imm_3 & imm_1_2=0b01 & imm_0=0 & XTYPE_SHIFT_LOG_u8  {
+	    alu_X5 = (XTYPE_SHIFT_LOG_u8 | (alu_X5i >> imm_8_12u));
 	}
 }
 

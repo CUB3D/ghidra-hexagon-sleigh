@@ -6,7 +6,7 @@
             size="32"
             variant="default"
             version="1.0"
-            slafile="skel.sla"
+            slafile="hexagon.sla"
             processorspec="hexagon.pspec"
             id="QDSP6:LE:32:default">
     <description>Hexagon QDSP6 V79</description>

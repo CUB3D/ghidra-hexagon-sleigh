@@ -16,12 +16,12 @@
 # CR:             Decode + pcode up to v73                                 regcache ever0 nvi
 # JR:             Decode + pcode up to v73                                 regcache ever0 nvi
 # J:              Decode + pcode up to v73                                 regcache ever0 nvi
-# LD:             Decode + pcode up to v73                                 regcache ever0
-# LD/Dword:       Decode + pcode up to v73                                 regcache ever0
-# LD/Byte:        Decode + pcode up to v73                                 regcache ever0
-# LD/Halfword:    Decode + pcode up to v73                                 regcache ever0
+# LD:             Decode + pcode up to v73                                 regcache ever0 nvi
+# LD/Dword:       Decode + pcode up to v73                                 regcache ever0 nvi
+# LD/Byte:        Decode + pcode up to v73                                 regcache ever0 nvi
+# LD/Halfword:    Decode + pcode up to v73                                 regcache ever0 nvi
 # LD/ubyte:       Decode + pcode up to v73                                 regcache ever0
-# LD/uHalfword:   Decode + pcode up to v73                                 regcache ever0
+# LD/uHalfword:   Decode + pcode up to v73                                 regcache ever0 nvi
 # LD/word:        Decode + pcode up to v73                                 regcache ever0
 # MEMOP:          Decode + pcode up to v73                                 regcache ever0 nvi
 # NV:             Decode + pcode up to v73                                 regcache ever0 nvi
@@ -48,14 +48,9 @@
 
 # TODOs:
 # move nv inputs to own slice: e.g.  if (!P0.new) r0=add(r1,0x0) ; P0.new=cmp.eq ; jmp -> nvi
-# move nv stores to own slice
-# fix signed compares in j / nv:j
-#  cant have jump and add in same slice if jump is first, cant have add before eq, must have normal slice: cmp, nv slice: add, branch slice: jmp
+# move nv stores to own slice -> nvst
 # check all unsigned / signed imms
 # caching for GP / GD5 / SGP?
-# immext0used doesn't work well with slices, reset it at start of each slice and use a different var immext0_ever_used to track missing immext
-# ^ This will also be broken for ops that have extenders but only exist in the normal slice?
-# Consider having a context to tag packetid as having a specific extender, so we don't need to dupe the whole isa to keep immext in sync?
 
 # Slices explained:
 # Hexagon has strange semantics where an instructions effect might not take place immediately
@@ -100,12 +95,9 @@
 # Then using normal, uncached inputs will give the new value
 
 
-
-# ordering plans:
-# 0000 -> normal int/fp/ld/st
-# 1000 -> NV inputs
-# 1100 -> branches
-# TODO: NV branches
+#############
+# REGISTERS #
+#############
 
 define endian=little;
 define alignment=4;
@@ -908,17 +900,12 @@ P2
 P3
 PTRUE
 ];
-define register offset=0x100 size=4 [
-	all_preds
-];
+
 define register offset=0x2000 size=1 [
 	P0c
 	P1c
 	P2c
 	P3c
-];
-define register offset=0x2000 size=4 [
-	cached_preds
 ];
 
 attach variables [ U2 D2_pred U2_pred_21_22  T2_pred S2_pred U2_pred U2_5_6 U1_23_24_pred T2_11_12_pred T2_9_10_pred D2 T2 S2] [
@@ -1389,15 +1376,16 @@ EXT_imm_5_11u:val is imm_5_11u & hasext0=1 & hasext1=1 & immext0used=1 & immext1
        export *[const]:4 val;
 }
 
-EXT_imm_5_10u:imm_5_10u is imm_5_10u & (hasext0=0 | immext0used=1) {
-       export *[const]:4 imm_5_10u;
-}
-EXT_imm_5_10u:val is imm_5_10u & hasext0=1 & immext0used=0 & immext0  [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;] {
-       export *[const]:4 val;
-}
-EXT_imm_5_10u:val is imm_5_10u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [ val = immext1 | imm_5_10u; immext1used=1;] {
-       export *[const]:4 val;
-}
+EXT_imm_5_10u:imm_5_10u is imm_5_10u & (hasext0=0 | immext0used=1) { export *[const]:4 imm_5_10u; }
+EXT_imm_5_10u:val is imm_5_10u & hasext0=1 & immext0used=0 & immext0  [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;immext0pos=pktid;] { export *[const]:4 val; }
+EXT_imm_5_10u:val is imm_5_10u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [ val = immext1 | imm_5_10u; immext1used=1;immext1pos=pktid;] { export *[const]:4 val; }
+
+NR_EXT_imm_5_10u:imm_5_10u is imm_5_10u & (hasext0=0 | immext0used=1) { export *[const]:4 imm_5_10u; }
+BR_EXT_imm_5_10u:imm_5_10u is imm_5_10u { export *[const]:4 imm_5_10u; }
+NR_EXT_imm_5_10u:val is imm_5_10u & hasext0=1 & immext0used=0 & immext0  [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;immext0pos=pktid;] { export *[const]:4 val; }
+BR_EXT_imm_5_10u:val is imm_5_10u & immext0pos=pktid & immext0  [ val = immext0 | imm_5_10u; immext0pos=pktid;] { export *[const]:4 val; }
+NR_EXT_imm_5_10u:val is imm_5_10u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [ val = immext1 | imm_5_10u; immext1used=1;immext1pos=pktid;] { export *[const]:4 val; }
+BR_EXT_imm_5_10u:val is imm_5_10u & immext1pos=pktid & immext1 [ val = immext1 | imm_5_10u; ] { export *[const]:4 val; }
 
 EXT_imm_0_5u:imm_0_5u is imm_0_5u & (hasext0=0 | immext0used=1) {
        export *[const]:4 imm_0_5u;
@@ -1474,13 +1462,14 @@ macro prelude() {
 
     # Copy all gprs to cached registers
     #cached_regs = all_gprs;
-    cached_preds = all_preds;
+#    cached_preds = all_preds;
 
+	# No, we can't collapse this down to a single large register covering the space, or Ghidra will try and use that register in places
+    P0c = P0;
+    P1c = P1;
+    P2c = P2;
+    P3c = P3;
 
-   # local reg_start:4 = 0x0;
-   # local reg_copy:4 = 0x1000;
-   # local tmp:128 = *[register]:128 reg_start;
-   # *[register]:128 reg_copy = tmp;
    r0c = r0;
    r1c = r1;
    r2c = r2;
@@ -1510,10 +1499,9 @@ macro prelude() {
    r26c = r26;
    r27c = r27;
    r28c = r28;
-   SP = SPc;
-   FP = FPc;
-   LR = LRc;
-   #TODO: re-cache the stack frame + duplex ops
+   SPc = SP;
+   FPc = FP;
+   LRc = LR;
 }
 
 

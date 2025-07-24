@@ -39,7 +39,7 @@ else if (project.hasProperty("GHIDRA_INSTALL_DIR")) {
 	ghidraInstallDir = project.getProperty("GHIDRA_INSTALL_DIR")
 }
 else {
-	ghidraInstallDir = "/home/cub3d/projects/ghidra-hexagon/stock_ghidra/ghidra_11.2_PUBLIC/"
+	ghidraInstallDir = "/home/cub3d/.local/opt/gvm/ghidra_11.4_PUBLIC/"
 }
 
 task distributeExtension {
@@ -64,3 +64,5 @@ dependencies {
 
 // Exclude additional files from the built extension
 // Ex: buildExtension.exclude '.idea/**'
+
+buildExtension.exclude 'test_files/**'
