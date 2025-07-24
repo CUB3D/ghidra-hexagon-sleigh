@@ -473,9 +473,6 @@ imm_22_26 = (22, 26)
 	immdup1_D3_pairi=(16,18)
 ;
 
-#define register offset=0x200 size=4 [
-#];
-
 define register offset=0x300 size=64 [
 testctx
 ];
@@ -601,9 +598,9 @@ SP
 FP
 LR
  ];
-  define register offset=0x00 size=128 [
-	all_gprs
- ];
+ # define register offset=0x00 size=128 [
+#	all_gprs
+# ];
 
 attach variables [ D5 D5_dup S5 S5_dup alu_X5 alu_X5_dup T5 T5_dup ] [
 r0
@@ -675,9 +672,9 @@ SPc
 FPc
 LRc
  ];
- define register offset=0x1000 size=128 [
-cached_regs
- ];
+# define register offset=0x1000 size=128 [
+#cached_regs
+# ];
 
 define register offset=0x1000 size=8 [
 r1r0c
@@ -1476,9 +1473,47 @@ macro prelude() {
     PTRUE = 1;
 
     # Copy all gprs to cached registers
-    cached_regs = all_gprs;
+    #cached_regs = all_gprs;
     cached_preds = all_preds;
 
+
+   # local reg_start:4 = 0x0;
+   # local reg_copy:4 = 0x1000;
+   # local tmp:128 = *[register]:128 reg_start;
+   # *[register]:128 reg_copy = tmp;
+   r0c = r0;
+   r1c = r1;
+   r2c = r2;
+   r3c = r3;
+   r4c = r4;
+   r5c = r5;
+   r6c = r6;
+   r7c = r7;
+   r8c = r8;
+   r9c = r9;
+   r10c = r10;
+   r11c = r11;
+   r12c = r12;
+   r13c = r13;
+   r14c = r14;
+   r15c = r15;
+   r16c = r16;
+   r17c = r17;
+   r18c = r18;
+   r19c = r19;
+   r20c = r20;
+   r21c = r21;
+   r22c = r22;
+   r23c = r23;
+   r24c = r24;
+   r25c = r25;
+   r26c = r26;
+   r27c = r27;
+   r28c = r28;
+   SP = SPc;
+   FP = FPc;
+   LR = LRc;
+   #TODO: re-cache the stack frame + duplex ops
 }
 
 
