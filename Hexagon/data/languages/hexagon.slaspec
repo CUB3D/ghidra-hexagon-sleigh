@@ -20,21 +20,21 @@
 # LD/Dword:       Decode + pcode up to v73                                 regcache ever0 nvi
 # LD/Byte:        Decode + pcode up to v73                                 regcache ever0 nvi
 # LD/Halfword:    Decode + pcode up to v73                                 regcache ever0 nvi
-# LD/ubyte:       Decode + pcode up to v73                                 regcache ever0
+# LD/ubyte:       Decode + pcode up to v73                                 regcache ever0 nvi
 # LD/uHalfword:   Decode + pcode up to v73                                 regcache ever0 nvi
-# LD/word:        Decode + pcode up to v73                                 regcache ever0
+# LD/word:        Decode + pcode up to v73                                 regcache ever0 nvi
 # MEMOP:          Decode + pcode up to v73                                 regcache ever0 nvi
 # NV:             Decode + pcode up to v73                                 regcache ever0 nvi
 # NV/HW:          Decode + pcode up to v73                                 regcache ever0 nvi nvst
-# ST:             Decode + pcode up to v73                                 regcache ever0 
-# ST/byte:        Decode + pcode up to v73                                 regcache ever0
-# ST/Dword:       Decode + pcode up to v73                                 regcache ever0
+# ST:             Decode + pcode up to v73                                 regcache ever0 nvi
+# ST/byte:        Decode + pcode up to v73                                 regcache ever0 nvi
+# ST/Dword:       Decode + pcode up to v73                                 regcache ever0 nvi
 # ST/halfword:    Decode + pcode up to v73                                 regcache ever0
-# ST/word:        Decode + pcode up to v73                                 regcache ever0
+# ST/word:        Decode + pcode up to v73                                 regcache ever0 nvi
 # SYSTEM/USER:    Decode + pcode up to v79                                 regcache ever0 nvi
 # SYSTEM/GUEST:   Decode + pcode up to v66 (latest for this section)       regcache ever0 nvi
 # SYSTEM/MONITOR: Decode + pcode up to v66 (latest for this section)       regcache ever0 nvi
-# XTYPE:          Decode + pcode up to v73                                 regcache ever0
+# XTYPE:          Decode + pcode up to v73                                 regcache ever0 nvi
 # XTYPE/ALU:      Decode + pcode up to v73                                 regcache ever0 nvi
 # XTYPE/BIT:      Decode + pcode up to v73                                 regcache ever0 nvi
 # XTYPE/COMPLEX:  Decode + pcode up to v79                                 regcache ever0 nvi
@@ -43,7 +43,7 @@
 # XTYPE/PERM:     Decode + pcode up to v73                                 regcache ever0 nvi
 # XTYPE/PRED:     Decode + pcode up to v73                                 regcache ever0 nvi
 # XTYPE/SHIFT:    Decode + pcode up to v73                                 regcache ever0 nvi
-# duplex          Decode + pcode up to v73                                 regcache ever0 <- recheck regcache for pairs
+# duplex          Decode + pcode up to v73                                 regcache ever0
 
 
 # TODOs:
@@ -51,6 +51,8 @@
 # move nv stores to own slice -> nvst
 # check all unsigned / signed imms
 # caching for GP / GD5 / SGP?
+# check shifts in ld / st
+# check everything in ld/st cond, exp. which value extends
 
 # Slices explained:
 # Hexagon has strange semantics where an instructions effect might not take place immediately
@@ -1502,6 +1504,7 @@ macro prelude() {
    SPc = SP;
    FPc = FP;
    LRc = LR;
+   # TODO: use pairs for this?
 }
 
 

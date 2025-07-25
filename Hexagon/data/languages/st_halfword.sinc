@@ -147,15 +147,9 @@ with slot: iclass=0b1010 & mode=0 {
      }
 }
 
-ST_COND_1_s6: s6 is imm_0_4u & imm_13 & (hasext0=0 | immext0used=1) [s6 = imm_0_4u | (imm_13 << 5);] {
-	export *[const]:4 s6;
-}
-ST_COND_1_s6: s6 is imm_0_4u & imm_13 & hasext0=1 & immext0used=0 & immext0 [s6 = (imm_0_4u | (imm_13 << 5)) | immext0; immext0used=1; immext0everused=1;] {
-	export *[const]:4 s6;
-}
-ST_COND_1_s6: s6 is imm_0_4u & imm_13 & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [s6 = (imm_0_4u | (imm_13 << 5)) | immext1; immext1used=1; ] {
-	export *[const]:4 s6;
-}
+ST_COND_1_s6: s6 is imm_0_4u & imm_13 & (hasext0=0 | immext0used=1) [s6 = imm_0_4u | (imm_13 << 5);] { export *[const]:4 s6; }
+ST_COND_1_s6: s6 is imm_0_4u & imm_13 & hasext0=1 & immext0used=0 & immext0 [s6 = (imm_0_4u | (imm_13 << 5)) | immext0; immext0used=1; immext0everused=1;] {export *[const]:4 s6; }
+ST_COND_1_s6: s6 is imm_0_4u & imm_13 & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [s6 = (imm_0_4u | (imm_13 << 5)) | immext1; immext1used=1; ] { export *[const]:4 s6;}
 
 # ST:Store HW cond
 with slot: iclass=0b0011 & mode=0 {
