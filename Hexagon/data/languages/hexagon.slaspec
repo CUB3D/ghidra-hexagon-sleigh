@@ -29,7 +29,7 @@
 # ST:             Decode + pcode up to v73                                 regcache ever0 nvi
 # ST/byte:        Decode + pcode up to v73                                 regcache ever0 nvi
 # ST/Dword:       Decode + pcode up to v73                                 regcache ever0 nvi
-# ST/halfword:    Decode + pcode up to v73                                 regcache ever0
+# ST/halfword:    Decode + pcode up to v73                                 regcache ever0 nvi
 # ST/word:        Decode + pcode up to v73                                 regcache ever0 nvi
 # SYSTEM/USER:    Decode + pcode up to v79                                 regcache ever0 nvi
 # SYSTEM/GUEST:   Decode + pcode up to v66 (latest for this section)       regcache ever0 nvi
@@ -43,11 +43,10 @@
 # XTYPE/PERM:     Decode + pcode up to v73                                 regcache ever0 nvi
 # XTYPE/PRED:     Decode + pcode up to v73                                 regcache ever0 nvi
 # XTYPE/SHIFT:    Decode + pcode up to v73                                 regcache ever0 nvi
-# duplex          Decode + pcode up to v73                                 regcache ever0
+# duplex          Decode + pcode up to v73                                 regcache ever0 nvi
 
 
 # TODOs:
-# move nv inputs to own slice: e.g.  if (!P0.new) r0=add(r1,0x0) ; P0.new=cmp.eq ; jmp -> nvi
 # move nv stores to own slice -> nvst
 # check all unsigned / signed imms
 # caching for GP / GD5 / SGP?
