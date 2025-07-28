@@ -52,6 +52,7 @@ with slot: iclass=0b0110 & mode=0 {
     :D5"=add(pc,"imm_7_12")" is imm_16_27=0b101001001001 & imm_13=0 & imm_7_12 & imm_5_6=0 & D5 & (hasext0=0 | immext0used=1) {
         D5 = inst_start + imm_7_12;
     }
+    #todo: ext
     :D5"=add(pc,"v")" is imm_16_27=0b101001001001 & imm_13=0 & imm_7_12u & imm_5_6=0 & D5 & hasext0=1 & immext0used=0 & immext0 [ v = imm_7_12u | immext0; immext0used=1; immext0everused=1;] {
         D5 = inst_start + v;
     }

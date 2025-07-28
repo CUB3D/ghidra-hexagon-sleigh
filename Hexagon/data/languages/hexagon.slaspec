@@ -1,5 +1,7 @@
 # sleigh specification file for Qualcomm Hexagon Processor (QDSP 6)
 
+# V79 spec can be found here: https://docs.qualcomm.com/bundle/publicresource/topics/80-N2040-60/instruction-set.html
+
 # List of nice-to-haves in SELIGH
 # arbitrary bit-count sext, not just bytes
 # allow (a+b, a) in tokens, keep getting imm64s wrong
@@ -11,10 +13,10 @@
 # Disas everything up to v73, most common ops have pcode impl
 
 # ALU32/ALU       Decode + pcode up to v79                                 regcache ever0 nvi
-# ALU32/PERM:     Decode + pcode up to v73                                 regcache ever0 nvi
+# ALU32/PERM:     Decode + pcode up to v79                                 regcache ever0 nvi
 # ALU32/PRED:     Decode + pcode up to v73                                 regcache ever0 nvi
-# CR:             Decode + pcode up to v73                                 regcache ever0 nvi
-# JR:             Decode + pcode up to v73                                 regcache ever0 nvi
+# CR:             Decode + pcode up to v79                                 regcache ever0 nvi
+# JR:             Decode + pcode up to v79                                 regcache ever0 nvi
 # J:              Decode + pcode up to v73                                 regcache ever0 nvi
 # LD:             Decode + pcode up to v73                                 regcache ever0 nvi
 # LD/Dword:       Decode + pcode up to v73                                 regcache ever0 nvi
@@ -26,6 +28,8 @@
 # MEMOP:          Decode + pcode up to v73                                 regcache ever0 nvi
 # NV:             Decode + pcode up to v73                                 regcache ever0 nvi
 # NV/HW:          Decode + pcode up to v73                                 regcache ever0 nvi nvst
+# NV/W:           Decode + pcode up to v73                                 regcache ever0 nvi nvst
+# NV/B:           Decode + pcode up to v73                                 regcache ever0 nvi nvst
 # ST:             Decode + pcode up to v73                                 regcache ever0 nvi
 # ST/byte:        Decode + pcode up to v73                                 regcache ever0 nvi
 # ST/Dword:       Decode + pcode up to v73                                 regcache ever0 nvi
@@ -47,7 +51,6 @@
 
 
 # TODOs:
-# move nv stores to own slice -> nvst
 # check all unsigned / signed imms
 # caching for GP / GD5 / SGP?
 # check shifts in ld / st

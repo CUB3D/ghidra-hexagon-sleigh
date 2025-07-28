@@ -148,3 +148,13 @@ with slot: iclass=0b1111 & mode=0 {
         D5_pair = t0 | (s0 << 16) | (t1 << 32) | (s1 << 48);
     }
 }
+with slot: iclass=0b1101 & mode=0 {
+    :D5_pair "=packhl(" S5 "," T5 "):deprecated" is Rs=0 & MajOp=0b100 & imm_22_23=0 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & D5_pair {
+        local t0:8 = zext(T5i:2);
+        local t1:8 = zext((T5i >> 16) & 0xFFFF);
+        local s0:8 = zext(S5i:2);
+        local s1:8 = zext((S5i >> 16) & 0xFFFF);
+        
+        D5_pair = t0 | (s0 << 16) | (t1 << 32) | (s1 << 48);
+    }
+}
