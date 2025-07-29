@@ -31,6 +31,7 @@ import ghidra.program.model.address.Address;
 import ghidra.program.model.address.AddressIterator;
 import ghidra.program.model.address.AddressSet;
 import ghidra.program.model.address.AddressSetView;
+import ghidra.program.model.lang.Processor;
 import ghidra.program.model.lang.Register;
 import ghidra.program.model.listing.ContextChangeException;
 import ghidra.program.model.listing.Instruction;
@@ -64,9 +65,11 @@ public class HexagonAnalyzer extends AbstractAnalyzer {
 
 	@Override
 	public boolean canAnalyze(Program program) {
-
-		// Examine 'program' to determine of this analyzer should analyze it.  Return true
-		// if it can.
+		boolean isHexagon = program.getLanguage().getProcessor().equals(Processor.findOrPossiblyCreateProcessor("Hexagon QDSP6"));
+		
+		if(!isHexagon) {
+			return false;
+		}
 		
 		or1 = program.getProgramContext().getRegister("or1test");
 		or2 = program.getProgramContext().getRegister("or2test");

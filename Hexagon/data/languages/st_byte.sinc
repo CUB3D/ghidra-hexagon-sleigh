@@ -5,8 +5,8 @@ with slot: iclass=0b0011 & mode=0 {
     	local EA:4 = (S5i + T5i) << u2;
     	*[ram]:1 EA = D5i;
     }
-    :"memb("S5"+"imm_7_12")=#"S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b00 & S5 & S5i & imm_13 & imm_7_12 & imm_0_6 [ S8 = (imm_0_6) | (imm_13 << 7);]{
-        local EA:4 = S5i + imm_7_12;
+    :"memb("S5"+"EXT_MEMOP_7_12u_0")=#"S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b00 & S5 & S5i & imm_13 & EXT_MEMOP_7_12u_0 & imm_0_6 [ S8 = (imm_0_6) | (imm_13 << 7);]{
+        local EA:4 = S5i + EXT_MEMOP_7_12u_0;
         *[ram]:1 EA = S8;
     }
 }
@@ -20,15 +20,17 @@ with slot: iclass=0b0100 & mode=0 {
 		*[ram]:1 EA = T5i;
     }
 }
+
+ST_s11_0: s11 is imm_25_26 & imm_13u & imm_0_7u & (hasext0=0 | immext0used=1) [s11 = (imm_0_7u | (imm_13u << 8) | (imm_25_26 << 9)) << 0;] { export *[const]:4 s11; }
+ST_s11_0: s11 is hasext0=1 & immext0used=0 & immext0 & imm_0_5u [s11 = immext0 | imm_0_5u; immext0used=1; immext0everused=1;] { export *[const]:4 s11; }
+ST_s11_0: s11 is hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_0_5u [s11 = immext1 | imm_0_5u; immext1used=1;] { export *[const]:4 s11; }
+
 with slot: iclass=0b1010 & mode=0 {
-    :"memb("S5"+"s11")="T5 is imm_27=0 & imm_25_26 & imm_21_24=0b1000 & S5 & S5i & imm_13u & T5 & T5i & imm_0_7u & (hasext0=0 | immext0used=1) [ s11 = (imm_0_7u) | (imm_13u << 9) | (imm_25_26 << 10);]{
-        local EA:4 = S5i + s11;
+    :"memb("S5"+"ST_s11_0")="T5 is imm_27=0 & imm_25_26 & imm_21_24=0b1000 & S5 & S5i & imm_13u & T5 & T5i & imm_0_7u & ST_s11_0 {
+        local EA:4 = S5i + ST_s11_0;
         *[ram]:1 EA = T5i;
     }
-    :"memb("S5"+"s11")="T5 is imm_27=0 & imm_25_26 & imm_21_24=0b1000 & S5 & S5i & imm_13 & T5 & T5i & imm_0_7 & hasext0=1 & immext0used=0 & immext0 & imm_0_5u [ s11 = (imm_0_5u) | immext0; immext0used=1; immext0everused=1;]{
-        local EA:4 = S5i + s11;
-        *[ram]:1 EA = T5i;
-    }
+    
     :"memb(" S5 "++I:circ(" M1_13 "))=" T5  is imm_21_27=0b1001000 & S5 & S5i & M1_13 & T5 & T5i & imm_7=0 & imm_2_6=0 & imm_1=1 & imm_0=0 {
 	     local EA:4 = S5i;
     	S5 = circ_add(S5i, (M1_13:1), M1_13);

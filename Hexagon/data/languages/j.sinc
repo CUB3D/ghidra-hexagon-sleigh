@@ -974,47 +974,52 @@ BR_Call_V: v is immext1pos=pktid & immext1 & imm_1_6u  [v = inst_start + (imm_1_
  # J/Jump to address
 with slot: iclass=0b0101 {
 
-    JImm: loc is imm_16_24 & imm_1_13u & mode=0 & (hasext0=0 | immext0used=1) [loc = inst_start+(((imm_16_24 << 13) | (imm_1_13u)) << 2);]{export *[ram]:4 loc; }
-    JImm: loc is imm_16_24 & imm_1_13u & mode=1100 [loc = inst_start+(((imm_16_24 << 13) | (imm_1_13u)) << 2);]{export *[ram]:4 loc; }
-    JImm: loc is imm_16_24 & imm_1_13u & mode=0 & hasext0=1 & immext0used=0 & immext0 & imm_1_6u [loc = inst_start + (immext0 | imm_1_6u); immext0used=1; immext0everused=1; immext0pos=pktid;] {export *[ram]:4 loc;}
-    JImm: loc is imm_16_24 & imm_1_13u & mode=1100 & immext0pos=pktid & immext0 & imm_1_6u [loc = inst_start + (immext0 | imm_1_6u); immext0used=1;] {export *[ram]:4 loc;}
-    JImm: loc is imm_16_24 & imm_1_13u & mode=0 & hasext0=1 & immext0used=1 & hasext1=1 & immext1 & imm_1_6u [loc = inst_start + (immext1 | imm_1_6u); immext1used=1; immext1pos=pktid;] {export *[ram]:4 loc;}
-    JImm: loc is imm_16_24 & imm_1_13u & mode=1100 & immext1pos=pktid & immext1 & imm_1_6u [loc = inst_start + (immext1 | imm_1_6u); immext1used=1;] {export *[ram]:4 loc;}
+    NR_JImm: loc is imm_16_24 & imm_1_13u & (hasext0=0 | immext0used=1) [loc = inst_start+(((imm_16_24 << 13) | (imm_1_13u)) << 2);]{export *[ram]:4 loc; }
+    BR_JImm: loc is imm_16_24 & imm_1_13u [loc = inst_start+(((imm_16_24 << 13) | (imm_1_13u)) << 2);]{export *[ram]:4 loc; }
+    NR_JImm: loc is imm_16_24 & imm_1_13u & hasext0=1 & immext0used=0 & immext0 & imm_1_6u [loc = inst_start + (immext0 | imm_1_6u); immext0used=1; immext0everused=1; immext0pos=pktid;] {export *[ram]:4 loc;}
+    BR_JImm: loc is imm_16_24 & imm_1_13u & immext0pos=pktid & immext0 & imm_1_6u [loc = inst_start + (immext0 | imm_1_6u); immext0used=1;] {export *[ram]:4 loc;}
+    NR_JImm: loc is imm_16_24 & imm_1_13u & hasext0=1 & immext0used=1 & hasext1=1 & immext1 & imm_1_6u [loc = inst_start + (immext1 | imm_1_6u); immext1used=1; immext1pos=pktid;] {export *[ram]:4 loc;}
+    BR_JImm: loc is imm_16_24 & imm_1_13u & immext1pos=pktid & immext1 & imm_1_6u [loc = inst_start + (immext1 | imm_1_6u); immext1used=1;] {export *[ram]:4 loc;}
     
     
-    IfImm: r15 is imm_1_7u & imm_13u & imm_16_20u & imm_22_23 [r15 = inst_start + ((imm_1_7u | (imm_13u << 7) | (imm_16_20u << 8) | (imm_22_23 << 13)) << 2);] {export *[ram]:4 r15;}
+    NR_IfImm: r15 is imm_1_7u & imm_13u & imm_16_20u & imm_22_23 & (hasext0=0 | immext0used=1) [r15 = inst_start + ((imm_1_7u | (imm_13u << 7) | (imm_16_20u << 8) | (imm_22_23 << 13)) << 2);] {export *[ram]:4 r15;}
+    BR_IfImm: r15 is imm_1_7u & imm_13u & imm_16_20u & imm_22_23 [r15 = inst_start + ((imm_1_7u | (imm_13u << 7) | (imm_16_20u << 8) | (imm_22_23 << 13)) << 2);] {export *[ram]:4 r15;}
+    NR_IfImm: r15 is imm_1_7u & imm_13u & imm_16_20u & imm_22_23 & hasext0=1 & immext0used=0 & immext0 & imm_1_6u [r15 = inst_start + (immext0 | imm_1_6u); immext0used=1; immext0everused=1; immext0pos=pktid; ] {export *[ram]:4 r15;}
+    BR_IfImm: r15 is imm_1_7u & imm_13u & imm_16_20u & imm_22_23 & immext0pos=pktid & immext0 & imm_1_6u [r15 = inst_start + (immext0 | imm_1_6u); ] {export *[ram]:4 r15;}
+    NR_IfImm: r15 is imm_1_7u & imm_13u & imm_16_20u & imm_22_23 & hasext0=1 & immext0used=1 & hasext1=1 & immext1 & imm_1_6u [r15 = inst_start + (immext1 | imm_1_6u); immext1used=1; immext1pos=pktid; ] {export *[ram]:4 r15;}
+    BR_IfImm: r15 is imm_1_7u & imm_13u & imm_16_20u & imm_22_23 & immext1pos=pktid & immext1 & imm_1_6u [r15 = inst_start + (immext1 | imm_1_6u); ] {export *[ram]:4 r15;}
 
-	:"jump" JImm  is imm_25_27=0b100 & imm_0=0 & JImm & mode=0 {}
-    :"jump" JImm  is imm_25_27=0b100 & imm_0=0 & JImm & mode=1100 {
-   	goto JImm;
+	:"jump" NR_JImm  is imm_25_27=0b100 & imm_0=0 & NR_JImm & mode=0 {}
+    :"jump" BR_JImm  is imm_25_27=0b100 & imm_0=0 & BR_JImm & mode=1100 {
+   	goto BR_JImm;
     }    
     
 
-	 :"if ("U2") jump:t "IfImm is  imm_24_27=0b1100 & imm_21=0 & imm_11_12=0b00 & imm_10=0 & U2 & U2i & imm_0=0 & IfImm & mode=0 {}
-	 :"if ("U2") jump:t "IfImm is  imm_24_27=0b1100 & imm_21=0 & imm_11_12=0b00 & imm_10=0 & U2 & U2i & imm_0=0 & IfImm & mode=1100 {
+	 :"if ("U2") jump:t "NR_IfImm is  imm_24_27=0b1100 & imm_21=0 & imm_11_12=0b00 & imm_10=0 & U2 & U2i & imm_0=0 & NR_IfImm & mode=0 {}
+	 :"if ("U2") jump:t "BR_IfImm is  imm_24_27=0b1100 & imm_21=0 & imm_11_12=0b00 & imm_10=0 & U2 & U2i & imm_0=0 & BR_IfImm & mode=1100 {
 	 	if(U2i == 0) goto <end>;
-	 	goto IfImm;
+	 	goto BR_IfImm;
 	 	<end> 
 	 }
 
-	 :"if ("U2") jump:t "IfImm is  imm_24_27=0b1100 & imm_21=0 & imm_11_12=0b10 & imm_10=0 & U2 & U2i & imm_0=0 & IfImm & mode=0 {}
-	 :"if ("U2") jump:t "IfImm is  imm_24_27=0b1100 & imm_21=0 & imm_11_12=0b10 & imm_10=0 & U2 & U2i & imm_0=0 & IfImm & mode=1100 {
+	 :"if ("U2") jump:t "NR_IfImm is  imm_24_27=0b1100 & imm_21=0 & imm_11_12=0b10 & imm_10=0 & U2 & U2i & imm_0=0 & NR_IfImm & mode=0 {}
+	 :"if ("U2") jump:t "BR_IfImm is  imm_24_27=0b1100 & imm_21=0 & imm_11_12=0b10 & imm_10=0 & U2 & U2i & imm_0=0 & BR_IfImm & mode=1100 {
 	 	if(U2i == 0) goto <end>;
-	 	goto IfImm;
+	 	goto BR_IfImm;
 	 	<end> 
 	 }
      
-	  :"if (!"U2") jump:t "IfImm is  imm_24_27=0b1100 & imm_21=1 & imm_11_12=0b00 & imm_10=0 & U2 & U2i & imm_0=0 & IfImm & mode=0 {}
-	 :"if (!"U2") jump:t "IfImm is  imm_24_27=0b1100 & imm_21=1 & imm_11_12=0b00 & imm_10=0 & U2 & U2i & imm_0=0 & IfImm & mode=1100 {
+	  :"if (!"U2") jump:t "NR_IfImm is  imm_24_27=0b1100 & imm_21=1 & imm_11_12=0b00 & imm_10=0 & U2 & U2i & imm_0=0 & NR_IfImm & mode=0 {}
+	 :"if (!"U2") jump:t "BR_IfImm is  imm_24_27=0b1100 & imm_21=1 & imm_11_12=0b00 & imm_10=0 & U2 & U2i & imm_0=0 & BR_IfImm & mode=1100 {
 		 if(U2i != 0) goto <end>;
-	 	goto IfImm;
+	 	goto BR_IfImm;
 	 	<end> 
 	 }
 
-	 :"if (!"U2") jump:t "IfImm is  imm_24_27=0b1100 & imm_21=1 & imm_11_12=0b10 & imm_10=0 & U2 & U2i & imm_0=0 & IfImm & mode=0 {}
-	 :"if (!"U2") jump:t "IfImm is  imm_24_27=0b1100 & imm_21=1 & imm_11_12=0b10 & imm_10=0 & U2 & U2i & imm_0=0 & IfImm & mode=1100 {
+	 :"if (!"U2") jump:t "NR_IfImm is  imm_24_27=0b1100 & imm_21=1 & imm_11_12=0b10 & imm_10=0 & U2 & U2i & imm_0=0 & NR_IfImm & mode=0 {}
+	 :"if (!"U2") jump:t "BR_IfImm is  imm_24_27=0b1100 & imm_21=1 & imm_11_12=0b10 & imm_10=0 & U2 & U2i & imm_0=0 & BR_IfImm & mode=1100 {
 		 if(U2i != 0) goto <end>;
-	 	goto IfImm;
+	 	goto BR_IfImm;
 	 	<end> 
 	 }
  }

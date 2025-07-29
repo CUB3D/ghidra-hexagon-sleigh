@@ -10,15 +10,9 @@ ST_u6_1: u6 is imm_7_12u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [ u6 
 }
 
 
-ST_s11_1: s11 is imm_25_26 & imm_13u & imm_0_7u & (hasext0=0 | immext0used=1) [s11 = (imm_0_7u | (imm_13u << 8) | (imm_25_26 << 9)) << 1;] {
-	export *[const]:4 s11;
-}
-ST_s11_1: s11 is hasext0=1 & immext0used=0 & immext0 & imm_0_5u [s11 = immext0 | imm_0_5u; immext0used=1;] {
-	export *[const]:4 s11;
-}
-ST_s11_1: s11 is hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_0_5u [s11 = immext1 | imm_0_5u; immext1used=1;] {
-	export *[const]:4 s11;
-}
+ST_s11_1: s11 is imm_25_26 & imm_13u & imm_0_7u & (hasext0=0 | immext0used=1) [s11 = (imm_0_7u | (imm_13u << 8) | (imm_25_26 << 9)) << 1;] { export *[const]:4 s11; }
+ST_s11_1: s11 is hasext0=1 & immext0used=0 & immext0 & imm_0_5u [s11 = immext0 | imm_0_5u; immext0used=1;immext0everused=1;] { export *[const]:4 s11; }
+ST_s11_1: s11 is hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_0_5u [s11 = immext1 | imm_0_5u; immext1used=1;] { export *[const]:4 s11; }
 
 # ST:Store HW 
 with slot: iclass=0b0011 & mode=0 {
