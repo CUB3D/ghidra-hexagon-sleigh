@@ -1,0 +1,118 @@
+
+
+define register offset=0x9000 size=1 [ Q0 Q1 Q2 Q3 ];
+attach variables [ Qv4 Qt4 Qs4 Qd4 ] [ Q0 Q1 Q2 Q3 ];
+
+define pcodeop _vstub();
+
+# HVX/all compute resource
+
+# histogram
+define pcodeop vhist;
+
+with slot: mode=0 & iclass=0b001 {
+    :vhist is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_19_20=0 & imm_16_18=0b000 & imm_13=1 & imm_12=0 & imm_9_11=0b000 & imm_8=0 & imm_5_7=0b100 & imm_0_4=0 {
+        vhist();
+    }
+    :vhist is imm_24_27=0b1110 & Qv4 & imm_21=0 & imm_19_20=0 & imm_16_18=0b010 & imm_13=1 & imm_11_12=0 & imm_9_10=0b000 & imm_8=0 & imm_5_7=0b100 & imm_0_4=0 {
+        vhist(Qv4);
+    }
+}
+
+# weighted histogram
+define pcodeop vwhist256;
+define pcodeop vwhist256_sat;
+define pcodeop vwhist128;
+
+with slot: mode=0 & iclass=0b0001 {
+   :vwhist256 is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_19_20=0 & imm_16_18=0b000 & imm_13=1 & imm_12=0 & imm_5_11=0b0010100 & imm_0_4=0 {
+        vwhist256();
+   }
+
+   :"vwhist256:sat" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_19_20=0 & imm_16_18=0b000 & imm_13=1 & imm_12=0 & imm_5_11=0b0011100 & imm_0_4=0 {
+        vwhist256_sat();
+   }
+
+   :"vwhist128" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_19_20=0 & imm_16_18=0b000 & imm_13=1 & imm_12=0 & imm_9_11=0b010 & imm_8=0 & imm_5_7=0b100 & imm_0_4=0 {
+        vwhist128();
+   }
+
+   :"vwhist128(" imm_8 ")" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_19_20=0 & imm_16_18=0b000 & imm_13=1 & imm_12=0 & imm_9_11=0b011 & imm_8 & imm_5_7=0b100 & imm_0_4=0 {
+        vwhist128(imm_8:1);
+   }
+
+   :"vwhist256(" Qv4 ")" is imm_24_27=0b1110 & Qv4 & imm_21=0 & imm_19_20=0 & imm_16_18=0b010 & imm_13=1 & imm_11_12=0 & imm_5_11=0b010100 & imm_0_4=0 {
+        vwhist256(Qv4);
+   }
+
+   :"vwhist256(" Qv4 "):sat" is imm_24_27=0b1110 & Qv4 & imm_21=0 & imm_19_20=0 & imm_16_18=0b010 & imm_13=1 & imm_11_12=0 & imm_5_11=0b011100 & imm_0_4=0 {
+        vwhist256(Qv4);
+   }
+
+   :"vwhist128(" Qv4 ")" is imm_24_27=0b1110 & Qv4 & imm_21=0 & imm_19_20=0 & imm_16_18=0b010 & imm_13=1 & imm_11_12=0 & imm_9_10=0b10 & imm_8=0 & imm_5_7=0b100 & imm_0_4=0 {
+        vwhist128(Qv4);
+   }
+
+   :"vwhist128(" Qv4 "," imm_8 ")" is imm_24_27=0b1110 & Qv4 & imm_21=0 & imm_19_20=0 & imm_16_18=0b010 & imm_13=1 & imm_11_12=0 & imm_9_10=0b11 & imm_8 & imm_5_7=0b100 & imm_0_4=0 {
+        vwhist128(Qv4, imm_8);
+   }
+}
+
+# HVX/all compute resource
+
+# predicate ops
+with slot: mode=0 & iclass=0b0001 {
+   :Qd4 "= and(" Qs4 "," Qt4 ")" is imm_24_27=0b1110 & Qt4 & imm_21=0 & imm_18_20=0 & imm_16_17=0b11 & imm_13=0 & imm_10_12=0 & Qs4 & imm_2_7=0b000000 & Qd4 {
+    Qd4 = Qs4 & Qt4;
+   }
+
+   :Qd4 "= or(" Qs4 "," Qt4 ")" is imm_24_27=0b1110 & Qt4 & imm_21=0 & imm_18_20=0 & imm_16_17=0b11 & imm_13=0 & imm_10_12=0 & Qs4 & imm_2_7=0b000001 & Qd4 {
+    Qd4 = Qs4 | Qt4;
+   }
+
+   :Qd4 "= xor(" Qs4 "," Qt4 ")" is imm_24_27=0b1110 & Qt4 & imm_21=0 & imm_18_20=0 & imm_16_17=0b11 & imm_13=0 & imm_10_12=0 & Qs4 & imm_2_7=0b000011 & Qd4 {
+    Qd4 = Qs4 ^ Qt4;
+   }
+
+   :Qd4 "= or(" Qs4 ",!" Qt4 ")" is imm_24_27=0b1110 & Qt4 & imm_21=0 & imm_18_20=0 & imm_16_17=0b11 & imm_13=0 & imm_10_12=0 & Qs4 & imm_2_7=0b000100 & Qd4 {
+    Qd4 = Qs4 | (~Qt4);
+   }
+
+   :Qd4 "= and(" Qs4 ",!" Qt4 ")" is imm_24_27=0b1110 & Qt4 & imm_21=0 & imm_18_20=0 & imm_16_17=0b11 & imm_13=0 & imm_10_12=0 & Qs4 & imm_2_7=0b000101 & Qd4 {
+    Qd4 = Qs4 | (~Qt4);
+   }
+
+   :Qd4 ".b = vshuffle(" Qs4 ".h, " Qt4 ".h)" is imm_24_27=0b1110 & Qt4 & imm_21=0 & imm_18_20=0 & imm_16_17=0b11 & imm_13=0 & imm_10_12=0 & Qs4 & imm_2_7=0b000110 & Qd4 {
+    _vstub();
+   }
+
+   :Qd4 ".w = vshuffle(" Qs4 ".w, " Qt4 ".w)" is imm_24_27=0b1110 & Qt4 & imm_21=0 & imm_18_20=0 & imm_16_17=0b11 & imm_13=0 & imm_10_12=0 & Qs4 & imm_2_7=0b000111 & Qd4 {
+    _vstub();
+   }
+}
+
+# combine
+with slot: mode=0 & iclass=0b0001 {
+    :"if (!" S2_5_6 ") " VD5_pair "=vcombine(" VT5 "," VS5 ")" is imm_21_27=0b1010010 & VS5 & imm_13=0 & VT5 & imm_7=0 & S2_5_6 & VD5_pair {
+        _vstub();
+    }
+
+    :"if (" S2_5_6 ") " VD5_pair "=vcombine(" VT5 "," VS5 ")" is imm_21_27=0b1010011 & VS5 & imm_13=0 & VT5 & imm_7=0 & S2_5_6 & VD5_pair {
+        _vstub();
+    }
+
+    :VD5_pair "=vcombine(" VT5 "," VS5 ")" is imm_21_27=0b1111010 & VS5 & imm_13=0 & VT5 & imm_5_7=0b111 & VD5_pair {
+        _vstub();
+    }
+}
+
+# in-lane shuffle
+with slot: mode=0 & iclass=0b0001 {
+    :VD5_pair ".h =vshuffoe(" VT5 ".h," VS5 ".h)" is imm_21_27=0b1111010 & VS5 & imm_13=0 & VT5 & imm_5_7=0b101 & VD5_pair {
+        _vstub();
+    }
+
+    :VD5_pair ".b =vshuffoe(" VT5 ".b," VS5 ".b)" is imm_21_27=0b1111010 & VS5 & imm_13=0 & VT5 & imm_5_7=0b110 & VD5_pair {
+        _vstub();
+    }
+}
