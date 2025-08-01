@@ -116,3 +116,26 @@ with slot: mode=0 & iclass=0b0001 {
         _vstub();
     }
 }
+
+# swap
+with slot: mode=0 & iclass=0b0001 {
+    :VD5_pair " =vswap(" Qt4 "," VT5 "," VS5 ".h)" is imm_21_27=0b1110101 & VS5 & imm_13=1 & VT5 & imm_7=0 & Qt4 & VD5_pair {
+        _vstub();
+    }
+}
+
+# sign / zero ext
+with slot: mode=0 & iclass=0b0001 {
+    :VD5_pair ".uh = vzxt(" VT5 ".ub)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0 & imm_16_17=0b10 & imm_13=0 & VT5 & imm_5_7=0b001 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair ".uw = vzxt(" VT5 ".uh)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0 & imm_16_17=0b10 & imm_13=0 & VT5 & imm_5_7=0b010 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair ".h = vzxt(" VT5 ".b)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0 & imm_16_17=0b10 & imm_13=0 & VT5 & imm_5_7=0b011 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair ".w = vzxt(" VT5 ".h)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0 & imm_16_17=0b10 & imm_13=0 & VT5 & imm_5_7=0b100 & VD5_pair {
+        _vstub();
+    }
+}
