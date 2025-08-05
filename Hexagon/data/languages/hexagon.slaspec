@@ -1399,10 +1399,6 @@ EXT_imm_5_11u:val is imm_5_11u & hasext0=1 & hasext1=1 & immext0used=1 & immext1
        export *[const]:4 val;
 }
 
-EXT_imm_5_10u:imm_5_10u is imm_5_10u & (hasext0=0 | immext0used=1) { export *[const]:4 imm_5_10u; }
-EXT_imm_5_10u:val is imm_5_10u & hasext0=1 & immext0used=0 & immext0  [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;immext0pos=pktid;] { export *[const]:4 val; }
-EXT_imm_5_10u:val is imm_5_10u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [ val = immext1 | imm_5_10u; immext1used=1;immext1pos=pktid;] { export *[const]:4 val; }
-
 NR_EXT_imm_5_10u:imm_5_10u is imm_5_10u & (hasext0=0 | immext0used=1) { export *[const]:4 imm_5_10u; }
 BR_EXT_imm_5_10u:imm_5_10u is imm_5_10u { export *[const]:4 imm_5_10u; }
 NR_EXT_imm_5_10u:val is imm_5_10u & hasext0=1 & immext0used=0 & immext0  [ val = immext0 | imm_5_10u; immext0used=1;immext0everused=1;immext0pos=pktid;] { export *[const]:4 val; }

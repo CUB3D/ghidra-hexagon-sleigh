@@ -8,22 +8,15 @@ with slot: iclass=0b0011 {
 }
 
 #TODO: hw version of this
-NR_NV_ST_GP_U16_W:u16 is imm_0_7u & imm_13u & imm_16_20u & imm_25_26u & (hasext0=0 | immext0used=1) [u16 = (imm_0_7u | imm_13u << 8 | imm_16_20u<<9 | imm_25_26u <<14) << 2;] { export *[const]:4 u16; }
-BR_NV_ST_GP_U16_W:u16 is imm_0_7u & imm_13u & imm_16_20u & imm_25_26u [u16 = (imm_0_7u | imm_13u << 8 | imm_16_20u<<9 | imm_25_26u <<14) << 2;] { export *[const]:4 u16; }
+NR_NV_ST_U16_W:"GP +" u16 is imm_0_7u & imm_13u & imm_16_20u & imm_25_26u & (hasext0=0 | immext0used=1) [u16 = (imm_0_7u | imm_13u << 8 | imm_16_20u<<9 | imm_25_26u <<14) << 2;] { local tmp:4 = GP + u16:4; export *[const]:4 tmp; }
+BR_NV_ST_U16_W:"GP +" u16 is imm_0_7u & imm_13u & imm_16_20u & imm_25_26u [u16 = (imm_0_7u | imm_13u << 8 | imm_16_20u<<9 | imm_25_26u <<14) << 2;] { local tmp: 4 = GP + u16:4; export *[const]:4 tmp; }
 
 NR_NV_ST_U16_W:val is imm_0_5u & hasext0=1 & immext0used=0 & immext0 [ val = immext0 | imm_0_5u; immext0used=1; immext0everused=1; immext0pos=pktid;] { export *[const]:4 val; }
 BR_NV_ST_U16_W:val is imm_0_5u & immext0pos=pktid  & immext0 [ val = immext0 | imm_0_5u; ] { export *[const]:4 val; }
 NR_NV_ST_U16_W:val is imm_0_5u & hasext0=1 & immext0used=1 & hasext1=1 & immext1 [ val = immext1 | imm_0_5u; immext1used=1; immext1pos=pktid;] { export *[const]:4 val; }
 BR_NV_ST_U16_W:val is imm_0_5u & immext1pos=pktid  & immext1 [ val = immext1 | imm_0_5u; ] { export *[const]:4 val; }
 
-#TODO: should be sliced
 with slot: iclass=0b0100 {
-    :"memw(GP+"NR_NV_ST_GP_U16_W")="NV_T3_new_8_10 is imm_27=1 & imm_25_26u & imm_21_24=0b0101 & imm_16_20u & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & mode=0 & NR_NV_ST_GP_U16_W {}
-    :"memw(GP+"NR_NV_ST_U16_W")="NV_T3_new_8_10 is imm_27=1 & imm_25_26u & imm_21_24=0b0101 & imm_16_20u & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_0_7u & mode=200 & NR_NV_ST_U16_W {
-    	local EA:4 = GP + NR_NV_ST_U16_W;
-		*[ram]:4 EA = NV_T3_new_8_10;
-    }
-    
     :"memw("NR_NV_ST_U16_W")="NV_T3_new_8_10 is imm_27=1 & imm_25_26u & imm_21_24=0b0101 & imm_16_20u & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_0_7u & imm_0_5u & mode=0 & NR_NV_ST_U16_W {}
     :"memw("BR_NV_ST_U16_W")="NV_T3_new_8_10 is imm_27=1 & imm_25_26u & imm_21_24=0b0101 & imm_16_20u & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_0_7u & imm_0_5u & mode=200  & BR_NV_ST_U16_W {
     	local EA:4 = BR_NV_ST_U16_W;

@@ -3,9 +3,9 @@
 define register offset=0x9000 size=1 [ Q0 Q1 Q2 Q3 ];
 attach variables [ Qv4 Qt4 Qs4 Qd4 ] [ Q0 Q1 Q2 Q3 ];
 
-define pcodeop _vstub();
+define pcodeop _vstub;
 
-# HVX/all compute resource
+# HVX/ALL-COMPUTE-RESOURCE
 
 # histogram
 define pcodeop vhist;
@@ -58,7 +58,7 @@ with slot: mode=0 & iclass=0b0001 {
    }
 }
 
-# HVX/all compute resource
+# HVX/ALL-DOUBLE-RESOURCE
 
 # predicate ops
 with slot: mode=0 & iclass=0b0001 {
@@ -200,6 +200,8 @@ with slot: mode=0 & iclass=0b0001 {
     }
 }
 
+# HVX/ALU-RESOURCE
+
 # predicate ops
 
 with slot: mode=0 & iclass=0b0001 {
@@ -287,3 +289,78 @@ with slot: mode=0 & iclass=0b0001 {
         _vstub();
     }
 }
+
+# abs
+with slot: mode=0 & iclass=0b0001 {
+    :VD5 ".w = vadd(" VT5 ".w," VS5".w)" is imm_21_27=0b1100010 & VS5 & imm_13=0 & VT5 & imm_5_7=0b000 & VD5 {
+        _vstub();
+    }
+    :VD5 ".ub = vadd(" VT5 ".ub," VS5".ub):sat" is imm_21_27=0b1100010 & VS5 & imm_13=0 & VT5 & imm_5_7=0b001 & VD5 {
+        _vstub();
+    }
+    :VD5 ".uh = vadd(" VT5 ".uh," VS5".uh):sat" is imm_21_27=0b1100010 & VS5 & imm_13=0 & VT5 & imm_5_7=0b010 & VD5 {
+        _vstub();
+    }
+    :VD5 ".h = vadd(" VT5 ".h," VS5".h):sat" is imm_21_27=0b1100010 & VS5 & imm_13=0 & VT5 & imm_5_7=0b011 & VD5 {
+        _vstub();
+    }
+    :VD5 ".w = vadd(" VT5 ".w," VS5".w):sat" is imm_21_27=0b1100010 & VS5 & imm_13=0 & VT5 & imm_5_7=0b100 & VD5 {
+        _vstub();
+    }
+    :VD5 ".b = vsub(" VT5 ".b," VS5".b)" is imm_21_27=0b1100010 & VS5 & imm_13=0 & VT5 & imm_5_7=0b101 & VD5 {
+        _vstub();
+    }
+    :VD5 ".h = vsub(" VT5 ".h," VS5".h)" is imm_21_27=0b1100010 & VS5 & imm_13=0 & VT5 & imm_5_7=0b110 & VD5 {
+        _vstub();
+    }
+    :VD5 ".w = vsub(" VT5 ".w," VS5".w)" is imm_21_27=0b1100010 & VS5 & imm_13=0 & VT5 & imm_5_7=0b111 & VD5 {
+        _vstub();
+    }
+    :VD5 ".ub = vsub(" VT5 ".ub," VS5".ub):sat" is imm_21_27=0b1100011 & VS5 & imm_13=0 & VT5 & imm_5_7=0b000 & VD5 {
+        _vstub();
+    }
+    :VD5 ".uh = vsub(" VT5 ".uh," VS5".uh):sat" is imm_21_27=0b1100011 & VS5 & imm_13=0 & VT5 & imm_5_7=0b001 & VD5 {
+        _vstub();
+    }
+    :VD5 ".h = vsub(" VT5 ".h," VS5".h):sat" is imm_21_27=0b1100011 & VS5 & imm_13=0 & VT5 & imm_5_7=0b010 & VD5 {
+        _vstub();
+    }
+    :VD5 ".w = vsub(" VT5 ".w," VS5".w):sat" is imm_21_27=0b1100011 & VS5 & imm_13=0 & VT5 & imm_5_7=0b011 & VD5 {
+        _vstub();
+    }
+
+    :VD5 ".w = vadd(" VT5 ".w," VS5".w," Qx4 "):carry" is imm_21_27=0b1100101 & VS5 & imm_13=1 & VT5 & imm_7=0 & Qx4 & VD5 {
+        _vstub();
+    }
+    :VD5 ".w = vsub(" VT5 ".w," VS5".w," Qx4 "):carry" is imm_21_27=0b1100101 & VS5 & imm_13=1 & VT5 & imm_7=1 & Qx4 & VD5 {
+        _vstub();
+    }
+
+    :VD5 ".ub = vadd(" VT5 ".ub," VS5".b):sat" is imm_21_27=0b1110101 & VS5 & imm_13=0 & VT5 & imm_5_7=0b100 & VD5 {
+        _vstub();
+    }
+    :VD5 ".ub = vsub(" VT5 ".ub," VS5".b):sat" is imm_21_27=0b1110101 & VS5 & imm_13=0 & VT5 & imm_5_7=0b101 & VD5 {
+        _vstub();
+    }
+    :VD5 ".b = vadd(" VT5 ".b," VS5".b):sat" is imm_21_27=0b1111000 & VS5 & imm_13=0 & VT5 & imm_5_7=0b000 & VD5 {
+        _vstub();
+    }
+
+    :VD5 ".b = vsub(" VT5 ".b," VS5".b):sat" is imm_21_27=0b1111001 & VS5 & imm_13=0 & VT5 & imm_5_7=0b010 & VD5 {
+        _vstub();
+    }
+    :VD5 ".uw = vadd(" VT5 ".uw," VS5".uw):sat" is imm_21_27=0b1111011 & VS5 & imm_13=0 & VT5 & imm_5_7=0b001 & VD5 {
+        _vstub();
+    }
+    :VD5 ".b = vadd(" VT5 ".b," VS5".b)" is imm_21_27=0b1111101 & VS5 & imm_13=0 & VT5 & imm_5_7=0b110 & VD5 {
+        _vstub();
+    }
+    :VD5 ".h = vadd(" VT5 ".h," VS5".h)" is imm_21_27=0b1111101 & VS5 & imm_13=0 & VT5 & imm_5_7=0b111 & VD5 {
+        _vstub();
+    }
+    :VD5 ".uw = vsub(" VT5 ".uw," VS5".uw):sat" is imm_21_27=0b1111110 & VS5 & imm_13=0 & VT5 & imm_5_7=0b100 & VD5 {
+        _vstub();
+    }
+}
+
+# Logical ops
