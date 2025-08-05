@@ -364,3 +364,93 @@ with slot: mode=0 & iclass=0b0001 {
 }
 
 # Logical ops
+#TODO
+
+# copy
+with slot: mode=0 & iclass=0b0001 {
+    :"if (" U2_5_6_pred ") " VD5 "=" VT5 is imm_21_27=0b1010000 & imm_16_20=0 & imm_13=0 & VT5 & imm_7=0 & U2_5_6_pred & VD5 {
+        _vstub();
+    }
+    :"if (!" U2_5_6_pred ") " VD5 "=" VT5 is imm_21_27=0b1010001 & imm_16_20=0 & imm_13=0 & VT5 & imm_7=0 & U2_5_6_pred & VD5 {
+        _vstub();
+    }
+
+    :VD5 "=" VT5 is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_19_20=0 & imm_16_18=0b011 & imm_13=1 & VT5 & imm_5_7=0b111 & VD5 {
+        _vstub();
+    }
+}
+
+# temporary assignment
+with slot: mode=0 & iclass=0b0001 {
+    :VD5 ".tmp =" VT5 is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0 & imm_16_17=0b01 & imm_13=0 & VT5 & imm_5_7=0b110 & VD5 {
+        _vstub();
+    }
+    :VD5_pair ".tmp = vcombine(" VT5 "," VS5 ")" is imm_21_27=0b1110101 & VS5 & imm_13=0 & VT5 & imm_5_7=0b111 & VD5_pair {
+        _vstub();
+    }
+}
+
+# average
+#TODO
+
+# compare vector
+#TODO
+
+# cond accumulate
+#TODO
+
+# mux select
+with slot: mode=0 & iclass=0b0001 {
+    :VD5 "= vmux(" Qt4 "," VT5 "," VS5 ")" is imm_21_27=0b1110111 & VS5 & imm_13=1 & VT5 & imm_7=0 & Qt4 & VD5 {
+        _vstub();
+    }
+}
+
+# saturation
+#TODO
+
+# in lane shuffle
+#TODO
+
+
+# HVX/DEBUG
+# extract vector element
+with slot: mode=0 & iclass=0b1001 {
+    :D5 " = vextract(" VT5 "," S5")" is imm_21_27=0b0010000 & S5 & imm_13=0 & VT5 & imm_5_7=0b001 & VD5 {
+        _vstub();
+    }
+}
+
+# HVX/GATHER
+# vector gather
+with slot: mode=0 & iclass=0b0010 {
+    :"vtmp.w = vgather(" S5 "," imm_13u "," VD5 ".w).w" is imm_21_27=0b1111000 & S5 & imm_13u & imm_11_12=0 & imm_8_10=0b000 & imm_5_7=0 & VD5 {
+        _vstub();
+    }
+    :"vtmp.h = vgather(" S5 "," imm_13u "," VD5 ".h).h" is imm_21_27=0b1111000 & S5 & imm_13u & imm_11_12=0 & imm_8_10=0b001 & imm_5_7=0 & VD5 {
+        _vstub();
+    }
+
+    :"if("Qs4") vtmp.w = vgather(" S5 "," imm_13u "," VD5 ".w).w" is imm_21_27=0b1111000 & S5 & imm_13u & imm_11_12=0 & imm_8_10=0b100 & imm_7=0 & Qs4 & VD5 {
+        _vstub();
+    }
+    :"if("Qs4") vtmp.h = vgather(" S5 "," imm_13u "," VD5 ".h).h" is imm_21_27=0b1111000 & S5 & imm_13u & imm_11_12=0 & imm_8_10=0b101 & imm_7=0 & Qs4 & VD5 {
+        _vstub();
+    }
+}
+
+# HVX/GATHER DOUBLE RESOURCE
+# vector gather
+with slot: mode=0 & iclass=0b0010 {
+    :"vtmp.h = vgather(" S5 "," imm_13u "," VD5_pair ".h).h" is imm_21_27=0b1111000 & S5 & imm_13u & imm_11_12=0 & imm_8_10=0b010 & imm_5_7=0 & VD5_pair {
+        _vstub();
+    }
+
+    :"if("Qs4") vtmp.h = vgather(" S5 "," imm_13u "," VD5_pair ".w).h" is imm_21_27=0b1111000 & S5 & imm_13u & imm_11_12=0 & imm_8_10=0b110 & imm_7=0 & Qs4 & VD5_pair {
+        _vstub();
+    }
+}
+
+# HVX/LOAD
+
+
