@@ -118,7 +118,7 @@ define token instr (32)
 
 
    imm_27 = (27, 27)
-      imm_26 = (26, 26)
+   imm_26 = (26, 26)
 
 
    imm_25_27 = (25, 27)
@@ -132,7 +132,7 @@ define token instr (32)
    imm_23 = (23, 23)
    imm_23u = (23, 23)
 
-imm_22_26 = (22, 26)
+   imm_22_26 = (22, 26)
    imm_22_27 = (22, 27)
    imm_22_23 = (22, 23) signed
    imm_22_23u = (22, 23)
@@ -152,13 +152,14 @@ imm_22_26 = (22, 26)
    imm_20_21u = (20, 21)
    imm_20 = (20, 20) signed
 
+   imm_19_20 = (19, 20) signed
    imm_19 = (19, 19) signed
 
    imm_18_21 = (18, 21)
    imm_18_20 = (18, 20)
    imm_18_19 = (18, 19)
 
-      imm_17_27 = (17,27)
+   imm_17_27 = (17,27)
 
 
    imm_16_27 = (16, 27) signed
@@ -476,12 +477,16 @@ imm_22_26 = (22, 26)
     Qt4 = (22, 23)
     Qs4 = (8, 9)
     Qd4 = (0, 1)
+    Qx4 = (5, 6)
 
 
     S2_5_6 = (5, 6)
     VT5 = (8, 12)
+    VT5_pair = (9, 12)
     VS5 = (16, 20)
+    VS5_pair = (17, 20)
     VD5_pair = (1, 4)
+    VD5 = (0, 4)
 ;
 
 define register offset=0x300 size=64 [
@@ -1469,6 +1474,7 @@ define pcodeop brev;
 @include "xtype_shift.sinc"
 ### ---- end of normal ops ----
 @include "duplex.sinc"
+@include "hvx.sinc"
 
 
 macro prelude() {
@@ -1482,8 +1488,6 @@ macro prelude() {
     PTRUE = 1;
 
     # Copy all gprs to cached registers
-    #cached_regs = all_gprs;
-#    cached_preds = all_preds;
 
 	# No, we can't collapse this down to a single large register covering the space, or Ghidra will try and use that register in places
     P0c = P0;
