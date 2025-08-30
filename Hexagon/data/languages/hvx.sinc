@@ -364,7 +364,20 @@ with slot: mode=0 & iclass=0b0001 {
 }
 
 # Logical ops
-#TODO
+with slot: mode=0 & iclass=0b0001 {
+    :VD5 "= vand(" VT5 "," VS5")" is imm_21_27=0b1100001 & VS5 & imm_13=0 & VT5 & imm_5_7=0b101 & VD5 {
+        _vstub();
+    }
+    :VD5 "= vor(" VT5 "," VS5")" is imm_21_27=0b1100001 & VS5 & imm_13=0 & VT5 & imm_5_7=0b110 & VD5 {
+        _vstub();
+    }
+    :VD5 "= vxor(" VT5 "," VS5")" is imm_21_27=0b1100001 & VS5 & imm_13=0 & VT5 & imm_5_7=0b111 & VD5 {
+        _vstub();
+    }
+    :VD5 "= vnot(" VT5 ")" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0 & imm_16_17=0 & imm_13=0 & VT5 & imm_5_7=0b100 & VD5 {
+        _vstub();
+    }
+}
 
 # copy
 with slot: mode=0 & iclass=0b0001 {
@@ -407,10 +420,36 @@ with slot: mode=0 & iclass=0b0001 {
 }
 
 # saturation
-#TODO
+with slot: mode=0 & iclass=0b0001 {
+    :VD5 ".w = vsatdw(" VT5 ".w," VS5 ".w)" is imm_21_27=0b1101100 & VS5 & imm_13=1 & VT5 & imm_5_7=0b111 & VD5 {
+        _vstub();
+    }
+    :VD5 ".uh = vsat(" VT5 ".uw," VS5 ".uw)" is imm_21_27=0b1111001 & VS5 & imm_13=0 & VT5 & imm_5_7=0b110 & VD5 {
+        _vstub();
+    }
+    :VD5 ".ub = vsat(" VT5 ".h," VS5 ".h)" is imm_21_27=0b1111011 & VS5 & imm_13=0 & VT5 & imm_5_7=0b010 & VD5 {
+        _vstub();
+    }
+    :VD5 ".h = vsat(" VT5 ".w," VS5 ".w)" is imm_21_27=0b1111011 & VS5 & imm_13=0 & VT5 & imm_5_7=0b011 & VD5 {
+        _vstub();
+    }
+}
 
 # in lane shuffle
-#TODO
+with slot: mode=0 & iclass=0b0001 {
+    :VD5 ".b = vshuffe(" VT5 ".b," VS5 ".b)" is imm_21_27=0b1111010 & VS5 & imm_13=0 & VT5 & imm_5_7=0b001 & VD5 {
+        _vstub();
+    }
+    :VD5 ".b = vshuffo(" VT5 ".b," VS5 ".b)" is imm_21_27=0b1111010 & VS5 & imm_13=0 & VT5 & imm_5_7=0b010 & VD5 {
+        _vstub();
+    }
+    :VD5 ".h = vshuffe(" VT5 ".h," VS5 ".h)" is imm_21_27=0b1111010 & VS5 & imm_13=0 & VT5 & imm_5_7=0b011 & VD5 {
+        _vstub();
+    }
+    :VD5 ".h = vshuffo(" VT5 ".h," VS5 ".h)" is imm_21_27=0b1111010 & VS5 & imm_13=0 & VT5 & imm_5_7=0b100 & VD5 {
+        _vstub();
+    }
+}
 
 
 # HVX/DEBUG
@@ -452,5 +491,30 @@ with slot: mode=0 & iclass=0b0010 {
 }
 
 # HVX/LOAD
+#TODO
 
+# load aligned
+# load immediate use
+# load temporary immediate use
+# load unaligned
 
+# HVX/MPY DOUBLE RESOURCE
+#TODO
+
+# HVX/MPY RESOURCE
+#TODO
+
+# HVX/PERMUTE RESOURCE
+#TODO
+
+# HVX/PERMUTE SHIFT RESOURCE
+#TODO
+
+# HVX/HVX SCATTER DOUBLE RESOURCE
+#TODO
+
+# HVX/HVX SHIFT RESOURCE
+#TODO
+
+# HVX/MPY STORE
+#TODO
