@@ -843,15 +843,15 @@ LRc
 ];
 
  define register offset=0x80 size=4 [
-SA0
-LC0
-SA1
-LC1
-P30
-Reserve_5
-M0
-M1
-USR
+SA0         # 80
+LC0         # 84
+SA1         # 88
+LC1         # 8c
+P30         # 90
+Reserve_5   # 94
+M0          # 98
+M1          # 9c
+USR         # a0
 PC
 UGP
 GP
@@ -917,7 +917,7 @@ Reserved_30
 Reserved_31
 ];
 
-define register offset=0x100 size=1 [
+define register offset=0x104 size=1 [
 P0
 P1
 P2
@@ -1576,14 +1576,14 @@ slotX: slot is slot & parse=0b11 [mode=0; pktid=pktid+1;]  { build slot; }
 slotX: duplex is duplex & parse=0b00 [mode=0; pktid=pktid+1;] { build duplex; }
 
 macro endloop0() {
-	     if(LC0 <= 1) goto <endl0>;
-        LC0 = LC0 - 1;
+		LC0 = LC0 - 1;
+	     if(LC0 == 0) goto <endl0>;
         goto [SA0];
         <endl0>
 }
 macro endloop1() {
-	     if(LC1 <= 1) goto <endl1>;
-        LC1 = LC1 - 1;
+		LC1 = LC1 - 1;
+	     if(LC1 == 0) goto <endl1>;
         goto [SA1];
         <endl1>
 }

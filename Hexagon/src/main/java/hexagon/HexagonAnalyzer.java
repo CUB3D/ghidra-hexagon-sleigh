@@ -45,16 +45,18 @@ import ghidra.util.task.TaskMonitor;
  * Provide class-level documentation that describes what this analyzer does.
  */
 public class HexagonAnalyzer extends AbstractAnalyzer {
-	
+
 	private Register or1;
 	private Register or2;
 	private Register or3;
 	private Register analysed;
 
-	private Register[] regs_set = {or1, or2, or3};;
-	
+	private Register[] regs_set = { or1, or2, or3 };;
+
 	public HexagonAnalyzer() {
-		super("Hexagon dotnew Analyzer", "Sets the output register context required for dotnew (NV/J + NV/ST) instructions", AnalyzerType.INSTRUCTION_ANALYZER);
+		super("Hexagon dotnew Analyzer",
+				"Sets the output register context required for dotnew (NV/J + NV/ST) instructions",
+				AnalyzerType.INSTRUCTION_ANALYZER);
 	}
 
 	@Override
@@ -65,12 +67,13 @@ public class HexagonAnalyzer extends AbstractAnalyzer {
 
 	@Override
 	public boolean canAnalyze(Program program) {
-		boolean isHexagon = program.getLanguage().getProcessor().equals(Processor.findOrPossiblyCreateProcessor("Hexagon QDSP6"));
-		
-		if(!isHexagon) {
+		boolean isHexagon = program.getLanguage().getProcessor()
+				.equals(Processor.findOrPossiblyCreateProcessor("Hexagon QDSP6"));
+
+		if (!isHexagon) {
 			return false;
 		}
-		
+
 		or1 = program.getProgramContext().getRegister("or1test");
 		or2 = program.getProgramContext().getRegister("or2test");
 		or3 = program.getProgramContext().getRegister("or3test");
@@ -79,7 +82,7 @@ public class HexagonAnalyzer extends AbstractAnalyzer {
 		regs_set[0] = or1;
 		regs_set[1] = or2;
 		regs_set[2] = or3;
-		
+
 		return true;
 	}
 
@@ -89,15 +92,16 @@ public class HexagonAnalyzer extends AbstractAnalyzer {
 	}
 
 	@Override
-	public boolean added(Program program, AddressSetView set, TaskMonitor monitor, MessageLog log) throws CancelledException {
-		
+	public boolean added(Program program, AddressSetView set, TaskMonitor monitor, MessageLog log)
+			throws CancelledException {
+
 		final long locationCount = set.getNumAddresses();
 		monitor.initialize(locationCount);
-		
+
 		AddressIterator addresses = set.getAddresses(true);
-		
+
 		long count = 0;
-		
+
 		Listing list = program.getListing();
 		ProgramContext pc = program.getProgramContext();
 		Disassembler dis = Disassembler.getDisassembler(program, monitor, null);
@@ -106,16 +110,15 @@ public class HexagonAnalyzer extends AbstractAnalyzer {
 		// ((\Dr\d{1,2})|LR|FP|SP)\s*=
 		Pattern regs = Pattern.compile("((\\Dr\\d{1,2})|LR|FP|SP)\\s*=");
 		List<Integer> outvals = new ArrayList<>();
-	
-		
+
 		while (addresses.hasNext()) {
 			monitor.checkCancelled();
 
 			Address addr = addresses.next();
-			
+
 			BigInteger old_or1 = pc.getValue(analysed, addr, false);
-			if(old_or1 != null) {
-				if(old_or1.intValue() != 0) {
+			if (old_or1 != null) {
+				if (old_or1.intValue() != 0) {
 					continue;
 				}
 			}
@@ -127,66 +130,65 @@ public class HexagonAnalyzer extends AbstractAnalyzer {
 			if (inst == null) {
 				continue;
 			}
-			
+
 			String ins = inst.toString();
-			
+
 			Matcher m = regs.matcher(ins);
 //			log.appendMsg(ins);
 			System.out.println(ins);
 			int idx = 0;
 			outvals.clear();
-			while(m.find()) {
+			while (m.find()) {
 				String g = m.group();
 //				log.appendMsg(g);
 				System.out.println(g);
 				g = g.replaceAll("=", "");
 				g = g.strip();
-	
-				
-				if(g.startsWith("r")) {
+
+				if (g.startsWith("r")) {
 					String num = g.substring(1);
 //					log.appendMsg(""+num);
 //					System.out.println(""+num);
 					int val = Integer.parseInt(num);
 					val *= 4;
-					//log.appendMsg(""+val);
-					System.out.println(""+val);
-										
+					// log.appendMsg(""+val);
+					System.out.println("" + val);
+
 					outvals.add(val);
 					idx += 1;
-				} else if(g.startsWith("FP")) {
-					outvals.add(29*4);
+				} else if (g.startsWith("FP")) {
+					outvals.add(29 * 4);
 					idx += 1;
-				} else if(g.startsWith("SP")) {
-					outvals.add(30*4);
+				} else if (g.startsWith("SP")) {
+					outvals.add(30 * 4);
 					idx += 1;
-				} else if(g.startsWith("LR")) {
-					outvals.add(31*4);
+				} else if (g.startsWith("LR")) {
+					outvals.add(31 * 4);
 					idx += 1;
 				}
-				
+
 			}
-			
+
 			list.clearCodeUnits(addr, addr.add(2), true);
-			
+
 			try {
 				pc.setValue(analysed, addr, addr, new BigInteger("1"));
 			} catch (ContextChangeException e) {
 				e.printStackTrace();
 			}
 
-			for(int idx2 = 0; idx2 < idx; idx2++) {
-				if(idx2 < 3) {
+			for (int idx2 = 0; idx2 < idx; idx2++) {
+				if (idx2 < 3) {
 					int val = outvals.get(idx2);
 					try {
-						pc.setValue(regs_set[idx2], addr, addr, new BigInteger(""+val));
+						pc.setValue(regs_set[idx2], addr, addr, new BigInteger("" + val));
 					} catch (ContextChangeException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 			}
-			
+
 			AddressSet disassembled = dis.disassemble(addr, null, false);
 			if (!disassembled.contains(addr)) {
 				return false;

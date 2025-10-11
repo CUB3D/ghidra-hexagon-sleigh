@@ -695,69 +695,69 @@ BR_Call_V: v is immext1pos=pktid & immext1 & imm_1_6u  [v = inst_start + (imm_1_
 #J:Compare and jump (branch slot)
  with slot: iclass=0b0001 & mode=1100 {
 
-
-     :"P0=cmp.eq("S4",#-1); if (p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & j_hint {
+	#TODO: do rest of these
+     :P0 "=cmp.eq("S4",#-1); if (p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P0 & j_hint {
         if(S4i != -1) goto <bad>;
 			goto BR_CJ_R9;
         <bad>
      }
-     :"P0=cmp.gt("S4",#-1); if (p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & j_hint {
+     :P0 "=cmp.gt("S4",#-1); if (p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P0 & j_hint {
         if(S4i s<= -1) goto <bad>;
             goto BR_CJ_R9;
         <bad>
      }
-     :"P0=cmp.tstbit("S4",#0); if (p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & j_hint {
+     :P0 "=cmp.tstbit("S4",#0); if (p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P0 & j_hint {
         local tmp:4 = S4i & 1;
         if(tmp == 0) goto <bad>;
             goto BR_CJ_R9;
         <bad>
      }
 
-     :"P0=cmp.eq("S4",#-1); if (!p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & j_hint{
+     :P0 "=cmp.eq("S4",#-1); if (!p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P0 & j_hint {
      	if(S4i == -1) goto <bad>;
 			goto BR_CJ_R9;
         <bad>
      }
-     :"P0=cmp.gt("S4",#-1); if (!p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & j_hint{
+     :P0 "=cmp.gt("S4",#-1); if (!p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P0 & j_hint {
         if(S4i s> -1) goto <bad>;
             goto BR_CJ_R9;
         <bad>
      }
-     :"P0=cmp.tstbit("S4",#0); if (!p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & j_hint{
+     :P0 "=cmp.tstbit("S4",#0); if (!p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P0 & j_hint {
         local tmp:4 = S4i & 1;
         if(tmp != 0) goto <bad>;
             goto BR_CJ_R9;
         <bad>
      }   
      
-      :"P0=cmp.eq("S4", "BR_CJ_imm_8_12u"); if (P0.new)" j_hint BR_CJ_R9 is imm_27=0 & imm_22_26=0b00000 & S4 & S4i & BR_CJ_imm_8_12u & imm_0=0 & BR_CJ_R9 & j_hint{
+      :P0 "=cmp.eq("S4", "BR_CJ_imm_8_12u"); if (P0.new)" j_hint BR_CJ_R9 is imm_27=0 & imm_22_26=0b00000 & S4 & S4i & BR_CJ_imm_8_12u & imm_0=0 & BR_CJ_R9 & P0 & j_hint {
          if(S4i != BR_CJ_imm_8_12u) goto <bad>;
 			goto BR_CJ_R9;
         <bad>
      }
-     :"P0 = cmp.eq(" S4 "," BR_CJ_imm_8_12u "); if (!p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 &     imm_27=0 & imm_22_26=0b00001 & imm_20_21 & S4 & S4i & BR_CJ_imm_8_12u & imm_1_7 & imm_0=0 & j_hint{
+     :P0 "=cmp.eq(" S4 "," BR_CJ_imm_8_12u "); if (!p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 &     imm_27=0 & imm_22_26=0b00001 & imm_20_21 & S4 & S4i & BR_CJ_imm_8_12u & imm_1_7 & imm_0=0 & P0 & j_hint {
         if(S4i == BR_CJ_imm_8_12u) goto <bad>;
 			goto BR_CJ_R9;
         <bad>
      }
 
-     :"P0 = cmp.gt(" S4 "," BR_CJ_imm_8_12u "); if (p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 &     imm_27=0 & imm_22_26=0b00010 & imm_20_21 & S4 & S4i & BR_CJ_imm_8_12u & imm_1_7 & imm_0=0 & j_hint{
+     :P0 "=cmp.gt(" S4 "," BR_CJ_imm_8_12u "); if (p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 &     imm_27=0 & imm_22_26=0b00010 & imm_20_21 & S4 & S4i & BR_CJ_imm_8_12u & imm_1_7 & imm_0=0 & P0 & j_hint {
         if(S4i s<= BR_CJ_imm_8_12u) goto <bad>;
 			goto BR_CJ_R9;
         <bad>
      }
-     :"P0 = cmp.gt(" S4 "," BR_CJ_imm_8_12u "); if (!p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 &     imm_27=0 & imm_22_26=0b00011 & imm_20_21 & S4 & S4i  & BR_CJ_imm_8_12u & imm_1_7 & imm_0=0 & j_hint{
+     :P0 "=cmp.gt(" S4 "," BR_CJ_imm_8_12u "); if (!p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 &     imm_27=0 & imm_22_26=0b00011 & imm_20_21 & S4 & S4i  & BR_CJ_imm_8_12u & imm_1_7 & imm_0=0 & P0 & j_hint {
         if(S4i s> BR_CJ_imm_8_12u) goto <bad>;
 			goto BR_CJ_R9;
         <bad>
      }
      
-     :"P0 = cmp.gtu(" S4 "," BR_CJ_imm_8_12u "); if (p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 &     imm_27=0 & imm_22_26=0b00100 & imm_20_21 & S4 & S4i & BR_CJ_imm_8_12u & imm_1_7 & imm_0=0 & j_hint{
+     :P0 "=cmp.gtu(" S4 "," BR_CJ_imm_8_12u "); if (p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 &     imm_27=0 & imm_22_26=0b00100 & imm_20_21 & S4 & S4i & BR_CJ_imm_8_12u & imm_1_7 & imm_0=0 & P0 & j_hint {
         if(S4i <= BR_CJ_imm_8_12u) goto <bad>;
 			goto BR_CJ_R9;
         <bad>
      }
-     :"P0 = cmp.gtu(" S4 "," BR_CJ_imm_8_12u "); if (!p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 &     imm_27=0 & imm_22_26=0b00101 & imm_20_21 & S4 & S4i & BR_CJ_imm_8_12u & imm_1_7 & imm_0=0& j_hint {
+     :P0 "=cmp.gtu(" S4 "," BR_CJ_imm_8_12u "); if (!p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 &     imm_27=0 & imm_22_26=0b00101 & imm_20_21 & S4 & S4i & BR_CJ_imm_8_12u & imm_1_7 & imm_0=0 & P0 & j_hint {
         if(S4i > BR_CJ_imm_8_12u) goto <bad>;
 			goto BR_CJ_R9;
         <bad>
@@ -766,17 +766,17 @@ BR_Call_V: v is immext1pos=pktid & immext1 & imm_1_6u  [v = inst_start + (imm_1_
      
      # p1 versions
      
-     :"P1=cmp.eq("S4",#-1); if (p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b01110 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & j_hint {
+     :P1 "=cmp.eq("S4",#-1); if (p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b01110 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P1 & j_hint {
         if(S4i != -1) goto <bad>;
 			goto BR_CJ_R9;
         <bad>
      }
-     :"P1=cmp.gt("S4",#-1); if (p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b01110 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & j_hint {
+     :P1 "=cmp.gt("S4",#-1); if (p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b01110 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P1 & j_hint {
         if(S4i s<= -1) goto <bad>;
             goto BR_CJ_R9;
         <bad>
      }
-     :"P1=cmp.tstbit("S4",#0); if (p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b01110 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & j_hint {
+     :P1 "=cmp.tstbit("S4",#0); if (p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b01110 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P1 & j_hint {
         local tmp:4 = S4i & 1;
         if(tmp == 0) goto <bad>;
             goto BR_CJ_R9;
@@ -784,29 +784,29 @@ BR_Call_V: v is immext1pos=pktid & immext1 & imm_1_6u  [v = inst_start + (imm_1_
      }
      
 
-     :"P1=cmp.eq("S4",#-1); if (!p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b01111 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & j_hint{
+     :P1 "=cmp.eq("S4",#-1); if (!p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b01111 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P1 & j_hint {
      	if(S4i == -1) goto <bad>;
 			goto BR_CJ_R9;
         <bad>
      }
-     :"P1=cmp.gt("S4",#-1); if (!p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b01111 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & j_hint{
+     :P1 "=cmp.gt("S4",#-1); if (!p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b01111 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P1 & j_hint {
         if(S4i s> -1) goto <bad>;
             goto BR_CJ_R9;
         <bad>
      }
-     :"P1=cmp.tstbit("S4",#0); if (!p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26= 0b01111 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & j_hint{
+     :P1 "=cmp.tstbit("S4",#0); if (!p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26= 0b01111 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P1 & j_hint {
         local tmp:4 = S4i & 1;
         if(tmp != 0) goto <bad>;
             goto BR_CJ_R9;
         <bad>
      }   
      
-     :"P1=cmp.eq("S4", "BR_CJ_imm_8_12u"); if (P1.new)" j_hint BR_CJ_R9 is imm_27=0 & imm_22_26=0b01000 & S4 & S4i & BR_CJ_imm_8_12u & imm_0=0 & BR_CJ_R9 & j_hint{
+     :P1 "=cmp.eq("S4", "BR_CJ_imm_8_12u"); if (P1.new)" j_hint BR_CJ_R9 is imm_27=0 & imm_22_26=0b01000 & S4 & S4i & BR_CJ_imm_8_12u & imm_0=0 & BR_CJ_R9 & P1 & j_hint {
          if(S4i != BR_CJ_imm_8_12u) goto <bad>;
 			goto BR_CJ_R9;
         <bad>
      }
-     :"P1 = cmp.eq(" S4 "," BR_CJ_imm_8_12u "); if (!p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 &     imm_27=0 & imm_22_26=0b01001 & imm_20_21 & S4 & S4i & BR_CJ_imm_8_12u & imm_1_7 & imm_0=0 & j_hint{
+     :P1 "=cmp.eq(" S4 "," BR_CJ_imm_8_12u "); if (!p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 &     imm_27=0 & imm_22_26=0b01001 & imm_20_21 & S4 & S4i & BR_CJ_imm_8_12u & imm_1_7 & imm_0=0 & P1 & j_hint {
         if(S4i == BR_CJ_imm_8_12u) goto <bad>;
 			goto BR_CJ_R9;
         <bad>
@@ -815,23 +815,23 @@ BR_Call_V: v is immext1pos=pktid & immext1 & imm_1_6u  [v = inst_start + (imm_1_
 
 
      
-     :"P1 = cmp.gt(" S4 "," BR_CJ_imm_8_12u "); if (p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 &     imm_27=0 & imm_22_26=0b01010 & imm_20_21 & S4 & S4i & BR_CJ_imm_8_12u & imm_1_7 & imm_0=0 & j_hint{
+     :P1 "=cmp.gt(" S4 "," BR_CJ_imm_8_12u "); if (p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 &     imm_27=0 & imm_22_26=0b01010 & imm_20_21 & S4 & S4i & BR_CJ_imm_8_12u & imm_1_7 & imm_0=0 & P1 & j_hint {
         if(S4i s<= BR_CJ_imm_8_12u) goto <bad>;
 			goto BR_CJ_R9;
         <bad>
      }
-     :"P1 = cmp.gt(" S4 "," BR_CJ_imm_8_12u "); if (!p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 &     imm_27=0 & imm_22_26=0b01011 & imm_20_21 & S4 & S4i  & BR_CJ_imm_8_12u & imm_1_7 & imm_0=0 & j_hint{
+     :P1 "=cmp.gt(" S4 "," BR_CJ_imm_8_12u "); if (!p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 &     imm_27=0 & imm_22_26=0b01011 & imm_20_21 & S4 & S4i  & BR_CJ_imm_8_12u & imm_1_7 & imm_0=0 & P1 & j_hint {
         if(S4i s> BR_CJ_imm_8_12u) goto <bad>;
 			goto BR_CJ_R9;
         <bad>
      }
      
-     :"P1 = cmp.gtu(" S4 "," BR_CJ_imm_8_12u "); if (p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 &     imm_27=0 & imm_22_26=0b01100 & imm_20_21 & S4 & S4i & BR_CJ_imm_8_12u & imm_1_7 & imm_0=0 & j_hint{
+     :P1 "=cmp.gtu(" S4 "," BR_CJ_imm_8_12u "); if (p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 &     imm_27=0 & imm_22_26=0b01100 & imm_20_21 & S4 & S4i & BR_CJ_imm_8_12u & imm_1_7 & imm_0=0 & P1 & j_hint {
         if(S4i <= BR_CJ_imm_8_12u) goto <bad>;
 			goto BR_CJ_R9;
         <bad>
      }
-     :"P1 = cmp.gtu(" S4 "," BR_CJ_imm_8_12u "); if (!p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 &     imm_27=0 & imm_22_26=0b01101 & imm_20_21 & S4 & S4i & BR_CJ_imm_8_12u & imm_1_7 & imm_0=0& j_hint {
+     :P1 "=cmp.gtu(" S4 "," BR_CJ_imm_8_12u "); if (!p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 &     imm_27=0 & imm_22_26=0b01101 & imm_20_21 & S4 & S4i & BR_CJ_imm_8_12u & imm_1_7 & imm_0=0 & P1 & j_hint {
         if(S4i > BR_CJ_imm_8_12u) goto <bad>;
 			goto BR_CJ_R9;
         <bad>
@@ -839,85 +839,85 @@ BR_Call_V: v is immext1pos=pktid & immext1 & imm_1_6u  [v = inst_start + (imm_1_
 
 
 # second chunk
-     :"P0 =cmp.eq(" S4 "," T4_8_11 "); if (p0.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010000 & imm_20_21 & S4 & S4i & imm_12_13=0b00 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P0 "=cmp.eq(" S4 "," T4_8_11 "); if (p0.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010000 & imm_20_21 & S4 & S4i & imm_12_13=0b00 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P0 {
         if(S4i != T4_8_11i) goto <bad>;
         goto BR_CJ_R9;
         <bad>
      }
-     :"P1=cmp.eq(" S4 "," T4_8_11 "); if (p1.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010000 & imm_20_21 & S4 & S4i & imm_12_13=0b01 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P1 "=cmp.eq(" S4 "," T4_8_11 "); if (p1.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010000 & imm_20_21 & S4 & S4i & imm_12_13=0b01 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P1 {
         if(S4i != T4_8_11i) goto <bad>;
         goto BR_CJ_R9;
         <bad>
      }
-     :"P0=cmp.eq(" S4 "," T4_8_11 "); if (p0.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010000 & imm_20_21 & S4 & S4i & imm_12_13=0b10 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P0 "=cmp.eq(" S4 "," T4_8_11 "); if (p0.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010000 & imm_20_21 & S4 & S4i & imm_12_13=0b10 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P0 {
         if(S4i != T4_8_11i) goto <bad>;
         goto BR_CJ_R9;
         <bad>
         
      }
-     :"P1=cmp.eq(" S4 "," T4_8_11 "); if (p1.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010000 & imm_20_21 & S4 & S4i & imm_12_13=0b11 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P1 "=cmp.eq(" S4 "," T4_8_11 "); if (p1.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010000 & imm_20_21 & S4 & S4i & imm_12_13=0b11 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P1 {
         if(S4i != T4_8_11i) goto <bad>;
         goto BR_CJ_R9;
         <bad>
      }
 
-     :"P0=cmp.eq(" S4 "," T4_8_11 "); if (!p0.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010001 & imm_20_21 & S4 & S4i & imm_12_13=0b00 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P0 "=cmp.eq(" S4 "," T4_8_11 "); if (!p0.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010001 & imm_20_21 & S4 & S4i & imm_12_13=0b00 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P0 {
         if(S4i == T4_8_11i) goto <end>;
         goto BR_CJ_R9;
         <end>
      }
-     :"P1=cmp.eq(" S4 "," T4_8_11 "); if (!p1.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010001 & imm_20_21 & S4 & S4i & imm_12_13=0b01 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P1 "=cmp.eq(" S4 "," T4_8_11 "); if (!p1.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010001 & imm_20_21 & S4 & S4i & imm_12_13=0b01 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P1 {
         if(S4i == T4_8_11i) goto <end>;
         goto BR_CJ_R9;
         <end>
      }
-     :"P0=cmp.eq(" S4 "," T4_8_11 "); if (!p0.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010001 & imm_20_21 & S4 & S4i & imm_12_13=0b10 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P0 "=cmp.eq(" S4 "," T4_8_11 "); if (!p0.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010001 & imm_20_21 & S4 & S4i & imm_12_13=0b10 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P0 {
         if(S4i == T4_8_11i) goto <end>;
         goto BR_CJ_R9;
         <end>
      }
-     :"P1=cmp.eq(" S4 "," T4_8_11 "); if (!p1.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010001 & imm_20_21 & S4 & S4i & imm_12_13=0b11 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P1 "=cmp.eq(" S4 "," T4_8_11 "); if (!p1.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010001 & imm_20_21 & S4 & S4i & imm_12_13=0b11 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P1 {
         if(S4i == T4_8_11i) goto <end>;
         goto BR_CJ_R9;
         <end>
      }
-     :"P0=cmp.gt(" S4 "," T4_8_11 "); if (p0.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010010 & imm_20_21 & S4 & S4i & imm_12_13=0b00 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P0 "=cmp.gt(" S4 "," T4_8_11 "); if (p0.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010010 & imm_20_21 & S4 & S4i & imm_12_13=0b00 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P0 {
         if(S4i s<= T4_8_11i) goto <bad>;
         goto BR_CJ_R9;
         <bad>
      }
-     :"P1=cmp.gt(" S4 "," T4_8_11 "); if (p1.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010010 & imm_20_21 & S4 & S4i & imm_12_13=0b01 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P1 "=cmp.gt(" S4 "," T4_8_11 "); if (p1.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010010 & imm_20_21 & S4 & S4i & imm_12_13=0b01 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P1 {
         if(S4i s<= T4_8_11i) goto <bad>;
         goto BR_CJ_R9;
         <bad>
      }
-     :"P0=cmp.gt(" S4 "," T4_8_11 "); if (p0.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010010 & imm_20_21 & S4 & S4i & imm_12_13=0b10 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P0 "=cmp.gt(" S4 "," T4_8_11 "); if (p0.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010010 & imm_20_21 & S4 & S4i & imm_12_13=0b10 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P0 {
         if(S4i s<= T4_8_11i) goto <bad>;
         goto BR_CJ_R9;
         <bad>
      }
-     :"P1=cmp.gt(" S4 "," T4_8_11 "); if (p1.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010010 & imm_20_21 & S4 & S4i & imm_12_13=0b11 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P1 "=cmp.gt(" S4 "," T4_8_11 "); if (p1.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010010 & imm_20_21 & S4 & S4i & imm_12_13=0b11 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P1 {
         if(S4i s<= T4_8_11i) goto <bad>;
         goto BR_CJ_R9;
         <bad>
      }
 
-     :"P0=cmp.gt(" S4 "," T4_8_11 "); if (!p0.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010011 & imm_20_21 & S4 & S4i & imm_12_13=0b00 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P0 "=cmp.gt(" S4 "," T4_8_11 "); if (!p0.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010011 & imm_20_21 & S4 & S4i & imm_12_13=0b00 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P0 {
         if(S4i s> T4_8_11i) goto <end>;
         goto BR_CJ_R9;
         <end>
      }
-     :"P1=cmp.gt(" S4 "," T4_8_11 "); if (!p1.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010011 & imm_20_21 & S4 & S4i & imm_12_13=0b01 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P1 "=cmp.gt(" S4 "," T4_8_11 "); if (!p1.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010011 & imm_20_21 & S4 & S4i & imm_12_13=0b01 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P1 {
         if(S4i s> T4_8_11i) goto <end>;
         goto BR_CJ_R9;
         <end>
      }
-     :"P0=cmp.gt(" S4 "," T4_8_11 "); if (!p0.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010011 & imm_20_21 & S4 & S4i & imm_12_13=0b10 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P0 "=cmp.gt(" S4 "," T4_8_11 "); if (!p0.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010011 & imm_20_21 & S4 & S4i & imm_12_13=0b10 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P0 {
         if(S4i s> T4_8_11i) goto <end>;
         goto BR_CJ_R9;
         <end>
      }
-     :"P1=cmp.gt(" S4 "," T4_8_11 "); if (!p1.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010011 & imm_20_21 & S4 & S4i & imm_12_13=0b11 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P1 "=cmp.gt(" S4 "," T4_8_11 "); if (!p1.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010011 & imm_20_21 & S4 & S4i & imm_12_13=0b11 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P1 {
         if(S4i s> T4_8_11i) goto <end>;
         goto BR_CJ_R9;
         <end>
@@ -927,43 +927,43 @@ BR_Call_V: v is immext1pos=pktid & immext1 & imm_1_6u  [v = inst_start + (imm_1_
 
 
 
-     :"P0=cmp.gtu(" S4 "," T4_8_11 "); if (p0.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010100 & imm_20_21 & S4 & S4i & imm_12_13=0b00 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P0 "=cmp.gtu(" S4 "," T4_8_11 "); if (p0.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010100 & imm_20_21 & S4 & S4i & imm_12_13=0b00 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P0 {
         if(S4i <= T4_8_11i) goto <bad>;
         goto BR_CJ_R9;
         <bad>
      }
-     :"P1=cmp.gtu(" S4 "," T4_8_11 "); if (p1.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010100 & imm_20_21 & S4 & S4i & imm_12_13=0b01 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P1 "=cmp.gtu(" S4 "," T4_8_11 "); if (p1.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010100 & imm_20_21 & S4 & S4i & imm_12_13=0b01 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P1 {
         if(S4i <= T4_8_11i) goto <bad>;
         goto BR_CJ_R9;
         <bad>
      }
-     :"P0=cmp.gtu(" S4 "," T4_8_11 "); if (p0.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010100 & imm_20_21 & S4 & S4i & imm_12_13=0b10 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P0 "=cmp.gtu(" S4 "," T4_8_11 "); if (p0.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010100 & imm_20_21 & S4 & S4i & imm_12_13=0b10 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P0 {
         if(S4i <= T4_8_11i) goto <bad>;
         goto BR_CJ_R9;
         <bad>
      }
-     :"P1=cmp.gtu(" S4 "," T4_8_11 "); if (p1.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010100 & imm_20_21 & S4 & S4i & imm_12_13=0b11 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P1 "=cmp.gtu(" S4 "," T4_8_11 "); if (p1.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010100 & imm_20_21 & S4 & S4i & imm_12_13=0b11 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P1 {
         if(S4i <= T4_8_11i) goto <bad>;
         goto BR_CJ_R9;
         <bad>
      }
 
-     :"P0=cmp.gtu(" S4 "," T4_8_11 "); if (!p0.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010101 & imm_20_21 & S4 & S4i & imm_12_13=0b00 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P0 "=cmp.gtu(" S4 "," T4_8_11 "); if (!p0.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010101 & imm_20_21 & S4 & S4i & imm_12_13=0b00 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P0 {
         if(S4i > T4_8_11i) goto <end>;
         goto BR_CJ_R9;
         <end>
      }
-     :"P1=cmp.gtu(" S4 "," T4_8_11 "); if (!p1.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010101 & imm_20_21 & S4 & S4i & imm_12_13=0b01 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P1 "=cmp.gtu(" S4 "," T4_8_11 "); if (!p1.new) jump:nt" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010101 & imm_20_21 & S4 & S4i & imm_12_13=0b01 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P1 {
         if(S4i > T4_8_11i) goto <end>;
         goto BR_CJ_R9;
         <end>
      }
-     :"P0=cmp.gtu(" S4 "," T4_8_11 "); if (!p0.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010101 & imm_20_21 & S4 & S4i & imm_12_13=0b10 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P0 "=cmp.gtu(" S4 "," T4_8_11 "); if (!p0.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010101 & imm_20_21 & S4 & S4i & imm_12_13=0b10 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P0 {
         if(S4i > T4_8_11i) goto <end>;
         goto BR_CJ_R9;
         <end>
      }
-     :"P1=cmp.gtu(" S4 "," T4_8_11 "); if (!p1.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010101 & imm_20_21 & S4 & S4i & imm_12_13=0b11 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
+     :P1 "=cmp.gtu(" S4 "," T4_8_11 "); if (!p1.new) jump:t" BR_CJ_R9 is BR_CJ_R9 &   imm_27=0 & imm_22_26=0b010101 & imm_20_21 & S4 & S4i & imm_12_13=0b11 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 & P1 {
         if(S4i > T4_8_11i) goto <end>;
         goto BR_CJ_R9;
         <end>
