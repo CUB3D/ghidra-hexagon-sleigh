@@ -13,9 +13,4 @@
   	<range space="register" first="0xa8" last="0x100"/> <!-- Special registers from PC onward-->  
   </volatile>
   
-  <!-- TODO: more --> 
-  <default_symbols>
-    
-  </default_symbols>
-  
 </processor_spec>
