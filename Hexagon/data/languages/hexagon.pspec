@@ -15,7 +15,7 @@
   
   <!-- TODO: more --> 
   <default_symbols>
-    <symbol name="clade_0_comp" address="ram:0x0140bc10"/>
+    
   </default_symbols>
   
 </processor_spec>
