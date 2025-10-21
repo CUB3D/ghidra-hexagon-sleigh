@@ -1423,15 +1423,14 @@ BR_EXT_imm_0_5u:val is imm_0_5u & immext0pos=pktid & immext0 [ val = immext0 | i
 NR_EXT_imm_0_5u:val is imm_0_5u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [ val = immext1 | imm_0_5u; immext1used=1; immext1pos=pktid;] { export *[const]:4 val; }
 BR_EXT_imm_0_5u:val is imm_0_5u & immext1pos=pktid & immext1 [ val = immext1 | imm_0_5u; ] { export *[const]:4 val; }
 
-EXT_LD_S11_dword:s11 is imm_25_26 & imm_5_13u & (hasext0=0 | immext0used=1) [ s11 = ((imm_5_13u | (imm_25_26 << 9))<<3);] {
-       export *[const]:4 s11;
-}
-EXT_LD_S11_dword:s11 is imm_25_26 & imm_5_13u & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ s11 = immext0 | imm_5_10u; immext0used=1;immext0everused=1; ] {
-       export *[const]:4 s11;
-}
-EXT_LD_S11_dword:s11 is imm_25_26 & imm_5_13u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [ s11 = immext1 | imm_5_10u; immext1used=1; ] {
-       export *[const]:4 s11;
-}
+EXT_LD_S11_dword:s11 is imm_25_26 & imm_5_13u & (hasext0=0 | immext0used=1) [ s11 = ((imm_5_13u | (imm_25_26 << 9))<<3);] { export *[const]:4 s11; }
+EXT_LD_S11_dword:s11 is imm_25_26 & imm_5_13u & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ s11 = immext0 | imm_5_10u; immext0used=1;immext0everused=1; ] { export *[const]:4 s11; }
+EXT_LD_S11_dword:s11 is imm_25_26 & imm_5_13u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [ s11 = immext1 | imm_5_10u; immext1used=1; ] { export *[const]:4 s11; }
+
+EXT_LD_S11_hword:s11 is imm_25_26 & imm_5_13u & (hasext0=0 | immext0used=1) [ s11 = ((imm_5_13u | (imm_25_26 << 9))<<1);] { export *[const]:4 s11; }
+EXT_LD_S11_hword:s11 is imm_25_26 & imm_5_13u & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ s11 = immext0 | imm_5_10u; immext0used=1;immext0everused=1; ] { export *[const]:4 s11; }
+EXT_LD_S11_hword:s11 is imm_25_26 & imm_5_13u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [ s11 = immext1 | imm_5_10u; immext1used=1; ] { export *[const]:4 s11; }
+
 EXT_LD_U6:val is imm_25_26 & (hasext0=0 | immext0used=1) & imm_8_11u & imm_5_6u [ val = imm_5_6u | (imm_8_11u << 2);] {
        export *[const]:4 val;
 }

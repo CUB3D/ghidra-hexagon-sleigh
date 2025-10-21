@@ -70,10 +70,11 @@ with slot: iclass=0b0100 & mode=0 {
     }
 }
 with slot: iclass=0b1001 & mode=0 {
-    :D5 "=memh(" S5 "+" s11 ")" is imm_27=0 & imm_25_26 & imm_21_24=0b1010 & S5 & S5i & imm_5_13u & D5 [ s11 = (imm_5_13u | (imm_25_26 << 9)) << 1;] {
-        local EA:4 = S5i + 11;
+    :D5 "=memh(" S5 "+" EXT_LD_S11_hword ")" is imm_27=0 & imm_21_24=0b1010 & S5 & S5i & D5 & EXT_LD_S11_hword {
+        local EA:4 = S5i + EXT_LD_S11_hword;
         D5 = sext(*[ram]:2 EA);
     }
+    
     :D5 "=memh(" S5 "++" s4 ":circ(" M1_13 "))"  is imm_21_27=0b1001010 & S5 & S5i & M1_13 & imm_12=0 & imm_10_11=0 & imm_9=0 & imm_5_8 & D5 [s4 = imm_5_8 << 1;] {
     	local EA:4 = S5i;
     	S5 = circ_add(S5i, s4:1, M1_13);
