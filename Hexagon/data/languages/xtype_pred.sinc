@@ -194,6 +194,7 @@ with slot: iclass=0b1000 & mode=0 {
 }
 
 # XTYPE/PRED:Pred tlb match
+# TODO: not in v79?
 define pcodeop tlbmatch;
 with slot: iclass=0b1101 & mode=0 {
     :D2_pred "=tlbmatch(" S5_pair "," T5 ")" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=1 & T5 & T5i & imm_5_7=0b011 & imm_2_4=0 & D2_pred {

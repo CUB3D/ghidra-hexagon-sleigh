@@ -25,7 +25,7 @@
 # LD/ubyte:       Decode + pcode up to v73                                 regcache ever0 nvi
 # LD/uHalfword:   Decode + pcode up to v73                                 regcache ever0 nvi
 # LD/word:        Decode + pcode up to v73                                 regcache ever0 nvi
-# MEMOP:          Decode + pcode up to v73                                 regcache ever0 nvi
+# MEMOP:          Decode + pcode up to v79                                 regcache ever0 nvi
 # NV:             Decode + pcode up to v73                                 regcache ever0 nvi
 # NV/HW:          Decode + pcode up to v73                                 regcache ever0 nvi nvst
 # NV/W:           Decode + pcode up to v73                                 regcache ever0 nvi nvst
@@ -40,12 +40,12 @@
 # SYSTEM/MONITOR: Decode + pcode up to v66 (latest for this section)       regcache ever0 nvi
 # XTYPE:          Decode + pcode up to v73                                 regcache ever0 nvi
 # XTYPE/ALU:      Decode + pcode up to v73                                 regcache ever0 nvi
-# XTYPE/BIT:      Decode + pcode up to v73                                 regcache ever0 nvi
+# XTYPE/BIT:      Decode + pcode up to v79                                 regcache ever0 nvi
 # XTYPE/COMPLEX:  Decode + pcode up to v79                                 regcache ever0 nvi
 # XTYPE/FP:       Decode + pcode up to v79                                 regcache ever0 nvi
 # XTYPE/MPY:      Decode + pcode up to v73                                 regcache ever0 nvi
-# XTYPE/PERM:     Decode + pcode up to v73                                 regcache ever0 nvi
-# XTYPE/PRED:     Decode + pcode up to v73                                 regcache ever0 nvi
+# XTYPE/PERM:     Decode + pcode up to v79                                 regcache ever0 nvi
+# XTYPE/PRED:     Decode + pcode up to v79                                 regcache ever0 nvi
 # XTYPE/SHIFT:    Decode + pcode up to v73                                 regcache ever0 nvi
 # duplex          Decode + pcode up to v73                                 regcache ever0 nvi
 
