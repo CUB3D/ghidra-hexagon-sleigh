@@ -568,16 +568,26 @@ LRFP
 ];
 
 
-#TODO: might be wrong
-attach variables [ immdup0_D3_pair immdup1_D3_pair immdup0_D3_pairi immdup1_D3_pairi] [
+attach variables [ immdup0_D3_pair immdup1_D3_pair ] [
 r1r0
 r3r2
 r5r4
 r7r6
-r17r16 # correct
-r11r10
-r13r12
-r15r14
+r17r16
+r19r18
+r21r20
+r23r22
+];
+
+attach variables [ immdup0_D3_pairi immdup1_D3_pairi] [
+r1r0c
+r3r2c
+r5r4c
+r7r6c
+r17r16c
+r19r18c
+r21r20c
+r23r22c
 ];
 
 define register offset=0x00 size=4 [

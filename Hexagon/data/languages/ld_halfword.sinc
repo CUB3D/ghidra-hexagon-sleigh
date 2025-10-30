@@ -22,8 +22,8 @@ with slot: iclass=0b1001 & mode=0 {
     }
 
     :D5_pair"=memhw_fifo("S5"="u6")" is imm_21_27=0b1010010 & S5 & S5i & imm_12_13=0b01 & imm_8_11u & imm_7=0 & imm_5_6u & D5_pair & D5_pairi [ u6 = imm_5_6u | (imm_8_11u << 2);] {
-        local EA:4 = S5i;
-        S5 = S5i+u6;
+        local EA:4 = u6;
+        S5 = u6;
         local tmp:2 = *[ram]:2 EA;
         D5_pair = (D5_pairi << 16) | zext(tmp);
     }
@@ -87,8 +87,8 @@ with slot: iclass=0b1001 & mode=0 {
     }
 
     :D5"=memh("S5"="u6")" is imm_21_27=0b1011010 & S5 & S5i & imm_12_13=0b01 & imm_8_11u & imm_7=0 & imm_5_6u & D5 [ u6 = imm_5_6u | (imm_8_11u << 2);] {
-        local EA:4 = S5i;
-        S5 = S5i+u6;
+        local EA:4 = u6;
+        S5 = u6;
         D5 = sext(*[ram]:2 EA);
     }
 

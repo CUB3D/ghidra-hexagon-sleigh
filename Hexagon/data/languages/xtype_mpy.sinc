@@ -21,14 +21,14 @@ with slot: iclass=0b1101 & mode=0 {
 
 
 
-    :T5"=add("D5",mpyi("u6","S5")" is imm_23_27=0b11110 & imm_21_22 & S5 & S5i & imm_13 & T5 & T5i & imm_5_7 & D5 [ u6 = (imm_5_7 | (imm_13 << 3) | (imm_21_22 << 4)) << 2; ] {
+    :T5"=add("D5",mpyi("u6","S5")" is imm_23_27=0b11110 & imm_21_22 & S5 & S5i & imm_13 & T5 & T5i & imm_5_7 & D5 & D5i [ u6 = (imm_5_7 | (imm_13 << 3) | (imm_21_22 << 4)) << 2; ] {
         local tmp:8 = u6;
         local tmp1:8 = sext(S5i) * tmp;
-        T5 = D5 + tmp1:4;
+        T5 = D5i + tmp1:4;
     }
-    :T5 "=add(" D5 ", mpyi(" S5 ", " NR_EXT_u6 "))" is imm_23_27=0b11111 & imm_21_22u & S5 & S5i & imm_13u & T5 & T5i & imm_5_7u & D5 & NR_EXT_u6 {
+    :T5 "=add(" D5 ", mpyi(" S5 ", " NR_EXT_u6 "))" is imm_23_27=0b11111 & imm_21_22u & S5 & S5i & imm_13u & T5 & T5i & imm_5_7u & D5 & D5i & NR_EXT_u6 {
         local tmp1:8 = sext(S5i) * sext(NR_EXT_u6);
-	T5 = D5 + tmp1:4;
+	T5 = D5i + tmp1:4;
     }
 }
 with slot: iclass=0b1110 & mode=0 {

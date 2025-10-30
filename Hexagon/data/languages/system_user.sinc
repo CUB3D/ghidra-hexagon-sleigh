@@ -97,7 +97,7 @@ with slot: iclass=0b01100 & mode=0 {
 
 #SYSTEM/USER: Instruction cache maintenance user operations
 define pcodeop icache_inv_addr;
-with slot: iclass=0b1010 & mode=0 {
+with slot: iclass=0b0101 & mode=0 {
     :"icinva("S5")" is imm_21_27=0b0110110 & S5 & S5i & imm_11_13=0b000 & imm_0_10=0  {
         icache_inv_addr(S5i);
     }
