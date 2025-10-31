@@ -238,9 +238,11 @@ with slot: iclass=0b0110 & mode=0 {
 }
 
 #SYSTEM/MONITOR:ret from except
+define pcodeop rte;
 with slot: iclass=0b0101 & mode=0 {}
 with slot: iclass=0b0101 & mode=1100 {
 	:"rte" is imm_21_27=0b0111111 & imm_16_20=0 & imm_12_13=0b00 & imm_8_11=0 & imm_5_7=0b000 & imm_0_4=0  {
+		rte();
 		return [ELR];
 	}
 }
