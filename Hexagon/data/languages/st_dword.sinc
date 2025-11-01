@@ -2,13 +2,13 @@
 with slot: iclass=0b0011 & mode=0 {
     :"memd(" S5 "+" T5 "<<" u2 ")=" D5_pair is imm_21_27=0b1011110 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & imm_5_6=0 & D5_pair & D5_pairi [u2 = (imm_7u | (imm_13u << 1)) << 3; ]  {
     	local EA:4 = (S5i + T5i) << u2;
-    	*[ram]:8 EA = D5_pair;
+    	*[ram]:8 EA = D5_pairi;
     }
 }
 with slot: iclass=0b0100 & mode=0 {
     :"memd(GP + "s11")="T5_pair is imm_27=1 & imm_25_26 & imm_21_24=0b0110 & imm_16_20u & imm_13u & T5_pair & T5_pairi & imm_0_7u & (hasext0=0 | immext0used=1) [s11 = (imm_0_7u | (imm_13u << 8) | (imm_16_20u << 9) | (imm_25_26 << 14)) << 2;] {
         local EA:4 = GP + s11;
-        *[ram]:8 EA = T5_pair;
+        *[ram]:8 EA = T5_pairi;
     }
     :"memw("v")="T5_pair is imm_27=1 & imm_25_26 & imm_21_24=0b0110 & imm_16_20u & imm_13u & T5_pair & T5_pairi & imm_0_7u & hasext0=1 & immext0used=0 & immext0 & imm_0_5u [v = (imm_0_5u) | immext0; immext0used=1; immext0everused=1;] {
         local EA:4 = v;
@@ -37,9 +37,9 @@ with slot: iclass=0b1010 & mode=0 {
     	*[ram]:8 EA = T5_pairi;
      }
      :"memd(" S5 "=" imm_0_5u ")=" T5_pair is imm_21_27=0b1011110 & S5 & S5i & imm_13=0 & T5_pair & T5_pairi & imm_7=1 & imm_6=0 & imm_0_5u {
-        local EA:4 = S5i;
+        local EA:4 = imm_0_5u;
         *[ram]:8 EA = T5_pairi;
-        S5 = S5 + imm_0_5u;
+        S5 = imm_0_5u;
      }
      :"memd("S5"++"s4")="T5_pair is imm_21_27=0b1011110 & S5 & S5i & imm_13=0 & T5_pair & T5_pairi & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0 [ s4 = imm_3_6 << 3;] {
         local EA:4 = S5i;

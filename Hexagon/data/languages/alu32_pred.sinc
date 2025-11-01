@@ -552,7 +552,7 @@ with slot: iclass=0b1111 & mode=0 {
         D2_pred_new = PTRUE;
         <end>
 	}  
-	:D2_pred_new "=cmp.gt("S5","T5")" is Rs = 0 & MajOp=0b010 & imm_23=0 & imm_21_22=0b10 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & imm_2_4=0b100 & D2_pred_new {
+	:D2_pred_new "=!cmp.gt("S5","T5")" is Rs = 0 & MajOp=0b010 & imm_23=0 & imm_21_22=0b10 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & imm_2_4=0b100 & D2_pred_new {
         if( S5i s<= T5i) goto <good>;
         D2_pred_new = 0;
         goto <end>;

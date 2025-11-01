@@ -41,34 +41,34 @@ with slot: iclass=0b1000 & mode=0 {
 # XTYPE/SHIFT:Shift by imm and acc
 define pcodeop rot_left;
 with slot: iclass=0b1000 & mode=0 {
-    :alu_X5_pair "-=asr(" S5_pair "," imm_8_13u ")" is imm_22_27=0b001000 & imm_21=0 & S5_pair & S5_pairi & imm_8_13u & imm_5_7=0b000 & alu_X5_pair & alu_X5_pairi  {
-        alu_X5_pair = alu_X5_pairi - (S5_pairi s>> imm_8_13u);
+    :D5_pair "-=asr(" S5_pair "," imm_8_13u ")" is imm_22_27=0b001000 & imm_21=0 & S5_pair & S5_pairi & imm_8_13u & imm_5_7=0b000 & D5_pair & D5_pairi  {
+        D5_pair = D5_pairi - (S5_pairi s>> imm_8_13u);
     }
-    :alu_X5_pair "-=lsr(" S5_pair "," imm_8_13u ")" is imm_22_27=0b001000 & imm_21=0 & S5_pair & S5_pairi & imm_8_13u & imm_5_7=0b001 & alu_X5_pair & alu_X5_pairi  {
-        alu_X5_pair = alu_X5_pairi - (S5_pairi >> imm_8_13u);
+    :D5_pair "-=lsr(" S5_pair "," imm_8_13u ")" is imm_22_27=0b001000 & imm_21=0 & S5_pair & S5_pairi & imm_8_13u & imm_5_7=0b001 & D5_pair & D5_pairi  {
+        D5_pair = D5_pairi - (S5_pairi >> imm_8_13u);
     }
-    :alu_X5_pair "-=asl(" S5_pair "," imm_8_13u ")" is imm_22_27=0b001000 & imm_21=0 & S5_pair & S5_pairi & imm_8_13u & imm_5_7=0b010 & alu_X5_pair & alu_X5_pairi  {
-        alu_X5_pair = alu_X5_pair - (S5_pairi << imm_8_13u);
+    :D5_pair "-=asl(" S5_pair "," imm_8_13u ")" is imm_22_27=0b001000 & imm_21=0 & S5_pair & S5_pairi & imm_8_13u & imm_5_7=0b010 & D5_pair & D5_pairi  {
+        D5_pair = D5_pairi - (S5_pairi << imm_8_13u);
     }
-    :alu_X5_pair "-=rol(" S5_pair "," imm_8_13u ")" is imm_22_27=0b001000 & imm_21=0 & S5_pair & S5_pairi & imm_8_13u & imm_5_7=0b011 & alu_X5_pair & alu_X5_pairi  {
+    :D5_pair "-=rol(" S5_pair "," imm_8_13u ")" is imm_22_27=0b001000 & imm_21=0 & S5_pair & S5_pairi & imm_8_13u & imm_5_7=0b011 & D5_pair & D5_pairi  {
     	local out:8 = 0;
     	rotl64(out, S5_pairi, imm_8_13u);
-    	alu_X5_pair = alu_X5_pairi - out;
+    	D5_pair = D5_pairi - out;
     }
-    :alu_X5_pair "+=asr(" S5_pair "," imm_8_13u ")" is imm_22_27=0b001000 & imm_21=0 & S5_pair & S5_pairi & imm_8_13u & imm_5_7=0b100 & alu_X5_pair & alu_X5_pairi  {
-        alu_X5_pair = alu_X5_pairi + (S5_pairi s>> imm_8_13u);
+    :D5_pair "+=asr(" S5_pair "," imm_8_13u ")" is imm_22_27=0b001000 & imm_21=0 & S5_pair & S5_pairi & imm_8_13u & imm_5_7=0b100 & D5_pair & D5_pairi  {
+        D5_pair = D5_pairi + (S5_pairi s>> imm_8_13u);
     }
 
-    :alu_X5_pair "+=lsr(" S5_pair "," imm_8_13u ")" is imm_22_27=0b001000 & imm_21=0 & S5_pair & S5_pairi & imm_8_13u & imm_5_7=0b101 & alu_X5_pair & alu_X5_pairi  {
-        alu_X5_pair = alu_X5_pairi + (S5_pairi >> imm_8_13u);
+    :D5_pair "+=lsr(" S5_pair "," imm_8_13u ")" is imm_22_27=0b001000 & imm_21=0 & S5_pair & S5_pairi & imm_8_13u & imm_5_7=0b101 & D5_pair & D5_pairi  {
+        D5_pair = D5_pairi + (S5_pairi >> imm_8_13u);
     }
-    :alu_X5_pair "+=asl(" S5_pair "," imm_8_13u ")" is imm_22_27=0b001000 & imm_21=0 & S5_pair & S5_pairi & imm_8_13u & imm_5_7=0b110 & alu_X5_pair & alu_X5_pairi  {
-        alu_X5_pair = alu_X5_pairi + (S5_pairi << imm_8_13u);
+    :D5_pair "+=asl(" S5_pair "," imm_8_13u ")" is imm_22_27=0b001000 & imm_21=0 & S5_pair & S5_pairi & imm_8_13u & imm_5_7=0b110 & D5_pair & D5_pairi  {
+        D5_pair = D5_pairi + (S5_pairi << imm_8_13u);
     }
-    :alu_X5_pair "+=rol(" S5_pair "," imm_8_13u ")" is imm_22_27=0b001000 & imm_21=0 & S5_pair & S5_pairi & imm_8_13u & imm_5_7=0b111 & alu_X5_pair & alu_X5_pairi  {
+    :D5_pair "+=rol(" S5_pair "," imm_8_13u ")" is imm_22_27=0b001000 & imm_21=0 & S5_pair & S5_pairi & imm_8_13u & imm_5_7=0b111 & D5_pair & D5_pairi  {
     	local out:8 = 0;
     	rotl64(out, S5_pairi, imm_8_13u);
-    	alu_X5_pair = alu_X5_pairi + out;
+    	D5_pair = D5_pairi + out;
     }
 
     :alu_X5"-=asr("S5","imm_8_12u")" is imm_22_27=0b111000 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b000 & alu_X5 & alu_X5i {

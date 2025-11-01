@@ -483,49 +483,48 @@ with : mode=0 {
 		<end>
 	}
 
-#todo: is this correct way around?
 A1L:immdup0_D4_pair "= combine(0," immdup0_5_6 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=0 & immdup0_7=0 & immdup0_5_6 & immdup0_3_4=0b00 & immdup0_D4_pair {
-        immdup0_D4_pair = (immdup0_5_6 << 32);
+        immdup0_D4_pair = immdup0_5_6;
 }
 A1R:immdup1_D4_pair  "= combine(0," immdup1_5_6 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=0 & immdup1_7=0 & immdup1_5_6 & immdup1_3_4=0b00 & immdup1_D4_pair {
-        immdup1_D4_pair = (immdup1_5_6 << 32);
+        immdup1_D4_pair = immdup1_5_6;
 }
 
 A1L:immdup0_D3_pair "=combine(1," immdup0_5_6 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=0 & immdup0_7=0 & immdup0_5_6 & immdup0_3_4=0b01 & immdup0_D3_pair {
-	immdup0_D3_pair = 1 | (immdup0_5_6 << 32);
+	immdup0_D3_pair = (1<<32) | immdup0_5_6;
 }
 A1R:immdup1_D3_pair "=combine(1," immdup1_5_6 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=0 & immdup1_7=0 & immdup1_5_6 & immdup1_3_4=0b01 & immdup1_D3_pair {
-	immdup1_D3_pair = 1 | (immdup1_5_6 << 32);
+	immdup1_D3_pair = (1<<32) | immdup1_5_6;
 }
 
 A1L:immdup0_D3_pair "=combine(2," immdup0_5_6 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=0 & immdup0_7=0 & immdup0_5_6 & immdup0_3_4=0b10 & immdup0_D3_pair {
-	immdup0_D3_pair = 2 | (immdup0_5_6 << 32);
+	immdup0_D3_pair = (2<<32) | immdup0_5_6;
 }
 A1R:immdup1_D3_pair "=combine(2," immdup1_5_6 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=0 & immdup1_7=0 & immdup1_5_6 & immdup1_3_4=0b10 & immdup1_D3_pair {
-	immdup1_D3_pair = 2 | (immdup1_5_6 << 32);
+	immdup1_D3_pair = (2<<32) | immdup1_5_6;
 }
 
 A1L:immdup0_D3_pair "=combine(3," immdup0_5_6 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=0 & immdup0_7=0 & immdup0_5_6 & immdup0_3_4=0b11 & immdup0_D3_pair {
-	immdup0_D3_pair = 3 | (immdup0_5_6 << 32);
+	immdup0_D3_pair = (3<<32) | immdup0_5_6;
 }
 A1R:immdup1_D3_pair "=combine(3," immdup1_5_6 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=0 & immdup1_7=0 & immdup1_5_6 & immdup1_3_4=0b11 & immdup1_D3_pair {
-	immdup1_D3_pair = 3 | (immdup1_5_6 << 32);
+	immdup1_D3_pair = (3<<32) | immdup1_5_6;
 }
 
 A1L:immdup0_D3_pair "=combine(0," immdup0_S4 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=1 & immdup0_S4 & immdup0_S4i & immdup0_3=0 & immdup0_D3_pair & immdup0_D3_pairi {
 	immdup0_D3_pair = zext(immdup0_S4i);
-	immdup0_D3_pair = immdup0_D3_pairi << 32;
 }
 A1R:immdup1_D3_pair "=combine(0," immdup1_S4 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=1 & immdup1_S4 & immdup1_S4i & immdup1_3=0 & immdup1_D3_pair & immdup1_D3_pairi {
 	immdup1_D3_pair = zext(immdup1_S4i);
-	immdup1_D3_pair = immdup1_D3_pairi << 32;
 }
 
 A1L:immdup0_D3_pair "=combine(" immdup0_S4 ", 0)" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=1 & immdup0_S4 & immdup0_S4i & immdup0_3=1 & immdup0_D3_pair {
 	immdup0_D3_pair = zext(immdup0_S4i);
+	immdup0_D3_pair = immdup0_D3_pairi << 32;
 }
 A1R:immdup1_D3_pair "=combine(" immdup1_S4 ", 0)" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=1 & immdup1_S4 & immdup1_S4i & immdup1_3=1 & immdup1_D3_pair {
 	immdup1_D3_pair = zext(immdup1_S4i);
+	immdup1_D3_pair = immdup1_D3_pairi << 32;
 }
 
 }
