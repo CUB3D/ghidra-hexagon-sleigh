@@ -3,7 +3,7 @@
 .project
 dist/*.zip
 .gradle
-data/languages/skel.sla
+data/languages/*.sla
 .idea
 .settings
 /bin/
