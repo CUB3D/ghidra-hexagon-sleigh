@@ -28,28 +28,28 @@ with slot: iclass=0b0011 & mode=0 {
 
 
     :"memb("S5"+"EXT_MEMOP_7_12u_0")+="imm_0_4u is imm_24_27=0b1111 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & imm_7_12u & imm_5_6=0b00 & imm_0_4u & EXT_MEMOP_7_12u_0 {
-		local EA:4 = S5i + EXT_MEMOP_7_12u_0;
-		local tmp:1 = *[ram]:1 EA;
-		tmp = tmp + imm_0_4u;
-		*[ram]:1 EA = tmp;
+        local EA:4 = S5i + EXT_MEMOP_7_12u_0;
+        local tmp:1 = *[ram]:1 EA;
+        tmp = tmp + imm_0_4u;
+        *[ram]:1 EA = tmp;
     }
     :"memb("S5"+"EXT_MEMOP_7_12u_0")-="imm_0_4u is imm_24_27=0b1111 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & imm_7_12u & imm_5_6=0b01 & imm_0_4u & EXT_MEMOP_7_12u_0 {
-		local EA:4 = S5i + EXT_MEMOP_7_12u_0;
-		local tmp:1 = *[ram]:1 EA;
-		tmp = tmp - imm_0_4u;
-		*[ram]:1 EA = tmp;
+        local EA:4 = S5i + EXT_MEMOP_7_12u_0;
+        local tmp:1 = *[ram]:1 EA;
+        tmp = tmp - imm_0_4u;
+        *[ram]:1 EA = tmp;
     }
     :"memb("S5"+"EXT_MEMOP_7_12u_0")=clrbit("imm_0_4u")" is imm_24_27=0b1111 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & imm_7_12u & imm_5_6=0b10 & imm_0_4u & EXT_MEMOP_7_12u_0 {
-		local EA:4 = S5i + EXT_MEMOP_7_12u_0;
-		local tmp:1 = *[ram]:1 EA;
-		tmp = tmp & (~(1 << imm_0_4u));
-		*[ram]:1 EA = tmp;
+        local EA:4 = S5i + EXT_MEMOP_7_12u_0;
+        local tmp:1 = *[ram]:1 EA;
+        tmp = tmp & (~(1 << imm_0_4u));
+        *[ram]:1 EA = tmp;
     }
     :"memb("S5"+"EXT_MEMOP_7_12u_0")=setbit("imm_0_4u")" is imm_24_27=0b1111 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & imm_7_12u & imm_5_6=0b11 & imm_0_4u & EXT_MEMOP_7_12u_0 {
-		local EA:4 = S5i + EXT_MEMOP_7_12u_0;
-		local tmp:1 = *[ram]:1 EA;
-		tmp = tmp | (1 << imm_0_4u);
-		*[ram]:1 EA = tmp;
+        local EA:4 = S5i + EXT_MEMOP_7_12u_0;
+        local tmp:1 = *[ram]:1 EA;
+        tmp = tmp | (1 << imm_0_4u);
+        *[ram]:1 EA = tmp;
     }
 }
 

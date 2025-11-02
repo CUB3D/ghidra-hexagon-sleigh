@@ -35,7 +35,7 @@ with slot: iclass=0b1000 & mode=0 {
 define pcodeop swizzle;
 with slot: iclass=0b1000 & mode=0 {
     :D5 "=swiz(" S5 ")" is imm_21_27=0b1100100 & S5 & S5i & imm_8_13 & imm_5_7=0b111 & D5 {
-    	D5 = swizzle(S5i);
+        D5 = swizzle(S5i);
     }
 }
 

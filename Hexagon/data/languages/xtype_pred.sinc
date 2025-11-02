@@ -4,120 +4,120 @@ define pcodeop boundscheck_raw_lo;
 define pcodeop boundscheck_raw_hi;
 with slot: iclass=0b1101 & mode=0 {
     :D2_pred "=boundscheck(" S5_pair "," T5_pair "):raw:lo" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=1 & T5_pair & T5_pairi & imm_5_7=0b100 & imm_2_4=0 & D2_pred {
-    	D2_pred = boundscheck_raw_lo(S5_pairi, T5_pairi);
+        D2_pred = boundscheck_raw_lo(S5_pairi, T5_pairi);
     }
     :D2_pred "=boundscheck(" S5_pair "," T5_pair "):raw:hi" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=1 & T5_pair & T5_pairi & imm_5_7=0b101 & imm_2_4=0 & D2_pred {
-    	D2_pred = boundscheck_raw_hi(S5_pairi, T5_pairi);
+        D2_pred = boundscheck_raw_hi(S5_pairi, T5_pairi);
     }
 }
 
 # XTYPE/PRED:cmp byte
 with slot: iclass=0b1100 & mode=0 {
     :D2_pred_new "=cmpb.eq(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & imm_2_4=0 & D2_pred_new {
-    	D2_pred_new = S5i:1 == T5i:1;
+        D2_pred_new = S5i:1 == T5i:1;
     }
     :D2_pred_new "=cmpb.gt(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & imm_2_4=0 & D2_pred_new {
-    	D2_pred_new = S5i:1 s> T5i:1;
+        D2_pred_new = S5i:1 s> T5i:1;
     }
     :D2_pred_new "=cmpb.gtu(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & imm_2_4=0 & D2_pred_new {
-    	D2_pred_new = S5i:1 > T5i:1;
+        D2_pred_new = S5i:1 > T5i:1;
     }
 }
 with slot: iclass=0b1101 & mode=0 {
     :D2_pred" =cmpb.eq(" S5 "," imm_5_12u ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & imm_5_12u & imm_3_4=0b00 & imm_2=0 & D2_pred {
-    	local a:1 = S5i:1;
-	if(a != imm_5_12u) goto <bad>;
-	D2_pred = PTRUE;
-	goto <end>;
-	<bad>
-	D2_pred = 0;
-	<end>
+        local a:1 = S5i:1;
+    if(a != imm_5_12u) goto <bad>;
+    D2_pred = PTRUE;
+    goto <end>;
+    <bad>
+    D2_pred = 0;
+    <end>
     }
     :D2_pred" =cmpb.gt(" S5 "," imm_5_12 ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & imm_5_12 & imm_3_4=0b00 & imm_2=0 & D2_pred {
-    	local a:1 = S5i:1;
-	if(a s<= imm_5_12) goto <bad>;
-	D2_pred = PTRUE;
-	goto <end>;
-	<bad>
-	D2_pred = 0;
-	<end>
+        local a:1 = S5i:1;
+    if(a s<= imm_5_12) goto <bad>;
+    D2_pred = PTRUE;
+    goto <end>;
+    <bad>
+    D2_pred = 0;
+    <end>
     }
     :D2_pred" =cmpb.gtu(" S5 "," imm_5_11u ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b10 & S5 & S5i & imm_13=0 & imm_12=0 & imm_5_11u & imm_3_4=0b00 & imm_2=0 & D2_pred {
-    	local a:1 = S5i:1;
-	if(a <= imm_5_11u) goto <bad>;
-	D2_pred = PTRUE;
-	goto <end>;
-	<bad>
-	D2_pred = 0;
-	<end>
+        local a:1 = S5i:1;
+    if(a <= imm_5_11u) goto <bad>;
+    D2_pred = PTRUE;
+    goto <end>;
+    <bad>
+    D2_pred = 0;
+    <end>
     }
 }
 
 # XTYPE/PRED:cmp half
 with slot: iclass=0b1100 & mode=0 {
-	#TODO PRED
+    #TODO PRED
     :D2_pred_new "=cmph.eq(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & imm_2_4=0 & D2_pred_new {
-    	D2_pred_new = S5i:2 == T5i:2;
+        D2_pred_new = S5i:2 == T5i:2;
     }
     :D2_pred_new "=cmph.gt(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & imm_2_4=0 & D2_pred_new {
-    	D2_pred_new = S5i:2 s> T5i:2;
+        D2_pred_new = S5i:2 s> T5i:2;
     }
     :D2_pred_new "=cmph.gtu(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b101 & imm_2_4=0 & D2_pred_new {
-    	D2_pred_new = S5i:2 > T5i:2;
+        D2_pred_new = S5i:2 > T5i:2;
     }
 }
 with slot: iclass=0b1101 & mode=0 {
     :D2_pred_new "=cmph.eq(" S5 "," imm_5_12 ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & imm_12=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred_new & hasext0=0{
-    	if (S5i != imm_5_12) goto <bad>;
-		D2_pred_new = PTRUE;
-		goto <end>;
-	<bad>
-		D2_pred_new = 0;
-	<end>
+        if (S5i != imm_5_12) goto <bad>;
+        D2_pred_new = PTRUE;
+        goto <end>;
+    <bad>
+        D2_pred_new = 0;
+    <end>
     }
     :D2_pred_new "=cmph.gt(" S5 "," imm_5_12 ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred_new & hasext0=0{
-    	if (S5i s<= imm_5_12) goto <bad>;
-		D2_pred_new = PTRUE;
-		goto <end>;
-	<bad>
-		D2_pred_new = 0;
-	<end>
+        if (S5i s<= imm_5_12) goto <bad>;
+        D2_pred_new = PTRUE;
+        goto <end>;
+    <bad>
+        D2_pred_new = 0;
+    <end>
     }
     :D2_pred_new "=cmph.gtu(" S5 "," EXT_imm_5_11u ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b10 & S5 & S5i & imm_13=0 & imm_12=0 & EXT_imm_5_11u & imm_3_4=0b01 & imm_2=0 & D2_pred_new {
-    	if (S5i <= EXT_imm_5_11u) goto <bad>;
-		D2_pred_new = PTRUE;
-		goto <end>;
-	<bad>
-		D2_pred_new = 0;
-	<end>
+        if (S5i <= EXT_imm_5_11u) goto <bad>;
+        D2_pred_new = PTRUE;
+        goto <end>;
+    <bad>
+        D2_pred_new = 0;
+    <end>
     }
 }
 
 # XTYPE/PRED:cmp dword
 with slot: iclass=0b1101 & mode=0 {
     :D2_pred_new "=cmp.eq(" S5_pair "," T5_pair ")" is imm_21_27=0b0010100 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & imm_2_4=0 & D2_pred_new {
-    	if (S5_pairi != T5_pairi) goto <bad>;
-	D2_pred_new = PTRUE;
-	goto <end>;
-	<bad>
-	D2_pred_new = 0;
-	<end>
+        if (S5_pairi != T5_pairi) goto <bad>;
+    D2_pred_new = PTRUE;
+    goto <end>;
+    <bad>
+    D2_pred_new = 0;
+    <end>
     }
     :D2_pred_new "=cmp.gt(" S5_pair "," T5_pair ")" is imm_21_27=0b0010100 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & imm_2_4=0 & D2_pred_new {
-    	if (S5_pairi s<= T5_pairi) goto <bad>;
-	D2_pred_new = PTRUE;
-	goto <end>;
-	<bad>
-	D2_pred_new = 0;
-	<end>
+        if (S5_pairi s<= T5_pairi) goto <bad>;
+    D2_pred_new = PTRUE;
+    goto <end>;
+    <bad>
+    D2_pred_new = 0;
+    <end>
     }
     :D2_pred_new "=cmp.gtu(" S5_pair "," T5_pair ")" is imm_21_27=0b0010100 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b100 & imm_2_4=0 & D2_pred_new {
-    	if (S5_pairi <= T5_pairi) goto <bad>;
-	D2_pred_new = PTRUE;
-	goto <end>;
-	<bad>
-	D2_pred_new = 0;
-	<end>
+        if (S5_pairi <= T5_pairi) goto <bad>;
+    D2_pred_new = PTRUE;
+    goto <end>;
+    <bad>
+    D2_pred_new = 0;
+    <end>
     }
 }
 # XTYPE/PRED:cmp mask
@@ -189,7 +189,7 @@ with slot: iclass=0b1100 & mode=0 {
 define pcodeop mask;
 with slot: iclass=0b1000 & mode=0 {
     :D5_pair "=mask(" T2_pred ")" is imm_24_27=0b0110 & imm_16_23=0 & imm_10_13=0 & T2_pred & T2_predi & imm_5_7=0 & D5_pair {
-    	D5_pair = mask(T2_predi);
+        D5_pair = mask(T2_predi);
     }
 }
 
@@ -198,7 +198,7 @@ with slot: iclass=0b1000 & mode=0 {
 define pcodeop tlbmatch;
 with slot: iclass=0b1101 & mode=0 {
     :D2_pred "=tlbmatch(" S5_pair "," T5 ")" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=1 & T5 & T5i & imm_5_7=0b011 & imm_2_4=0 & D2_pred {
-    	D2_pred = tlbmatch(S5_pairi, T5i);
+        D2_pred = tlbmatch(S5_pairi, T5i);
     }
 }
 
@@ -268,23 +268,23 @@ define pcodeop vcmph_gt;
 define pcodeop vcmph_gtu;
 with slot: iclass=0b1101 & mode=0 {
     :D2_pred "=vcmph.eq(" S5_pair "," T5_pair ")" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & imm_2_4=0 & D2_pred {
-    	D2_pred = vcmph_eq(S5_pairi, T5_pairi);
+        D2_pred = vcmph_eq(S5_pairi, T5_pairi);
     }
     :D2_pred "=vcmph.gt(" S5_pair "," T5_pair ")" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b100 & imm_2_4=0 & D2_pred {
-    	D2_pred = vcmph_gt(S5_pairi, T5_pairi);
+        D2_pred = vcmph_gt(S5_pairi, T5_pairi);
     }
     :D2_pred "=vcmph.gtu(" S5_pair "," T5_pair ")" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b101 & imm_2_4=0 & D2_pred {
-    	D2_pred = vcmph_gtu(S5_pairi, T5_pairi);
+        D2_pred = vcmph_gtu(S5_pairi, T5_pairi);
     }
 
     :D2_pred "=vcmph.eq(" S5_pair "," imm_5_12 ")" is imm_21_27=0b1100000 & S5_pair & S5_pairi & imm_13=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred {
-    	D2_pred = vcmph_eq(S5_pairi, imm_5_12:1);
+        D2_pred = vcmph_eq(S5_pairi, imm_5_12:1);
     }
     :D2_pred "=vcmph.gt(" S5_pair "," imm_5_12 ")" is imm_21_27=0b1100001 & S5_pair & S5_pairi & imm_13=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred {
-    	D2_pred = vcmph_gt(S5_pairi, imm_5_12:1);
+        D2_pred = vcmph_gt(S5_pairi, imm_5_12:1);
     }
     :D2_pred "=vcmph.gtu(" S5_pair "," imm_5_11u ")" is imm_21_27=0b1100010 & S5_pair & S5_pairi & imm_13=0 & imm_12=0 & imm_5_11u & imm_3_4=0b01 & imm_2=0 & D2_pred {
-    	D2_pred = vcmph_gtu(S5_pairi, imm_5_11u:1);
+        D2_pred = vcmph_gtu(S5_pairi, imm_5_11u:1);
     }
 }
 
@@ -332,23 +332,23 @@ define pcodeop vcmpw_gt;
 define pcodeop vcmpw_gtu;
 with slot: iclass=0b1101 & mode=0 {
     :D2_pred "=vcmpw.eq(" S5_pair "," T5_pair ")" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & imm_2_4=0 & D2_pred {
-    	D2_pred = vcmpw_eq(S5_pairi, T5_pairi);
+        D2_pred = vcmpw_eq(S5_pairi, T5_pairi);
     }
     :D2_pred "=vcmpw.gt(" S5_pair "," T5_pair ")" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & imm_2_4=0 & D2_pred {
-    	D2_pred = vcmpw_gt(S5_pairi, T5_pairi);
+        D2_pred = vcmpw_gt(S5_pairi, T5_pairi);
     }
     :D2_pred "=vcmpw.gtu(" S5_pair "," T5_pair ")" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & imm_2_4=0 & D2_pred {
-    	D2_pred = vcmpw_gtu(S5_pairi, T5_pairi);
+        D2_pred = vcmpw_gtu(S5_pairi, T5_pairi);
     }
 
     :D2_pred "=vcmpw.eq(" S5_pair "," imm_5_12 ")" is imm_21_27=0b1100000 & S5_pair & S5_pairi & imm_13=0 & imm_5_12 & imm_3_4=0b10 & imm_2=0 & D2_pred {
-    	D2_pred = vcmpw_eq(S5_pairi, imm_5_12:1);
+        D2_pred = vcmpw_eq(S5_pairi, imm_5_12:1);
     }
     :D2_pred "=vcmpw.gt(" S5_pair "," imm_5_12 ")" is imm_21_27=0b1100001 & S5_pair & S5_pairi & imm_13=0 & imm_5_12 & imm_3_4=0b10 & imm_2=0 & D2_pred {
-    	D2_pred = vcmpw_gt(S5_pairi, imm_5_12:1);
+        D2_pred = vcmpw_gt(S5_pairi, imm_5_12:1);
     }
     :D2_pred "=vcmpw.gtu(" S5_pair "," imm_5_11u ")" is imm_21_27=0b1100010 & S5_pair & S5_pairi & imm_13=0 & imm_12=0 & imm_5_11u & imm_3_4=0b10 & imm_2=0 & D2_pred {
-    	D2_pred = vcmpw_gtu(S5_pairi, imm_5_11u:1);
+        D2_pred = vcmpw_gtu(S5_pairi, imm_5_11u:1);
     }
 }
 
@@ -356,7 +356,7 @@ with slot: iclass=0b1101 & mode=0 {
 define pcodeop vitpack;
 with slot: iclass=0b1000 & mode=0 {
     :D5 "=vitpack(" S2_pred "," T2_pred ")" is imm_24_27=0b1001 & imm_23=0 & imm_21_22=0b00 & imm_18_20 & S2_pred & imm_10_13=0 & T2_pred & T2_predi & imm_5_7 & D5 {
-    	D5 = vitpack(S2_pred, T2_predi);
+        D5 = vitpack(S2_pred, T2_predi);
     }
 }
 

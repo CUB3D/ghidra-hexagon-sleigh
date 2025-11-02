@@ -26,10 +26,10 @@ with slot: iclass=0b1010 & mode=0 {
 define pcodeop dcache_zero_addr;
 with slot: iclass=0b1010 & mode=0 {
     :"dczeroa("S5")" is imm_21_27=0b0000110 & S5 & S5i & imm_13=0 & imm_0_12=0 {
-		dcache_zero_addr(S5i);
+        dcache_zero_addr(S5i);
     }
     :"dczeroa("S5"):nt" is imm_21_27=0b0000110 & S5 & S5i & imm_13=1 & imm_0_12=0 {
-		dcache_zero_addr(S5i);
+        dcache_zero_addr(S5i);
     }
 }
 
@@ -37,7 +37,7 @@ with slot: iclass=0b1010 & mode=0 {
 define pcodeop barrier;
 with slot: iclass=0b1010 & mode=0 {
     :"barrier" is imm_21_27=0b1000000 & imm_16_20=0 & imm_0_13=0 {
-		barrier();
+        barrier();
     }
 }
 
@@ -53,11 +53,11 @@ with slot: iclass=0b0110 & mode=0 {
 define pcodeop dcache_fetch;
 with slot: iclass=0b0110 & mode=0 {
     :"dcfetch("S5"+"u11")" is imm_21_27=0b0100000 & S5 & S5i & imm_13=0 & imm_11_12=0 & imm_0_10 [u11 = imm_0_10 << 3; ] {
-    	local EA:4 = S5i + u11;
+        local EA:4 = S5i + u11;
         dcache_fetch(EA);
     }
     :"dcfetch("S5"+"u11"):nt" is imm_21_27=0b0100000 & S5 & S5i & imm_13=1 & imm_11_12=0 & imm_0_10 [u11 = imm_0_10 << 3; ] {
-    	local EA:4 = S5i + u11;
+        local EA:4 = S5i + u11;
         dcache_fetch(EA);
     }
 }
@@ -138,7 +138,7 @@ define pcodeop dmsyncht;
 # removed from v79 docs
 with slot: iclass=0b1010 & mode=0 {
     :D5 "=dmsyncht" is imm_21_27=0b1000000 & imm_16_20=0 & imm_9_13=0 & imm_5_8=0b0111 & D5 {
-	    D5 = dmsyncht();
+        D5 = dmsyncht();
     }
 
     :"syncht" is imm_21_27=0b1000010 & imm_16_20=0 & imm_0_13=0 {
@@ -176,6 +176,6 @@ with slot: iclass=0b0101 & mode=0 {
 
 define pcodeop isync;
 slot:"isync" is iclass=0b0101 & imm_16_27=0b011111000000 & imm_13=0 & imm_10_12=0 & imm_0_9=0b0000000010 & mode=0 {
-	isync();
+    isync();
 }
 

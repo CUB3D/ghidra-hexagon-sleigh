@@ -44,7 +44,7 @@ with slot: iclass=0b1000 & mode=0 {
 define pcodeop popcnt;
 with slot: iclass=0b1000 & mode=0 {
     :D5 "=popcnt(" S5_pair ")" is imm_21_27=0b1000011 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b011 & D5 {
-    	D5 = popcnt(S5_pairi);
+        D5 = popcnt(S5_pairi);
     }
 }
 
@@ -53,60 +53,60 @@ define pcodeop count_trailing_ones;
 define pcodeop count_trailing_zeros;
 with slot: iclass=0b1000 & mode=0 {
     :D5_pair "=ct0(" S5_pair ")" is imm_21_27=0b1000111 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b010 & D5_pair {
-    	D5_pair = count_trailing_zeros(S5_pairi);
+        D5_pair = count_trailing_zeros(S5_pairi);
     }
     :D5_pair "=ct1(" S5_pair ")" is imm_21_27=0b1000111 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b100 & D5_pair {
-    	D5_pair = count_trailing_ones(S5_pairi);
+        D5_pair = count_trailing_ones(S5_pairi);
     }
     :D5 "=ct0(" S5 ")" is imm_21_27=0b1100010 & S5 & S5i & imm_8_13=0 & imm_5_7=0b100 & D5 {
-    	D5 = count_trailing_zeros(S5i);
+        D5 = count_trailing_zeros(S5i);
     }
     :D5 "=ct1(" S5 ")" is imm_21_27=0b1100010 & S5 & S5i & imm_8_13=0 & imm_5_7=0b101 & D5 {
-    	D5 = count_trailing_ones(S5i);
+        D5 = count_trailing_ones(S5i);
     }
 }
 
 # XTYPE/BIT:Extract bit
 with slot: iclass=0b1000 & mode=0 {
     :D5_pair"=extractu("S5_pair","imm_8_13u","U6")" is imm_24_27=0b0001 & imm_21_23u & S5_pair & S5_pairi & imm_8_13u & imm_5_7u & D5_pair [ U6 = imm_5_7u | (imm_21_23u << 3);]{
-    	local tmp:8 = S5_pairi >> U6;
-	tmp = tmp << (64-imm_8_13u);
-	tmp = tmp >> (64-imm_8_13u);
-	D5_pair = tmp;
+        local tmp:8 = S5_pairi >> U6;
+    tmp = tmp << (64-imm_8_13u);
+    tmp = tmp >> (64-imm_8_13u);
+    D5_pair = tmp;
     }
     :D5_pair"=extract("S5_pair","imm_8_13u","U6")" is imm_24_27=0b1010 & imm_21_23u & S5_pair & S5_pairi & imm_8_13u & imm_5_7u & D5_pair [ U6 = imm_5_7u | (imm_21_23u << 3);]{
-    	local tmp:8 = S5_pairi >> U6;
-	tmp = tmp << (64-imm_8_13u);
-	tmp = tmp s>> (64-imm_8_13u);
-	D5_pair = tmp;
+        local tmp:8 = S5_pairi >> U6;
+    tmp = tmp << (64-imm_8_13u);
+    tmp = tmp s>> (64-imm_8_13u);
+    D5_pair = tmp;
     }
     :D5"=extractu("S5","imm_8_12","U5")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22u & S5 & S5i & imm_13=0 & imm_8_12 & imm_5_7u & D5 [ U5 = imm_5_7u | (imm_21_22u << 3);]{
-    	local tmp:4 = S5i >> U5;
-	tmp = tmp << (32-imm_8_12);
-	tmp = tmp >> (32-imm_8_12);
-	D5 = tmp;
+        local tmp:4 = S5i >> U5;
+    tmp = tmp << (32-imm_8_12);
+    tmp = tmp >> (32-imm_8_12);
+    D5 = tmp;
     }
     :D5"=extract("S5","imm_8_12","U5")" is imm_24_27=0b1101 & imm_23=1 & imm_21_22u & S5 & S5i & imm_13=0 & imm_8_12 & imm_5_7u & D5 [ U5 = imm_5_7u | (imm_21_22u << 3);]{
-    	local tmp:4 = S5i >> U5;
-	tmp = tmp << (32-imm_8_12);
-	tmp = tmp s>> (32-imm_8_12);
-	D5 = tmp;
+        local tmp:4 = S5i >> U5;
+    tmp = tmp << (32-imm_8_12);
+    tmp = tmp s>> (32-imm_8_12);
+    D5 = tmp;
     }
 }
 define pcodeop extract;
 define pcodeop extractu;
 with slot: iclass=0b1100 & mode=0 {
     :D5_pair "=extractu(" S5_pair "," T5_pair ")" is imm_22_27=0b000100 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_6_7=0b00 & imm_5=0 & D5_pair {
-    	D5_pair = extractu(S5_pairi, T5_pairi);
+        D5_pair = extractu(S5_pairi, T5_pairi);
     }
     :D5_pair "=extract(" S5_pair "," T5_pair ")" is imm_22_27=0b000111 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_6_7=0b10 & imm_5=0 & D5_pair {
-    	D5_pair = extract(S5_pairi, T5_pairi);
+        D5_pair = extract(S5_pairi, T5_pairi);
     }
     :D5 "=extractu(" S5 "," T5_pair ")" is imm_22_27=0b100100 & imm_21=0 & S5 & S5i & imm_13=0 & T5_pair & T5_pairi & imm_6_7=0b00 & imm_5=0 & D5 {
-    	D5 = extractu(S5i, T5_pairi);
+        D5 = extractu(S5i, T5_pairi);
     }
     :D5 "=extract(" S5 "," T5_pair ")" is imm_22_27=0b100100 & imm_21=0 & S5 & S5i & imm_13=0 & T5_pair & T5_pairi & imm_6_7=0b01 & imm_5=0 & D5 {
-    	D5 = extract(S5i, T5_pairi);
+        D5 = extract(S5i, T5_pairi);
     }
 }
 
@@ -126,10 +126,10 @@ with slot: iclass=0b1000 & mode=0 {
 define pcodeop insert;
 with slot: iclass=0b1100 & mode=0 {
     :D5 "=insert(" S5 "," T5_pair ")" is imm_24_27=0b1000 & imm_21_23=0 & S5 & S5i & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0 & D5 {
-    	D5 = insert(S5i, T5_pairi);
+        D5 = insert(S5i, T5_pairi);
     }
     :D5_pair "=insert(" S5_pair "," T5_pair ")" is imm_23_27=0b10100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0 & D5_pair {
-    	D5_pair = insert(S5_pairi, T5_pairi);
+        D5_pair = insert(S5_pairi, T5_pairi);
     }
 }
 
@@ -138,10 +138,10 @@ define pcodeop interleave;
 define pcodeop deinterleave;
 with slot: iclass=0b1000 & mode=0 {
     :D5_pair "=interleave(" S5_pair ".w[1], " S5_pair_dup ".w[0])" is imm_21_27=0b0000110 & S5_pair_dup & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b100 & D5_pair {
-    	D5_pair = interleave(S5_pairi);
+        D5_pair = interleave(S5_pairi);
     }
     :D5_pair "=deinterleave(" S5_pair ")" is imm_21_27=0b0000110 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b101 & D5_pair {
-    	D5_pair = deinterleave(S5_pairi);
+        D5_pair = deinterleave(S5_pairi);
     }
 }
 
@@ -149,7 +149,7 @@ with slot: iclass=0b1000 & mode=0 {
 define pcodeop lfs;
 with slot: iclass=0b1100 & mode=0 {
     :D5_pair "=lfs(" S5_pair "," T5_pair ")" is imm_22_27=0b000110 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b110 & D5_pair {
-    	D5_pair = lfs(S5_pairi, T5_pairi);
+        D5_pair = lfs(S5_pairi, T5_pairi);
     }
 }
 
@@ -188,14 +188,14 @@ with slot: iclass=0b1000 & mode=0 {
 }
 with slot: iclass=0b1100 & mode=0 {
     :D5 "=setbit(" S5 "," T5 ")" is imm_22_27=0b011010 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b00 & imm_5=0 & D5 {
-    	D5 = S5i | (1 << T5i);
+        D5 = S5i | (1 << T5i);
     }
     :D5 "=clrbit(" S5 "," T5 ")" is imm_22_27=0b011010 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b01 & imm_5=0 & D5 {
-    	local tmp:4 = 1 << T5i;
-    	D5 = S5i & (~tmp);
+        local tmp:4 = 1 << T5i;
+        D5 = S5i & (~tmp);
     }
     :D5 "=togglebit(" S5 "," T5 ")" is imm_22_27=0b011010 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b10 & imm_5=0 & D5 {
-    	D5 = S5i ^ (1 << T5i);
+        D5 = S5i ^ (1 << T5i);
     }
 }
 

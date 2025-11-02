@@ -2,12 +2,12 @@
 # XTYPE/MPY: Mul and use lower
 with slot: iclass=0b1101 & mode=0 {
     :D5 "=add(" u6 ",mpyi(" S5 "," T5 "))" is imm_23_27=0b01110 & imm_21_22u & S5 & S5i & imm_13u & T5 & T5i & imm_5_7u & D5 & (hasext0=0 | immext0used=1) [ u6 = imm_5_7u | (imm_13u << 3) | (imm_21_22u << 4);] {
-    	local EA:4 = S5i * T5i;
-	D5 = u6 + EA;
+        local EA:4 = S5i * T5i;
+    D5 = u6 + EA;
     }
     :D5 "=add(" u6 ",mpyi(" S5 "," T5 "))" is imm_23_27=0b01110 & imm_21_22u & S5 & S5i & imm_13u & T5 & T5i & imm_5_7u & D5 & hasext0=1 & immext0used=0 & immext0 [ u6 = (imm_5_7u | (imm_13u << 3) | (imm_21_22u << 4)) | immext0; immext0used=1; ] {
-    	local EA:4 = S5i * T5i;
-	D5 = u6 + EA;
+        local EA:4 = S5i * T5i;
+    D5 = u6 + EA;
     }
     
     NR_EXT_u6: u6 is imm_5_7u & imm_13u & imm_21_22u & (hasext0=0 | immext0used=1) [u6 = imm_5_7u | (imm_13u << 3) | (imm_21_22u << 4);] { export *[const]:4 u6; }
@@ -15,8 +15,8 @@ with slot: iclass=0b1101 & mode=0 {
     NR_EXT_u6: u6 is imm_5_7u & imm_13u & imm_21_22u & hasext0=1 & immext0used=1 & hasext1=1 & immext1 [u6 = immext1 | (imm_5_7u | (imm_13u << 3) | (imm_21_22u << 4)); immext1used=1; immext1pos=pktid;] { export *[const]:4 u6; }
 
     :T5 "=add(" NR_EXT_u6 ",mpyi(" S5 "," U6 "))" is imm_24_27=0b1000 & imm_23u & imm_21_22u & S5 & S5i & imm_13u & T5 & T5i & imm_5_7u & imm_0_4u & NR_EXT_u6 [ U6 = imm_0_4u | (imm_23u << 5); ] {
-    	local EA:4 = U6 * T5i;
-	T5 = NR_EXT_u6 + EA;
+        local EA:4 = U6 * T5i;
+    T5 = NR_EXT_u6 + EA;
     }
 
 
@@ -28,13 +28,13 @@ with slot: iclass=0b1101 & mode=0 {
     }
     :T5 "=add(" D5 ", mpyi(" S5 ", " NR_EXT_u6 "))" is imm_23_27=0b11111 & imm_21_22u & S5 & S5i & imm_13u & T5 & T5i & imm_5_7u & D5 & D5i & NR_EXT_u6 {
         local tmp1:8 = sext(S5i) * sext(NR_EXT_u6);
-	T5 = D5i + tmp1:4;
+    T5 = D5i + tmp1:4;
     }
 }
 with slot: iclass=0b1110 & mode=0 {
     :T5 "=add(" D5 ", mpyi(" T5_dup ", " S5 "))" is imm_21_27=0b0011000 & S5 & S5i & imm_13=0 & T5 & T5i & T5_dup & imm_5_7=0 & D5 & D5i {
         local tmp1:8 = sext(T5i) * sext(S5i);
-	T5 = D5i + tmp1:4;
+    T5 = D5i + tmp1:4;
     }
 
     :D5 "=+mpyi("S5","imm_5_12u")" is imm_23_27=0b00000 & imm_21_22=0 & S5 & S5i & imm_13=0 & imm_5_12u & D5 & (hasext0=0 | immext0used=1){
@@ -45,14 +45,14 @@ with slot: iclass=0b1110 & mode=0 {
     :D5 "=+mpyi("S5","val")" is imm_23_27=0b00000 & imm_21_22=0 & S5 & S5i & imm_13=0 & imm_5_12 & D5 & hasext0=1 & immext0used=0 & imm_5_10u [ val = immext0 | imm_5_10u; immext0used=1; immext0everused=1;]  {
         local tmp:8 = val;
         local tmp1:8 = sext(S5i) * tmp;
-	#TODO: abs?
+    #TODO: abs?
         D5 = tmp1:4; 
     }
 
     :D5 "=-mpyi("S5","imm_5_12u")" is imm_23_27=0b00001 & imm_21_22=0 & S5 & S5i & imm_13=0 & imm_5_12u & D5 & (hasext0=0 | immext0used=1) {
         local tmp:8 = imm_5_12u;
         local tmp1:8 = sext(S5i) * tmp;
-	#TODO: abs?
+    #TODO: abs?
         D5 = -tmp1:4; 
     }
 
@@ -92,29 +92,29 @@ define pcodeop vmpyweh_rnd_sat;
 define pcodeop vmpywoh_rnd_sat;
 with slot: iclass=0b1110 & mode=0 {
     :D5_pair "=vmpyweh(" S5_pair "," T5_pair "):<<" imm_23u ":sat" is imm_24_27=0b1000 & imm_23u & imm_21_22=0b00 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair {
-    	D5_pair = vmpyweh_sat(S5_pairi, T5_pairi) << imm_23u;
+        D5_pair = vmpyweh_sat(S5_pairi, T5_pairi) << imm_23u;
     }
     :D5_pair "=vmpywoh(" S5_pair "," T5_pair "):<<" imm_23u ":sat" is imm_24_27=0b1000 & imm_23u & imm_21_22=0b00 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b111 & D5_pair {
-    	D5_pair = vmpywoh_sat(S5_pairi, T5_pairi) << imm_23u;
+        D5_pair = vmpywoh_sat(S5_pairi, T5_pairi) << imm_23u;
     }
     :D5_pair "=vmpyweh(" S5_pair "," T5_pair "):<<" imm_23u ":rnd:sat" is imm_24_27=0b1000 & imm_23u & imm_21_22=0b01 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair {
-    	D5_pair = vmpyweh_rnd_sat(S5_pairi, T5_pairi) << imm_23u;
+        D5_pair = vmpyweh_rnd_sat(S5_pairi, T5_pairi) << imm_23u;
     }
     :D5_pair "=vmpywoh(" S5_pair "," T5_pair "):<<" imm_23u ":rnd:sat" is imm_24_27=0b1000 & imm_23u & imm_21_22=0b01 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b111 & D5_pair {
-    	D5_pair = vmpywoh_rnd_sat(S5_pairi, T5_pairi) << imm_23u;
+        D5_pair = vmpywoh_rnd_sat(S5_pairi, T5_pairi) << imm_23u;
     }
 
     :D5_pair "+=vmpyweh(" S5_pair "," T5_pair "):<<" imm_23u ":sat" is imm_24_27=0b1010 & imm_23u & imm_21_22=0b00 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair & D5_pairi {
-    	D5_pair = D5_pairi + vmpyweh_sat(S5_pairi, T5_pairi) << imm_23u;
+        D5_pair = D5_pairi + vmpyweh_sat(S5_pairi, T5_pairi) << imm_23u;
     }
     :D5_pair "=vmpywoh(" S5_pair "," T5_pair "):<<" imm_23u ":sat" is imm_24_27=0b1010 & imm_23u & imm_21_22=0b00 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b111 & D5_pair & D5_pairi {
-    	D5_pair = D5_pairi + vmpywoh_sat(S5_pairi, T5_pairi) << imm_23u;
+        D5_pair = D5_pairi + vmpywoh_sat(S5_pairi, T5_pairi) << imm_23u;
     }
     :D5_pair "=vmpyweh(" S5_pair "," T5_pair "):<<" imm_23u ":rnd:sat" is imm_24_27=0b1010 & imm_23u & imm_21_22=0b01 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair & D5_pairi {
-    	D5_pair = D5_pairi + vmpyweh_rnd_sat(S5_pairi, T5_pairi) << imm_23u;
+        D5_pair = D5_pairi + vmpyweh_rnd_sat(S5_pairi, T5_pairi) << imm_23u;
     }
     :D5_pair "=vmpywoh(" S5_pair "," T5_pair "):<<" imm_23u ":rnd:sat" is imm_24_27=0b1010 & imm_23u & imm_21_22=0b01 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b111 & D5_pair & D5_pairi {
-    	D5_pair = D5_pairi + vmpywoh_rnd_sat(S5_pairi, T5_pairi) << imm_23u;
+        D5_pair = D5_pairi + vmpywoh_rnd_sat(S5_pairi, T5_pairi) << imm_23u;
     }
 }
 
@@ -125,29 +125,29 @@ define pcodeop vmpyweuh_rnd_sat;
 define pcodeop vmpywouh_rnd_sat;
 with slot: iclass=0b1110 & mode=0 {
     :D5_pair "=vmpyweuh(" S5_pair "," T5_pair "):<<" imm_23u ":sat" is imm_24_27=0b1000 & imm_23u & imm_21_22=0b10 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair {
-    	D5_pair = vmpyweuh_sat(S5_pairi, T5_pairi) << imm_23u;
+        D5_pair = vmpyweuh_sat(S5_pairi, T5_pairi) << imm_23u;
     }
     :D5_pair "=vmpywouh(" S5_pair "," T5_pair "):<<" imm_23u ":sat" is imm_24_27=0b1000 & imm_23u & imm_21_22=0b10 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b111 & D5_pair {
-    	D5_pair = vmpywouh_sat(S5_pairi, T5_pairi) << imm_23u;
+        D5_pair = vmpywouh_sat(S5_pairi, T5_pairi) << imm_23u;
     }
     :D5_pair "=vmpyweuh(" S5_pair "," T5_pair "):<<" imm_23u ":rnd:sat" is imm_24_27=0b1000 & imm_23u & imm_21_22=0b11 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair {
-    	D5_pair = vmpyweuh_rnd_sat(S5_pairi, T5_pairi) << imm_23u;
+        D5_pair = vmpyweuh_rnd_sat(S5_pairi, T5_pairi) << imm_23u;
     }
     :D5_pair "=vmpywouh(" S5_pair "," T5_pair "):<<" imm_23u ":rnd:sat" is imm_24_27=0b1000 & imm_23u & imm_21_22=0b11 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b111 & D5_pair {
-    	D5_pair = vmpywouh_rnd_sat(S5_pairi, T5_pairi) << imm_23u;
+        D5_pair = vmpywouh_rnd_sat(S5_pairi, T5_pairi) << imm_23u;
     }
 
     :D5_pair "+=vmpyweuh(" S5_pair "," T5_pair "):<<" imm_23u ":sat" is imm_24_27=0b1010 & imm_23u & imm_21_22=0b10 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair & D5_pairi {
-    	D5_pair = D5_pairi + vmpyweuh_sat(S5_pairi, T5_pairi) << imm_23u;
+        D5_pair = D5_pairi + vmpyweuh_sat(S5_pairi, T5_pairi) << imm_23u;
     }
     :D5_pair "=vmpywouh(" S5_pair "," T5_pair "):<<" imm_23u ":sat" is imm_24_27=0b1010 & imm_23u & imm_21_22=0b10 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b111 & D5_pair & D5_pairi {
-    	D5_pair = D5_pairi + vmpywouh_sat(S5_pairi, T5_pairi) << imm_23u;
+        D5_pair = D5_pairi + vmpywouh_sat(S5_pairi, T5_pairi) << imm_23u;
     }
     :D5_pair "=vmpyweuh(" S5_pair "," T5_pair "):<<" imm_23u ":rnd:sat" is imm_24_27=0b1010 & imm_23u & imm_21_22=0b11 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair & D5_pairi {
-    	D5_pair = D5_pairi + vmpyweuh_rnd_sat(S5_pairi, T5_pairi) << imm_23u;
+        D5_pair = D5_pairi + vmpyweuh_rnd_sat(S5_pairi, T5_pairi) << imm_23u;
     }
     :D5_pair "=vmpywouh(" S5_pair "," T5_pair "):<<" imm_23u ":rnd:sat" is imm_24_27=0b1010 & imm_23u & imm_21_22=0b11 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b111 & D5_pair & D5_pairi {
-    	D5_pair = D5_pairi + vmpywouh_rnd_sat(S5_pairi, T5_pairi) << imm_23u;
+        D5_pair = D5_pairi + vmpywouh_rnd_sat(S5_pairi, T5_pairi) << imm_23u;
     }
 }
 
@@ -158,378 +158,378 @@ define pcodeop mpy_rnd_sat;
 
 with slot: iclass=0b1110 & mode=0 {
     :D5_pair "=mpy(" S5 ".L, " T5 ".L):<<" imm_23u is imm_24_27=0b0100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b00 & D5_pair {
-    	local a=S5i:2;
-    	local b=T5i:2;
-    	D5_pair = (sext(a) * sext(b)) << imm_23u;
+        local a=S5i:2;
+        local b=T5i:2;
+        D5_pair = (sext(a) * sext(b)) << imm_23u;
     }
     :D5_pair "=mpy(" S5 ".L, " T5 ".H):<<" imm_23u is imm_24_27=0b0100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b01 & D5_pair {
-    	local a:2=S5i:2;
-    	local b:2=T5i(2);
-    	D5_pair = (sext(a) * sext(b)) << imm_23u;
+        local a:2=S5i:2;
+        local b:2=T5i(2);
+        D5_pair = (sext(a) * sext(b)) << imm_23u;
     }
     :D5_pair "=mpy(" S5 ".H, " T5 ".L):<<" imm_23u is imm_24_27=0b0100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b10 & D5_pair {
-    	local a:2=S5i(2);
-    	local b:2=T5i:2;
-    	D5_pair = (sext(a) * sext(b)) << imm_23u;
+        local a:2=S5i(2);
+        local b:2=T5i:2;
+        D5_pair = (sext(a) * sext(b)) << imm_23u;
     }
     :D5_pair "=mpy(" S5 ".H, " T5 ".H):<<" imm_23u is imm_24_27=0b0100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b11 & D5_pair {
-    	local a:2=S5i(2);
-    	local b:2=T5i(2);
-    	D5_pair = (sext(a) * sext(b)) << imm_23u;
+        local a:2=S5i(2);
+        local b:2=T5i(2);
+        D5_pair = (sext(a) * sext(b)) << imm_23u;
     }
 
     :D5_pair "=mpy(" S5 ".L, " T5 ".L):<<" imm_23u ":rnd" is imm_24_27=0b0100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b00 & D5_pair {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i:2;
-    	D5_pair = mpy_rnd(a, b) << imm_23u; 
+        local a:2 = S5i:2;
+        local b:2 = T5i:2;
+        D5_pair = mpy_rnd(a, b) << imm_23u; 
     }
     :D5_pair "=mpy(" S5 ".L, " T5 ".H):<<" imm_23u ":rnd" is imm_24_27=0b0100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b01 & D5_pair {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i(2);
-    	D5_pair = mpy_rnd(a, b) << imm_23u;
+        local a:2 = S5i:2;
+        local b:2 = T5i(2);
+        D5_pair = mpy_rnd(a, b) << imm_23u;
     }
     :D5_pair "=mpy(" S5 ".H, " T5 ".L):<<" imm_23u ":rnd" is imm_24_27=0b0100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b10 & D5_pair {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i:2;
-    	D5_pair = mpy_rnd(a, b) << imm_23u;
+        local a:2 = S5i(2);
+        local b:2 = T5i:2;
+        D5_pair = mpy_rnd(a, b) << imm_23u;
     }
     :D5_pair "=mpy(" S5 ".H, " T5 ".H):<<" imm_23u ":rnd" is imm_24_27=0b0100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b11 & D5_pair {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i(2);
-    	D5_pair = mpy_rnd(a, b) << imm_23u;
+        local a:2 = S5i(2);
+        local b:2 = T5i(2);
+        D5_pair = mpy_rnd(a, b) << imm_23u;
     }
 #np
     :D5_pair "+=mpy(" S5 ".L, " T5 ".L):<<" imm_23u  is imm_24_27=0b0110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5_pair & D5_pairi {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i:2;
-    	D5_pair = D5_pairi + (sext(a) * sext(b)) << imm_23u;
+        local a:2 = S5i:2;
+        local b:2 = T5i:2;
+        D5_pair = D5_pairi + (sext(a) * sext(b)) << imm_23u;
     }
     :D5_pair "+=mpy(" S5 ".L, " T5 ".H):<<" imm_23u  is imm_24_27=0b0110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5_pair & D5_pairi {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i(2);
-    	D5_pair = D5_pairi + (sext(a) * sext(b)) << imm_23u;
+        local a:2 = S5i:2;
+        local b:2 = T5i(2);
+        D5_pair = D5_pairi + (sext(a) * sext(b)) << imm_23u;
     }
     :D5_pair "+=mpy(" S5 ".H, " T5 ".L):<<" imm_23u is imm_24_27=0b0110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5_pair & D5_pairi {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i:2;
-    	D5_pair = D5_pairi + (sext(a) * sext(b)) << imm_23u;
+        local a:2 = S5i(2);
+        local b:2 = T5i:2;
+        D5_pair = D5_pairi + (sext(a) * sext(b)) << imm_23u;
     }
     :D5_pair "+=mpy(" S5 ".H, " T5 ".H):<<" imm_23u is imm_24_27=0b0110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5_pair & D5_pairi {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i(2);
-    	D5_pair = D5_pairi + (sext(a) * sext(b)) << imm_23u;
+        local a:2 = S5i(2);
+        local b:2 = T5i(2);
+        D5_pair = D5_pairi + (sext(a) * sext(b)) << imm_23u;
     }
 
     :D5_pair "-=mpy(" S5 ".L," T5 ".L):<<" imm_23u  is imm_24_27=0b0110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5_pair & D5_pairi {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i:2;
-    	D5_pair = D5_pairi - (sext(a) * sext(b)) << imm_23u;
+        local a:2 = S5i:2;
+        local b:2 = T5i:2;
+        D5_pair = D5_pairi - (sext(a) * sext(b)) << imm_23u;
     }:
     :D5_pair "-=mpy(" S5 ".L, " T5 ".H):<<" imm_23u is imm_24_27=0b0110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5_pair & D5_pairi {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i(2);
-    	D5_pair = D5_pairi - (sext(a) * sext(b)) << imm_23u;
+        local a:2 = S5i:2;
+        local b:2 = T5i(2);
+        D5_pair = D5_pairi - (sext(a) * sext(b)) << imm_23u;
     }
     :D5_pair "-=mpy(" S5 ".H, " T5 ".L):<<" imm_23u is imm_24_27=0b0110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5_pair & D5_pairi {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i:2;
-    	D5_pair = D5_pairi - (sext(a) * sext(b)) << imm_23u;
+        local a:2 = S5i(2);
+        local b:2 = T5i:2;
+        D5_pair = D5_pairi - (sext(a) * sext(b)) << imm_23u;
     }
     :D5_pair "-=mpy(" S5 ".H, " T5 ".H):<<" imm_23u is imm_24_27=0b0110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5_pair & D5_pairi {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i(2);
-    	D5_pair = D5_pairi - (sext(a) * sext(b)) << imm_23u;
+        local a:2 = S5i(2);
+        local b:2 = T5i(2);
+        D5_pair = D5_pairi - (sext(a) * sext(b)) << imm_23u;
     }
 #ns
     :D5 "=mpy(" S5 ".L, " T5 ".L):<<" imm_23u is imm_24_27=0b1100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
-    	local a=S5i:2;
-    	local b=T5i:2;
-    	D5 = (sext(a) * sext(b)) << imm_23u;
+        local a=S5i:2;
+        local b=T5i:2;
+        D5 = (sext(a) * sext(b)) << imm_23u;
     }
     :D5 "=mpy(" S5 ".L, " T5 ".H):<<" imm_23u is imm_24_27=0b1100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i(2);
-    	D5 = (sext(a) * sext(b)) << imm_23u;
+        local a:2 = S5i:2;
+        local b:2 = T5i(2);
+        D5 = (sext(a) * sext(b)) << imm_23u;
     }
     :D5 "=mpy(" S5 ".H, " T5 ".L):<<" imm_23u is imm_24_27=0b1100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5 {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i:2;
-    	D5 = (sext(a) * sext(b)) << imm_23u;
+        local a:2 = S5i(2);
+        local b:2 = T5i:2;
+        D5 = (sext(a) * sext(b)) << imm_23u;
     }
     :D5 "=mpy(" S5 ".H, " T5 ".H):<<" imm_23u is imm_24_27=0b1100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5 {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i(2);
-    	D5 = (sext(a) * sext(b)) << imm_23u;
+        local a:2 = S5i(2);
+        local b:2 = T5i(2);
+        D5 = (sext(a) * sext(b)) << imm_23u;
     }
     
     :D5 "=mpy(" S5 ".L, " T5 ".L):<<" imm_23u ":sat" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i:2;
-    	D5 = mpy_sat(a, b) << imm_23u;
+        local a:2 = S5i:2;
+        local b:2 = T5i:2;
+        D5 = mpy_sat(a, b) << imm_23u;
     }
     :D5 "=mpy(" S5 ".L, " T5 ".H):<<" imm_23u ":sat" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b101 & D5 {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i(2);
-    	D5 = mpy_sat(a, b) << imm_23u;
+        local a:2 = S5i:2;
+        local b:2 = T5i(2);
+        D5 = mpy_sat(a, b) << imm_23u;
     }
     :D5 "=mpy(" S5 ".H, " T5 ".L):<<" imm_23u ":sat" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i:2;
-    	D5 = mpy_sat(a, b) << imm_23u;
+        local a:2 = S5i(2);
+        local b:2 = T5i:2;
+        D5 = mpy_sat(a, b) << imm_23u;
     }
     :D5 "=mpy(" S5 ".H, " T5 ".H):<<" imm_23u ":sat" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 {
-    	local a:2 =S5i(2);
-    	local b:2 =T5i(2);
-    	D5 = mpy_sat(a, b) << imm_23u;
+        local a:2 =S5i(2);
+        local b:2 =T5i(2);
+        D5 = mpy_sat(a, b) << imm_23u;
     }
 
     :D5 "=mpy(" S5 ".L, " T5 ".L):<<" imm_23u ":rnd" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
-    	local a:2 =S5i:2;
-    	local b:2 =T5i:2;
-    	D5 = mpy_rnd(a, b) << imm_23u;
+        local a:2 =S5i:2;
+        local b:2 =T5i:2;
+        D5 = mpy_rnd(a, b) << imm_23u;
     }
     :D5 "=mpy(" S5 ".L, " T5 ".H):<<" imm_23u ":rnd" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
-    	local a:2 =S5i:2;
-    	local b:2 =T5i(2);
-    	D5 = mpy_rnd(a, b) << imm_23u;
+        local a:2 =S5i:2;
+        local b:2 =T5i(2);
+        D5 = mpy_rnd(a, b) << imm_23u;
     }
     :D5 "=mpy(" S5 ".H, " T5 ".L):<<" imm_23u ":rnd" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5 {
-    	local a:2 =S5i(2);
-    	local b:2 =T5i:2;
-    	D5 = mpy_rnd(a, b) << imm_23u;
+        local a:2 =S5i(2);
+        local b:2 =T5i:2;
+        D5 = mpy_rnd(a, b) << imm_23u;
     }
     :D5 "=mpy(" S5 ".H, " T5 ".H):<<" imm_23u ":rnd" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5 {
-    	local a:2 =S5i(2);
-    	local b:2 =T5i(2);
-    	D5 = mpy_rnd(a, b) << imm_23u;
+        local a:2 =S5i(2);
+        local b:2 =T5i(2);
+        D5 = mpy_rnd(a, b) << imm_23u;
     }
     :D5 "=mpy(" S5 ".L, " T5 ".L):<<" imm_23u ":rnd:sat" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 {
-    	local a:2 =S5i:2;
-    	local b:2 =T5i:2;
-    	D5 = mpy_rnd_sat(a, b) << imm_23u;
+        local a:2 =S5i:2;
+        local b:2 =T5i:2;
+        D5 = mpy_rnd_sat(a, b) << imm_23u;
     }
     :D5 "=mpy(" S5 ".L, " T5 ".H):<<" imm_23u ":rnd:sat" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b101 & D5 {
-    	local a:2 =S5i:2;
-    	local b:2 =T5i(2);
-    	D5 = mpy_rnd_sat(a, b) << imm_23u;
+        local a:2 =S5i:2;
+        local b:2 =T5i(2);
+        D5 = mpy_rnd_sat(a, b) << imm_23u;
     }
     :D5 "=mpy(" S5 ".H, " T5 ".L):<<" imm_23u ":rnd:sat" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 {
-    	local a:2 =S5i(2);
-    	local b:2 =T5i:2;
-    	D5 = mpy_rnd_sat(a, b) << imm_23u;
+        local a:2 =S5i(2);
+        local b:2 =T5i:2;
+        D5 = mpy_rnd_sat(a, b) << imm_23u;
     }
     :D5 "=mpy(" S5 ".H, " T5 ".H):<<" imm_23u ":rnd:sat" is imm_24_27=0b1100 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 {
-    	local a:2 =S5i(2);
-    	local b:2 =T5i(2);
-    	D5 = mpy_rnd_sat(a, b) << imm_23u;
+        local a:2 =S5i(2);
+        local b:2 =T5i(2);
+        D5 = mpy_rnd_sat(a, b) << imm_23u;
     }
 
     :D5 "+=mpy(" S5 ".L, " T5 ".L):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 & D5i {
-    	local a:2 =S5i:2;
-    	local b:2 =T5i:2;
-    	D5 = D5i + ((sext(a) * sext(b)) << imm_23u);
+        local a:2 =S5i:2;
+        local b:2 =T5i:2;
+        D5 = D5i + ((sext(a) * sext(b)) << imm_23u);
     }
     :D5 "+=mpy(" S5 ".L, " T5 ".H):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 & D5i {
-    	local a:2 =S5i:2;
-    	local b:2 =T5i(2);
-    	D5 = D5i + ((sext(a) * sext(b)) << imm_23u);
+        local a:2 =S5i:2;
+        local b:2 =T5i(2);
+        D5 = D5i + ((sext(a) * sext(b)) << imm_23u);
     }
     :D5 "+=mpy(" S5 ".H, " T5 ".L):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5 & D5i {
-    	local a:2 =S5i(2);
-    	local b:2 =T5i:2;
-    	D5 = D5i + ((sext(a) * sext(b)) << imm_23u);
+        local a:2 =S5i(2);
+        local b:2 =T5i:2;
+        D5 = D5i + ((sext(a) * sext(b)) << imm_23u);
     }
     :D5 "+=mpy(" S5 ".H, " T5 ".H):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5 & D5i {
-    	local a:2 =S5i(2);
-    	local b:2 =T5i(2);
-    	D5 = D5i + ((sext(a) * sext(b)) << imm_23u);
+        local a:2 =S5i(2);
+        local b:2 =T5i(2);
+        D5 = D5i + ((sext(a) * sext(b)) << imm_23u);
     }
     :D5 "+=mpy(" S5 ".L, " T5 ".L):<<" imm_23u ":sat" is imm_24_27=0b1110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 & D5i {
-    	local a:2 =S5i:2;
-    	local b:2 =T5i:2;
-    	D5 = D5i + mpy_sat(a, b) << imm_23u;
+        local a:2 =S5i:2;
+        local b:2 =T5i:2;
+        D5 = D5i + mpy_sat(a, b) << imm_23u;
     }
     :D5 "+=mpy(" S5 ".L, " T5 ".H):<<" imm_23u ":sat" is imm_24_27=0b1110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b101 & D5 & D5i {
-    	local a:2 =S5i:2;
-    	local b:2 =T5i(2);
-    	D5 = D5i + mpy_sat(a, b) << imm_23u;
+        local a:2 =S5i:2;
+        local b:2 =T5i(2);
+        D5 = D5i + mpy_sat(a, b) << imm_23u;
     }
     :D5 "+=mpy(" S5 ".H, " T5 ".L):<<" imm_23u ":sat" is imm_24_27=0b1110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 & D5i {
-    	local a:2 =S5i(2);
-    	local b:2 =T5i:2;
-    	D5 = D5i + mpy_sat(a, b) << imm_23u;
+        local a:2 =S5i(2);
+        local b:2 =T5i:2;
+        D5 = D5i + mpy_sat(a, b) << imm_23u;
     }
     :D5 "+=mpy(" S5 ".H, " T5 ".H):<<" imm_23u ":sat" is imm_24_27=0b1110 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 & D5i {
-    	local a:2 =S5i(2);
-    	local b:2 =T5i(2);
-    	D5 = D5i + mpy_sat(a, b) << imm_23u;
+        local a:2 =S5i(2);
+        local b:2 =T5i(2);
+        D5 = D5i + mpy_sat(a, b) << imm_23u;
     }
     :D5 "-=mpy(" S5 ".L, " T5 ".L):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 & D5i {
-    	local a:2 =S5i:2;
-    	local b:2 =T5i:2;
-    	D5 = D5i - ((sext(a) * sext(b)) << imm_23u);
+        local a:2 =S5i:2;
+        local b:2 =T5i:2;
+        D5 = D5i - ((sext(a) * sext(b)) << imm_23u);
     }
     :D5 "-=mpy(" S5 ".L, " T5 ".H):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 & D5i {
-    	local a:2 =S5i:2;
-    	local b:2 =T5i(2);
-    	D5 = D5i - ((sext(a) * sext(b)) << imm_23u);
+        local a:2 =S5i:2;
+        local b:2 =T5i(2);
+        D5 = D5i - ((sext(a) * sext(b)) << imm_23u);
     }
     :D5 "-=mpy(" S5 ".H, " T5 ".L):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5 & D5i {
-    	local a:2 =S5i(2);
-    	local b:2 =T5i:2;
-    	D5 = D5i - ((sext(a) * sext(b)) << imm_23u);
+        local a:2 =S5i(2);
+        local b:2 =T5i:2;
+        D5 = D5i - ((sext(a) * sext(b)) << imm_23u);
     }
     :D5 "-=mpy(" S5 ".H, " T5 ".H):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5 & D5i {
-    	local a:2 =S5i(2);
-    	local b:2 =T5i(2);
-    	D5 = D5i - ((sext(a) * sext(b)) << imm_23u);
+        local a:2 =S5i(2);
+        local b:2 =T5i(2);
+        D5 = D5i - ((sext(a) * sext(b)) << imm_23u);
     }
     :D5 "-=mpy(" S5 ".L, " T5 ".L):<<" imm_23u ":sat" is imm_24_27=0b1110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 & D5i {
-    	local a:2 =S5i:2;
-    	local b:2 =T5i:2;
-    	D5 = D5i - mpy_sat(a, b) << imm_23u;
+        local a:2 =S5i:2;
+        local b:2 =T5i:2;
+        D5 = D5i - mpy_sat(a, b) << imm_23u;
     }
     :D5 "-=mpy(" S5 ".L, " T5 ".H):<<" imm_23u ":sat" is imm_24_27=0b1110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b101 & D5 & D5i {
-    	local a:2 =S5i:2;
-    	local b:2 =T5i(2);
-    	D5 = D5i - mpy_sat(a, b) << imm_23u;
+        local a:2 =S5i:2;
+        local b:2 =T5i(2);
+        D5 = D5i - mpy_sat(a, b) << imm_23u;
     }
     :D5 "-=mpy(" S5 ".H, " T5 ".L):<<" imm_23u ":sat" is imm_24_27=0b1110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 & D5i {
-    	local a:2 =S5i(2);
-    	local b:2 =T5i:2;
-    	D5 = D5i - mpy_sat(a, b) << imm_23u;
+        local a:2 =S5i(2);
+        local b:2 =T5i:2;
+        D5 = D5i - mpy_sat(a, b) << imm_23u;
     }
     :D5 "-=mpy(" S5 ".H, " T5 ".H):<<" imm_23u ":sat" is imm_24_27=0b1110 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 & D5i {
-    	local a:2 =S5i(2);
-    	local b:2 =T5i(2);
-    	D5 = D5i - mpy_sat(a, b) << imm_23u;
+        local a:2 =S5i(2);
+        local b:2 =T5i(2);
+        D5 = D5i - mpy_sat(a, b) << imm_23u;
     }
 }
 
 # XTYPE/MPY: Mul usigned hw
 with slot: iclass=0b1110 & mode=0 {
     :D5_pair "=mpyu(" S5 ".L, " T5 ".L):<<" imm_23u is imm_24_27=0b0100 & imm_23u & imm_21_22=0b10 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b00 & D5_pair {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i:2;
-    	D5_pair = (zext(a) * zext(b)) << imm_23u;
+        local a:2 = S5i:2;
+        local b:2 = T5i:2;
+        D5_pair = (zext(a) * zext(b)) << imm_23u;
     }
     :D5_pair "=mpyu(" S5 ".L, " T5 ".H):<<" imm_23u is imm_24_27=0b0100 & imm_23u & imm_21_22=0b10 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b01 & D5_pair {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i(2);
-    	D5_pair = (zext(a) * zext(b)) << imm_23u;
+        local a:2 = S5i:2;
+        local b:2 = T5i(2);
+        D5_pair = (zext(a) * zext(b)) << imm_23u;
     }
     :D5_pair "=mpyu(" S5 ".H, " T5 ".L):<<" imm_23u is imm_24_27=0b0100 & imm_23u & imm_21_22=0b10 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b10 & D5_pair {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i:2;
-    	D5_pair = (zext(a) * zext(b)) << imm_23u;
+        local a:2 = S5i(2);
+        local b:2 = T5i:2;
+        D5_pair = (zext(a) * zext(b)) << imm_23u;
     }
     :D5_pair "=mpyu(" S5 ".H, " T5 ".H):<<" imm_23u is imm_24_27=0b0100 & imm_23u & imm_21_22=0b10 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0b11 & D5_pair {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i(2);
-    	D5_pair = (zext(a) * zext(b)) << imm_23u;
+        local a:2 = S5i(2);
+        local b:2 = T5i(2);
+        D5_pair = (zext(a) * zext(b)) << imm_23u;
     }
 
     :D5_pair "+=mpyu(" S5 ".L, " T5 ".L):<<" imm_23u is imm_24_27=0b0110 & imm_23u & imm_21_22=0b10 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5_pair & D5_pairi {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i:2;
-    	D5_pair = D5_pairi + ((zext(a) * zext(b)) << imm_23u);
+        local a:2 = S5i:2;
+        local b:2 = T5i:2;
+        D5_pair = D5_pairi + ((zext(a) * zext(b)) << imm_23u);
     }
     :D5_pair "+=mpyu(" S5 ".L, " T5 ".H):<<" imm_23u is imm_24_27=0b0110 & imm_23u & imm_21_22=0b10 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5_pair & D5_pairi {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i(2);
-    	D5_pair = D5_pairi + ((zext(a) * zext(b)) << imm_23u);
+        local a:2 = S5i:2;
+        local b:2 = T5i(2);
+        D5_pair = D5_pairi + ((zext(a) * zext(b)) << imm_23u);
     }
     :D5_pair "+=mpyu(" S5 ".H, " T5 ".L):<<" imm_23u is imm_24_27=0b0110 & imm_23u & imm_21_22=0b10 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5_pair & D5_pairi {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i:2;
-    	D5_pair = D5_pairi + ((zext(a) * zext(b)) << imm_23u);
+        local a:2 = S5i(2);
+        local b:2 = T5i:2;
+        D5_pair = D5_pairi + ((zext(a) * zext(b)) << imm_23u);
     }
     :D5_pair "+=mpyu(" S5 ".H, " T5 ".H):<<" imm_23u is imm_24_27=0b0110 & imm_23u & imm_21_22=0b10 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5_pair & D5_pairi {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i(2);
-    	D5_pair = D5_pairi + ((zext(a) * zext(b)) << imm_23u);
+        local a:2 = S5i(2);
+        local b:2 = T5i(2);
+        D5_pair = D5_pairi + ((zext(a) * zext(b)) << imm_23u);
     }
     :D5_pair "-=mpyu(" S5 ".L, " T5 ".L):<<" imm_23u is imm_24_27=0b0110 & imm_23u & imm_21_22=0b11 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5_pair & D5_pairi {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i:2;
-    	D5_pair = D5_pairi - ((zext(a) * zext(b)) << imm_23u);
+        local a:2 = S5i:2;
+        local b:2 = T5i:2;
+        D5_pair = D5_pairi - ((zext(a) * zext(b)) << imm_23u);
     }
     :D5_pair "-=mpyu(" S5 ".L, " T5 ".H):<<" imm_23u is imm_24_27=0b0110 & imm_23u & imm_21_22=0b11 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5_pair & D5_pairi {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i(2);
-    	D5_pair = D5_pairi - ((zext(a) * zext(b)) << imm_23u);
+        local a:2 = S5i:2;
+        local b:2 = T5i(2);
+        D5_pair = D5_pairi - ((zext(a) * zext(b)) << imm_23u);
     }
     :D5_pair "-=mpyu(" S5 ".H, " T5 ".L):<<" imm_23u is imm_24_27=0b0110 & imm_23u & imm_21_22=0b11 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5_pair & D5_pairi {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i:2;
-    	D5_pair = D5_pairi - ((zext(a) * zext(b)) << imm_23u);
+        local a:2 = S5i(2);
+        local b:2 = T5i:2;
+        D5_pair = D5_pairi - ((zext(a) * zext(b)) << imm_23u);
     }
     :D5_pair "-=mpyu(" S5 ".H, " T5 ".H):<<" imm_23u is imm_24_27=0b0110 & imm_23u & imm_21_22=0b11 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5_pair & D5_pairi {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i(2);
-    	D5_pair = D5_pairi - ((zext(a) * zext(b)) << imm_23u);
+        local a:2 = S5i(2);
+        local b:2 = T5i(2);
+        D5_pair = D5_pairi - ((zext(a) * zext(b)) << imm_23u);
     }
 
     :D5 "=mpyu(" S5 ".L, " T5 ".L):<<" imm_23u is imm_24_27=0b1100 & imm_23u & imm_21_22=0b10 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i:2;
-    	D5 = (zext(a) * zext(b)) << imm_23u;
+        local a:2 = S5i:2;
+        local b:2 = T5i:2;
+        D5 = (zext(a) * zext(b)) << imm_23u;
     }
     :D5 "=mpyu(" S5 ".L, " T5 ".H):<<" imm_23u is imm_24_27=0b1100 & imm_23u & imm_21_22=0b10 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i(2);
-    	D5 = (zext(a) * zext(b)) << imm_23u;
+        local a:2 = S5i:2;
+        local b:2 = T5i(2);
+        D5 = (zext(a) * zext(b)) << imm_23u;
     }
     :D5 "=mpyu(" S5 ".H, " T5 ".L):<<" imm_23u is imm_24_27=0b1100 & imm_23u & imm_21_22=0b10 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5 {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i:2;
-    	D5 = (zext(a) * zext(b)) << imm_23u;
+        local a:2 = S5i(2);
+        local b:2 = T5i:2;
+        D5 = (zext(a) * zext(b)) << imm_23u;
     }
     :D5 "=mpyu(" S5 ".H, " T5 ".H):<<" imm_23u is imm_24_27=0b1100 & imm_23u & imm_21_22=0b10 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5 {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i(2);
-    	D5 = (zext(a) * zext(b)) << imm_23u;
+        local a:2 = S5i(2);
+        local b:2 = T5i(2);
+        D5 = (zext(a) * zext(b)) << imm_23u;
     }
     
     :D5 "+=mpyu(" S5 ".L, " T5 ".L):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b10 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 & D5i {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i:2;
-    	D5 = D5i + ((zext(a) * zext(b)) << imm_23u);
+        local a:2 = S5i:2;
+        local b:2 = T5i:2;
+        D5 = D5i + ((zext(a) * zext(b)) << imm_23u);
     }
     :D5 "+=mpyu(" S5 ".L, " T5 ".H):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b10 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 & D5i {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i(2);
-    	D5 = D5i + ((zext(a) * zext(b)) << imm_23u);
+        local a:2 = S5i:2;
+        local b:2 = T5i(2);
+        D5 = D5i + ((zext(a) * zext(b)) << imm_23u);
     }
     :D5 "+=mpyu(" S5 ".H, " T5 ".L):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b10 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5 & D5i {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i:2;
-    	D5 = D5i + ((zext(a) * zext(b)) << imm_23u);
+        local a:2 = S5i(2);
+        local b:2 = T5i:2;
+        D5 = D5i + ((zext(a) * zext(b)) << imm_23u);
     }
     :D5 "+=mpyu(" S5 ".H, " T5 ".H):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b10 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5 & D5i {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i(2);
-    	D5 = D5i + ((zext(a) * zext(b)) << imm_23u);
+        local a:2 = S5i(2);
+        local b:2 = T5i(2);
+        D5 = D5i + ((zext(a) * zext(b)) << imm_23u);
     }
     :D5 "-=mpyu(" S5 ".L, " T5 ".L):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b11 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 & D5i {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i:2;
-    	D5 = D5i - ((zext(a) * zext(b)) << imm_23u);
+        local a:2 = S5i:2;
+        local b:2 = T5i:2;
+        D5 = D5i - ((zext(a) * zext(b)) << imm_23u);
     }
     :D5 "-=mpyu(" S5 ".L, " T5 ".H):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b11 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 & D5i {
-    	local a:2 = S5i:2;
-    	local b:2 = T5i(2);
-    	D5 = D5i - ((zext(a) * zext(b)) << imm_23u);
+        local a:2 = S5i:2;
+        local b:2 = T5i(2);
+        D5 = D5i - ((zext(a) * zext(b)) << imm_23u);
     }
     :D5 "-=mpyu(" S5 ".H, " T5 ".L):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b11 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5 & D5i {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i:2;
-    	D5 = D5i - ((zext(a) * zext(b)) << imm_23u);
+        local a:2 = S5i(2);
+        local b:2 = T5i:2;
+        D5 = D5i - ((zext(a) * zext(b)) << imm_23u);
     }
     :D5 "-=mpyu(" S5 ".H, " T5 ".H):<<" imm_23u is imm_24_27=0b1110 & imm_23u & imm_21_22=0b11 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5 & D5i {
-    	local a:2 = S5i(2);
-    	local b:2 = T5i(2);
-    	D5 = D5i - ((zext(a) * zext(b)) << imm_23u);
+        local a:2 = S5i(2);
+        local b:2 = T5i(2);
+        D5 = D5i - ((zext(a) * zext(b)) << imm_23u);
     }
 }
 
@@ -537,10 +537,10 @@ with slot: iclass=0b1110 & mode=0 {
 define pcodeop pmpyw;
 with slot: iclass=0b1110 & mode=0 {
     :D5_pair "=pmpyw(" S5 "," T5 ")" is imm_21_27=0b0101010 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5_pair {
-    	D5_pair = pmpyw(S5i, T5i);
+        D5_pair = pmpyw(S5i, T5i);
     }
     :D5_pair "^=pmpyw(" S5 "," T5 ")" is imm_21_27=0b0111001 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5_pair & D5_pairi {
-    	D5_pair = D5_pairi ^ pmpyw(S5i, T5i);
+        D5_pair = D5_pairi ^ pmpyw(S5i, T5i);
     }
 }
 
@@ -550,17 +550,17 @@ define pcodeop vrmpywwh;
 define pcodeop vrmpyweh;
 with slot: iclass=0b1110 & mode=0 {
     :D5_pair "=vrmpywoh(" S5_pair "," T5_pair "):<<" imm_21u is imm_24_27=0b1000 & imm_21u & imm_21_22=0b01 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {
-    	D5_pair = vrmpywoh(S5_pairi, T5_pairi) << imm_21u;
+        D5_pair = vrmpywoh(S5_pairi, T5_pairi) << imm_21u;
     }
     :D5_pair "=vrmpyweh(" S5_pair "," T5_pair "):<<" imm_21u is imm_24_27=0b1000 & imm_21u & imm_21_22=0b10 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b100 & D5_pair {
-    	D5_pair = vrmpyweh(S5_pairi, T5_pairi) << imm_21u;
+        D5_pair = vrmpyweh(S5_pairi, T5_pairi) << imm_21u;
     }
 
     :D5_pair "+=vrmpywoh(" S5_pair "," T5_pair "):<<" imm_21u is imm_24_27=0b1010 & imm_21u & imm_21_22=0b01 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b110 & D5_pair & D5_pairi {
-    	D5_pair = D5_pairi + vrmpywoh(S5_pairi, T5_pairi) << imm_21u;
+        D5_pair = D5_pairi + vrmpywoh(S5_pairi, T5_pairi) << imm_21u;
     }
     :D5_pair "=vrmpyweh(" S5_pair "," T5_pair "):<<" imm_21u is imm_24_27=0b1010 & imm_21u & imm_21_22=0b11 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b110 & D5_pair & D5_pairi {
-    	D5_pair = D5_pairi + vrmpyweh(S5_pairi, T5_pairi) << imm_21u;
+        D5_pair = D5_pairi + vrmpyweh(S5_pairi, T5_pairi) << imm_21u;
     }
 }
 
@@ -570,15 +570,15 @@ with slot: iclass=0b1110 & mode=0 {
        D5 = mpy_rnd(S5i, T5i);
     }
     :D5 = "mpyu(" S5 "," T5 ")" is imm_21_27=0b1101010 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
-    	local tmp1:8 = zext(S5i) * zext(T5i);
-		D5 = tmp1(4);
+        local tmp1:8 = zext(S5i) * zext(T5i);
+        D5 = tmp1(4);
     }
     :D5 = "mpysu(" S5 "," T5 ")" is imm_21_27=0b1101011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
        local tmp1:8 = sext(S5i) * zext(T5i);
-		D5 = tmp1(4);
+        D5 = tmp1(4);
     }
     :D5 = "mpy(" S5 "," T5 ".H):<<1:sat" is imm_21_27=0b1101101 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
-    	local t5l:2 = T5i(2);
+        local t5l:2 = T5i(2);
        local tmp:4 = mpy_sat(S5i, t5l);
        D5 = tmp << 1;
     }
@@ -597,7 +597,7 @@ with slot: iclass=0b1110 & mode=0 {
     }
     :D5 "=mpy(" S5 "," T5 "):<<" imm_5_6u is imm_24_27=0b1101 & imm_23 & imm_22=0 & imm_21 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6u & D5 {
        local tmp1:8 = zext(S5i) * zext(T5i);
-		D5 = tmp1(4) << imm_5_6u;
+        D5 = tmp1(4) << imm_5_6u;
     }
 
     :D5 += "mpy(" S5 "," T5 "):<<1:sat" is imm_21_27=0b1111011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 & D5i {
@@ -621,23 +621,23 @@ with slot: iclass=0b1110 & mode=0 {
 
     :D5_pair "+=mpy(" S5 "," T5 ")" is imm_21_27=0b0111000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5_pair & D5_pairi {
         local tmp:8 = zext(S5i)*zext(T5i);
-		D5_pair = D5_pairi + tmp;
+        D5_pair = D5_pairi + tmp;
     }
     :D5_pair "-=mpy(" S5 "," T5 ")" is imm_21_27=0b0111001 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5_pair & D5_pairi {
         local tmp:8 = zext(S5i)*zext(T5i);
-		D5_pair = D5_pairi - tmp;
+        D5_pair = D5_pairi - tmp;
     }
     :D5_pair "+=mpyu(" S5 "," T5 ")" is imm_21_27=0b0111010 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5_pair & D5_pairi {
-    	local A:8 = sext(S5i);
-    	local B:8 = sext(T5i);
+        local A:8 = sext(S5i);
+        local B:8 = sext(T5i);
 
-    	D5_pair = D5_pairi + (A * B);
+        D5_pair = D5_pairi + (A * B);
     }
     :D5_pair "-=mpyu(" S5 "," T5 ")" is imm_21_27=0b0111011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5_pair & D5_pairi {
        local A:8 = sext(S5i);
-    	local B:8 = sext(T5i);
+        local B:8 = sext(T5i);
 
-    	D5_pair = D5_pairi - (A * B);
+        D5_pair = D5_pairi - (A * B);
     }
 }
 
@@ -684,7 +684,7 @@ define pcodeop vdmpybsu;
 define pcodeop vdmpybsu_sat;
 with slot: iclass=0b1110 & mode=0 {
     :D5_pair "=vdmpybsu(" S5_pair "," T5_pair "):sat" is imm_21_27=0b1000101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5_pair {
-      	D5_pair = vdmpybsu_sat(S5_pairi, T5_pairi);
+          D5_pair = vdmpybsu_sat(S5_pairi, T5_pairi);
     }
     :D5_pair "+=vdmpybsu(" S5_pair "," T5_pair "):sat" is imm_21_27=0b1010001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5_pair & D5_pairi {
        D5_pair = D5_pairi + vdmpybsu_sat(S5_pairi, T5_pairi);
@@ -727,7 +727,7 @@ with slot: iclass=0b1110 & mode=0 {
 define pcodeop vmpyh_rnd_sat;
 with slot: iclass=0b1110 & mode=0 {
     :D5 "=vmpyh(" S5 "," T5 "):<<" imm_23u ":rnd:sat" is imm_24_27=0b1101 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 {
-    	D5 = vmpyh_rnd_sat(S5i, T5i) << imm_23u;
+        D5 = vmpyh_rnd_sat(S5i, T5i) << imm_23u;
     }
 }
 
@@ -746,7 +746,7 @@ with slot: iclass=0b1110 & mode=0 {
 define pcodeop vrmpyh;
 with slot: iclass=0b1110 & mode=0 {
     :D5_pair "=vrmpyh(" S5_pair "," T5_pair ")" is imm_21_27=0b1000000 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {
-		D5_pair = vrmpyh(S5_pairi, T5_pairi);
+        D5_pair = vrmpyh(S5_pairi, T5_pairi);
     }
     :D5_pair "+=vrmpyh(" S5_pair "," T5_pair ")" is imm_21_27=0b1010000 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair & D5_pairi {
        D5_pair = D5_pairi + vrmpyh(S5_pairi, T5_pairi);

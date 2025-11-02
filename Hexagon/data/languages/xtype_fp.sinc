@@ -5,7 +5,7 @@ with slot: iclass=0b1110 & mode=0 {
         D5_pair = S5_pairi f+ T5_pairi;
     }
     :D5 "=sfadd(" S5 "," T5 ")" is imm_21_27=0b1011000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
-    	D5 = S5i f+ T5i;
+        D5 = S5i f+ T5i;
     }
 }
 
@@ -36,7 +36,7 @@ with slot: iclass=0b1100 & mode=0 {
         <end>
     }
     :D2_pred_new "=sfcmp.uo(" S5 "," T5 ")" is imm_21_27=0b0010111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & imm_2_4=0 & D2_pred_new {
-    	D2_pred_new = sfcmp_uo(S5i, T5i);
+        D2_pred_new = sfcmp_uo(S5i, T5i);
     }
     :D2_pred_new "=sfcmp.eq(" S5 "," T5 ")" is imm_21_27=0b0111111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & imm_2_4=0 & D2_pred_new {
         if( S5i f== T5i) goto <good>;
@@ -81,7 +81,7 @@ with slot: iclass=0b1101 & mode=0 {
         <end>
     }
     :D2_pred_new "=dfcmp.uo(" S5_pair "," T5_pair ")" is imm_21_27=0b0010111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & imm_2_4=0 & D2_pred_new {
-    	D2_pred_new = dfcmp_uo(S5_pairi, T5_pairi);
+        D2_pred_new = dfcmp_uo(S5_pairi, T5_pairi);
     }
 }
 
@@ -126,10 +126,10 @@ with slot: iclass=0b1000 & mode=0 {
         D5 = convert_d2sf(S5i);
     }
     :D5 "=convert_uw2sf(" S5 ")" is imm_21_27=0b1011001 & S5 & S5i & imm_13=0 & imm_8_12=0  & imm_5_7=0b000 & D5 {
-    	D5 = convert_uw2sf(S5i);
+        D5 = convert_uw2sf(S5i);
     }
     :D5 "=convert_w2sf(" S5 ")" is imm_21_27=0b1011010 & S5 & S5i & imm_13=0 & imm_8_12=0  & imm_5_7=0b000 & D5 {
-    	D5 = convert_w2sf(S5i);
+        D5 = convert_w2sf(S5i);
     }
 }
 
@@ -200,7 +200,7 @@ with slot: iclass=0b1000 & mode=0 {
         D5 = convert_sf2uw(S5i);
     }
     :D5 "=convert_sf2uw(" S5 "):chop" is imm_21_27=0b1011011 & S5 & S5i & imm_13=0 & imm_8_12=0 & imm_5_7=0b001 & D5 {
-    	D5 = convert_sf2uw_chop(S5i);
+        D5 = convert_sf2uw_chop(S5i);
     }
     :D5 "=convert_sf2w(" S5 ")" is imm_21_27=0b1011100 & S5 & S5i & imm_13=0 & imm_8_12=0 & imm_5_7=0b000 & D5 {
         D5 = convert_sf2w(S5i);
@@ -240,12 +240,12 @@ with slot: iclass=0b1110 & mode=0 {
         D5_pair = dfmpyhh(S5_pairi, T5_pairi);
     }
     :D5 "+=sfmpy(" S5 "," T5 ")" is imm_21_27=0b1111000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 & D5i {
-    	local tmp:4 = S5i f* T5i;
-		D5 = D5i f+ tmp;
+        local tmp:4 = S5i f* T5i;
+        D5 = D5i f+ tmp;
     }
     :D5 "-=sfmpy(" S5 "," T5 ")" is imm_21_27=0b1111000 & S5 & S5i & imm_13=0 & T5 & T5i &  imm_5_7=0b101 & D5 & D5i {
         local tmp:4 = S5i f* T5i;
-		D5 = D5i f- tmp;
+        D5 = D5i f- tmp;
     }
 }
 
@@ -313,7 +313,7 @@ with slot: iclass=0b1110 & mode=0 {
 define pcodeop fmin;
 with slot: iclass=0b1110 & mode=0 {
     :D5_pair "=dfmin(" S5_pair "," T5_pair ")" is imm_21_27=0b1000110 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & D5_pair {
-		D5_pair = fmin(S5_pairi, T5_pairi);
+        D5_pair = fmin(S5_pairi, T5_pairi);
     }
     :D5 "=sfmin(" S5 "," T5 ")" is imm_21_27=0b1011100 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
         D5 = fmin(S5i, T5i);
@@ -331,7 +331,7 @@ with slot: iclass=0b1110 & mode=0 {
         D5_pair = dfmpyil(S5_pairi, T5_pairi);
     }
     :D5 "=sfmpy(" S5 "," T5 ")" is imm_21_27=0b1011010 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
-    	D5 = S5i f* T5i;
+        D5 = S5i f* T5i;
     }
 }
 
@@ -351,6 +351,6 @@ with slot: iclass=0b1110 & mode=0 {
         D5_pair = S5_pairi f- T5_pairi;
     }
     :D5 "=sfsub(" S5 "," T5 ")" is imm_21_27=0b1011000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 {
-    	D5 = S5i f- T5i;
+        D5 = S5i f- T5i;
     }
 }

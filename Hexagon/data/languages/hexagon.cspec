@@ -2,82 +2,82 @@
 
 <compiler_spec>
   <data_organization>
-	  	<absolute_max_alignment value="0" />
-	  	<machine_alignment value="4" />
-	    <default_alignment value="1" />
-	    <default_pointer_alignment value="4" />
-	    <char_type signed="false" />
-	    <char_size value="1" />
-	    <wchar_size value="4" />
-	    <short_size value="2" />
-	    <integer_size value="4" />
-	    <long_size value="4" />
-	    <long_long_size value="8" />
-	    <float_size value="4" />
-	    <double_size value="8" />
-	    <long_double_size value="8" />
-		<pointer_size value="4" />
-		<size_alignment_map>
-	      	<entry size="1" alignment="1" />
-	      	<entry size="2" alignment="2" />
-	      	<entry size="4" alignment="4" />
-	      	<entry size="8" alignment="4" />
-		</size_alignment_map>
-  	</data_organization>
-	<stackpointer register="SP" space="ram" growth="negative"/>
-	<spacebase name="FP" register="FP" space="ram"/>
-	<spacebase name="SP" register="SP" space="ram"/>
-	<funcptr align="4" />
+          <absolute_max_alignment value="0" />
+          <machine_alignment value="4" />
+        <default_alignment value="1" />
+        <default_pointer_alignment value="4" />
+        <char_type signed="false" />
+        <char_size value="1" />
+        <wchar_size value="4" />
+        <short_size value="2" />
+        <integer_size value="4" />
+        <long_size value="4" />
+        <long_long_size value="8" />
+        <float_size value="4" />
+        <double_size value="8" />
+        <long_double_size value="8" />
+        <pointer_size value="4" />
+        <size_alignment_map>
+              <entry size="1" alignment="1" />
+              <entry size="2" alignment="2" />
+              <entry size="4" alignment="4" />
+              <entry size="8" alignment="4" />
+        </size_alignment_map>
+      </data_organization>
+    <stackpointer register="SP" space="ram" growth="negative"/>
+    <spacebase name="FP" register="FP" space="ram"/>
+    <spacebase name="SP" register="SP" space="ram"/>
+    <funcptr align="4" />
   
-  	<global>
-    	<range space="ram"/>
-    	
-  	</global>
-  	
-  	<prefersplit style="inhalf">
-    	<register name="r1r0"/>
-    	<register name="r3r2"/>
-    	<register name="r5r4"/>
-    	<register name="r7r6"/>
-    	<register name="r9r8"/>
-    	<register name="r11r10"/>
-    	<register name="r13r12"/>
-    	<register name="r15r14"/>
-    	<register name="r17r16"/>
-    	<register name="r19r18"/>
-    	<register name="r21r20"/>
-    	<register name="r23r22"/>
-    	<register name="r25r24"/>
-    	<register name="r27r26"/>
-    	<register name="SPr28"/>
-    	<register name="LRFP"/>
-    	
-    	    	<register name="r1r0c"/>
-    	<register name="r3r2c"/>
-    	<register name="r5r4c"/>
-    	<register name="r7r6c"/>
-    	<register name="r9r8c"/>
-    	<register name="r11r10c"/>
-    	<register name="r13r12c"/>
-    	<register name="r15r14c"/>
-    	<register name="r17r16c"/>
-    	<register name="r19r18c"/>
-    	<register name="r21r20c"/>
-    	<register name="r23r22c"/>
-    	<register name="r25r24c"/>
-    	<register name="r27r26c"/>
-    	<register name="SPr28c"/>
-    	<register name="LRFPc"/>
+      <global>
+        <range space="ram"/>
+        
+      </global>
+      
+      <prefersplit style="inhalf">
+        <register name="r1r0"/>
+        <register name="r3r2"/>
+        <register name="r5r4"/>
+        <register name="r7r6"/>
+        <register name="r9r8"/>
+        <register name="r11r10"/>
+        <register name="r13r12"/>
+        <register name="r15r14"/>
+        <register name="r17r16"/>
+        <register name="r19r18"/>
+        <register name="r21r20"/>
+        <register name="r23r22"/>
+        <register name="r25r24"/>
+        <register name="r27r26"/>
+        <register name="SPr28"/>
+        <register name="LRFP"/>
+        
+                <register name="r1r0c"/>
+        <register name="r3r2c"/>
+        <register name="r5r4c"/>
+        <register name="r7r6c"/>
+        <register name="r9r8c"/>
+        <register name="r11r10c"/>
+        <register name="r13r12c"/>
+        <register name="r15r14c"/>
+        <register name="r17r16c"/>
+        <register name="r19r18c"/>
+        <register name="r21r20c"/>
+        <register name="r23r22c"/>
+        <register name="r25r24c"/>
+        <register name="r27r26c"/>
+        <register name="SPr28c"/>
+        <register name="LRFPc"/>
     </prefersplit>
-  	
-  	<aggressivetrim signext="true"/>
-  	
-  	<returnaddress>
-    	<register name="LR" />
-  	</returnaddress>
-  	
-  	
-  	<default_proto>
+      
+      <aggressivetrim signext="true"/>
+      
+      <returnaddress>
+        <register name="LR" />
+      </returnaddress>
+      
+      
+      <default_proto>
     <prototype name="__stdcall" extrapop="0" stackshift="0">
       <input>
         <pentry minsize="1" maxsize="4">
@@ -105,7 +105,7 @@
         </pentry>
       </input>
       <output>
-      	<pentry minsize="1" maxsize="4">
+          <pentry minsize="1" maxsize="4">
           <register name="r0" />
         </pentry>
       </output>

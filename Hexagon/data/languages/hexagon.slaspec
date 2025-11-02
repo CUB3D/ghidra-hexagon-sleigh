@@ -380,96 +380,96 @@ define token instr (32)
 
 
    parse = (14, 15)
-  	imm32 = (0, 31)
+      imm32 = (0, 31)
 
 
-	immdup0_12=(12,12)
-	immdup0_11_12=(11,12)
-	immdup0_10_12=(10,12)
-	immdup0_9=(9,9)
-	immdup0_8=(8,8)
-	immdup0_9_12=(9,12)
-	immdup0_8_11=(8,11)
-	immdup0_8_12=(8,12)
-	immdup0_8_10=(8,10)
-	immdup0_7_8=(7,8)
-	immdup0_7=(7,7)
-	immdup0_6_12=(6,12)
-	immdup0_6=(6,6)
-	immdup0_5_8=(5,8)
-	immdup0_5_6=(5,6)
-	immdup0_4_10=(4,10) signed
-	immdup0_4_9=(4,9)
-	immdup0_4_8=(4,8)
-	immdup0_4_7=(4,7)
-	immdup0_4_6=(4,6)
-	immdup0_4_5=(4,5)
-	immdup0_3_8=(3,8) signed
-	immdup0_3_7=(3,7)
-	immdup0_3_5=(3,5)
-	immdup0_3_4=(3,4)
-	immdup0_3=(3,3)
+    immdup0_12=(12,12)
+    immdup0_11_12=(11,12)
+    immdup0_10_12=(10,12)
+    immdup0_9=(9,9)
+    immdup0_8=(8,8)
+    immdup0_9_12=(9,12)
+    immdup0_8_11=(8,11)
+    immdup0_8_12=(8,12)
+    immdup0_8_10=(8,10)
+    immdup0_7_8=(7,8)
+    immdup0_7=(7,7)
+    immdup0_6_12=(6,12)
+    immdup0_6=(6,6)
+    immdup0_5_8=(5,8)
+    immdup0_5_6=(5,6)
+    immdup0_4_10=(4,10) signed
+    immdup0_4_9=(4,9)
+    immdup0_4_8=(4,8)
+    immdup0_4_7=(4,7)
+    immdup0_4_6=(4,6)
+    immdup0_4_5=(4,5)
+    immdup0_3_8=(3,8) signed
+    immdup0_3_7=(3,7)
+    immdup0_3_5=(3,5)
+    immdup0_3_4=(3,4)
+    immdup0_3=(3,3)
 
-	immdup0_2_3=(2,3)
-	immdup0_2=(2,2)
-	immdup0_1_2=(1,2)
-	immdup0_0_9=(0,9)
-	immdup0_0_4=(0,4)
-	immdup0_0_3=(0,3)
-	immdup0_0_2=(0,2)
-	immdup0_0_1=(0,1)
+    immdup0_2_3=(2,3)
+    immdup0_2=(2,2)
+    immdup0_1_2=(1,2)
+    immdup0_0_9=(0,9)
+    immdup0_0_4=(0,4)
+    immdup0_0_3=(0,3)
+    immdup0_0_2=(0,2)
+    immdup0_0_1=(0,1)
 
-	immdup0_S4=(4,7)
-	immdup0_S4i=(4,7)
-	immdup0_D4=(0,3)
-	immdup0_D4i=(0,3)
-	immdup0_D4_pair=(0,3)
-	immdup0_D3_pair=(0,2)
-	immdup0_D3_pairi=(0,2)
+    immdup0_S4=(4,7)
+    immdup0_S4i=(4,7)
+    immdup0_D4=(0,3)
+    immdup0_D4i=(0,3)
+    immdup0_D4_pair=(0,3)
+    immdup0_D3_pair=(0,2)
+    immdup0_D3_pairi=(0,2)
 
-	immdup1_12=(28,28)
-	immdup1_11_12=(27,28)
-	immdup1_10_12=(26,28)
-	immdup1_9_12=(25,28)
-	immdup1_8_12=(24,28)
-	immdup1_6_12=(22,28)
-	immdup1_8_11=(24,27)
-	immdup1_13=(29,29)
-	immdup1_8_10=(24,26)
-	immdup1_4_10=(20,26) signed
-	immdup1_7_8=(23,24)
-	immdup1_5_8=(21,24)
-	immdup1_5_6=(21,22)
-	immdup1_4_6=(20,22)
-	immdup1_4_5=(20,21)
-	immdup1_4_7=(20,23)
-	immdup1_4_9=(20,25)
-	immdup1_4_8=(20,24)
-	immdup1_3_8=(19,24) signed
-	immdup1_3_7=(19,23)
-	immdup1_3_4=(19,20)
-	immdup1_7=(23,23)
-	immdup1_3_5=(19,21)
-	immdup1_3=(19,19)
-	immdup1_2=(18,18)
-	immdup1_9=(25,25)
-	immdup1_8=(24,24)
-	immdup1_0_9=(16,25)
-	immdup1_0_4=(16,20)
-	immdup1_0_3=(16,19)
-	immdup1_2_3=(18,19)
-	immdup1_0_2=(16,18)
-	immdup1_1_2=(17,18)
-	immdup1_6=(22,22)
-	immdup1_0_1=(16,17)
+    immdup1_12=(28,28)
+    immdup1_11_12=(27,28)
+    immdup1_10_12=(26,28)
+    immdup1_9_12=(25,28)
+    immdup1_8_12=(24,28)
+    immdup1_6_12=(22,28)
+    immdup1_8_11=(24,27)
+    immdup1_13=(29,29)
+    immdup1_8_10=(24,26)
+    immdup1_4_10=(20,26) signed
+    immdup1_7_8=(23,24)
+    immdup1_5_8=(21,24)
+    immdup1_5_6=(21,22)
+    immdup1_4_6=(20,22)
+    immdup1_4_5=(20,21)
+    immdup1_4_7=(20,23)
+    immdup1_4_9=(20,25)
+    immdup1_4_8=(20,24)
+    immdup1_3_8=(19,24) signed
+    immdup1_3_7=(19,23)
+    immdup1_3_4=(19,20)
+    immdup1_7=(23,23)
+    immdup1_3_5=(19,21)
+    immdup1_3=(19,19)
+    immdup1_2=(18,18)
+    immdup1_9=(25,25)
+    immdup1_8=(24,24)
+    immdup1_0_9=(16,25)
+    immdup1_0_4=(16,20)
+    immdup1_0_3=(16,19)
+    immdup1_2_3=(18,19)
+    immdup1_0_2=(16,18)
+    immdup1_1_2=(17,18)
+    immdup1_6=(22,22)
+    immdup1_0_1=(16,17)
 
-	immdup1_S4=(20,23)
-	immdup1_S4i=(20,23)
-	immdup1_D4=(16,19)
-	immdup1_D4i=(16,19)
-	immdup1_D4_pair=(16,19)
-	immdup1_D3_pair=(16,18)
-	immdup1_D3_pairi=(16,18)
+    immdup1_S4=(20,23)
+    immdup1_S4i=(20,23)
+    immdup1_D4=(16,19)
+    immdup1_D4i=(16,19)
+    immdup1_D4_pair=(16,19)
+    immdup1_D3_pair=(16,18)
+    immdup1_D3_pairi=(16,18)
 
 
     # HVX
@@ -494,10 +494,10 @@ testctx
 ];
 
 define context testctx
-	immext0 = (0, 31) noflow signed
-	immext1 = (32, 63) noflow signed
-	hasext0 = (64,64) noflow
-	hasext1 = (65,65) noflow
+    immext0 = (0, 31) noflow signed
+    immext1 = (32, 63) noflow signed
+    hasext0 = (64,64) noflow
+    hasext1 = (65,65) noflow
     immext0used = (66,66) noflow
     immext1used = (67,67) noflow
     immext0everused = (68, 68) noflow
@@ -505,25 +505,25 @@ define context testctx
     immext0pos = (69, 73)
     immext1pos = (74, 78)
     
-	# opaque pred for false
-	disabled = (80, 80) noflow
+    # opaque pred for false
+    disabled = (80, 80) noflow
 
 
-	mode = (128, 159) noflow
+    mode = (128, 159) noflow
 
-	# HACK: you can't have a name list on a context register, and get it via ProgramContext on a analyzer
-	or1test = (160, 166) noflow
-	or1test_overlap = (160, 166) noflow
+    # HACK: you can't have a name list on a context register, and get it via ProgramContext on a analyzer
+    or1test = (160, 166) noflow
+    or1test_overlap = (160, 166) noflow
 
-	analysed = (167, 167) noflow
+    analysed = (167, 167) noflow
 
-	pktid = (192, 223) noflow
-	
-	or2test = (224, 230) noflow
-	or2test_overlap = (224, 230) noflow
-	
-	or3test = (256, 262) noflow
-	or3test_overlap = (256, 262) noflow
+    pktid = (192, 223) noflow
+    
+    or2test = (224, 230) noflow
+    or2test_overlap = (224, 230) noflow
+    
+    or3test = (256, 262) noflow
+    or3test_overlap = (256, 262) noflow
 ;
 
 
@@ -625,7 +625,7 @@ FP
 LR
  ];
  # define register offset=0x00 size=128 [
-#	all_gprs
+#    all_gprs
 # ];
 
 attach variables [ D5 D5_dup S5 S5_dup alu_X5 alu_X5_dup T5 T5_dup ] [
@@ -936,10 +936,10 @@ PTRUE
 ];
 
 define register offset=0x2000 size=1 [
-	P0c
-	P1c
-	P2c
-	P3c
+    P0c
+    P1c
+    P2c
+    P3c
 ];
 
 attach variables [ U2 D2_pred U2_pred_21_22  T2_pred S2_pred U2_pred U2_5_6 U1_23_24_pred T2_11_12_pred T2_9_10_pred D2 T2 S2] [
@@ -966,317 +966,317 @@ P3
 ];
 
 define register offset=0x400 size=4 [
-	SGP0
-	SGP1
-	STID
-	ELR
-	BADVA0
-	BADVA1
-	SSR
-	CCR
-	HTID
-	BADVA
-	IMASK
-	RESERVED_11
-	RESERVED_12
-	RESERVED_13
-	RESERVED_14
-	RESERVED_15
-	EVB
-	MODECTL
-	SYSCFG
-	NULL_19
-	IPEND
-	VID
-	IAD
-	NULL_23
-	IEL
-	NULL_25
-	IAHL
-	CFGBASE
-	DIAG
-	REV
-	PCYCLELO
-	PCYCLEHI
-	ISDBST
-	ISDBCFG0
-	ISDBCFG1
-	NULL_35
-	BRKPTPC0
-	BRKPTCFG0
-	BRKPTPC1
-	BRKPTCFG1
-	ISDBMBXIN
-	ISDBMBXOUT
-	ISDBEN
-	ISDBGPR
-	RESERVED_44
-	RESERVED_45
-	RESERVED_46
-	RESERVED_47
-	PMUCNT0
-	PMUCNT1
-	PMUCNT2
-	PMUCNT3
-	PMUEVTCFG
-	PMUCFG
-	RESERVED_54
-	RESERVED_55
-	RESERVED_56
-	RESERVED_57
-	RESERVED_58
-	RESERVED_59
-	RESERVED_60
-	RESERVED_61
-	RESERVED_62
-	RESERVED_63
+    SGP0
+    SGP1
+    STID
+    ELR
+    BADVA0
+    BADVA1
+    SSR
+    CCR
+    HTID
+    BADVA
+    IMASK
+    RESERVED_11
+    RESERVED_12
+    RESERVED_13
+    RESERVED_14
+    RESERVED_15
+    EVB
+    MODECTL
+    SYSCFG
+    NULL_19
+    IPEND
+    VID
+    IAD
+    NULL_23
+    IEL
+    NULL_25
+    IAHL
+    CFGBASE
+    DIAG
+    REV
+    PCYCLELO
+    PCYCLEHI
+    ISDBST
+    ISDBCFG0
+    ISDBCFG1
+    NULL_35
+    BRKPTPC0
+    BRKPTCFG0
+    BRKPTPC1
+    BRKPTCFG1
+    ISDBMBXIN
+    ISDBMBXOUT
+    ISDBEN
+    ISDBGPR
+    RESERVED_44
+    RESERVED_45
+    RESERVED_46
+    RESERVED_47
+    PMUCNT0
+    PMUCNT1
+    PMUCNT2
+    PMUCNT3
+    PMUEVTCFG
+    PMUCFG
+    RESERVED_54
+    RESERVED_55
+    RESERVED_56
+    RESERVED_57
+    RESERVED_58
+    RESERVED_59
+    RESERVED_60
+    RESERVED_61
+    RESERVED_62
+    RESERVED_63
 ];
 
 # TODO: might be wrong way around
 define register offset=0x400 size=8 [
     SGP0_SGP1
-	ELR_STID
-	BADVA0_BADVA1
-	SSR_CCR
-	HTID_BADVA
-	IMASK_RESERVED_11
-	RESERVED_12_RESERVED_13
-	RESERVED_14_RESERVED_15
-	EVB_MODECTL
-	SYSCFG_NULL_19
-	IPEND_VID
-	IAD_NULL_23
-	IEL_NULL_25
-	IAHL_CFGBASE
-	DIAG_REV
-	PCYCLELO_PCYCLEHI
-	ISDBST_ISDBCFG0
-	ISDBCFG1_NULL_35
-	BRKPTPC0_BRKPTCFG0
-	BRKPTPC1_BRKPTCFG1
-	ISDBMBXIN_ISDBMBXOUT
-	ISDBEN_ISDBGPR
-	RESERVED_44_RESERVED_45
-	RESERVED_46_RESERVED_47
-	PMUCNT0_PMUCNT1
-	PMUCNT2_PMUCNT3
-	PMUEVTCFG_PMUCFG
-	RESERVED_54_RESERVED_55
-	RESERVED_56_RESERVED_57
-	RESERVED_58_RESERVED_59
-	RESERVED_60_RESERVED_61
-	RESERVED_62_RESERVED_63
+    ELR_STID
+    BADVA0_BADVA1
+    SSR_CCR
+    HTID_BADVA
+    IMASK_RESERVED_11
+    RESERVED_12_RESERVED_13
+    RESERVED_14_RESERVED_15
+    EVB_MODECTL
+    SYSCFG_NULL_19
+    IPEND_VID
+    IAD_NULL_23
+    IEL_NULL_25
+    IAHL_CFGBASE
+    DIAG_REV
+    PCYCLELO_PCYCLEHI
+    ISDBST_ISDBCFG0
+    ISDBCFG1_NULL_35
+    BRKPTPC0_BRKPTCFG0
+    BRKPTPC1_BRKPTCFG1
+    ISDBMBXIN_ISDBMBXOUT
+    ISDBEN_ISDBGPR
+    RESERVED_44_RESERVED_45
+    RESERVED_46_RESERVED_47
+    PMUCNT0_PMUCNT1
+    PMUCNT2_PMUCNT3
+    PMUEVTCFG_PMUCFG
+    RESERVED_54_RESERVED_55
+    RESERVED_56_RESERVED_57
+    RESERVED_58_RESERVED_59
+    RESERVED_60_RESERVED_61
+    RESERVED_62_RESERVED_63
 ];
 
 attach variables [ S6_svctrl_pair ] [
     SGP0_SGP1
-	ELR_STID
-	BADVA0_BADVA1
-	SSR_CCR
-	HTID_BADVA
-	IMASK_RESERVED_11
-	RESERVED_12_RESERVED_13
-	RESERVED_14_RESERVED_15
-	EVB_MODECTL
-	SYSCFG_NULL_19
-	IPEND_VID
-	IAD_NULL_23
-	IEL_NULL_25
-	IAHL_CFGBASE
-	DIAG_REV
-	PCYCLELO_PCYCLEHI
-	ISDBST_ISDBCFG0
-	ISDBCFG1_NULL_35
-	BRKPTPC0_BRKPTCFG0
-	BRKPTPC1_BRKPTCFG1
-	ISDBMBXIN_ISDBMBXOUT
-	ISDBEN_ISDBGPR
-	RESERVED_44_RESERVED_45
-	RESERVED_46_RESERVED_47
-	PMUCNT0_PMUCNT1
-	PMUCNT2_PMUCNT3
-	PMUEVTCFG_PMUCFG
-	RESERVED_54_RESERVED_55
-	RESERVED_56_RESERVED_57
-	RESERVED_58_RESERVED_59
-	RESERVED_60_RESERVED_61
-	RESERVED_62_RESERVED_63
+    ELR_STID
+    BADVA0_BADVA1
+    SSR_CCR
+    HTID_BADVA
+    IMASK_RESERVED_11
+    RESERVED_12_RESERVED_13
+    RESERVED_14_RESERVED_15
+    EVB_MODECTL
+    SYSCFG_NULL_19
+    IPEND_VID
+    IAD_NULL_23
+    IEL_NULL_25
+    IAHL_CFGBASE
+    DIAG_REV
+    PCYCLELO_PCYCLEHI
+    ISDBST_ISDBCFG0
+    ISDBCFG1_NULL_35
+    BRKPTPC0_BRKPTCFG0
+    BRKPTPC1_BRKPTCFG1
+    ISDBMBXIN_ISDBMBXOUT
+    ISDBEN_ISDBGPR
+    RESERVED_44_RESERVED_45
+    RESERVED_46_RESERVED_47
+    PMUCNT0_PMUCNT1
+    PMUCNT2_PMUCNT3
+    PMUEVTCFG_PMUCFG
+    RESERVED_54_RESERVED_55
+    RESERVED_56_RESERVED_57
+    RESERVED_58_RESERVED_59
+    RESERVED_60_RESERVED_61
+    RESERVED_62_RESERVED_63
 ];
 
 attach variables [ S6_svctrl D6_svctrl ] [
-	SGP0
-	SGP1
-	STID
-	ELR
-	BADVA0
-	BADVA1
-	SSR
-	CCR
-	HTID
-	BADVA
-	IMASK
-	RESERVED_11
-	RESERVED_12
-	RESERVED_13
-	RESERVED_14
-	RESERVED_15
-	EVB
-	MODECTL
-	SYSCFG
-	NULL_19
-	IPEND
-	VID
-	IAD
-	NULL_23
-	IEL
-	NULL_25
-	IAHL
-	CFGBASE
-	DIAG
-	REV
-	PCYCLELO
-	PCYCLEHI
-	ISDBST
-	ISDBCFG0
-	ISDBCFG1
-	NULL_35
-	BRKPTPC0
-	BRKPTCFG0
-	BRKPTPC1
-	BRKPTCFG1
-	ISDBMBXIN
-	ISDBMBXOUT
-	ISDBEN
-	ISDBGPR
-	RESERVED_44
-	RESERVED_45
-	RESERVED_46
-	RESERVED_47
-	PMUCNT0
-	PMUCNT1
-	PMUCNT2
-	PMUCNT3
-	PMUEVTCFG
-	PMUCFG
-	RESERVED_54
-	RESERVED_55
-	RESERVED_56
-	RESERVED_57
-	RESERVED_58
-	RESERVED_59
-	RESERVED_60
-	RESERVED_61
-	RESERVED_62
-	RESERVED_63
+    SGP0
+    SGP1
+    STID
+    ELR
+    BADVA0
+    BADVA1
+    SSR
+    CCR
+    HTID
+    BADVA
+    IMASK
+    RESERVED_11
+    RESERVED_12
+    RESERVED_13
+    RESERVED_14
+    RESERVED_15
+    EVB
+    MODECTL
+    SYSCFG
+    NULL_19
+    IPEND
+    VID
+    IAD
+    NULL_23
+    IEL
+    NULL_25
+    IAHL
+    CFGBASE
+    DIAG
+    REV
+    PCYCLELO
+    PCYCLEHI
+    ISDBST
+    ISDBCFG0
+    ISDBCFG1
+    NULL_35
+    BRKPTPC0
+    BRKPTCFG0
+    BRKPTPC1
+    BRKPTCFG1
+    ISDBMBXIN
+    ISDBMBXOUT
+    ISDBEN
+    ISDBGPR
+    RESERVED_44
+    RESERVED_45
+    RESERVED_46
+    RESERVED_47
+    PMUCNT0
+    PMUCNT1
+    PMUCNT2
+    PMUCNT3
+    PMUEVTCFG
+    PMUCFG
+    RESERVED_54
+    RESERVED_55
+    RESERVED_56
+    RESERVED_57
+    RESERVED_58
+    RESERVED_59
+    RESERVED_60
+    RESERVED_61
+    RESERVED_62
+    RESERVED_63
 ];
 
 
 define register offset=0x800 size=4 [
-	G0
-	G1
-	G2
-	G3
-	GUEST_RESERVED_04
-	GUEST_RESERVED_05
-	GUEST_RESERVED_06
-	GUEST_RESERVED_07
-	GUEST_RESERVED_08
-	GUEST_RESERVED_09
-	GUEST_RESERVED_10
-	GUEST_RESERVED_11
-	GUEST_RESERVED_12
-	GUEST_RESERVED_13
-	GUEST_RESERVED_14
-	GUEST_RESERVED_15
-	GUEST_ISDBMBXIN
-	GUEST_ISDBMBXOUT
-	GUEST_RESERVED_18
-	GUEST_RESERVED_19
-	GUEST_RESERVED_20
-	GUEST_RESERVED_21
-	GUEST_RESERVED_22
-	GUEST_RESERVED_23
-	GPCYCLELO
-	GPCYCLEHI
-	GPMUCNT0
-	GPMUCNT1
-	GPMUCNT2
-	GPMUCNT3
-	GUEST_RESERVED_30
-	GUEST_RESERVED_31
+    G0
+    G1
+    G2
+    G3
+    GUEST_RESERVED_04
+    GUEST_RESERVED_05
+    GUEST_RESERVED_06
+    GUEST_RESERVED_07
+    GUEST_RESERVED_08
+    GUEST_RESERVED_09
+    GUEST_RESERVED_10
+    GUEST_RESERVED_11
+    GUEST_RESERVED_12
+    GUEST_RESERVED_13
+    GUEST_RESERVED_14
+    GUEST_RESERVED_15
+    GUEST_ISDBMBXIN
+    GUEST_ISDBMBXOUT
+    GUEST_RESERVED_18
+    GUEST_RESERVED_19
+    GUEST_RESERVED_20
+    GUEST_RESERVED_21
+    GUEST_RESERVED_22
+    GUEST_RESERVED_23
+    GPCYCLELO
+    GPCYCLEHI
+    GPMUCNT0
+    GPMUCNT1
+    GPMUCNT2
+    GPMUCNT3
+    GUEST_RESERVED_30
+    GUEST_RESERVED_31
 ];
 
 define register offset=0x800 size=8 [
-	G0G1
-	G2G3
-	GUEST_RESERVED_04GUEST_RESERVED_05
-	GUEST_RESERVED_06GUEST_RESERVED_07
-	GUEST_RESERVED_08GUEST_RESERVED_09
-	GUEST_RESERVED_10GUEST_RESERVED_11
-	GUEST_RESERVED_12GUEST_RESERVED_13
-	GUEST_RESERVED_14GUEST_RESERVED_15
-	GUEST_ISDBMBXINGUEST_ISDBMBXOUT
-	GUEST_RESERVED_18GUEST_RESERVED_19
-	GUEST_RESERVED_20GUEST_RESERVED_21
-	GUEST_RESERVED_22GUEST_RESERVED_23
-	GPCYCLELOGPCYCLEHI
-	GPMUCNT0GPMUCNT1
-	GPMUCNT2GPMUCNT3
-	GUEST_RESERVED_30GUEST_RESERVED_31
+    G0G1
+    G2G3
+    GUEST_RESERVED_04GUEST_RESERVED_05
+    GUEST_RESERVED_06GUEST_RESERVED_07
+    GUEST_RESERVED_08GUEST_RESERVED_09
+    GUEST_RESERVED_10GUEST_RESERVED_11
+    GUEST_RESERVED_12GUEST_RESERVED_13
+    GUEST_RESERVED_14GUEST_RESERVED_15
+    GUEST_ISDBMBXINGUEST_ISDBMBXOUT
+    GUEST_RESERVED_18GUEST_RESERVED_19
+    GUEST_RESERVED_20GUEST_RESERVED_21
+    GUEST_RESERVED_22GUEST_RESERVED_23
+    GPCYCLELOGPCYCLEHI
+    GPMUCNT0GPMUCNT1
+    GPMUCNT2GPMUCNT3
+    GUEST_RESERVED_30GUEST_RESERVED_31
 ];
 
 attach variables [GD5] [
-	G0
-	G1
-	G2
-	G3
-	GUEST_RESERVED_04
-	GUEST_RESERVED_05
-	GUEST_RESERVED_06
-	GUEST_RESERVED_07
-	GUEST_RESERVED_08
-	GUEST_RESERVED_09
-	GUEST_RESERVED_10
-	GUEST_RESERVED_11
-	GUEST_RESERVED_12
-	GUEST_RESERVED_13
-	GUEST_RESERVED_14
-	GUEST_RESERVED_15
-	GUEST_ISDBMBXIN
-	GUEST_ISDBMBXOUT
-	GUEST_RESERVED_18
-	GUEST_RESERVED_19
-	GUEST_RESERVED_20
-	GUEST_RESERVED_21
-	GUEST_RESERVED_22
-	GUEST_RESERVED_23
-	GPCYCLELO
-	GPCYCLEHI
-	GPMUCNT0
-	GPMUCNT1
-	GPMUCNT2
-	GPMUCNT3
-	GUEST_RESERVED_30
-	GUEST_RESERVED_31
+    G0
+    G1
+    G2
+    G3
+    GUEST_RESERVED_04
+    GUEST_RESERVED_05
+    GUEST_RESERVED_06
+    GUEST_RESERVED_07
+    GUEST_RESERVED_08
+    GUEST_RESERVED_09
+    GUEST_RESERVED_10
+    GUEST_RESERVED_11
+    GUEST_RESERVED_12
+    GUEST_RESERVED_13
+    GUEST_RESERVED_14
+    GUEST_RESERVED_15
+    GUEST_ISDBMBXIN
+    GUEST_ISDBMBXOUT
+    GUEST_RESERVED_18
+    GUEST_RESERVED_19
+    GUEST_RESERVED_20
+    GUEST_RESERVED_21
+    GUEST_RESERVED_22
+    GUEST_RESERVED_23
+    GPCYCLELO
+    GPCYCLEHI
+    GPMUCNT0
+    GPMUCNT1
+    GPMUCNT2
+    GPMUCNT3
+    GUEST_RESERVED_30
+    GUEST_RESERVED_31
 ];
 
 attach variables [GD5_pair] [
-	G0G1
-	G2G3
-	GUEST_RESERVED_04GUEST_RESERVED_05
-	GUEST_RESERVED_06GUEST_RESERVED_07
-	GUEST_RESERVED_08GUEST_RESERVED_09
-	GUEST_RESERVED_10GUEST_RESERVED_11
-	GUEST_RESERVED_12GUEST_RESERVED_13
-	GUEST_RESERVED_14GUEST_RESERVED_15
-	GUEST_ISDBMBXINGUEST_ISDBMBXOUT
-	GUEST_RESERVED_18GUEST_RESERVED_19
-	GUEST_RESERVED_20GUEST_RESERVED_21
-	GUEST_RESERVED_22GUEST_RESERVED_23
-	GPCYCLELOGPCYCLEHI
-	GPMUCNT0GPMUCNT1
-	GPMUCNT2GPMUCNT3
-	GUEST_RESERVED_30GUEST_RESERVED_31
+    G0G1
+    G2G3
+    GUEST_RESERVED_04GUEST_RESERVED_05
+    GUEST_RESERVED_06GUEST_RESERVED_07
+    GUEST_RESERVED_08GUEST_RESERVED_09
+    GUEST_RESERVED_10GUEST_RESERVED_11
+    GUEST_RESERVED_12GUEST_RESERVED_13
+    GUEST_RESERVED_14GUEST_RESERVED_15
+    GUEST_ISDBMBXINGUEST_ISDBMBXOUT
+    GUEST_RESERVED_18GUEST_RESERVED_19
+    GUEST_RESERVED_20GUEST_RESERVED_21
+    GUEST_RESERVED_22GUEST_RESERVED_23
+    GPCYCLELOGPCYCLEHI
+    GPMUCNT0GPMUCNT1
+    GPMUCNT2GPMUCNT3
+    GUEST_RESERVED_30GUEST_RESERVED_31
 ];
 
  define pcodeop _stub;
@@ -1321,16 +1321,16 @@ attach names [or1test_overlap or2test_overlap or3test_overlap] [
 # then map (offset, subins numb) to the correct one
 # TODO: consider doing this with a xbuild down the line
 OR1: or1test_overlap is or1test & or1test_overlap {
-	local tmp:4 = or1test;
-	export *[register]:4 tmp;
+    local tmp:4 = or1test;
+    export *[register]:4 tmp;
 }
 OR2: or2test_overlap is or2test & or2test_overlap  {
-	local tmp:4 = or2test;
-	export *[register]:4 tmp;
+    local tmp:4 = or2test;
+    export *[register]:4 tmp;
 }
 OR3: or3test_overlap is or3test & or3test_overlap {
-	local tmp:4 = or3test;
-	export *[register]:4 tmp;
+    local tmp:4 = or3test;
+    export *[register]:4 tmp;
 }
 
 define pcodeop _unimpl_nv;
@@ -1380,16 +1380,16 @@ NV_T3_0_2_new: OR1 ".new" is T3_0_2_new=0b110 & OR1 & pktid=4 & analysed=1 { exp
 
 
 macro rotl32(out, a, b) {
-    	local d:4 = b;
-	local n:4 = a;
-    	local out1:4 = (n << d) | ( n >> (32 - d));
-	out = out1;
+        local d:4 = b;
+    local n:4 = a;
+        local out1:4 = (n << d) | ( n >> (32 - d));
+    out = out1;
 }
 macro rotl64(out, a, b) {
-    	local d:8 = b;
-	local n:8 = a;
-    	local out1:8 = (n << d) | ( n >> (64 - d));
-	out = out1;
+        local d:8 = b;
+    local n:8 = a;
+        local out1:8 = (n << d) | ( n >> (64 - d));
+    out = out1;
 }
 
 EXT_MEMOP_7_12u_0:u6 is imm_7_12u & (hasext0=0 | immext0used=1) [ u6 = imm_7_12u << 0;] { export *[const]:4 u6; }
@@ -1498,7 +1498,7 @@ macro prelude() {
 
     # Copy all gprs to cached registers
 
-	# No, we can't collapse this down to a single large register covering the space, or Ghidra will try and use that register in places
+    # No, we can't collapse this down to a single large register covering the space, or Ghidra will try and use that register in places
     P0c = P0;
     P1c = P1;
     P2c = P2;
@@ -1585,14 +1585,14 @@ slotX: slot is slot & parse=0b11 [mode=0; pktid=pktid+1;]  { build slot; }
 slotX: duplex is duplex & parse=0b00 [mode=0; pktid=pktid+1;] { build duplex; }
 
 macro endloop0() {
-		LC0 = LC0 - 1;
-	     if(LC0 == 0) goto <endl0>;
+        LC0 = LC0 - 1;
+         if(LC0 == 0) goto <endl0>;
         goto [SA0];
         <endl0>
 }
 macro endloop1() {
-		LC1 = LC1 - 1;
-	     if(LC1 == 0) goto <endl1>;
+        LC1 = LC1 - 1;
+         if(LC1 == 0) goto <endl1>;
         goto [SA1];
         <endl1>
 }
@@ -1606,9 +1606,9 @@ macro endloop1() {
         build build_nv_input_2;
 
         build build_branches_1;
-       	build build_branches_2;
+           build build_branches_2;
 
-       	endloop0();
+           endloop0();
 
         build terminator;
    }
@@ -1645,7 +1645,7 @@ macro endloop1() {
        build build_branches_2;
        build build_branches_3;
 
-	   build terminator;
+       build terminator;
    }
 
 
@@ -1688,7 +1688,7 @@ macro endloop1() {
 
        endloop1();
 
-		build terminator;
+        build terminator;
    }
    :{ slot0 slot1 slotX "}:endloop0:endloop1" is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b10 ; slotX & build_branches_3 & build_nv_input_3 & terminator[mode=0;pktid=0;]{
        prelude();
@@ -1707,7 +1707,7 @@ macro endloop1() {
        endloop0();
        endloop1();
 
-	   build terminator;
+       build terminator;
    }
    # 4 ins packets
 
@@ -1724,7 +1724,7 @@ macro endloop1() {
        build build_nv_input_3;
        build build_nv_input_4;
 
-	   build build_branches_1;
+       build build_branches_1;
        build build_branches_2;
        build build_branches_3;
        build build_branches_4;
@@ -1797,12 +1797,12 @@ macro endloop1() {
        build terminator;
    }
 
-	# 1 instruction packet
+    # 1 instruction packet
    :{ slotX } is slotX & mode=0 & build_branches & build_nv_input_1 & terminator [mode=0;pktid=0;] {
        prelude();
        build slotX;
 
-	   build build_nv_input_1;
+       build build_nv_input_1;
 
        build build_branches;
 

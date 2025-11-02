@@ -7,7 +7,7 @@ with slot: iclass=0b0110 & mode=0 {
         D2 = fastcorner9(S2i, T2i);
     }
     :D2 "=!fastcorner9(" S2 "," T2 ")" is imm_20_27=0b10110001 & imm_18_19=0b00 & S2 & S2i & imm_13=1 & imm_10_12=0b000 & T2 & T2i & imm_7=1 & imm_5_6=0b00 & imm_4=1 & imm_2_3=0b00 & D2 {
-    	local tmp:1 = fastcorner9(S2i, T2i); 
+        local tmp:1 = fastcorner9(S2i, T2i); 
         D2 = !tmp;
     }
 }
@@ -61,41 +61,41 @@ with slot: iclass=0b0110 & mode=0 {
 # CR:Pipelined loop
 with slot: iclass=0b0110 & mode=0 {
     :"P3=sp1loop0(" r7 "," S5 ")" is imm_21_27=0b0000101 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0 & imm_3_4u & imm_0_2 [r7 = (imm_3_4u | (imm_8_12u << 2)) << 2;] {
-    	SA0 = inst_start + r7;
-		LC0 = S5i;
-		USR = (USR & 0b11111111111111111111110011111111) | (1 << 8);
-		P3 = 0;
+        SA0 = inst_start + r7;
+        LC0 = S5i;
+        USR = (USR & 0b11111111111111111111110011111111) | (1 << 8);
+        P3 = 0;
     }
     :"P3=sp2loop0(" r7 "," S5 ")" is imm_21_27=0b0000110  & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0 & imm_3_4u & imm_0_2 [r7 = (imm_3_4u | (imm_8_12u << 2)) << 2;] {
         SA0 = inst_start + r7;
-		LC0 = S5i;
-		USR = (USR & 0b11111111111111111111110011111111) | (2 << 8);
-		P3 = 0;
+        LC0 = S5i;
+        USR = (USR & 0b11111111111111111111110011111111) | (2 << 8);
+        P3 = 0;
     }
     :"P3=sp3loop0(" r7 "," S5 ")" is imm_21_27=0b0000111  & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0 & imm_3_4u & imm_0_2 [r7 = (imm_3_4u | (imm_8_12u << 2)) << 2;] {
         SA0 = inst_start + r7;
-		LC0 = S5i;
-		USR = (USR & 0b11111111111111111111110011111111) | (3 << 8);
-		P3 = 0;
+        LC0 = S5i;
+        USR = (USR & 0b11111111111111111111110011111111) | (3 << 8);
+        P3 = 0;
     }
 
     :"P3=sp1loop0(" r7 "," u10 ")" is imm_21_27=0b1001101 & imm_16_20u & imm_13=0 & imm_8_12u & imm_5_7u & imm_3_4u & imm_2=0 & imm_0_1u [r7 = (imm_3_4u | (imm_8_12u << 2)) << 2; u10 = (imm_0_1u) | (imm_5_7u << 2) | (imm_16_20u << 5);] {
         SA0 = inst_start + r7;
-		LC0 = u10:4;
-		USR = (USR & 0b11111111111111111111110011111111) | (1 << 8);
-		P3 = 0;
+        LC0 = u10:4;
+        USR = (USR & 0b11111111111111111111110011111111) | (1 << 8);
+        P3 = 0;
     }
     :"P3=sp2loop0(" r7 "," u10 ")" is imm_21_27=0b1001110 & imm_16_20u & imm_13=0 & imm_8_12u & imm_5_7u & imm_3_4u & imm_2=0 & imm_0_1u [r7 = (imm_3_4u | (imm_8_12u << 2)) << 2; u10 = (imm_0_1u) | (imm_5_7u << 2) | (imm_16_20u << 5);] {
         SA0 = inst_start + r7;
-		LC0 = u10:4;
-		USR = (USR & 0b11111111111111111111110011111111) | (2 << 8);
-		P3 = 0;
+        LC0 = u10:4;
+        USR = (USR & 0b11111111111111111111110011111111) | (2 << 8);
+        P3 = 0;
     }
     :"P3=sp3loop0(" r7 "," u10 ")" is imm_21_27=0b1001111 & imm_16_20u & imm_13=0 & imm_8_12u & imm_5_7u & imm_3_4u & imm_2=0 & imm_0_1u [r7 = (imm_3_4u | (imm_8_12u << 2)) << 2; u10 = (imm_0_1u) | (imm_5_7u << 2) | (imm_16_20u << 5);] {
         SA0 = inst_start + r7;
-		LC0 = u10:4;
-		USR = (USR & 0b11111111111111111111110011111111) | (3 << 8);
-		P3 = 0;
+        LC0 = u10:4;
+        USR = (USR & 0b11111111111111111111110011111111) | (3 << 8);
+        P3 = 0;
     }
 }
 
