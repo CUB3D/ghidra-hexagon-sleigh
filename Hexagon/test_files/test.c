@@ -28,18 +28,31 @@ int test_s3_new() {
    asm("{ if(cmp.eq(r3.NEW, #0)) jump:nt foo; r3 = #10; } ");
    asm("{ if(cmp.eq(r4.NEW, #0)) jump:nt foo; r4 = #10; } ");
    asm("{ if(cmp.eq(r5.NEW, #0)) jump:nt foo; r5 = #10; } ");*/
-   asm(".byte 0xf3\n"
-       ".byte 0x7f\n"
-       ".byte 0xf3\n"
-       ".byte 0xbf\n"
-       ".byte 0x21\n"
-       ".byte 0x5f\n"
-       ".byte 0x00\n"
-       ".byte 0x78\n"
-       ".byte 0x2c\n"
+   asm(".byte 0x59\n"
+       ".byte 0x52\n"
+       ".byte 0x93\n"
+       ".byte 0x01\n"
+       ".byte 0x28\n"
        ".byte 0xc0\n"
-       ".byte 0x05\n"
-       ".byte 0x24\n");
+       ".byte 0x00\n"
+       ".byte 0x58\n"
+       ".byte 0x64\n"
+       ".byte 0x7f\n"
+       ".byte 0xc0\n"
+       ".byte 0x40\n"
+       ".byte 0xcc\n"
+       ".byte 0x46\n"
+       ".byte 0x00\n"
+       ".byte 0x00\n"
+       ".byte 0x82\n"
+       ".byte 0x62\n"
+       ".byte 0x00\n"
+       ".byte 0x74\n"
+       ".byte 0x14\n"
+       ".byte 0xc3\n"
+       ".byte 0x01\n"
+       ".byte 0x10\n"
+       );
    return 0;
 }
 
