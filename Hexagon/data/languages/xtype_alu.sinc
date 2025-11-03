@@ -112,7 +112,7 @@ with slot: iclass=0b1101 & mode=0 {
            local E:2 = add_sat(T5i:2, tmp);
         D5 = sext(E);
     }
-    :D5 "=add(" T^".L" "," S5".L" "):<<16" is imm_21_27=0b0101010 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
+    :D5 "=add(" T5".L" "," S5".L" "):<<16" is imm_21_27=0b0101010 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
            local E:2 = T5i:2 + S5i:2;
         D5 = sext(E) << 16;
     }

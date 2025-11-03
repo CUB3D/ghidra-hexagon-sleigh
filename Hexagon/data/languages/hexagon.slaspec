@@ -579,17 +579,6 @@ r21r20
 r23r22
 ];
 
-attach variables [ immdup0_D3_pairi immdup1_D3_pairi] [
-r1r0c
-r3r2c
-r5r4c
-r7r6c
-r17r16c
-r19r18c
-r21r20c
-r23r22c
-];
-
 define register offset=0x00 size=4 [
 r0
 r1
@@ -738,6 +727,17 @@ r25r24c
 r27r26c
 SPr28c
 LRFPc
+];
+
+attach variables [ immdup0_D3_pairi immdup1_D3_pairi] [
+r1r0c
+r3r2c
+r5r4c
+r7r6c
+r17r16c
+r19r18c
+r21r20c
+r23r22c
 ];
 
 

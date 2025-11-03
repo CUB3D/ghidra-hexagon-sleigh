@@ -13,13 +13,13 @@ with slot: iclass=0b0101 {
 
 
 NR_Call_V: v is imm_1_13u & imm_16_24 & (hasext0=0 | immext0used=1)  [v = inst_start + (((imm_1_13u) | (imm_16_24 << 13)) << 2) ;] { export *[ram]:4 v;}
-BR_Call_V: v is imm_1_13u & imm_16_24 [v = inst_start + (((imm_1_13u) | (imm_16_24 << 13)) << 2) ;] { export *[ram]:4 v;}
+BR_Call_V: v is imm_1_13u & imm_16_24 [v = inst_start + (((imm_1_13u) | (imm_16_24 << 13)) << 2); ] { export *[ram]:4 v;}
 
 NR_Call_V: v is hasext0=1 & immext0used=0 & immext0 & imm_1_6u  [v = inst_start + (imm_1_6u | immext0); immext0used=1; immext0everused=1; immext0pos=pktid;] { export *[ram]:4 v;}
-BR_Call_V: v is immext0pos=pktid & immext0 & imm_1_6u  [v = inst_start + (imm_1_6u | immext0); immext0used=1; immext0everused=1; immext0pos=pktid;] { export *[ram]:4 v;}
+BR_Call_V: v is immext0pos=pktid & immext0 & imm_1_6u  [v = inst_start + (imm_1_6u | immext0); ] { export *[ram]:4 v;}
 
 NR_Call_V: v is hasext0=1 & immext0used=1 & hasext1=1 & immext1 & imm_1_6u  [v = inst_start + (imm_1_6u | immext1); immext1used=1; immext1pos=pktid;] { export *[ram]:4 v;}
-BR_Call_V: v is immext1pos=pktid & immext1 & imm_1_6u  [v = inst_start + (imm_1_6u | immext1); immext1used=1;] { export *[ram]:4 v;}
+BR_Call_V: v is immext1pos=pktid & immext1 & imm_1_6u  [v = inst_start + (imm_1_6u | immext1); ] { export *[ram]:4 v;}
 
      :^"call" NR_Call_V is imm_25_27=0b101 & imm_16_24 & imm_1_13u & imm_0=0 & NR_Call_V & mode=0  {}
      :^"call" BR_Call_V is imm_25_27=0b101 & imm_16_24 & imm_1_13u & imm_0=0 & BR_Call_V & mode=1100 {
@@ -55,9 +55,9 @@ BR_Call_V: v is immext1pos=pktid & immext1 & imm_1_6u  [v = inst_start + (imm_1_
   NR_CJ_imm_8_12u:imm_8_12u is imm_8_12u & (hasext0=0 | immext0used=1) { export *[const]:4 imm_8_12u; }
   BR_CJ_imm_8_12u:imm_8_12u is imm_8_12u { export *[const]:4 imm_8_12u; }
   NR_CJ_imm_8_12u:val is imm_8_12u & hasext0=1 & immext0used=0 & immext0 [ val = immext0 | imm_8_12u; immext0used=1; immext0everused=1; immext0pos=pktid;] { export *[const]:4 val; }
-  BR_CJ_imm_8_12u:val is imm_8_12u & immext0pos=pktid & immext0 [ val = immext0 | imm_8_12u; immext0used=1; immext0everused=1; immext0pos=pktid;] { export *[const]:4 val; }
+  BR_CJ_imm_8_12u:val is imm_8_12u & immext0pos=pktid & immext0 [ val = immext0 | imm_8_12u; ] { export *[const]:4 val; }
   NR_CJ_imm_8_12u:val is imm_8_12u & hasext0=1 & immext0used=1 & hasext1=1 & immext1 [ val = immext1 | imm_8_12u; immext1used=1; immext1pos=pktid;] { export *[const]:4 val; }
-  BR_CJ_imm_8_12u:val is imm_8_12u & immext1pos=pktid & immext1 [ val = immext1 | imm_8_12u; immext1used=1; immext1pos=pktid;] { export *[const]:4 val; }
+  BR_CJ_imm_8_12u:val is imm_8_12u & immext1pos=pktid & immext1 [ val = immext1 | imm_8_12u; ] { export *[const]:4 val; }
  
  
  
@@ -977,9 +977,9 @@ with slot: iclass=0b0101 {
     NR_JImm: loc is imm_16_24 & imm_1_13u & (hasext0=0 | immext0used=1) [loc = inst_start+(((imm_16_24 << 13) | (imm_1_13u)) << 2);]{export *[ram]:4 loc; }
     BR_JImm: loc is imm_16_24 & imm_1_13u [loc = inst_start+(((imm_16_24 << 13) | (imm_1_13u)) << 2);]{export *[ram]:4 loc; }
     NR_JImm: loc is imm_16_24 & imm_1_13u & hasext0=1 & immext0used=0 & immext0 & imm_1_6u [loc = inst_start + (immext0 | imm_1_6u); immext0used=1; immext0everused=1; immext0pos=pktid;] {export *[ram]:4 loc;}
-    BR_JImm: loc is imm_16_24 & imm_1_13u & immext0pos=pktid & immext0 & imm_1_6u [loc = inst_start + (immext0 | imm_1_6u); immext0used=1;] {export *[ram]:4 loc;}
+    BR_JImm: loc is imm_16_24 & imm_1_13u & immext0pos=pktid & immext0 & imm_1_6u [loc = inst_start + (immext0 | imm_1_6u); ] {export *[ram]:4 loc;}
     NR_JImm: loc is imm_16_24 & imm_1_13u & hasext0=1 & immext0used=1 & hasext1=1 & immext1 & imm_1_6u [loc = inst_start + (immext1 | imm_1_6u); immext1used=1; immext1pos=pktid;] {export *[ram]:4 loc;}
-    BR_JImm: loc is imm_16_24 & imm_1_13u & immext1pos=pktid & immext1 & imm_1_6u [loc = inst_start + (immext1 | imm_1_6u); immext1used=1;] {export *[ram]:4 loc;}
+    BR_JImm: loc is imm_16_24 & imm_1_13u & immext1pos=pktid & immext1 & imm_1_6u [loc = inst_start + (immext1 | imm_1_6u); ] {export *[ram]:4 loc;}
     
     
     NR_IfImm: r15 is imm_1_7u & imm_13u & imm_16_20u & imm_22_23 & (hasext0=0 | immext0used=1) [r15 = inst_start + ((imm_1_7u | (imm_13u << 7) | (imm_16_20u << 8) | (imm_22_23 << 13)) << 2);] {export *[ram]:4 r15;}

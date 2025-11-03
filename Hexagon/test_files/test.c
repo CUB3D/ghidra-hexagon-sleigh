@@ -22,12 +22,24 @@ int test_s3_new() {
    //asm("{ if(cmp.eq(r28.NEW, #1)) jump:nt foo; r28 = #10; } ");
    //asm("{ r17:16 = combine(r0, r1); memd(SP+#-0x10) = r17:16; allocframe(#0x10); } ");
 
-   asm("{ P0 = bitsclr(r9, #0x3); if(!P0.new) r2=#0x100 ; } ");
+  // asm("{ P0 = bitsclr(r9, #0x3); if(!P0.new) r2=#0x100 ; } ");
    /*asm("{ if(cmp.eq(r1.NEW, #0)) jump:nt foo; r1 = #10; } ");
    asm("{ if(cmp.eq(r2.NEW, #0)) jump:nt foo; r2 = #10; } ");
    asm("{ if(cmp.eq(r3.NEW, #0)) jump:nt foo; r3 = #10; } ");
    asm("{ if(cmp.eq(r4.NEW, #0)) jump:nt foo; r4 = #10; } ");
    asm("{ if(cmp.eq(r5.NEW, #0)) jump:nt foo; r5 = #10; } ");*/
+   asm(".byte 0xf3\n"
+       ".byte 0x7f\n"
+       ".byte 0xf3\n"
+       ".byte 0xbf\n"
+       ".byte 0x21\n"
+       ".byte 0x5f\n"
+       ".byte 0x00\n"
+       ".byte 0x78\n"
+       ".byte 0x2c\n"
+       ".byte 0xc0\n"
+       ".byte 0x05\n"
+       ".byte 0x24\n");
    return 0;
 }
 
