@@ -518,11 +518,11 @@ A1R:immdup1_D3_pair "=combine(0," immdup1_S4 ")" is immdup1_10_12=0b111 & immdup
     immdup1_D3_pair = zext(immdup1_S4i);
 }
 
-A1L:immdup0_D3_pair "=combine(" immdup0_S4 ", 0)" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=1 & immdup0_S4 & immdup0_S4i & immdup0_3=1 & immdup0_D3_pair {
+A1L:immdup0_D3_pair "=combine(" immdup0_S4 ", 0)" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=1 & immdup0_S4 & immdup0_S4i & immdup0_3=1 & immdup0_D3_pair & immdup0_D3_pairi {
     immdup0_D3_pair = zext(immdup0_S4i);
     immdup0_D3_pair = immdup0_D3_pairi << 32;
 }
-A1R:immdup1_D3_pair "=combine(" immdup1_S4 ", 0)" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=1 & immdup1_S4 & immdup1_S4i & immdup1_3=1 & immdup1_D3_pair {
+A1R:immdup1_D3_pair "=combine(" immdup1_S4 ", 0)" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=1 & immdup1_S4 & immdup1_S4i & immdup1_3=1 & immdup1_D3_pair & immdup1_D3_pairi {
     immdup1_D3_pair = zext(immdup1_S4i);
     immdup1_D3_pair = immdup1_D3_pairi << 32;
 }

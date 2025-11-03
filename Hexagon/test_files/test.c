@@ -22,12 +22,37 @@ int test_s3_new() {
    //asm("{ if(cmp.eq(r28.NEW, #1)) jump:nt foo; r28 = #10; } ");
    //asm("{ r17:16 = combine(r0, r1); memd(SP+#-0x10) = r17:16; allocframe(#0x10); } ");
 
-   asm("{ P0 = bitsclr(r9, #0x3); if(!P0.new) r2=#0x100 ; } ");
+  // asm("{ P0 = bitsclr(r9, #0x3); if(!P0.new) r2=#0x100 ; } ");
    /*asm("{ if(cmp.eq(r1.NEW, #0)) jump:nt foo; r1 = #10; } ");
    asm("{ if(cmp.eq(r2.NEW, #0)) jump:nt foo; r2 = #10; } ");
    asm("{ if(cmp.eq(r3.NEW, #0)) jump:nt foo; r3 = #10; } ");
    asm("{ if(cmp.eq(r4.NEW, #0)) jump:nt foo; r4 = #10; } ");
    asm("{ if(cmp.eq(r5.NEW, #0)) jump:nt foo; r5 = #10; } ");*/
+   asm(".byte 0x59\n"
+       ".byte 0x52\n"
+       ".byte 0x93\n"
+       ".byte 0x01\n"
+       ".byte 0x28\n"
+       ".byte 0xc0\n"
+       ".byte 0x00\n"
+       ".byte 0x58\n"
+       ".byte 0x64\n"
+       ".byte 0x7f\n"
+       ".byte 0xc0\n"
+       ".byte 0x40\n"
+       ".byte 0xcc\n"
+       ".byte 0x46\n"
+       ".byte 0x00\n"
+       ".byte 0x00\n"
+       ".byte 0x82\n"
+       ".byte 0x62\n"
+       ".byte 0x00\n"
+       ".byte 0x74\n"
+       ".byte 0x14\n"
+       ".byte 0xc3\n"
+       ".byte 0x01\n"
+       ".byte 0x10\n"
+       );
    return 0;
 }
 
