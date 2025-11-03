@@ -15,6 +15,16 @@ jobs:
       checks: "write"
     strategy:
       fail-fast: false
+      matrix:
+        ghidra:
+          - "11.2"
+          - "11.2.1"
+          - "11.3"
+          - "11.3.1"
+          - "11.3.2"
+          - "11.4"
+          - "11.4.1"
+          - "11.4.2"
     steps:
       -
         name: "Checkout"
@@ -29,18 +39,19 @@ jobs:
           java-version: "21"
           distribution: "temurin"
       -
-        name: "Setup Ghidra"
-        uses: antoniovazquezblanco/setup-ghidra@v2.0.5
+        name: Install Ghidra ${{ matrix.ghidra }}
+        uses: antoniovazquezblanco/setup-ghidra@v2.0.14
         with:
-          version: "11.4"
+          auth_token: ${{ secrets.GITHUB_TOKEN }}
+          version: ${{ matrix.ghidra }}
       -
         name: "Build extension"
         run: cd Hexagon && gradle buildExtension
       -
         name: "Upload artifacts"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
-          name: "extension"
+          name: Extension_Ghidra_${{ matrix.ghidra }}
           path: "Hexagon/dist/*"
           if-no-files-found: "error"
         if: ${{ !cancelled() }}
@@ -68,9 +79,8 @@ jobs:
           java-package: "jre"
       -
         name: "Download artifacts"
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
-          pattern: "extension"
           path: "ext_out/"
           merge-multiple: true
       -
