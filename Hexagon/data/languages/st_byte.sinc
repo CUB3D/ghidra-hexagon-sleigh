@@ -51,11 +51,11 @@ with slot: iclass=0b1010 & mode=0 {
         S5 = S5i+s4;
         *[ram]:1 EA = T5i;
     }
-    :"memb(" S5 "<<" u2 "+" U6 ")=" T5 is imm_21_27=0b1101000 & S5 & S5i & imm_13u & T5 & T5i & imm_12=1 & imm_8_11u & imm_7u & imm_5_6u & D5 & D5i & (hasext0=0 | immext0used=1) [ u2 = imm_7u | (imm_13u << 1); U6 = imm_5_6u | (imm_8_11u << 2);] {
-        local EA:4 = (S5i << u2) + U6;
+    :"memb(" S5 "<<" u2 "+" imm_0_5u ")=" T5 is imm_21_27=0b1101000 & S5 & S5i & imm_13u & T5 & T5i & imm_7=1 & imm_6u & imm_0_5u & (hasext0=0 | immext0used=1) [ u2 = imm_6u | (imm_13u << 1); ] {
+        local EA:4 = (S5i << u2) + imm_0_5u;
         *[ram]:1 EA = T5i;
     }
-    :"memb(" S5 "<<" u2 "+" U6 ")=" T5 is imm_21_27=0b1101000 & S5 & S5i & imm_13u & T5 & T5i & imm_12=1 & imm_8_11u & imm_7u & imm_5_6u & D5 & D5i & hasext0=1 & immext0used=0 & immext0 [ u2 = imm_7u | (imm_13u << 1); U6 = (imm_5_6u | (imm_8_11u << 2)) | immext0; immext0used=1;immext0everused=1;] {
+    :"memb(" S5 "<<" u2 "+" U6 ")=" T5 is imm_21_27=0b1101000 & S5 & S5i & imm_13u & T5 & T5i & imm_7=1 & imm_6u & imm_0_5u & hasext0=1 & immext0used=0 & immext0 [ u2 = imm_6u | (imm_13u << 1); U6 = imm_0_5u | immext0; immext0used=1;immext0everused=1;] {
         local EA:4 = (S5i << u2) + U6;
         *[ram]:1 EA = T5i;
     }

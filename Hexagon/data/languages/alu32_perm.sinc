@@ -61,14 +61,14 @@ with slot: iclass=0b1111 & mode=0 {
         local bl4:4 = zext(bl);
         D5 = (al4 << 16) | bl4;
     }
-    :D5 "=combine(" T5".H" S5".L)" is Rs=0 & MajOp=0b101 & MinOp=0b101 & S5 & S5i & imm_13 & T5 & T5i & imm_5_7=0 & D5 {
+    :D5 "=combine(" T5".H" S5".L)" is Rs=0 & MajOp=0b011 & MinOp=0b101 & S5 & S5i & imm_13 & T5 & T5i & imm_5_7=0 & D5 {
         local al:2 = T5i(2);
         local bl:2 = S5i:2;
         local al4:4 = zext(al);
         local bl4:4 = zext(bl);
         D5 = (al4 << 16) | bl4;
     }
-    :D5 "=combine(" T5".L" S5".H)" is Rs=0 & MajOp=0b110 & MinOp=0b110 & S5 & S5i & imm_13 & T5 & T5i & imm_5_7=0 & D5 {
+    :D5 "=combine(" T5".L" S5".H)" is Rs=0 & MajOp=0b011 & MinOp=0b110 & S5 & S5i & imm_13 & T5 & T5i & imm_5_7=0 & D5 {
         local al:2 = T5i:2;
         local bl:2 = S5i(2);
         local al4:4 = zext(al);

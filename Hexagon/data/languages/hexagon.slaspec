@@ -1455,10 +1455,13 @@ define pcodeop brev;
 @include "xtype_perm.sinc"
 @include "xtype_pred.sinc"
 @include "xtype_shift.sinc"
-#### ---- end of normal ops ----
+### ---- end of normal ops ----
 @include "duplex.sinc"
 
 @include "hvx.sinc"
+
+
+
 macro prelude() {
 
     # TODO: this is a readonly value
