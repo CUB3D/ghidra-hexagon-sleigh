@@ -120,7 +120,7 @@ with slot: iclass=0b0010 & mode=0 {
     :"if(!cmp.gt(" NV_S3_new_16_18 ",-1) jump:t" NR_nv_j_r9  is imm_22_27=0b011011 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & imm_8_12=0 & imm_1_7u & imm_0=0 & NV_S3_new_16_18  & NR_nv_j_r9 {
     }
 }
-with slot: iclass=0b0010 & mode=1100 {
+with slotB: iclass=0b0010 {
     :"if(cmp.eq("NV_S3_new_16_18","T5") jmp:nt "BR_nv_j_r9 is imm_22_27=0b000000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & BR_nv_j_r9 & NV_S3_new_16_18 {
     if(NV_S3_new_16_18 != T5i) goto <end>;
     goto BR_nv_j_r9;

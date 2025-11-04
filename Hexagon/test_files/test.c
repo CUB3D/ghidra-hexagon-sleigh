@@ -28,18 +28,26 @@ int test_s3_new() {
    asm("{ if(cmp.eq(r3.NEW, #0)) jump:nt foo; r3 = #10; } ");
    asm("{ if(cmp.eq(r4.NEW, #0)) jump:nt foo; r4 = #10; } ");
    asm("{ if(cmp.eq(r5.NEW, #0)) jump:nt foo; r5 = #10; } ");*/
-   asm(".byte 0x10\n"
-       ".byte 0x40\n"
-       ".byte 0xdd\n"
-       ".byte 0x91\n"
-       ".byte 0x61\n"
-       ".byte 0x44\n"
-       ".byte 0xe3\n"
-       ".byte 0x0c\n"
-       ".byte 0xad\n"
+   asm("{ rte; } ");
+   asm(".byte 0xa0\n"
+       ".byte 0x42\n"
+       ".byte 0x04\n"
+       ".byte 0x75\n"
+
+       ".byte 0x03\n"
+       ".byte 0x42\n"
+       ".byte 0x03\n"
+       ".byte 0xf3\n"
+
+       ".byte 0xdc\n"
+       ".byte 0x7a\n"
+       ".byte 0x02\n"
+       ".byte 0x0f\n"
+
        ".byte 0xc0\n"
-       ".byte 0x10\n"
-       ".byte 0xad\n"
+       ".byte 0xe3\n"
+       ".byte 0x81\n"
+       ".byte 0xaf\n"
        );
    return 0;
 }

@@ -1,15 +1,13 @@
 # ALU32/ALU:add
+
+ALU32_ADD_IMM:val is imm_21_27 & imm_5_13 & IS_NOT_EXT [val = ((imm_21_27 << 9) | (imm_5_13));] { export *[const]:4 val; }
+ALU32_ADD_IMM:val is IS_EXT0 & immext0 & imm_5_10u  [val = imm_5_10u | immext0; ] { export *[const]:4 val; }
+ALU32_ADD_IMM:val is IS_EXT1 & immext1 & imm_5_10u  [val = imm_5_10u | immext1; ] { export *[const]:4 val; }
+
 with slot: mode=0 {
-    :D5 "= add("S5","loc")" is iclass=0b1011 & S5 & S5i & D5 & imm_21_27 & imm_5_13 & (hasext0=0 | immext0used=1) [loc= ((imm_21_27 << 9) | (imm_5_13));] {
-        D5 = S5i + sext(loc:2);
-    } 
-    :D5 "= add("S5","loc")" is iclass=0b1011 & S5 & S5i & D5 & imm_21_27 & imm_5_13 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [loc= imm_5_10u | immext0; immext0used=1;immext0everused=1;] {
-        D5 = S5i + sext(loc:2);
+    :D5 "= add("S5","ALU32_ADD_IMM")" is iclass=0b1011 & S5 & S5i & D5 & ALU32_ADD_IMM {
+        D5 = S5i + sext(ALU32_ADD_IMM:2);
     }
-    #:D5 "= add("S5","loc")" is iclass=0b1011 & S5 & S5i & D5 & imm_21_27 & imm_5_13 & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [loc= imm_5_10u | immext1; immext1used=1;] {
-    #    D5 = S5i + sext(loc:2);
-    #} 
-    
     
     :D5 "= add("S5","T5")" is iclass=0b1111 & D5 & imm_21_27=0b0011000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 {
         D5 = S5i + T5i;
@@ -24,23 +22,17 @@ with slot: mode=0 {
     }
 }
 
+ALU32_AND_S10:val is imm_21 & imm_5_13 & IS_NOT_EXT [val = (imm_21 << 9) | imm_5_13;] { export *[const]:4 val; }
+ALU32_AND_S10:val is IS_EXT0 & immext0 & imm_5_10u  [val = imm_5_10u | immext0; ] { export *[const]:4 val; }
+ALU32_AND_S10:val is IS_EXT1 & immext1 & imm_5_10u  [val = imm_5_10u | immext1; ] { export *[const]:4 val; }
+
 # ALU32/ALU:logical
 with slot: iclass=0b0111 & mode=0 {
-    :D5 = "and"(S5",#"s10) is Rs=0 & MajOp = 0b110 & imm_22_23=0b00 & imm_21 & S5 & S5i & imm_5_13 & D5 & (hasext0=0 | immext0used=1) [ s10 = (imm_21 << 9) | imm_5_13;] {
-        D5 = S5i & s10;
+    :D5 = "and"(S5",#"ALU32_AND_S10) is Rs=0 & MajOp = 0b110 & imm_22_23=0b00 & S5 & S5i & D5 & ALU32_AND_S10 {
+        D5 = S5i & ALU32_AND_S10;
     } 
-    :D5 = "and"(S5",#"s10")" is Rs=0 & MajOp = 0b110 & imm_22_23=0b00 & imm_21 & S5 & S5i & imm_5_13 & D5 & imm_5_10u & hasext0=1 & immext0used=0 & immext0 [ s10 = immext0 | imm_5_10u; immext0used=1;immext0everused=1;] {
-        D5 = S5i & s10;
-    } 
-    :D5 = "and"(S5",#"s10")" is Rs=0 & MajOp = 0b110 & imm_22_23=0b00 & imm_21 & S5 & S5i & imm_5_13 & D5 & imm_5_10u & hasext0=1 & hasext1=1 & immext1 [ s10 = immext1 | imm_5_10u;] {
-        D5 = S5i & s10;
-    } 
-
-    :D5 = "or("S5","s10")" is Rs=0 & MajOp = 0b110 & imm_22_23=0b10 & imm_21 & S5 & S5i & imm_5_13u & D5 & (hasext0=0 | immext0used=1) [ s10 = (imm_21 << 9) | imm_5_13u;] {
-        D5 = S5i & s10;
-    } 
-    :D5 = "or("S5","s10")" is Rs=0 & MajOp = 0b110 & imm_22_23=0b10 & imm_21 & S5 & S5i & imm_5_13 & D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ s10 = immext0 | imm_5_10u; immext0used=1;immext0everused=1;] {
-        D5 = S5i & s10;
+    :D5 = "or("S5","ALU32_AND_S10")" is Rs=0 & MajOp = 0b110 & imm_22_23=0b10 & S5 & S5i & D5 & ALU32_AND_S10 {
+        D5 = S5i | ALU32_AND_S10;
     } 
 }
 with slot: iclass=0b1111 & mode=0 {
@@ -78,13 +70,13 @@ with slot: iclass=0b0111 & mode=0 {
 }
 
 
-EXT_SUB: v is imm_21 & imm_5_13u & D5 & (hasext0=0 | immext0used=1) [v = imm_5_13u | (imm_21 << 9); ] { export *[const]:4 v; }
-EXT_SUB: v is imm_21 & imm_5_13u & D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [v = imm_5_10u | immext0; immext0used=1;immext0everused=1; ]  { export *[const]:4 v; }
-EXT_SUB: v is imm_21 & imm_5_13u & D5 & hasext0=1 & immext0used=1 & hasext1=1 & immext1 & imm_5_10u [v = imm_5_10u | immext1; immext1used=1; ]  { export *[const]:4 v; }
+EXT_SUB: v is imm_21 & imm_5_13u & IS_NOT_EXT [v = imm_5_13u | (imm_21 << 9); ] { export *[const]:4 v; }
+EXT_SUB: v is IS_EXT0 & immext0 & imm_5_10u [v = imm_5_10u | immext0; ]  { export *[const]:4 v; }
+EXT_SUB: v is IS_EXT1 & immext1 & imm_5_10u [v = imm_5_10u | immext1; ]  { export *[const]:4 v; }
 
 # ALU32/ALU:subtract
 with slot: iclass=0b0111 & mode=0 {
-    :D5"=sub("EXT_SUB","S5")" is imm_22_27=0b011001 & imm_21 & S5 & S5i & imm_5_13u & D5 & EXT_SUB {
+    :D5"=sub("EXT_SUB","S5")" is imm_22_27=0b011001 & S5 & S5i & D5 & EXT_SUB {
         D5 = EXT_SUB - S5i;
     }
 }
@@ -103,6 +95,9 @@ with slot: iclass=0b1111 & mode=0 {
     } 
 }
 
+TI_S16: v is imm_16_20u & imm_5_13u & imm_22_23 & IS_NOT_EXT [v = (imm_5_13u) | (imm_16_20u << 9) | (imm_22_23 << 14); ] { export *[const]:4 v; }
+TI_S16: v is IS_EXT0 & immext0 & imm_5_10u [v = imm_5_10u | immext0; ]  { export *[const]:4 v; }
+TI_S16: v is IS_EXT1 & immext1 & imm_5_10u [v = imm_5_10u | immext1; ]  { export *[const]:4 v; }
 
 # ALU32/ALU:sext
 with slot: iclass=0b0111 & mode=0 {
@@ -121,10 +116,6 @@ with slot: iclass=0b0111 & mode=0 {
          export *[const]:4 v;
       }
       
-      TI_S16: v is    imm_22_23 & imm_16_20u & imm_5_13u  [ v = (imm_5_13u) | (imm_16_20u << 9) | (imm_22_23 << 14); ] {
-        export *[const]:4 v;
-      }
-      
  
     :alu_X5^".L" = ImmU16 is Rs = 0 & MajOp = 0b001 & imm_21=1 & alu_X5 & alu_X5i & ImmU16 {
         local tmp:4 = alu_X5i & 0xFFFF0000;
@@ -136,14 +127,8 @@ with slot: iclass=0b0111 & mode=0 {
         alu_X5 = tmp | (ImmU16 << 16);
     }
     
-    :D5 "=" TI_S16 is  Rs = 1 & MajOp=0b000 & imm_21=0 & TI_S16 & D5 & (hasext0=0 | immext0used=1) {
+    :D5 "=" TI_S16 is  Rs=1 & MajOp=0b000 & imm_21=0 & TI_S16 & D5 {
         D5 = TI_S16;
-    }  
-    :D5 "=" v is  Rs = 1 & MajOp=0b000 & imm_21=0 & TI_S16 & D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ v = (imm_5_10u) | immext0; immext0used=1;immext0everused=1;] {
-        D5 = v;
-    }  
-    :D5 "=" v is  Rs = 1 & MajOp=0b000 & imm_21=0 & TI_S16 & D5 & hasext0=1 & immext0used=1 & hasext1=1 & immext1used=0 & immext1 & imm_5_10u [ v = (imm_5_10u) | immext1; immext1used=1;] {
-        D5 = v;
     }  
 }
 
