@@ -1,8 +1,8 @@
-NR_ST_COND_1_s6: s6 is imm_0_4u & imm_13 & (hasext0=0 | immext0used=1) [s6 = imm_0_4u | (imm_13 << 5);] { export *[const]:4 s6; }
+NR_ST_COND_1_s6: s6 is imm_0_4u & imm_13 & IS_NOT_EXT [s6 = imm_0_4u | (imm_13 << 5);] { export *[const]:4 s6; }
 BR_ST_COND_1_s6: s6 is imm_0_4u & imm_13 [s6 = imm_0_4u | (imm_13 << 5); ] { export *[const]:4 s6; }
-NR_ST_COND_1_s6: s6 is imm_0_4u & imm_13 & hasext0=1 & immext0used=0 & immext0 [s6 = (imm_0_4u | (imm_13 << 5)) | immext0; immext0used=1; immext0everused=1; immext0pos=pktid;] {export *[const]:4 s6; }
+NR_ST_COND_1_s6: s6 is imm_0_4u & imm_13 & IS_EXT0 & immext0 [s6 = (imm_0_4u | (imm_13 << 5)) | immext0; immext0pos=pktid;] {export *[const]:4 s6; }
 BR_ST_COND_1_s6: s6 is imm_0_4u & imm_13 & immext0 & immext0pos=pktid [s6 = (imm_0_4u | (imm_13 << 5)) | immext0; ] {export *[const]:4 s6; }
-NR_ST_COND_1_s6: s6 is imm_0_4u & imm_13 & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [s6 = (imm_0_4u | (imm_13 << 5)) | immext1; immext1used=1; immext1pos=pktid;] { export *[const]:4 s6;}
+NR_ST_COND_1_s6: s6 is imm_0_4u & imm_13 & IS_EXT1 & immext1 [s6 = (imm_0_4u | (imm_13 << 5)) | immext1; immext1pos=pktid;] { export *[const]:4 s6;}
 BR_ST_COND_1_s6: s6 is imm_0_4u & imm_13 & immext1pos=pktid & immext1 [s6 = (imm_0_4u | (imm_13 << 5)) | immext1; ] { export *[const]:4 s6;}
 
 @include "st_dword.sinc"

@@ -5,19 +5,19 @@ with slot: iclass=0b0011 & mode=0 {
         *[ram]:8 EA = D5_pairi;
     }
 }
+
+MEMD_GP_ADD:"GP+"v is imm_0_7u & imm_13u & imm_16_20u & imm_25_26u & IS_NOT_EXT [v = (imm_0_7u | imm_13u << 8 | imm_16_20u<<9 | imm_25_26u <<14)<<3;] { local tmp:4 = GP + v; export *[const]:4 tmp; }
+MEMD_GP_ADD:v is IS_EXT0 & immext0 & imm_0_5u [v = imm_0_5u | immext0; ] { export *[const]:4 v; }
+MEMD_GP_ADD:v is IS_EXT1 & immext1 & imm_0_5u [v = imm_0_5u | immext1; ] { export *[const]:4 v; }
+
 with slot: iclass=0b0100 & mode=0 {
-    :"memd(GP + "s11")="T5_pair is imm_27=1 & imm_25_26 & imm_21_24=0b0110 & imm_16_20u & imm_13u & T5_pair & T5_pairi & imm_0_7u & (hasext0=0 | immext0used=1) [s11 = (imm_0_7u | (imm_13u << 8) | (imm_16_20u << 9) | (imm_25_26 << 14)) << 2;] {
-        local EA:4 = GP + s11;
-        *[ram]:8 EA = T5_pairi;
-    }
-    :"memw("v")="T5_pair is imm_27=1 & imm_25_26 & imm_21_24=0b0110 & imm_16_20u & imm_13u & T5_pair & T5_pairi & imm_0_7u & hasext0=1 & immext0used=0 & immext0 & imm_0_5u [v = (imm_0_5u) | immext0; immext0used=1; immext0everused=1;] {
-        local EA:4 = v;
-        *[ram]:8 EA = T5_pairi;
+    :"memd("MEMD_GP_ADD")="T5_pair is imm_27=1 & imm_21_24=0b0110 & T5_pair & T5_pairi & MEMD_GP_ADD {
+        *[ram]:8 MEMD_GP_ADD = T5_pairi;
     }
 }
-ST_s11_3: s11 is imm_25_26 & imm_13u & imm_0_7u & (hasext0=0 | immext0used=1) [s11 = (imm_0_7u | (imm_13u << 8) | (imm_25_26 << 9)) << 3;] { export *[const]:4 s11; }
-ST_s11_3: s11 is hasext0=1 & immext0used=0 & immext0 & imm_0_5u [s11 = immext0 | imm_0_5u; immext0used=1;immext0everused=1;] { export *[const]:4 s11; }
-ST_s11_3: s11 is hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_0_5u [s11 = immext1 | imm_0_5u; immext1used=1;] { export *[const]:4 s11; }
+ST_s11_3: s11 is imm_25_26 & imm_13u & imm_0_7u & IS_NOT_EXT [s11 = (imm_0_7u | (imm_13u << 8) | (imm_25_26 << 9)) << 3;] { export *[const]:4 s11; }
+ST_s11_3: s11 is IS_EXT0 & immext0 & imm_0_5u [s11 = immext0 | imm_0_5u; ] { export *[const]:4 s11; }
+ST_s11_3: s11 is IS_EXT1 & immext1 & imm_0_5u [s11 = immext1 | imm_0_5u; ] { export *[const]:4 s11; }
 
 with slot: iclass=0b1010 & mode=0 {
     :"memd("S5"+"ST_s11_3")="T5_pair is imm_27=0 & imm_25_26 & imm_21_24=0b1110 & S5 & S5i & imm_13u & T5_pair & T5_pairi & imm_0_7u & ST_s11_3 {

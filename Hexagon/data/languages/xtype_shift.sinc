@@ -102,15 +102,9 @@ with slot: iclass=0b1000 & mode=0 {
     }
 }
 
-XTYPE_SHIFT_LOG_u8: u8 is imm_3u & imm_5_7u & imm_13u & imm_21_23 & (hasext0=0 | immext0used=1)[ u8 = imm_3u | (imm_5_7u << 1) | (imm_13u << 4) | (imm_21_23 << 5); ] {
-    export *[const]:4 u8;
-}
-XTYPE_SHIFT_LOG_u8: u8 is imm_3u & imm_5_7u & imm_13u & imm_21u & hasext0=1 & immext0used=0 & immext0 [ u8 = (imm_3u | (imm_5_7u << 1) | (imm_13u << 4) | (imm_21u << 5)) | immext0; immext0used=1; immext0everused=1; ] {
-    export *[const]:4 u8;
-}
-XTYPE_SHIFT_LOG_u8: u8 is imm_3u & imm_5_7u & imm_13u & imm_21u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [ u8 = (imm_3u | (imm_5_7u << 1) | (imm_13u << 4) | (imm_21u << 5)) | immext1; immext1used=1; ] {
-    export *[const]:4 u8;
-}
+XTYPE_SHIFT_LOG_u8: u8 is imm_3u & imm_5_7u & imm_13u & imm_21_23 & IS_NOT_EXT [ u8 = imm_3u | (imm_5_7u << 1) | (imm_13u << 4) | (imm_21_23 << 5); ] { export *[const]:4 u8; }
+XTYPE_SHIFT_LOG_u8: u8 is imm_3u & imm_5_7u & imm_13u & imm_21u & IS_EXT0 & immext0 [ u8 = (imm_3u | (imm_5_7u << 1) | (imm_13u << 4) | (imm_21u << 5)) | immext0; ] { export *[const]:4 u8; }
+XTYPE_SHIFT_LOG_u8: u8 is imm_3u & imm_5_7u & imm_13u & imm_21u & IS_EXT1 & immext1 [ u8 = (imm_3u | (imm_5_7u << 1) | (imm_13u << 4) | (imm_21u << 5)) | immext1; ] { export *[const]:4 u8; }
 
 with slot: iclass=0b1101 & mode=0 {
     :S5 "=add(" XTYPE_SHIFT_LOG_u8 ",asl(" S5_dup "," imm_8_12u "))" is imm_24_27=0b1110 & imm_21_23u & S5 & S5i & S5_dup & imm_13u & imm_8_12u & imm_5_7u & imm_4=0 & imm_3u & imm_1_2=0b10 & imm_0=0 & XTYPE_SHIFT_LOG_u8 {

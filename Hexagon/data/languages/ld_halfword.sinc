@@ -2,7 +2,7 @@
 
 #LD:Load halfword into shifted vector
 with slot: iclass=0b1001 & mode=0 {
-    :D5_pair"=memhw_fifo("S5"+"s11")" is imm_27=0 & imm_25_26 & imm_21_24=0b0010 & S5 & S5i & imm_5_13u & D5_pair & D5_pairi & (hasext0=0 | immext0used=1) [ s11 = ((imm_5_13u | (imm_25_26 << 9))) << 1;]{
+    :D5_pair"=memhw_fifo("S5"+"s11")" is imm_27=0 & imm_25_26 & imm_21_24=0b0010 & S5 & S5i & imm_5_13u & D5_pair & D5_pairi & IS_NOT_EXT [ s11 = ((imm_5_13u | (imm_25_26 << 9))) << 1;]{
         local EA:4 = S5i + s11;
         local tmp:2 = *[ram]:2 EA;
         D5_pair = (D5_pairi << 16) | zext(tmp);
@@ -64,7 +64,7 @@ with slot: iclass=0b0011 & mode=0 {
     }
 }
 with slot: iclass=0b0100 & mode=0 {
-    :D5"=memh(GP + "v")" is imm_27=1 & imm_25_26 & imm_21_24=0b1010 & imm_16_20u & imm_5_13u & D5 & (hasext0=0 | immext0used=1) [v = (imm_5_13u | (imm_16_20u << 9) | (imm_25_26 << 14)) << 1; ]  {
+    :D5"=memh(GP + "v")" is imm_27=1 & imm_25_26 & imm_21_24=0b1010 & imm_16_20u & imm_5_13u & D5 & IS_NOT_EXT [v = (imm_5_13u | (imm_16_20u << 9) | (imm_25_26 << 14)) << 1; ]  {
         local EA:4 = GP + v;
         D5 = sext(*[ram]:2 EA);
     }
