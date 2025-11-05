@@ -10,7 +10,7 @@ define pcodeop _vstub;
 # histogram
 define pcodeop vhist;
 
-with slot: mode=0 & iclass=0b001 {
+with slot: iclass=0b001 {
     :"vhist" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_19_20=0 & imm_16_18=0b000 & imm_13=1 & imm_12=0 & imm_9_11=0b000 & imm_8=0 & imm_5_7=0b100 & imm_0_4=0 {
         vhist();
     }
@@ -24,7 +24,7 @@ define pcodeop vwhist256;
 define pcodeop vwhist256_sat;
 define pcodeop vwhist128;
 
-with slot: mode=0 & iclass=0b0001 {
+with slot: iclass=0b0001 {
    :"vwhist256" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_19_20=0 & imm_16_18=0b000 & imm_13=1 & imm_12=0 & imm_5_11=0b0010100 & imm_0_4=0 {
         vwhist256();
    }
@@ -61,7 +61,7 @@ with slot: mode=0 & iclass=0b0001 {
 # HVX/ALL-DOUBLE-RESOURCE
 
 # predicate ops
-with slot: mode=0 & iclass=0b0001 {
+with slot: iclass=0b0001 {
    :Qd4 "= and(" Qs4 "," Qt4 ")" is imm_24_27=0b1110 & Qt4 & imm_21=0 & imm_18_20=0 & imm_16_17=0b11 & imm_13=0 & imm_10_12=0 & Qs4 & imm_2_7=0b000000 & Qd4 {
     Qd4 = Qs4 & Qt4;
    }
@@ -92,7 +92,7 @@ with slot: mode=0 & iclass=0b0001 {
 }
 
 # combine
-with slot: mode=0 & iclass=0b0001 {
+with slot: iclass=0b0001 {
     :"if (!" S2_5_6 ") " VD5_pair "=vcombine(" VT5 "," VS5 ")" is imm_21_27=0b1010010 & VS5 & imm_13=0 & VT5 & imm_7=0 & S2_5_6 & VD5_pair {
         _vstub();
     }
@@ -107,7 +107,7 @@ with slot: mode=0 & iclass=0b0001 {
 }
 
 # in-lane shuffle
-with slot: mode=0 & iclass=0b0001 {
+with slot: iclass=0b0001 {
     :VD5_pair ".h =vshuffoe(" VT5 ".h," VS5 ".h)" is imm_21_27=0b1111010 & VS5 & imm_13=0 & VT5 & imm_5_7=0b101 & VD5_pair {
         _vstub();
     }
@@ -118,14 +118,14 @@ with slot: mode=0 & iclass=0b0001 {
 }
 
 # swap
-with slot: mode=0 & iclass=0b0001 {
+with slot: iclass=0b0001 {
     :VD5_pair " =vswap(" Qt4 "," VT5 "," VS5 ".h)" is imm_21_27=0b1110101 & VS5 & imm_13=1 & VT5 & imm_7=0 & Qt4 & VD5_pair {
         _vstub();
     }
 }
 
 # sign / zero ext
-with slot: mode=0 & iclass=0b0001 {
+with slot: iclass=0b0001 {
     :VD5_pair ".uh = vzxt(" VT5 ".ub)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0 & imm_16_17=0b10 & imm_13=0 & VT5 & imm_5_7=0b001 & VD5_pair {
         _vstub();
     }
@@ -142,7 +142,7 @@ with slot: mode=0 & iclass=0b0001 {
 
 # arithmetic
 
-with slot: mode=0 & iclass=0b0001 {
+with slot: iclass=0b0001 {
     :VD5_pair ".b = vadd(" VT5_pair ".b," VS5_pair ".b)" is imm_21_27=0b1100011 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b100 & VD5_pair {
         _vstub();
     }
@@ -204,14 +204,14 @@ with slot: mode=0 & iclass=0b0001 {
 
 # predicate ops
 
-with slot: mode=0 & iclass=0b0001 {
+with slot: iclass=0b0001 {
     :Qd4 "= not(" Qs4 ")" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0 & imm_16_17=0b11 & imm_13=0 & imm_10_12=0 & Qs4 & imm_2_7=0b000010 & Qd4 {
         _vstub();
     }
 }
 
 # byte cond vector assign
-with slot: mode=0 & iclass=0b0001 {
+with slot: iclass=0b0001 {
     :Qd4 "= vand(" Qv4 "," VT5 ")" is imm_24_27=0b1110 & Qv4 & imm_21=0 & imm_19_20=0 & imm_16_18=0b011 & imm_13=1 & VT5 & imm_5_7=0b000 &  Qd4 {
         _vstub();
     }
@@ -221,7 +221,7 @@ with slot: mode=0 & iclass=0b0001 {
 }
 
 # min / max
-with slot: mode=0 & iclass=0b0001 {
+with slot: iclass=0b0001 {
     :VD5 ".ub = vmin(" VT5 ".ub," VS5 ".ub)" is imm_21_27=0b1111000 & VS5 & imm_13=0 & VT5 & imm_5_7=0b001 & VD5 {
         _vstub();
     }
@@ -269,7 +269,7 @@ with slot: mode=0 & iclass=0b0001 {
 }
 
 # abs
-with slot: mode=0 & iclass=0b0001 {
+with slot: iclass=0b0001 {
     :VD5 ".h = vabs(" VT5 ".h)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0 & imm_16_17=0b00 & imm_13=0 & VT5 & imm_5_7=0b000 & VD5 {
         _vstub();
     }
@@ -291,7 +291,7 @@ with slot: mode=0 & iclass=0b0001 {
 }
 
 # abs
-with slot: mode=0 & iclass=0b0001 {
+with slot: iclass=0b0001 {
     :VD5 ".w = vadd(" VT5 ".w," VS5".w)" is imm_21_27=0b1100010 & VS5 & imm_13=0 & VT5 & imm_5_7=0b000 & VD5 {
         _vstub();
     }
@@ -364,7 +364,7 @@ with slot: mode=0 & iclass=0b0001 {
 }
 
 # Logical ops
-with slot: mode=0 & iclass=0b0001 {
+with slot: iclass=0b0001 {
     :VD5 "= vand(" VT5 "," VS5")" is imm_21_27=0b1100001 & VS5 & imm_13=0 & VT5 & imm_5_7=0b101 & VD5 {
         _vstub();
     }
@@ -380,7 +380,7 @@ with slot: mode=0 & iclass=0b0001 {
 }
 
 # copy
-with slot: mode=0 & iclass=0b0001 {
+with slot: iclass=0b0001 {
     :"if (" U2_5_6 ") " VD5 "=" VT5 is imm_21_27=0b1010000 & imm_16_20=0 & imm_13=0 & VT5 & imm_7=0 & U2_5_6 & VD5 {
         _vstub();
     }
@@ -394,7 +394,7 @@ with slot: mode=0 & iclass=0b0001 {
 }
 
 # temporary assignment
-with slot: mode=0 & iclass=0b0001 {
+with slot: iclass=0b0001 {
     :VD5 ".tmp =" VT5 is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0 & imm_16_17=0b01 & imm_13=0 & VT5 & imm_5_7=0b110 & VD5 {
         _vstub();
     }
@@ -413,14 +413,14 @@ with slot: mode=0 & iclass=0b0001 {
 #TODO
 
 # mux select
-with slot: mode=0 & iclass=0b0001 {
+with slot: iclass=0b0001 {
     :VD5 "= vmux(" Qt4 "," VT5 "," VS5 ")" is imm_21_27=0b1110111 & VS5 & imm_13=1 & VT5 & imm_7=0 & Qt4 & VD5 {
         _vstub();
     }
 }
 
 # saturation
-with slot: mode=0 & iclass=0b0001 {
+with slot: iclass=0b0001 {
     :VD5 ".w = vsatdw(" VT5 ".w," VS5 ".w)" is imm_21_27=0b1101100 & VS5 & imm_13=1 & VT5 & imm_5_7=0b111 & VD5 {
         _vstub();
     }
@@ -436,7 +436,7 @@ with slot: mode=0 & iclass=0b0001 {
 }
 
 # in lane shuffle
-with slot: mode=0 & iclass=0b0001 {
+with slot: iclass=0b0001 {
     :VD5 ".b = vshuffe(" VT5 ".b," VS5 ".b)" is imm_21_27=0b1111010 & VS5 & imm_13=0 & VT5 & imm_5_7=0b001 & VD5 {
         _vstub();
     }
@@ -454,7 +454,7 @@ with slot: mode=0 & iclass=0b0001 {
 
 # HVX/DEBUG
 # extract vector element
-with slot: mode=0 & iclass=0b1001 {
+with slot: iclass=0b1001 {
     :D5 " = vextract(" VT5 "," S5")" is imm_21_27=0b0010000 & S5 & imm_13=0 & VT5 & imm_5_7=0b001 & D5 {
         _vstub();
     }
@@ -462,7 +462,7 @@ with slot: mode=0 & iclass=0b1001 {
 
 # HVX/GATHER
 # vector gather
-with slot: mode=0 & iclass=0b0010 {
+with slot: iclass=0b0010 {
     :"vtmp.w = vgather(" S5 "," imm_13u "," VD5 ".w).w" is imm_21_27=0b1111000 & S5 & imm_13u & imm_11_12=0 & imm_8_10=0b000 & imm_5_7=0 & VD5 {
         _vstub();
     }
@@ -480,7 +480,7 @@ with slot: mode=0 & iclass=0b0010 {
 
 # HVX/GATHER DOUBLE RESOURCE
 # vector gather
-with slot: mode=0 & iclass=0b0010 {
+with slot: iclass=0b0010 {
     :"vtmp.h = vgather(" S5 "," imm_13u "," VD5_pair ".h).h" is imm_21_27=0b1111000 & S5 & imm_13u & imm_11_12=0 & imm_8_10=0b010 & imm_5_7=0 & VD5_pair {
         _vstub();
     }

@@ -1,7 +1,7 @@
 
 # JR
 # JR:Call sub from reg
-with slot: iclass=0b0101 & mode=0 {
+with slot: iclass=0b0101  {
     :"callr "S5 is imm_21_27=0b0000101 & S5 & S5i & imm_0_13=0 {}
     :"callrh "S5 is imm_21_27=0b0000110 & S5 & S5i & imm_0_13=0 {}
     :"if ("U2_pred") callr" S5 is imm_21_27=0b0001000 & S5 & S5i & imm_10_13=0 & U2_pred & U2_predi & imm_0_7=0 {}
@@ -35,7 +35,7 @@ with slotB: iclass=0b0101 {
 
 # JR:Hint indirect jmp
 define pcodeop hintjr;
-with slot: iclass=0b0101 & mode=0 {
+with slot: iclass=0b0101  {
     :"hintjr("S5")" is imm_21_27=0b0010101 & S5 & S5i & imm_0_13=0b00000000000000 {
         hintjr(S5i);
     }
@@ -43,7 +43,7 @@ with slot: iclass=0b0101 & mode=0 {
 
 
 # JR:Jump to addr from reg
- with slot: iclass=0b0101 & mode=0 {
+ with slot: iclass=0b0101  {
       :"jumpr" S5 is imm_21_27=0b0010100 & S5 & S5i & imm_0_13=0 {} 
      
      :"jumpr LR" is imm_21_27=0b0010100 & imm_16_20=31 & imm_0_13=0 {}

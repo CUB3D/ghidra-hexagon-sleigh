@@ -15,7 +15,7 @@ BR_ST_COND_1_s6: s6 is imm_0_4u & imm_13 & immext1pos=pktid & immext1 [s6 = (imm
 # ST:Release
 define pcodeop release_at;
 define pcodeop release_st;
-with slot: iclass=0b1010 & mode=0 {
+with slot: iclass=0b1010  {
     :"release(" S5 "):at" is imm_21_27=0b0000111 & S5 & S5i & imm_13=0 & T5 & imm_6_7=0 & imm_2_5=0b0011 & imm_0_1  {
         release_at(S5i);
     }
@@ -27,7 +27,7 @@ with slot: iclass=0b1010 & mode=0 {
 @include "st_word.sinc"
 
 # ST:Allocate stack frame
-with slot: iclass=0b1010 & mode=0 {
+with slot: iclass=0b1010  {
     :"allocframe("S5","U11"):raw" is imm_21_27=0b0000100 & S5 & S5i & imm_11_13=0b000 & imm_0_10 [ U11 = imm_0_10 << 3; ] {
         local EA:4 = S5i - 8;
         *[ram]:8 EA = LRFPc;

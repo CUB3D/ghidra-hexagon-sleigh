@@ -2,7 +2,7 @@
 
 # CR: Corner detection
 define pcodeop fastcorner9;
-with slot: iclass=0b0110 & mode=0 {
+with slot: iclass=0b0110  {
     :D2 "=fastcorner9(" S2 "," T2 ")" is imm_20_27=0b10110000 & imm_18_19=0b00 & S2 & S2i & imm_13=1 & imm_10_12=0b000 & T2 & T2i & imm_7=1 & imm_5_6=0b00 & imm_4=1 & imm_2_3=0b00 & D2 {
         D2 = fastcorner9(S2i, T2i);
     }
@@ -15,7 +15,7 @@ with slot: iclass=0b0110 & mode=0 {
 define pcodeop any8;
 define pcodeop all8;
 
-with slot: iclass=0b0110 & mode=0 {
+with slot: iclass=0b0110  {
     :D2 "=any8(" S2 ")" is imm_20_27=0b10111000 & imm_18_19=0b00 & S2 & imm_13=0 & imm_2_12=0 & D2 & S2i{
         D2 = any8(S2i);
     }
@@ -25,7 +25,7 @@ with slot: iclass=0b0110 & mode=0 {
 }
 
 # CR: Loops
-with slot: iclass=0b0110 & mode=0 {
+with slot: iclass=0b0110  {
     :"loop0("tmp","S5")" is imm_21_27=0b0000000 & S5 & S5i & imm_13=0 & imm_8_12 & imm_5_7=0 & imm_3_4u & imm_0_2=0 [ tmp = inst_start + ((((imm_3_4u) | (imm_8_12 << 2))<<2) & (~3)); ] {
         SA0 = tmp;
         LC0 = S5i;
@@ -48,14 +48,14 @@ with slot: iclass=0b0110 & mode=0 {
 }
 
 # CR:Pc add
-with slot: iclass=0b0110 & mode=0 {
+with slot: iclass=0b0110 {
     :D5"=add(pc,"EXT_imm_7_12")" is imm_16_27=0b101001001001 & imm_13=0 & imm_7_12 & imm_5_6=0 & D5 & EXT_imm_7_12 {
         D5 = inst_start + EXT_imm_7_12;
     }
 }
 
 # CR:Pipelined loop
-with slot: iclass=0b0110 & mode=0 {
+with slot: iclass=0b0110  {
     :"P3=sp1loop0(" r7 "," S5 ")" is imm_21_27=0b0000101 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0 & imm_3_4u & imm_0_2 [r7 = (imm_3_4u | (imm_8_12u << 2)) << 2;] {
         SA0 = inst_start + r7;
         LC0 = S5i;
@@ -97,7 +97,7 @@ with slot: iclass=0b0110 & mode=0 {
 
 
 #CR: Logical predicates 
-with slot: iclass=0b0110 & mode=0 {
+with slot: iclass=0b0110  {
     :D2_pred_new"=and("T2_pred", "S2_pred")" is imm_20_27=0b10110000 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & imm_2_7=0 & D2_pred_new {
         D2_pred_new = T2_predi & S2_predi;
     }
@@ -156,7 +156,7 @@ with slot: iclass=0b0110 & mode=0 {
 }
 
 # CR:User control register transfer
-with slot: iclass=0b0110 & mode=0 {
+with slot: iclass=0b0110  {
     :D5_ctrl = S5 is imm_21_27=0b0010001 & S5 & S5i & imm_5_13=0 & D5_ctrl {
         D5_ctrl = S5i;
     }

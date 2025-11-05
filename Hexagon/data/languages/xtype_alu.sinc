@@ -1,6 +1,6 @@
 # XTYPE/ALU
 # XTYPE/ALU:Abs dword
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5_pair "=abs(" S5_pair ")" is imm_21_27=0b0000100 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b110 & D5_pair {
         if (S5_pairi s< 0) goto <neg>;
         D5_pair = S5_pairi;
@@ -13,7 +13,7 @@ with slot: iclass=0b1000 & mode=0 {
 
 # XTYPE/ALU:Abs word
 define pcodeop abs_sat;
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5 "=abs(" S5 ")" is imm_21_27=0b1100100 & S5 & S5i & imm_8_13=0 & imm_5_7=0b100 & D5 {
         if (S5i s< 0) goto <neg>;
         D5 = S5i;
@@ -29,7 +29,7 @@ with slot: iclass=0b1000 & mode=0 {
 }
 
 # XTYPE/ALU:Add acc
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101 {
     
         :T5 "=add(" S5 ", add(" D5 "," s6 "))" is imm_23_27=0b10110 & imm_21_22 & S5 & S5i & imm_13u & T5 & T5i & imm_5_7u & D5 & D5i & IS_NOT_EXT [ s6 = imm_5_7u | (imm_13u << 3) | (imm_21_22 << 4);] {
         local EA:4 = D5i + s6;
@@ -51,7 +51,7 @@ with slot: iclass=0b1101 & mode=0 {
         }
     
 }
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5 "+=add(" S5 "," EXT_imm_5_12 ")" is imm_23_27=0b00100 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & imm_5_12 & D5 & D5i & EXT_imm_5_12 {
         local EA:4 = S5i + EXT_imm_5_12;
         D5 = D5i + EA;
@@ -73,7 +73,7 @@ with slot: iclass=0b1110 & mode=0 {
 # XTYPE/ALU:Add dword
 define pcodeop add_sat;
 define pcodeop add_sat_deprecated;
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5_pair "=add(" S5_pair "," T5_pair ")" is imm_21_27=0b0011000 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b111 & D5_pair {
         D5_pair = S5_pairi + T5_pairi;
     }
@@ -94,7 +94,7 @@ with slot: iclass=0b1101 & mode=0 {
 }
 
 # XTYPE/ALU:Add hword
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5 "=add(" T5".L" "," S5".L" ")" is imm_21_27=0b0101000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b00 & imm_5=0 & D5 {
         local E:2 = T5i:2 + S5i:2;
         D5 = sext(E);
@@ -156,7 +156,7 @@ with slot: iclass=0b1101 & mode=0 {
 
 # XTYPE/ALU:Add or sub dword w/ cary
 define pcodeop sub_carry;
-with slot: iclass=0b1100 & mode=0 {
+with slot: iclass=0b1100  {
     :D5_pair "=add(" S5_pair "," T5_pair "," U2_5_6 "):carry"  is imm_21_27=0b0010110 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_7=0 & U2_5_6 & U2_5_6i & D5_pair {
         local tmp:9 = zext(S5_pairi) + zext(T5_pairi) + zext(U2_5_6i);
         D5_pair = tmp:8;
@@ -170,19 +170,19 @@ with slot: iclass=0b1100 & mode=0 {
 
 # XTYPE/ALU:Clip unsign
 define pcodeop clip;
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5 "=clip(" S5 "," imm_8_12u ")" is imm_21_27=0b1000110 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b101 & D5 {
         D5 = clip(S5i, imm_8_12u:1);
     }
 }
 
 # XTYPE/ALU:logical dword
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5_pair "=not(" S5_pair ")" is imm_21_27=0b0000100 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b100 & D5_pair {
         D5_pair = ~S5_pairi;
     }
 }
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5_pair "=and(" S5_pair "," T5_pair ")" is imm_21_27=0b0011111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5_pair {
         D5_pair = S5_pairi & T5_pairi;
     }
@@ -201,7 +201,7 @@ with slot: iclass=0b1101 & mode=0 {
 }
 
 # XTYPE/ALU:logical logical dword
-with slot: iclass=0b1100 & mode=0 {
+with slot: iclass=0b1100  {
     :D5_pair "^=xor(" S5_pair "," T5_pair ")" is imm_22_27=0b101010 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5_pair & D5_pairi {
         D5_pair = D5_pairi ^ (S5_pairi ^ T5_pairi);
     }
@@ -227,7 +227,7 @@ with slot: iclass=0b1101 & mode=0 {
     }
 }
 
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5"|=and("S5","T5")" is imm_21_27=0b1111001 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 & D5i  {
         local EA:4 = S5i & T5i;
         D5 = D5i | EA;
@@ -281,7 +281,7 @@ with slot: iclass=0b1110 & mode=0 {
 }
 
 # XTYPE/ALU:max word
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5 "=max(" T5 "," S5 ")" is imm_21_27=0b0101110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0 & D5 {
         if (T5i s> S5i) goto <p2>;
         D5 = S5i;
@@ -301,7 +301,7 @@ with slot: iclass=0b1101 & mode=0 {
 }
 
 # XTYPE/ALU:max dword
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5_pair "=max(" S5_pair "," T5_pair ")" is imm_21_27=0b0011110 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b100 & D5_pair {
         if (T5_pairi s> S5_pairi) goto <p2>;
         D5_pair = S5_pairi;
@@ -321,7 +321,7 @@ with slot: iclass=0b1101 & mode=0 {
 }
 
 # XTYPE/ALU:min word
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5 "=min(" T5 "," S5 ")" is imm_21_27=0b0101101 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0 & D5 {
         if (T5i s< S5i) goto <p2>;
         D5 = S5i;
@@ -342,7 +342,7 @@ with slot: iclass=0b1101 & mode=0 {
 
 # XTYPE/ALU:min dword
 define pcodeop min;
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5_pair "=min(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b110 & D5_pair {
         D5_pair = min(T5_pairi, S5_pairi);
     }
@@ -358,7 +358,7 @@ with slot: iclass=0b1101 & mode=0 {
 
 # XTYPE/ALU:mod wrap
 define pcodeop modwrap;
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5 "=modwrap(" S5 "," T5 ")" is imm_21_27=0b0011111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 {
         D5 = modwrap(S5i, T5i);
     }
@@ -366,7 +366,7 @@ with slot: iclass=0b1101 & mode=0 {
 
 # XTYPE/ALU:neg
 define pcodeop neg_sat;
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5_pair "=neg(" S5_pair ")" is imm_21_27=0b0000100 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b101 & D5_pair {
         D5_pair = -S5_pairi;
     }
@@ -380,7 +380,7 @@ define pcodeop round_sat;
 define pcodeop cround;
 define pcodeop round_;
 
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5 "=round(" S5_pair "):sat" is imm_21_27=0b1000110 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b001 & D5 {
         D5 = round_sat(S5_pairi);
     }
@@ -397,7 +397,7 @@ with slot: iclass=0b1000 & mode=0 {
         D5_pair = cround(S5_pairi, imm_8_13u:1);
     }
 }
-with slot: iclass=0b1100 & mode=0 {
+with slot: iclass=0b1100  {
     :D5 "=round(" S5 "," T5 ")" is imm_22_27=0b011011 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b00 & imm_5=0 & D5 {
         D5 = round_(S5i, T5i);
     }
@@ -414,7 +414,7 @@ with slot: iclass=0b1100 & mode=0 {
 
 # XTYPE/ALU:sub dword
 define pcodeop sub_sat_deprecated;
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5_pair "=sub(" T5_pair "," S5_pair ")" is imm_21_27=0b0011001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b111 & D5_pair {
         D5_pair = T5_pairi - S5_pairi;
     }
@@ -424,7 +424,7 @@ with slot: iclass=0b1101 & mode=0 {
 }
 
 # XTYPE/ALU:sub acc word
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5 "+=sub(" T5 "," S5 ")" is imm_21_27=0b1111000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & D5 & D5i {
         D5 = D5i + (T5i - S5i);
     }
@@ -432,7 +432,7 @@ with slot: iclass=0b1110 & mode=0 {
 
 # XTYPE/ALU:sub hword
 define pcodeop sub_sat;
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5 "=sub(" T5".L, ", S5".L)"  is imm_21_27=0b0101001 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b00 & imm_5=0 & D5 {
         local tmp:2 = T5i:2 - S5i:2;
         D5 = sext(tmp);
@@ -497,7 +497,7 @@ with slot: iclass=0b1101 & mode=0 {
 }
 
 # XTYPE/ALU:sext w->dw
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5_pair "=sxtw(" S5 ")" is imm_22_27=0b010001 & imm_21=0 & S5 & S5i & imm_8_13=0 & imm_6_7=0b00 & imm_5=0 & D5_pair {
         D5_pair = sext(S5i:2);
     }
@@ -506,7 +506,7 @@ with slot: iclass=0b1000 & mode=0 {
 # XTYPE/ALU:vector abs val hw
 define pcodeop vabsh;
 define pcodeop vabsh_sat;
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5_pair "=vabsh(" S5_pair ")" is imm_21_27=0b0000010 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b100 & D5_pair {
         D5_pair = vabsh(S5_pairi);
     }
@@ -518,7 +518,7 @@ with slot: iclass=0b1000 & mode=0 {
 # XTYPE/ALU:vector abs val w
 define pcodeop vabsw;
 define pcodeop vabsw_sat;
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5_pair "=vabsw(" S5_pair ")" is imm_21_27=0b0000010 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b110 & D5_pair {
         D5_pair = vabsw(S5_pairi);
     }
@@ -530,7 +530,7 @@ with slot: iclass=0b1000 & mode=0 {
 # XTYPE/ALU:vector abs diff by
 define pcodeop vabsdiffub;
 define pcodeop vabsdiffb;
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5_pair "=vabsdiffub(" T5_pair "," S5_pair ")" is imm_21_27=0b1000101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5_pair {
            D5_pair = vabsdiffub(T5_pairi, S5_pairi);
     }
@@ -541,7 +541,7 @@ with slot: iclass=0b1110 & mode=0 {
 
 # XTYPE/ALU:vector abs diff hw
 define pcodeop vabsdiffh;
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5_pair "=vabsdiffh(" T5_pair "," S5_pair ")" is imm_21_27=0b1000011 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5_pair {
         D5_pair = vabsdiffh(T5_pairi, S5_pairi);
     }
@@ -549,7 +549,7 @@ with slot: iclass=0b1110 & mode=0 {
 
 define pcodeop vabsdiffw;
 # XTYPE/ALU:vector abs diff w
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5_pair "=vabsdiffw(" T5_pair "," S5_pair ")" is imm_21_27=0b1000001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5_pair {
         D5_pair = vabsdiffw(T5_pairi, S5_pairi);
     }
@@ -559,7 +559,7 @@ with slot: iclass=0b1110 & mode=0 {
 
 # XTYPE/ALU:vector add cmp and sel max hw
 define pcodeop vacsh;
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5_pair "," U2_5_6 "=vacsh(" S5_pair "," T5_pair ")" is imm_21_27=0b1010101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_7=0 & U2_5_6 & D5_pair {
         local tmp:8 = vacsh(S5_pairi, T5_pairi);
         D5_pair = zext(tmp:4);
@@ -568,7 +568,7 @@ with slot: iclass=0b1110 & mode=0 {
 }
 
 # XTYPE/ALU:vector add hw
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5_pair "=vaddh(" S5_pair "," T5_pair ")" is imm_21_27=0b0011000 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {
         D5_pair = vaddh(S5_pairi, T5_pairi);
     }
@@ -582,7 +582,7 @@ with slot: iclass=0b1101 & mode=0 {
 
 # XTYPE/ALU:vector add hw w sat and pck uby
 define pcodeop vaddhub_sat;
-with slot: iclass=0b1100 & mode=0 {
+with slot: iclass=0b1100  {
     :D5 "=vaddhub(" S5_pair "," T5_pair "):sat" is imm_22_27=0b000101 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5 {
         D5 = vaddhub_sat(S5_pairi, T5_pairi);
     }
@@ -590,7 +590,7 @@ with slot: iclass=0b1100 & mode=0 {
 
 # XTYPE/ALU:vector red add u by
 define pcodeop vraddub;
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5_pair "=vraddub(" S5_pair "," T5_pair ")" is imm_21_27=0b1000010 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5_pair {
         D5_pair = vraddub(S5_pairi, T5_pairi);
     }
@@ -603,7 +603,7 @@ with slot: iclass=0b1110 & mode=0 {
 define pcodeop vradduh;
 define pcodeop vraddh;
 
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5 "=vradduh(" S5_pair "," T5_pair ")" is imm_23_27=0b10010 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_7=0 & imm_5_6=0b01 & D5 {
         D5 = vradduh(S5_pairi, T5_pairi);
     }
@@ -615,7 +615,7 @@ with slot: iclass=0b1110 & mode=0 {
 # XTYPE/ALU:vector add by
 define pcodeop vaddub;
 define pcodeop vaddub_sat;
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5_pair "=vaddub(" S5_pair "," T5_pair ")"  is imm_21_27=0b0011000 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5_pair {
         D5_pair = vaddub(S5_pairi, T5_pairi);
     }
@@ -627,7 +627,7 @@ with slot: iclass=0b1101 & mode=0 {
 # XTYPE/ALU:vector  add w
 define pcodeop vaddw;
 define pcodeop vaddw_sat;
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5_pair "=vaddw(" S5_pair "," T5_pair ")" is imm_21_27=0b0011000 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair {
         D5_pair = vaddw(S5_pairi, T5_pairi);
     }
@@ -645,7 +645,7 @@ define pcodeop vavguh_rnd;
 define pcodeop vnavgh_rnd_sat;
 define pcodeop vnavgh_crnd_sat;
 
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5_pair "=vavgh(" S5_pair "," T5_pair ")" is imm_21_27=0b0011010 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {
         D5_pair = vavgh(S5_pairi, T5_pairi);
     }
@@ -675,7 +675,7 @@ with slot: iclass=0b1101 & mode=0 {
 # XTYPE/ALU:vector avg u by
 define pcodeop vavgub;
 define pcodeop vavgub_rnd;
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5_pair "=vavgub(" S5_pair "," T5_pair ")" is imm_21_27=0b0011010 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5_pair {
         D5_pair = vavgub(S5_pairi, T5_pairi);
     }
@@ -698,7 +698,7 @@ define pcodeop vnavgw_rnd;
 define pcodeop vavgw_rnd_sat;
 define pcodeop vavgw_crnd_sat;
 
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5_pair "=vavgw(" S5_pair "," T5_pair ")" is imm_21_27=0b0011011 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5_pair {
         D5_pair = vavgw(S5_pairi, T5_pairi);
     }
@@ -727,7 +727,7 @@ with slot: iclass=0b1101 & mode=0 {
 
 # XTYPE/ALU:vector clip un
 define pcodeop vclip;
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5 "=vclip(" S5_pair "," imm_8_12u ")" is imm_21_27=0b1000110 & S5_pair & S5_pairi & imm_13=0 & imm_8_12u & imm_5_7=0b110 & D5 {
         D5 = vclip(S5_pairi, imm_8_12u:1);
     }
@@ -736,7 +736,7 @@ with slot: iclass=0b1000 & mode=0 {
 # XTYPE/ALU:vector cond neg
 define pcodeop vcnegh;
 define pcodeop vrcnegh;
-with slot: iclass=0b1100 & mode=0 {
+with slot: iclass=0b1100  {
     :D5_pair "=vcnegh(" S5_pair "," T5 ")" is imm_22_27=0b001111 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_6_7=0b01 & imm_5=0 & D5_pair {
         D5_pair = vcnegh(S5_pairi, T5i);
     }
@@ -748,7 +748,7 @@ with slot: iclass=0b1100 & mode=0 {
 # XTYPE/ALU:vector max by
 define pcodeop vmaxub;
 define pcodeop vmaxb;
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5_pair "=vmaxub(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5_pair {
         D5_pair = vmaxub(T5_pairi, S5_pairi);
     }
@@ -760,7 +760,7 @@ with slot: iclass=0b1101 & mode=0 {
 # XTYPE/ALU:vector max hw
 define pcodeop vmaxhw;
 define pcodeop vmaxuhw;
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5_pair "=vmaxhw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5_pair {
         D5_pair = vmaxhw(T5_pairi, S5_pairi);
     }
@@ -772,7 +772,7 @@ with slot: iclass=0b1101 & mode=0 {
 # XTYPE/ALU:vector red max hw
 define pcodeop vrmaxhw;
 define pcodeop vrmaxuhw;
-with slot: iclass=0b1100 & mode=0 {
+with slot: iclass=0b1100  {
     :T5_pair "=vrmaxhw(" S5_pair "," D5 ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5 & D5i {
         T5_pair = vrmaxhw(S5_pairi, D5i);
     }
@@ -784,7 +784,7 @@ with slot: iclass=0b1100 & mode=0 {
 # XTYPE/ALU:vector red max w
 define pcodeop vrmaxw;
 define pcodeop vrmaxuw;
-with slot: iclass=0b1100 & mode=0 {
+with slot: iclass=0b1100  {
     :T5_pair "=vrmaxw(" S5_pair "," D5 ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5 & D5i {
         T5_pair = vrmaxw(S5_pairi, D5i);
     }
@@ -796,7 +796,7 @@ with slot: iclass=0b1100 & mode=0 {
 # XTYPE/ALU:vector max w
 define pcodeop vmaxw;
 define pcodeop vmaxuw;
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5_pair "=vmaxuw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair {
         D5_pair = vmaxuw(T5_pairi, S5_pairi);
     }
@@ -808,7 +808,7 @@ with slot: iclass=0b1101 & mode=0 {
 # XTYPE/ALU:vector min b
 define pcodeop vminb;
 define pcodeop vminub;
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5_pair "=vminub(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5_pair {
         D5_pair = vminub(T5_pairi, S5_pairi);
     }
@@ -816,7 +816,7 @@ with slot: iclass=0b1101 & mode=0 {
         D5_pair = vminb(T5_pairi, S5_pairi);
     }
 }
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5_pair "," U2_5_6 "=vminub(" T5_pair "," S5_pair ")" is imm_21_27=0b1010111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_7=0 & U2_5_6 & D5_pair {
         local tmp:12 = vminub(T5_pairi, S5_pairi);
     D5_pair = tmp:8;
@@ -827,7 +827,7 @@ with slot: iclass=0b1110 & mode=0 {
 # XTYPE/ALU:vector min hw
 define pcodeop vminhw;
 define pcodeop vminuhw;
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5_pair "=vminhw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5_pair {
         D5_pair = vminhw(T5_pairi, S5_pairi);
     }
@@ -839,7 +839,7 @@ with slot: iclass=0b1101 & mode=0 {
 # XTYPE/ALU:vector reduce minimum halfwords
 define pcodeop vrminhw;
 define pcodeop vrminuhw;
-with slot: iclass=0b1100 & mode=0 {
+with slot: iclass=0b1100  {
     :D5_pair "=vrminhw(" T5_pair "," S5_pair ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair {
         D5_pair = vrminhw(T5_pairi, S5_pairi);
     }
@@ -851,7 +851,7 @@ with slot: iclass=0b1100 & mode=0 {
 # XTYPE/ALU:vector reduce minimum words
 define pcodeop vrminw;
 define pcodeop vrminuw;
-with slot: iclass=0b1100 & mode=0 {
+with slot: iclass=0b1100  {
     :D5_pair "=vrminw(" T5_pair "," S5_pair ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b110 & D5_pair {
         D5_pair = vrminw(T5_pairi, S5_pairi);
     }
@@ -863,7 +863,7 @@ with slot: iclass=0b1100 & mode=0 {
 # XTYPE/ALU:vector minimum words
 define pcodeop vminw;
 define pcodeop vminuw;
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5_pair "=vminw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & D5_pair {
         D5_pair = vminw(T5_pairi, S5_pairi);
     }
@@ -874,7 +874,7 @@ with slot: iclass=0b1101 & mode=0 {
 
 # XTYPE/ALU:vector sum absolute difference unsigned
 define pcodeop vrsadub;
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5_pair "=vrsadub(" S5_pair "," T5_pair ")" is imm_21_27=0b1000010 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {
         D5_pair = vrsadub(S5_pairi, T5_pairi);
     }
@@ -887,7 +887,7 @@ with slot: iclass=0b1110 & mode=0 {
 #define pcodeop vsubh;
 #define pcodeop vsubh_sat;
 #define pcodeop vsubuh_sat;
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5_pair "=vsubh(" T5_pair "," S5_pair ")" is imm_21_27=0b0011001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {
         D5_pair = vsubh(T5_pairi, S5_pairi);
     }
@@ -902,7 +902,7 @@ with slot: iclass=0b1101 & mode=0 {
 # XTYPE/ALU:vector sub bytes
 define pcodeop vsubub;
 define pcodeop vsubub_sat;
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5_pair "=vsubub(" T5_pair "," S5_pair ")" is imm_21_27=0b0011001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5_pair {
         D5_pair = vsubub(T5_pairi, S5_pairi);
     }
@@ -915,7 +915,7 @@ with slot: iclass=0b1101 & mode=0 {
 # XTYPE/ALU:vector sub words
 define pcodeop vsubw;
 define pcodeop vsubw_sat;
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5_pair "=vsubw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair {
         D5_pair = vsubw(T5_pairi, S5_pairi);
     }
