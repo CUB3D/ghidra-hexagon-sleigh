@@ -68,7 +68,7 @@
 # +--------+--------+
 # | normal | normal | # normal slice, mode=0, slot table (display and norma ops)
 # +--------+--------+
-# | nv     | nv     | # nv slice, mode=200, slot table   (ops with dotnew input, non branching)
+# | nv     | nv     | # nv slice, mode=200, slotNV table   (ops with dotnew input, non branching)
 # +--------+--------+
 # | branch | branch | # branch slice, mode=1100, slotB table (branches)
 # +--------+--------+
@@ -1527,10 +1527,10 @@ build_branches_3:""  is build_branches { build build_branches; }
 build_branches_4:""  is build_branches { build build_branches; }
 
 # fallback from nv input
-#TODO: own table
-slot:""                      is mode=200 { }
+slotNV:""                      is epsilon { }
 
-build_nv_input:""  is slot [mode=200;] { build slot; }
+build_nv_input:""  is parse=0b00 & duplex [mode=200;] { build duplex; }
+build_nv_input:""  is (parse=0b01 | parse=0b10 | parse=0b11) & slotNV { build slotNV; }
 
 build_nv_input_1:""  is build_nv_input { build build_nv_input; }
 build_nv_input_2:""  is build_nv_input { build build_nv_input; }
