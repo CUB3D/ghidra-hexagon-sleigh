@@ -20,7 +20,7 @@ with slot: iclass=0b0100  {
     }
 }
 with slot: iclass=0b1001  {
-    :D5_pair"=memd("S5 "+" EXT_LD_S11_dword")" is imm_27=0 & S5 & S5i & D5_pair & EXT_LD_S11_dword {
+    :D5_pair"=memd("S5 "+" EXT_LD_S11_dword")" is imm_27=0 & imm_21_24=0b1110 & S5 & S5i & D5_pair & EXT_LD_S11_dword {
         local EA:4 = S5 + EXT_LD_S11_dword;
         D5_pair = *[ram]:8 EA;
     }

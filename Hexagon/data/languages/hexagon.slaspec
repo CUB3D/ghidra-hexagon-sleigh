@@ -1545,14 +1545,14 @@ slotX: slot    is slot & parse=0b11 [mode=0; pktid=pktid+1;]   { build slot; }
 slotX: duplex  is duplex & parse=0b00 [mode=0; pktid=pktid+1;] { build duplex; }
 
 macro endloop0() {
+    if(LC0 <= 1) goto <endl0>;
     LC0 = LC0 - 1;
-    if(LC0 == 0) goto <endl0>;
     goto [SA0];
     <endl0>
 }
 macro endloop1() {
+    if(LC1 <= 1) goto <endl1>;
     LC1 = LC1 - 1;
-    if(LC1 == 0) goto <endl1>;
     goto [SA1];
     <endl1>
 }
