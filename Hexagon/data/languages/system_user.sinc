@@ -82,7 +82,7 @@ with slot: iclass=0b1010  {
 define pcodeop diag;
 define pcodeop diag0;
 define pcodeop diag1;
-with slot: iclass=0b01100  {
+with slot: iclass=0b0110 {
     :"diag("S5")" is imm_21_27=0b0010010 & S5 & S5i & imm_8_13=0 & imm_5_7=0b001 &  imm_0_4=0  {
         diag(S5i);
     }
