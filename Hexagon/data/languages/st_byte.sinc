@@ -16,7 +16,7 @@ MEMB_GP_ADD:v is IS_EXT0 & immext0 & imm_0_5u [v = imm_0_5u | immext0; ] { expor
 MEMB_GP_ADD:v is IS_EXT1 & immext1 & imm_0_5u [v = imm_0_5u | immext1; ] { export *[const]:4 v; }
 
 with slot: iclass=0b0100  {
-    :"memb("MEMB_GP_ADD")="T5 is imm_27=1 & imm_25_26u & imm_21_24=0b0000 & T5 & T5i & IS_EXT0 & MEMB_GP_ADD {
+    :"memb("MEMB_GP_ADD")="T5 is imm_27=1 & imm_25_26u & imm_21_24=0b0000 & T5 & T5i & MEMB_GP_ADD {
         *[ram]:1 MEMB_GP_ADD = T5i;
     }
 }

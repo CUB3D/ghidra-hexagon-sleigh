@@ -70,27 +70,23 @@ with slot: iclass=0b1000  {
 with slot: iclass=0b1000  {
     :D5_pair"=extractu("S5_pair","imm_8_13u","U6")" is imm_24_27=0b0001 & imm_21_23u & S5_pair & S5_pairi & imm_8_13u & imm_5_7u & D5_pair [ U6 = imm_5_7u | (imm_21_23u << 3);]{
         local tmp:8 = S5_pairi >> U6;
-    tmp = tmp << (64-imm_8_13u);
-    tmp = tmp >> (64-imm_8_13u);
-    D5_pair = tmp;
+        D5_pair = tmp & ((1 << imm_8_13u) - 1);
     }
     :D5_pair"=extract("S5_pair","imm_8_13u","U6")" is imm_24_27=0b1010 & imm_21_23u & S5_pair & S5_pairi & imm_8_13u & imm_5_7u & D5_pair [ U6 = imm_5_7u | (imm_21_23u << 3);]{
         local tmp:8 = S5_pairi >> U6;
-    tmp = tmp << (64-imm_8_13u);
-    tmp = tmp s>> (64-imm_8_13u);
-    D5_pair = tmp;
+        local tmp2:8 = tmp & (1 << imm_8_13u) - 1;
+        local tmp3:8 = tmp2 ^ (1 << (imm_8_13u - 1));
+        D5_pair = tmp3 - (1 << (imm_8_13u - 1));
     }
     :D5"=extractu("S5","imm_8_12","U5")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22u & S5 & S5i & imm_13=0 & imm_8_12 & imm_5_7u & D5 [ U5 = imm_5_7u | (imm_21_22u << 3);]{
         local tmp:4 = S5i >> U5;
-    tmp = tmp << (32-imm_8_12);
-    tmp = tmp >> (32-imm_8_12);
-    D5 = tmp;
+        D5 = tmp & ((1 << imm_8_12) - 1);
     }
     :D5"=extract("S5","imm_8_12","U5")" is imm_24_27=0b1101 & imm_23=1 & imm_21_22u & S5 & S5i & imm_13=0 & imm_8_12 & imm_5_7u & D5 [ U5 = imm_5_7u | (imm_21_22u << 3);]{
         local tmp:4 = S5i >> U5;
-    tmp = tmp << (32-imm_8_12);
-    tmp = tmp s>> (32-imm_8_12);
-    D5 = tmp;
+        local tmp2:4 = tmp & (1 << imm_8_12) - 1;
+        local tmp3:4 = tmp2 ^ (1 << (imm_8_12 - 1));
+        D5 = tmp3 - (1 << (imm_8_12 - 1));
     }
 }
 define pcodeop extract;
@@ -113,13 +109,13 @@ with slot: iclass=0b1100  {
 # XTYPE/BIT:Insert bit
 with slot: iclass=0b1000  {
     :D5_pair "=insert(" S5_pair "," imm_8_13u "," U6 ")" is imm_24_27=0b0011 & imm_21_23u & S5_pair & S5_pairi & imm_8_13u & imm_5_7u & D5_pair & D5_pairi [ U6 = imm_5_7u | (imm_21_23u << 3);] {
-        D5_pair = D5_pairi & ~(((1 << imm_8_13u)-1) << U6);
-        D5_pair = D5_pairi | ((S5_pairi & ((1<<imm_8_13u)-1)) << U6);
+        local d5:8 = D5_pairi & ~(((1 << imm_8_13u)-1) << U6);
+        D5_pair = d5 | ((S5_pairi & ((1<<imm_8_13u)-1)) << U6);
     }
 
     :D5 "=insert(" S5 "," imm_8_12u "," U5 ")" is imm_23_27=0b11110 & imm_21_22u & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7u & D5 & D5i [ U5 = imm_5_7u | (imm_21_22u << 3); ] {
-        D5 = D5i & ~(((1 << imm_8_12u)-1) << U5);
-        D5 = D5i | ((S5i & ((1<<imm_8_12u)-1)) << U5);
+        local d5:4 = D5i & ~(((1<<imm_8_12u)-1) << U5);
+        D5 = d5 | ((S5i & ((1<<imm_8_12u)-1)) << U5);
     }
 }
 
