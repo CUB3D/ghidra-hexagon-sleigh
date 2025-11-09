@@ -1,6 +1,6 @@
 # XTYPE/FP
 # XTYPE/FP: fp add
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5_pair "=dfadd(" S5_pair "," T5_pair ")" is imm_21_27=0b1000000 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & D5_pair {
         D5_pair = S5_pairi f+ T5_pairi;
     }
@@ -12,12 +12,12 @@ with slot: iclass=0b1110 & mode=0 {
 # XTYPE/FP: fp class
 define pcodeop sfclass;
 define pcodeop dfclass;
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D2 "=sfclass(" S5 "," imm_8_12u ")" is imm_21_27=0b0101111 & S5 & S5i & imm_13=0 & imm_8_12u & imm_1_7=0 & D2 {
         D2 = sfclass(S5i, imm_8_12u:1);
     }
 }
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D2 "=dfclass(" S5_pair "," imm_5_9u ")" is imm_21_27=0b1100100 & S5_pair & S5_pairi & imm_13=0 & imm_10_12=0 & imm_5_9u & imm_3_4=0b10 & imm_2=0 & D2 {
         D2 = dfclass(S5_pairi, imm_5_9u:1);
     }
@@ -26,7 +26,7 @@ with slot: iclass=0b1101 & mode=0 {
 # XTYPE/FP: fp cmp
 define pcodeop dfcmp_uo;
 define pcodeop sfcmp_uo;
-with slot: iclass=0b1100 & mode=0 {
+with slot: iclass=0b1100  {
     :D2_pred_new "=sfcmp.ge(" S5 "," T5 ")" is imm_21_27=0b0111111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & imm_2_4=0 & D2_pred_new {
         if( S5i f>= T5i) goto <good>;
         D2_pred_new = 0;
@@ -55,7 +55,7 @@ with slot: iclass=0b1100 & mode=0 {
         <end>
     }
 }
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D2_pred_new "=dfcmp.eq(" S5_pair "," T5_pair ")" is imm_21_27=0b0010111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & imm_2_4=0 & D2_pred_new {
         if( S5_pairi f== T5_pairi) goto <good>;
         D2_pred_new = 0;
@@ -87,7 +87,7 @@ with slot: iclass=0b1101 & mode=0 {
 
 # XTYPE/FP: fp conv to other
 define pcodeop convert_sf2df;
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5_pair"=convert_sf2df("S5")" is imm_23_27=0b01001 & imm_21_22=0 & S5 & S5i & imm_8_13=0 & imm_5_7=0b000 & D5_pair {
         D5_pair = convert_sf2df(S5i);
     }
@@ -106,7 +106,7 @@ define pcodeop convert_d2sf;
 define pcodeop convert_uw2sf;
 define pcodeop convert_w2sf;
 
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5_pair "=convert_ud2df(" S5_pair ")" is imm_21_27=0b0000111 & S5_pair & S5_pairi & imm_13=0 & imm_8_12=0  & imm_5_7=0b010 & D5_pair {
         D5_pair = convert_ud2df(S5_pairi);
     }
@@ -156,7 +156,7 @@ define pcodeop convert_df2uw_chop;
 define pcodeop convert_df2w_chop;
 
 
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5_pair "=convert_df2d(" S5_pair ")" is imm_21_27=0b0000111 & S5_pair & S5_pairi & imm_13=0 & imm_8_12=0 & imm_5_7=0b000 & D5_pair {
         D5_pair = convert_df2d(S5_pairi);
     }
@@ -215,12 +215,12 @@ define pcodeop sffixupr;
 define pcodeop sffixupn;
 define pcodeop sffixupd;
 
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5 "=sffixupr(" S5 ")" is imm_21_27=0b1011101 & S5 & S5i & imm_8_13=0 & imm_5_7=0b000 & D5 {
        D5 = sffixupr(S5i);
     }
 }
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5 "=sffixupn(" S5 "," T5 ")" is imm_21_27=0b1011110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 {
         D5 = sffixupn(S5i, T5i);
     }
@@ -232,7 +232,7 @@ with slot: iclass=0b1110 & mode=0 {
 # XTYPE/FP: xtype fp fma
 define pcodeop dfmpylh;
 define pcodeop dfmpyhh;
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5_pair "+=dfmpylh(" S5_pair "," T5_pair ")" is imm_21_27=0b1010000 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & D5_pair {
         D5_pair = dfmpylh(S5_pairi, T5_pairi);
     }
@@ -251,7 +251,7 @@ with slot: iclass=0b1110 & mode=0 {
 
 # XTYPE/FP: xtype fp fma scale
 define pcodeop sfmpy_scale;
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5 "+=sfmpy(" S5 "," T5 "," U2_5_6 "):scale" is imm_21_27=0b1111011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=1 & U2_5_6 & D5 & D5i {
         D5 = D5i f+ sfmpy_scale(S5i, T5i, U2_5_6);
     }
@@ -259,7 +259,7 @@ with slot: iclass=0b1110 & mode=0 {
 
 # XTYPE/FP: xtype fp repic
 define pcodeop sfinvsqrta;
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5 "," U2_5_6 "=sfinvsqrta(" S5 ")" is imm_21_27=0b1011111 & S5 & S5i & imm_8_13=0 & imm_7=0 & U2_5_6 & D5 {
         local tmp:8 = sfinvsqrta(S5i);
         D5 = tmp:4;
@@ -268,7 +268,7 @@ with slot: iclass=0b1000 & mode=0 {
 }
 
 # XTYPE/FP: xtype fp fma lib
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5 "+=sfmpy(" S5 "," T5 "):lib" is imm_21_27=0b1111000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 & D5i {
         local tmp:4 = S5i f* T5i;
         D5 = D5i f+ tmp;
@@ -279,7 +279,7 @@ with slot: iclass=0b1110 & mode=0 {
     }
 }
 # XTYPE/FP: xtype fp mk const
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5 "=sfmake(" u10 "):pos" is imm_22_27=0b011000 & imm_21u & imm_16_20 & imm_5_13u & D5 [ u10 = imm_5_13u | (imm_21u << 9); ] {
         local tmp:4 = u10; # upcast size for pos sign
         D5 = int2float(tmp);
@@ -300,7 +300,7 @@ with slot: iclass=0b1101 & mode=0 {
 
 # XTYPE/FP: fp max
 define pcodeop fmax;
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5_pair "=sfmax(" S5_pair "," T5_pair ")" is imm_21_27=0b1000001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & D5_pair {
         D5_pair = fmax(S5_pairi, T5_pairi);
     }
@@ -311,7 +311,7 @@ with slot: iclass=0b1110 & mode=0 {
 
 # XTYPE/FP: fp min
 define pcodeop fmin;
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5_pair "=dfmin(" S5_pair "," T5_pair ")" is imm_21_27=0b1000110 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & D5_pair {
         D5_pair = fmin(S5_pairi, T5_pairi);
     }
@@ -323,7 +323,7 @@ with slot: iclass=0b1110 & mode=0 {
 # XTYPE/FP: fp mul
 define pcodeop dfmpyfix;
 define pcodeop dfmpyil;
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5_pair "=dfmpyfix(" S5_pair "," T5_pair ")" is imm_21_27=0b1000010 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & D5_pair {
         D5_pair = dfmpyfix(S5_pairi, T5_pairi);
     }
@@ -337,7 +337,7 @@ with slot: iclass=0b1110 & mode=0 {
 
 # XTYPE/FP: fp recip aprox
 define pcodeop sfrecipa;
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5 "," U2_5_6 "=sfrecipa(" S5 "," T5 ")" is imm_21_27=0b1011111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=1 & U2_5_6 & D5 {
         local tmp:8 = sfrecipa(S5i, T5i);
         D5 = tmp:4;
@@ -346,7 +346,7 @@ with slot: iclass=0b1110 & mode=0 {
 }
 
 # XTYPE/FP: fp sub
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5_pair "=dfsub(" S5_pair "," T5_pair ")" is imm_21_27=0b1000100 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & D5_pair {
         D5_pair = S5_pairi f- T5_pairi;
     }

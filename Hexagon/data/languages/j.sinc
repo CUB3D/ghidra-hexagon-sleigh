@@ -20,7 +20,7 @@ NR_Call_V: v is hasext0=1 & immext0used=1 & hasext1=1 & immext1 & imm_1_6u  [v =
 BR_Call_V: v is immext1pos=pktid & immext1 & imm_1_6u  [v = inst_start + (imm_1_6u | immext1); ] { export *[ram]:4 v;}
 
 #J:Call subroutine
-with slot: iclass=0b0101 & mode=0 {
+with slot: iclass=0b0101  {
      :^"call" NR_Call_V is imm_25_27=0b101 & imm_16_24 & imm_1_13u & imm_0=0 & NR_Call_V {}
 
      :"if ("U2") call "NR_Call_R152 is imm_24_27=0b1101 & imm_21=0 & NR_Call_R152 & imm_12=0 & imm_11=0 & imm_10=0 & U2 & U2i & imm_0=0 {}
@@ -56,7 +56,7 @@ NR_CJ_R9:r9 is  imm_20_21 & imm_1_7u & hasext0=1 & immext0used=1 & hasext1=1 & i
 BR_CJ_R9:r9 is  imm_20_21 & imm_1_7u & immext1pos=pktid & immext1 & imm_1_6u [ r9 = inst_start+(imm_1_6u | immext1); immext1used=1; ] {export *[ram]:4 r9;}
   
 #J:Compare and jump
- with slot: iclass=0b0001 & mode=0 {
+ with slot: iclass=0b0001  {
 
 
      :"p0=cmp.eq("S4",#-1); if (p0.new) jump:nt "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 {
@@ -979,7 +979,7 @@ NR_JImm: loc is imm_16_24 & imm_1_13u & (hasext0=0 | immext0used=1) [loc = inst_
     BR_IfImm: r15 is imm_1_7u & imm_13u & imm_16_20u & imm_22_23 & immext1pos=pktid & immext1 & imm_1_6u [r15 = inst_start + (immext1 | imm_1_6u); ] {export *[ram]:4 r15;}
  
  # J/Jump to address
-with slot: iclass=0b0101 & mode=0 {
+with slot: iclass=0b0101  {
     :"jump" NR_JImm  is imm_25_27=0b100 & imm_0=0 & NR_JImm {}   
     
      :"if ("U2") jump:t "NR_IfImm is  imm_24_27=0b1100 & imm_21=0 & imm_11_12=0b00 & imm_10=0 & U2 & U2i & imm_0=0 & NR_IfImm {}
@@ -1018,14 +1018,14 @@ with slotB: iclass=0b0101 {
  }
 
 # J/Jump to address cond new
-with slot: iclass=0b0101 & mode=0 {
-     :"if ("U2_pred_new".new) jump:nt "NR_Call_R152 is imm_24_27=0b1100 & NR_Call_R152 & imm_21=0 & imm_11_12=0b01 & imm_10=0 & U2_pred_new & imm_0=0 & mode=0 {}
+with slot: iclass=0b0101  {
+     :"if ("U2_pred_new".new) jump:nt "NR_Call_R152 is imm_24_27=0b1100 & NR_Call_R152 & imm_21=0 & imm_11_12=0b01 & imm_10=0 & U2_pred_new & imm_0=0  {}
      
-     :"if ("U2_pred_new".new) jump:t "NR_Call_R152 is imm_24_27=0b1100 & NR_Call_R152 & imm_21=0 & imm_11_12=0b11 & imm_10=0 & U2_pred_new & imm_0=0 & mode=0 {}
+     :"if ("U2_pred_new".new) jump:t "NR_Call_R152 is imm_24_27=0b1100 & NR_Call_R152 & imm_21=0 & imm_11_12=0b11 & imm_10=0 & U2_pred_new & imm_0=0  {}
      
-     :"if (!"U2_pred_new".new) jump:nt "NR_Call_R152 is imm_24_27=0b1100 & NR_Call_R152 & imm_21=1 & imm_11_12=0b01 & imm_10=0 & U2_pred_new & imm_0=0 & mode=0 {}
+     :"if (!"U2_pred_new".new) jump:nt "NR_Call_R152 is imm_24_27=0b1100 & NR_Call_R152 & imm_21=1 & imm_11_12=0b01 & imm_10=0 & U2_pred_new & imm_0=0  {}
      
-     :"if (!"U2_pred_new".new) jump:t "NR_Call_R152 is imm_24_27=0b1100 & NR_Call_R152 & imm_21=1 & imm_11_12=0b11 & imm_10=0 & U2_pred_new & imm_0=0 & mode=0 {}
+     :"if (!"U2_pred_new".new) jump:t "NR_Call_R152 is imm_24_27=0b1100 & NR_Call_R152 & imm_21=1 & imm_11_12=0b11 & imm_10=0 & U2_pred_new & imm_0=0  {}
 }
 with slotB: iclass=0b0101 {
      :"if ("U2_pred_new".new) jump:nt "BR_Call_R152 is imm_24_27=0b1100 & BR_Call_R152 & imm_21=0 & imm_11_12=0b01 & imm_10=0 & U2_pred_new & imm_0=0 {
@@ -1060,14 +1060,14 @@ j_cond_r_hint:"jump:t" is imm_12=1 {}
 
 Jmp_R13: v is imm_21 & imm_13 & imm_1_11 [v = inst_start + (((imm_21 << 12)| (imm_13 << 11) | (imm_1_11)) << 2); ] { export *[ram]:4 v; }
 
-with slot: iclass=0b0110 & mode=0 {
-     :"if("S5"!=#0)" j_cond_r_hint Jmp_R13 is imm_22_27=0b000100 & Jmp_R13 & S5 & S5i & imm_0=0 & j_cond_r_hint & mode=0 {}
+with slot: iclass=0b0110  {
+     :"if("S5"!=#0)" j_cond_r_hint Jmp_R13 is imm_22_27=0b000100 & Jmp_R13 & S5 & S5i & imm_0=0 & j_cond_r_hint  {}
 
-     :"if("S5">=#0)" j_cond_r_hint Jmp_R13 is imm_22_27=0b000101 & Jmp_R13 & S5 & S5i & imm_0=0 & j_cond_r_hint & mode=0 {}
+     :"if("S5">=#0)" j_cond_r_hint Jmp_R13 is imm_22_27=0b000101 & Jmp_R13 & S5 & S5i & imm_0=0 & j_cond_r_hint  {}
      
-     :"if("S5"==#0)" j_cond_r_hint Jmp_R13  is imm_22_27=0b000110 & Jmp_R13 & S5 & S5i & imm_0=0 & j_cond_r_hint & mode=0 {}
+     :"if("S5"==#0)" j_cond_r_hint Jmp_R13  is imm_22_27=0b000110 & Jmp_R13 & S5 & S5i & imm_0=0 & j_cond_r_hint  {}
      
-     :"if("S5"<=#0)" j_cond_r_hint Jmp_R13  is imm_22_27=0b000111 & Jmp_R13 & S5 & S5i & imm_0=0 & j_cond_r_hint & mode=0 {}
+     :"if("S5"<=#0)" j_cond_r_hint Jmp_R13  is imm_22_27=0b000111 & Jmp_R13 & S5 & S5i & imm_0=0 & j_cond_r_hint  {}
  }
  
  
@@ -1112,7 +1112,7 @@ NR_TransJmp_R9: v is imm_20_21 & imm_1_7u & (hasext0=0 | immext0used=1) [v = ins
           }
 
 # J/Transfer and jump
-with slot: iclass=0b0001 & mode=0 {
+with slot: iclass=0b0001  {
      :D4_16_19"="imm_8_13u"; jump "NR_TransJmp_R9 is imm_24_27=0b0110 & imm_22_23=0 & D4_16_19 & imm_8_13u & NR_TransJmp_R9 & imm_0=0 {
         D4_16_19 = imm_8_13u;
      }

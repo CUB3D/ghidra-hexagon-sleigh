@@ -19,7 +19,7 @@ LD_U6_SL: u6 is imm_5_6u & imm_8_11u & hasext0=1 & immext0used=1 & hasext1=1 & i
 
 #LD:memory copy
 define pcodeop pmemcpy;
-with slot: iclass=0b1001 & mode=0 {
+with slot: iclass=0b1001  {
     :D5_pair "=pmemcpy(" T5 "," S5_pair ")" is imm_21_27=0b1001111 & S5_pair & S5_pairi & T5i & imm_13=0 & T5 & imm_5_7=0b000 & D5_pair {
         D5_pair = pmemcpy(T5i, S5_pairi);
     }
@@ -28,12 +28,12 @@ with slot: iclass=0b1001 & mode=0 {
 #LD:piecemeal memory copy
 define pcodeop movlen;
 define pcodeop linecpy;
-with slot: iclass=0b0110 & mode=0 {
+with slot: iclass=0b0110  {
     :D5 "=movlen(" T5 "," S5_pair ")" is imm_21_27=0b1111111 & S5_pair & S5_pairi & T5i & imm_13=0 & T5 & imm_5_7=0b010 & D5 {
         D5 = movlen(T5i, S5_pairi);
     }
 }
-with slot: iclass=0b1001 & mode=0 {
+with slot: iclass=0b1001  {
     :D5_pair "=linecpy(" T5 "," S5_pair ")" is imm_21_27=0b1001111 & S5_pair & S5_pairi & T5i & imm_13=0 & T5 & imm_5_7=0b001 & D5_pair {
         D5_pair = linecpy(T5i, S5_pairi);
     }
@@ -46,7 +46,7 @@ with slot: iclass=0b1001 & mode=0 {
 
 
 #LD:Dealloc
-with slot: iclass=0b1001 & mode=0 {
+with slot: iclass=0b1001  {
     :D5_pair"=deallocframe("S5"):raw" is imm_21_27=0b0000000 & S5 & S5i & imm_13=0 & imm_5_12=0 & D5_pair & imm_0=0 {
         local EA:4 = S5i;
         local tmp:8 = *[ram]:8 EA;
@@ -57,7 +57,7 @@ with slot: iclass=0b1001 & mode=0 {
 
 #LD:Dealloc return
 with slot: iclass=0b1001 {
-    :D5_pair"=dealloc_return("S5"):raw" is imm_21_27=0b0110000 & S5 & S5i & imm_10_13=0 & imm_5_9=0 & D5_pair & imm_0=0 & mode=0 {
+    :D5_pair"=dealloc_return("S5"):raw" is imm_21_27=0b0110000 & S5 & S5i & imm_10_13=0 & imm_5_9=0 & D5_pair & imm_0=0  {
         local EA:4 = S5i;
         local tmp:8 = *[ram]:8 EA;
         D5_pair = tmp;
@@ -81,7 +81,7 @@ with slotB: iclass=0b1001 {
 define pcodeop membh;
 define pcodeop memubh;
 
-with slot: iclass=0b1001 & mode=0 {
+with slot: iclass=0b1001  {
     :D5 "=membh(" S5 "+" s11 ")" is imm_27=0 & imm_25_26 & imm_21_24=0b0001 & S5 & S5i & imm_5_13u & D5 [s11 = (imm_5_13u | (imm_25_26 << 9)) << 1;] {
         D5 = membh(S5i + s11:4);
     }

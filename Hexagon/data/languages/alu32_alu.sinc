@@ -4,7 +4,7 @@ ALU32_ADD_IMM:val is imm_21_27 & imm_5_13 & IS_NOT_EXT [val = ((imm_21_27 << 9) 
 ALU32_ADD_IMM:val is IS_EXT0 & immext0 & imm_5_10u  [val = imm_5_10u | immext0; ] { export *[const]:4 val; }
 ALU32_ADD_IMM:val is IS_EXT1 & immext1 & imm_5_10u  [val = imm_5_10u | immext1; ] { export *[const]:4 val; }
 
-with slot: mode=0 {
+with slot: epsilon {
     :D5 "= add("S5","ALU32_ADD_IMM")" is iclass=0b1011 & S5 & S5i & D5 & ALU32_ADD_IMM {
         D5 = S5i + sext(ALU32_ADD_IMM:2);
     }
@@ -27,7 +27,7 @@ ALU32_AND_S10:val is IS_EXT0 & immext0 & imm_5_10u  [val = imm_5_10u | immext0; 
 ALU32_AND_S10:val is IS_EXT1 & immext1 & imm_5_10u  [val = imm_5_10u | immext1; ] { export *[const]:4 val; }
 
 # ALU32/ALU:logical
-with slot: iclass=0b0111 & mode=0 {
+with slot: iclass=0b0111  {
     :D5 = "and"(S5",#"ALU32_AND_S10) is Rs=0 & MajOp = 0b110 & imm_22_23=0b00 & S5 & S5i & D5 & ALU32_AND_S10 {
         D5 = S5i & ALU32_AND_S10;
     } 
@@ -35,7 +35,7 @@ with slot: iclass=0b0111 & mode=0 {
         D5 = S5i | ALU32_AND_S10;
     } 
 }
-with slot: iclass=0b1111 & mode=0 {
+with slot: iclass=0b1111  {
     :D5 = "and("S5","T5")" is imm_21_27=0b0001000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & D5 {
         D5 = S5i & T5i;
     } 
@@ -58,14 +58,14 @@ with slot: iclass=0b1111 & mode=0 {
 }
 
 # ALU32/ALU:negate
-with slot: iclass=0b0111 & mode=0 {
-    :D5"=neg("S5")" is imm_22_27=0b011001 & imm_21=0 & S5 & S5i & imm_5_13u=0 & D5 & (hasext0=0 | immext0used=1) {
+with slot: iclass=0b0111 {
+    :D5"=neg("S5")" is imm_22_27=0b011001 & imm_21=0 & S5 & S5i & imm_5_13u=0 & D5 & IS_NOT_EXT {
         D5 = -S5i;
     } 
 }
 
 # ALU32/ALU:nop
-with slot: iclass=0b0111 & mode=0 {
+with slot: iclass=0b0111  {
     :"nop" is imm_24_27=0b1111 & imm_16_23  & imm_0_13 {}
 }
 
@@ -75,12 +75,12 @@ EXT_SUB: v is IS_EXT0 & immext0 & imm_5_10u [v = imm_5_10u | immext0; ]  { expor
 EXT_SUB: v is IS_EXT1 & immext1 & imm_5_10u [v = imm_5_10u | immext1; ]  { export *[const]:4 v; }
 
 # ALU32/ALU:subtract
-with slot: iclass=0b0111 & mode=0 {
+with slot: iclass=0b0111  {
     :D5"=sub("EXT_SUB","S5")" is imm_22_27=0b011001 & S5 & S5i & D5 & EXT_SUB {
         D5 = EXT_SUB - S5i;
     }
 }
-with slot: iclass=0b1111 & mode=0 {
+with slot: iclass=0b1111  {
     :D5" = sub("T5","S5")" is imm_21_27=0b0011001 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & D5 {
         D5 = T5i - S5i;
     } 
@@ -100,7 +100,7 @@ TI_S16: v is IS_EXT0 & immext0 & imm_5_10u [v = imm_5_10u | immext0; ]  { export
 TI_S16: v is IS_EXT1 & immext1 & imm_5_10u [v = imm_5_10u | immext1; ]  { export *[const]:4 v; }
 
 # ALU32/ALU:sext
-with slot: iclass=0b0111 & mode=0 {
+with slot: iclass=0b0111  {
     :D5 "=sxtb(" S5 ")" is imm_21_27=0b0000101 & S5 & S5i & imm_13=0 & imm_5_12=0 & D5 {
         D5 = sext(S5i:1);
     } 
@@ -110,7 +110,7 @@ with slot: iclass=0b0111 & mode=0 {
 }
 
 # ALU32/ALU:trans_imm
- with slot: iclass=0b0111 & mode=0 {
+ with slot: iclass=0b0111  {
       
     ImmU16: v is    imm_22_23u & imm_0_13u  [ v = (imm_22_23u << 14) | (imm_0_13u); ] {
          export *[const]:4 v;
@@ -134,7 +134,7 @@ with slot: iclass=0b0111 & mode=0 {
 
 
 # ALU32/ALU:trans_reg
- with slot: iclass=0b0111 & mode=0 {
+ with slot: iclass=0b0111  {
     :D5"="S5 is Rs = 0 & MajOp = 0b000 & MinOp=0b011 & S5 & imm_13=0 & imm_5_12=0 & D5 & S5i {
         D5 = S5i;
     }
@@ -145,7 +145,7 @@ with slot: iclass=0b0111 & mode=0 {
 define pcodeop vaddh;
 define pcodeop vaddh_sat;
 define pcodeop vadduh_sat;
-with slot: iclass=0b1111 & mode=0 {
+with slot: iclass=0b1111  {
     :D5 "=vaddh(" S5 "," T5 ")" is imm_21_27=0b0110000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & D5 {
         D5 = vaddh(S5i, T5i);
     }
@@ -162,7 +162,7 @@ define pcodeop vavgh;
 define pcodeop vavgh_rnd;
 define pcodeop vnavgh;
 
-with slot: iclass=0b1111 & mode=0 {
+with slot: iclass=0b1111  {
     :D5 "=vavgh(" S5 "," T5 ")" is imm_24_27=0b0111 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & D5 {
        D5 = vavgh(S5i, T5i);
     }
@@ -178,7 +178,7 @@ with slot: iclass=0b1111 & mode=0 {
 define pcodeop vsubh;
 define pcodeop vsubh_sat;
 define pcodeop vsubuh_sat;
-with slot: iclass=0b1111 & mode=0 {
+with slot: iclass=0b1111  {
     :D5 "=vsubh(" T5 "," S5 ")"  is imm_21_27=0b0110100 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & D5 {
         D5 = vsubh(T5i, S5i);
     }
@@ -191,7 +191,7 @@ with slot: iclass=0b1111 & mode=0 {
 }
 
 # ALU32/ALU:zero extend
- with slot: iclass=0b0111 & mode=0 {
+ with slot: iclass=0b0111  {
     :D5 "=zxth(" S5 ")" is imm_21_27=0b0000110 & S5 & S5i & imm_13=0 & imm_5_12=0 & D5 {
         D5 = zext(S5i:2);
     }

@@ -5,7 +5,7 @@ define pcodeop vxsubaddh_sat;
 define pcodeop vxaddsubh_rnd_sat;
 define pcodeop vxsubaddh_rnd_sat;
 
-with slot: iclass=0b1100 & mode=0 {
+with slot: iclass=0b1100  {
     :D5_pair "=vxaddsubh(" S5_pair "," T5_pair "):sat" is imm_22_27=0b000101 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b100 & D5_pair {
         D5_pair = vxaddsubh_sat(S5_pairi, T5_pairi);
     }
@@ -24,7 +24,7 @@ with slot: iclass=0b1100 & mode=0 {
 define pcodeop vxaddsubw_sat;
 define pcodeop vxsubaddw_sat;
 
-with slot: iclass=0b1100 & mode=0 {
+with slot: iclass=0b1100  {
     :D5_pair "=vxaddsubw(" S5_pair "," T5_pair "):sat" is imm_22_27=0b000101 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5_pair {
         D5_pair = vxaddsubw_sat(S5_pairi, T5_pairi);
     }
@@ -36,7 +36,7 @@ with slot: iclass=0b1100 & mode=0 {
 # XTYPE/Complex: multiply
 define pcodeop cmpy_sat;
 define pcodeop cmpy_conj_sat;
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5_pair "=cmpy(" S5 "," T5 "):<<" imm_23u ":sat" is imm_24_27=0b0101 & imm_23u & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5_pair {
         D5_pair = cmpy_sat(S5i, T5i) << imm_23u;
     }
@@ -61,7 +61,7 @@ with slot: iclass=0b1110 & mode=0 {
 # XTYPE/Complex: mul real or i
 define pcodeop cmpyi;
 define pcodeop cmpyr;
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5_pair "=cmpyi(" S5 "," T5 ")" is imm_21_27=0b0101000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5_pair {
         D5_pair = cmpyi(S5i, T5i);
     }
@@ -80,7 +80,7 @@ with slot: iclass=0b1110 & mode=0 {
 # XTYPE/Complex: mul rnd pck
 define pcodeop cmpy_rnd_sat;
 define pcodeop cmpy_conj_rnd_sat;
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5 "=cmpy(" S5 "," T5 "):<<" imm_23u ":rnd:sat" is imm_24_27=0b1101 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 {
         D5 = cmpy_rnd_sat(S5i, T5i) << imm_23u;
     }
@@ -94,7 +94,7 @@ define pcodeop cmpyiwh_rnd_sat;
 define pcodeop cmpyiwh_conj_rnd_sat;
 define pcodeop cmpyrwh_rnd_sat;
 define pcodeop cmpyrwh_conj_rnd_sat;
-with slot: iclass=0b1100 & mode=0 {
+with slot: iclass=0b1100  {
     :D5 "=cmpyiwh(" S5_pair "," T5 "):<<1:rnd:sat" is imm_24_27=0b0101 & imm_21_23=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 {
         D5 = cmpyiwh_rnd_sat(S5_pairi, T5i)<<1;
     }
@@ -124,7 +124,7 @@ define pcodeop cmpyiw_rnd_sat;
 define pcodeop cmpyrw_rnd_sat;
 define pcodeop cmpyrw_conj_rnd_sat;
 define pcodeop cmpyiw_conj_rnd_sat;
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5_pair "=cmpyiw(" S5_pair "," T5_pair ")" is imm_21_27=0b1000011 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {
         D5_pair = cmpyiw(S5_pairi, T5_pairi);
     }
@@ -182,7 +182,7 @@ with slot: iclass=0b1110 & mode=0 {
 # XTYPE/Complex: vec mul complex real or i
 define pcodeop vcmpyr_sat;
 define pcodeop vcmpyi_sat;
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5_pair "=vcmpyr(" S5_pair "," T5_pair "):<<" imm_23u ":sat" is imm_24_27=0b1000 & imm_23u & imm_21_22=0b01 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b110 & D5_pair {
            D5_pair = vcmpyr_sat(S5_pairi, T5_pairi) << imm_23u;
     }
@@ -199,7 +199,7 @@ with slot: iclass=0b1110 & mode=0 {
 
 # XTYPE/Complex: vec complex conj
 define pcodeop vconj_sat;
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5_pair "=vconj(" S5_pair "):sat" is imm_21_27=0b0000100 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b111 & D5_pair {
         D5_pair = vconj_sat(S5_pairi);
     }
@@ -207,7 +207,7 @@ with slot: iclass=0b1000 & mode=0 {
 
 # XTYPE/Complex: vec complex rot
 define pcodeop vcrotate;
-with slot: iclass=0b1100 & mode=0 {
+with slot: iclass=0b1100  {
     :D5_pair "=vcrotate(" S5_pair "," T5 ")" is imm_22_27=0b001111 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_6_7=0b00 & imm_5=0 & D5_pair {
         D5_pair = vcrotate(S5_pairi, T5i);
     }
@@ -218,7 +218,7 @@ define pcodeop vrcmpyi;
 define pcodeop vrcmpyr;
 define pcodeop vrcmpyi_conj;
 define pcodeop vrcmpyr_conj;
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5_pair "=vrcmpyi(" S5_pair "," T5_pair ")" is imm_21_27=0b1000000 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5_pair {
         D5_pair = vrcmpyi(S5_pairi, T5_pairi);
     }
@@ -252,7 +252,7 @@ with slot: iclass=0b1110 & mode=0 {
 # XTYPE/Complex: vec reduce complex mul scalar
 define pcodeop vrcmpys_sat_raw_hi;
 define pcodeop vrcmpys_sat_raw_lo;
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5_pair "=vrcmpys(" S5_pair "," T5_pair "):<<1:sat:raw:hi"  is imm_21_27=0b1000101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b100 & D5_pair {
         D5_pair = vrcmpys_sat_raw_hi(S5_pairi, T5_pairi) << 1;
     }
@@ -270,7 +270,7 @@ with slot: iclass=0b1110 & mode=0 {
 # XTYPE/Complex: vec reduce complex mul scalar rnd pck
 define pcodeop vrcmpys_rnd_sat_raw_hi;
 define pcodeop vrcmpys_rnd_sat_raw_lo;
-with slot: iclass=0b1110 & mode=0 {
+with slot: iclass=0b1110  {
     :D5 "=vrcmpys(" S5_pair "," T5_pair "):<<1:rnd:sat:raw:hi" is imm_23_27=0b10011 & imm_22=0 & imm_21=1 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b110 & D5 {
         D5 = vrcmpys_rnd_sat_raw_hi(S5_pairi, T5_pairi) << 1;
     }
@@ -281,7 +281,7 @@ with slot: iclass=0b1110 & mode=0 {
 
 # XTYPE/Complex: vec reduce complex rot
 define pcodeop vrcrotate;
-with slot: iclass=0b1100 & mode=0 {
+with slot: iclass=0b1100  {
     :D5_pair "=vrcrotate(" S5_pair "," T5 "," u2 ")" is imm_22_27=0b001111 & imm_21=0 & S5_pair & S5_pairi & imm_13u & T5 & T5i & imm_6_7=0b11 & imm_5u & D5_pair [u2 = imm_5u | (imm_13u << 1); ] {
         D5_pair = vrcrotate(S5_pairi, T5i, u2:1);
     }

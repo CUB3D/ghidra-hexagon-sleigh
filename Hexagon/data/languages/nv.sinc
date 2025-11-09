@@ -1,17 +1,17 @@
 
 # NV/J
 
-NR_nv_j_r9: r9 is imm_1_7u & imm_20_21 & (hasext0=0 | immext0used=1) [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]  { export *[ram]:4 r9; }
+NR_nv_j_r9: r9 is imm_1_7u & imm_20_21 & IS_NOT_EXT [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]  { export *[ram]:4 r9; }
 BR_nv_j_r9: r9 is imm_1_7u & imm_20_21 [ r9 = inst_start + ((imm_1_7u | (imm_20_21 << 7)) << 2); ]  { export *[ram]:4 r9; }
 
-NR_nv_j_r9: r9 is imm_1_7u & imm_20_21 & hasext0=1 & immext0used=0 & immext0 [ r9 = inst_start + (imm_1_7u | immext0); immext0used=1; immext0everused=1; immext0pos=pktid; ]  { export *[ram]:4 r9; }
+NR_nv_j_r9: r9 is imm_1_7u & imm_20_21 & IS_EXT0 & immext0 [ r9 = inst_start + (imm_1_7u | immext0); immext0pos=pktid; ]  { export *[ram]:4 r9; }
 BR_nv_j_r9: r9 is imm_1_7u & imm_20_21 & immext0pos=pktid & immext0 [ r9 = inst_start + (imm_1_7u | immext0);]  { export *[ram]:4 r9; }
 
-NR_nv_j_r9: r9 is imm_1_7u & imm_20_21 & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [ r9 = inst_start + (imm_1_7u | immext1); immext1used=1; immext1pos=pktid;]  { export *[ram]:4 r9; }
+NR_nv_j_r9: r9 is imm_1_7u & imm_20_21 & IS_EXT1 & immext1 [ r9 = inst_start + (imm_1_7u | immext1); immext1pos=pktid;]  { export *[ram]:4 r9; }
 BR_nv_j_r9: r9 is imm_1_7u & imm_20_21 & immext1pos=pktid & immext1 [ r9 = inst_start + (imm_1_7u | immext1);]  { export *[ram]:4 r9; }
 
 
-with slot: iclass=0b0010 & mode=0 {
+with slot: iclass=0b0010  {
     :"if(cmp.eq("NV_S3_new_16_18","T5") jmp:nt "NR_nv_j_r9 is imm_22_27=0b000000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=0 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {}
     :"if(cmp.eq("NV_S3_new_16_18","T5") jmp:t "NR_nv_j_r9 is imm_22_27=0b000000 & imm_20_21 & imm_19=0 & S3_new_16_18 & imm_13=1 & T5 & T5i & imm_1_7u & imm_0=0 & NR_nv_j_r9 & NV_S3_new_16_18 {
     

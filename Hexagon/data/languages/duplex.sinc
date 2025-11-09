@@ -1,9 +1,7 @@
-EXT_immdup1_8_11w: v is immdup1_8_11 & (hasext0=0 | immext0used=1) [ v = immdup1_8_11 << 2;] {
-    export *[const]:4 v;
-}
-EXT_immdup1_8_11w: v is immdup1_8_11 & hasext0=1 & immext0used=0 & immext0 [ v = immdup1_8_11 | immext0; immext0used=1; immext0everused=1;] {
-    export *[const]:4 v;
-}
+EXT_immdup1_8_11w: v is immdup1_8_11 & IS_NOT_EXT [ v = immdup1_8_11 << 2;] { export *[const]:4 v; }
+EXT_immdup1_8_11w: v is immdup1_8_11 & IS_EXT0 & immext0 [ v = immdup1_8_11 | immext0; ] { export *[const]:4 v; }
+EXT_immdup1_8_11w: v is immdup1_8_11 & IS_EXT1 & immext1 [ v = immdup1_8_11 | immext1; ] { export *[const]:4 v; }
+
 
 L1L:immdup0_D4 "=memw(" immdup0_S4 "+" v ")" is immdup0_12=0 & immdup0_8_11 & immdup0_S4 & immdup0_S4i & immdup0_D4 & mode=0  [v = immdup0_8_11 << 2;]{
     local EA:4 = immdup0_S4i + v;
@@ -319,10 +317,10 @@ with : mode=0 {
     A1L:immdup0_D4"="immdup0_4_9 is immdup0_10_12=0b010 & immdup0_4_9 & immdup0_D4 {
         immdup0_D4 = immdup0_4_9;
     }
-    A1R:immdup1_D4"="immdup1_4_9 is immdup1_10_12=0b010 & immdup1_4_9 & immdup1_D4 & (hasext0=0 | immext0used=1) {
+    A1R:immdup1_D4"="immdup1_4_9 is immdup1_10_12=0b010 & immdup1_4_9 & immdup1_D4 & IS_NOT_EXT {
         immdup1_D4 = immdup1_4_9;
     }
-    A1R:immdup1_D4"="v is immdup1_10_12=0b010 & immdup1_4_9 & immdup1_D4 & hasext0=1 & immext0used=0 [v = immdup1_4_9 | immext0; immext0used=1; immext0everused=1;] {
+    A1R:immdup1_D4"="v is immdup1_10_12=0b010 & immdup1_4_9 & immdup1_D4 & IS_EXT0 [v = immdup1_4_9 | immext0; ] {
         immdup1_D4 = v;
     }
     
@@ -546,6 +544,22 @@ S2R:"" is mode=1100 {}
 S2L:"" is mode=1100 {}
 
 
+L1R:"" is mode=200 {}
+L1L:"" is mode=200 {}
+
+L2R:"" is mode=200 {}
+L2L:"" is mode=200 {}
+
+A1R:"" is mode=200 {}
+A1L:"" is mode=200 {}
+
+S1R:"" is mode=200 {}
+S1L:"" is mode=200 {}
+
+S2R:"" is mode=200 {}
+S2L:"" is mode=200 {}
+
+
 duplex:"{{"L1R", "L1L"}}" is imm_29_31=0b000 & imm_13=0  & L1L & L1R {
     build L1R;
     build L1L;
@@ -610,4 +624,5 @@ define pcodeop duplex_0f_reserved;
 duplex:"duplex_0xf_reserved" is imm_29_31=0b111 & imm_13=1 {duplex_0f_reserved();}
 
 duplex: "duplex_branch_filler" is mode=1100 {}
+duplex: "duplex_nvh_filler" is mode=200 {}
 

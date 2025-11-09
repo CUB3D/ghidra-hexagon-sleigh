@@ -5,7 +5,7 @@ define pcodeop count_leading_ones;
 define pcodeop count_leading_bits;
 define pcodeop normamt;
 
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5 "=clb(" S5_pair ")" is imm_21_27=0b1000010 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b000 & D5 {
         D5 = count_leading_bits(S5_pairi);
     }
@@ -42,7 +42,7 @@ with slot: iclass=0b1000 & mode=0 {
 
 # XTYPE/BIT:Count pop
 define pcodeop popcnt;
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5 "=popcnt(" S5_pair ")" is imm_21_27=0b1000011 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b011 & D5 {
         D5 = popcnt(S5_pairi);
     }
@@ -51,7 +51,7 @@ with slot: iclass=0b1000 & mode=0 {
 # XTYPE/BIT:Count trail
 define pcodeop count_trailing_ones;
 define pcodeop count_trailing_zeros;
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5_pair "=ct0(" S5_pair ")" is imm_21_27=0b1000111 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b010 & D5_pair {
         D5_pair = count_trailing_zeros(S5_pairi);
     }
@@ -67,35 +67,31 @@ with slot: iclass=0b1000 & mode=0 {
 }
 
 # XTYPE/BIT:Extract bit
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5_pair"=extractu("S5_pair","imm_8_13u","U6")" is imm_24_27=0b0001 & imm_21_23u & S5_pair & S5_pairi & imm_8_13u & imm_5_7u & D5_pair [ U6 = imm_5_7u | (imm_21_23u << 3);]{
         local tmp:8 = S5_pairi >> U6;
-    tmp = tmp << (64-imm_8_13u);
-    tmp = tmp >> (64-imm_8_13u);
-    D5_pair = tmp;
+        D5_pair = tmp & ((1 << imm_8_13u) - 1);
     }
     :D5_pair"=extract("S5_pair","imm_8_13u","U6")" is imm_24_27=0b1010 & imm_21_23u & S5_pair & S5_pairi & imm_8_13u & imm_5_7u & D5_pair [ U6 = imm_5_7u | (imm_21_23u << 3);]{
         local tmp:8 = S5_pairi >> U6;
-    tmp = tmp << (64-imm_8_13u);
-    tmp = tmp s>> (64-imm_8_13u);
-    D5_pair = tmp;
+        local tmp2:8 = tmp & (1 << imm_8_13u) - 1;
+        local tmp3:8 = tmp2 ^ (1 << (imm_8_13u - 1));
+        D5_pair = tmp3 - (1 << (imm_8_13u - 1));
     }
     :D5"=extractu("S5","imm_8_12","U5")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22u & S5 & S5i & imm_13=0 & imm_8_12 & imm_5_7u & D5 [ U5 = imm_5_7u | (imm_21_22u << 3);]{
         local tmp:4 = S5i >> U5;
-    tmp = tmp << (32-imm_8_12);
-    tmp = tmp >> (32-imm_8_12);
-    D5 = tmp;
+        D5 = tmp & ((1 << imm_8_12) - 1);
     }
     :D5"=extract("S5","imm_8_12","U5")" is imm_24_27=0b1101 & imm_23=1 & imm_21_22u & S5 & S5i & imm_13=0 & imm_8_12 & imm_5_7u & D5 [ U5 = imm_5_7u | (imm_21_22u << 3);]{
         local tmp:4 = S5i >> U5;
-    tmp = tmp << (32-imm_8_12);
-    tmp = tmp s>> (32-imm_8_12);
-    D5 = tmp;
+        local tmp2:4 = tmp & (1 << imm_8_12) - 1;
+        local tmp3:4 = tmp2 ^ (1 << (imm_8_12 - 1));
+        D5 = tmp3 - (1 << (imm_8_12 - 1));
     }
 }
 define pcodeop extract;
 define pcodeop extractu;
-with slot: iclass=0b1100 & mode=0 {
+with slot: iclass=0b1100  {
     :D5_pair "=extractu(" S5_pair "," T5_pair ")" is imm_22_27=0b000100 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_6_7=0b00 & imm_5=0 & D5_pair {
         D5_pair = extractu(S5_pairi, T5_pairi);
     }
@@ -111,20 +107,20 @@ with slot: iclass=0b1100 & mode=0 {
 }
 
 # XTYPE/BIT:Insert bit
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5_pair "=insert(" S5_pair "," imm_8_13u "," U6 ")" is imm_24_27=0b0011 & imm_21_23u & S5_pair & S5_pairi & imm_8_13u & imm_5_7u & D5_pair & D5_pairi [ U6 = imm_5_7u | (imm_21_23u << 3);] {
-        D5_pair = D5_pairi & ~(((1 << imm_8_13u)-1) << U6);
-        D5_pair = D5_pairi | ((S5_pairi & ((1<<imm_8_13u)-1)) << U6);
+        local d5:8 = D5_pairi & ~(((1 << imm_8_13u)-1) << U6);
+        D5_pair = d5 | ((S5_pairi & ((1<<imm_8_13u)-1)) << U6);
     }
 
     :D5 "=insert(" S5 "," imm_8_12u "," U5 ")" is imm_23_27=0b11110 & imm_21_22u & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7u & D5 & D5i [ U5 = imm_5_7u | (imm_21_22u << 3); ] {
-        D5 = D5i & ~(((1 << imm_8_12u)-1) << U5);
-        D5 = D5i | ((S5i & ((1<<imm_8_12u)-1)) << U5);
+        local d5:4 = D5i & ~(((1<<imm_8_12u)-1) << U5);
+        D5 = d5 | ((S5i & ((1<<imm_8_12u)-1)) << U5);
     }
 }
 
 define pcodeop insert;
-with slot: iclass=0b1100 & mode=0 {
+with slot: iclass=0b1100  {
     :D5 "=insert(" S5 "," T5_pair ")" is imm_24_27=0b1000 & imm_21_23=0 & S5 & S5i & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0 & D5 {
         D5 = insert(S5i, T5_pairi);
     }
@@ -136,7 +132,7 @@ with slot: iclass=0b1100 & mode=0 {
 # XTYPE/BIT:Interleave
 define pcodeop interleave;
 define pcodeop deinterleave;
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5_pair "=interleave(" S5_pair ".w[1], " S5_pair_dup ".w[0])" is imm_21_27=0b0000110 & S5_pair_dup & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b100 & D5_pair {
         D5_pair = interleave(S5_pairi);
     }
@@ -147,7 +143,7 @@ with slot: iclass=0b1000 & mode=0 {
 
 # XTYPE/BIT:Linear feedback
 define pcodeop lfs;
-with slot: iclass=0b1100 & mode=0 {
+with slot: iclass=0b1100  {
     :D5_pair "=lfs(" S5_pair "," T5_pair ")" is imm_22_27=0b000110 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b110 & D5_pair {
         D5_pair = lfs(S5_pairi, T5_pairi);
     }
@@ -155,7 +151,7 @@ with slot: iclass=0b1100 & mode=0 {
 
 # XTYPE/BIT:Masked parity
 define pcodeop parity;
-with slot: iclass=0b1101 & mode=0 {
+with slot: iclass=0b1101  {
     :D5 "=parity(" S5_pair "," T5_pair ")" is imm_24_27=0b0000 & imm_21_23=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0 & D5 {
         D5 = parity(S5_pairi, T5_pairi);
     }
@@ -165,7 +161,7 @@ with slot: iclass=0b1101 & mode=0 {
 }
 
 # XTYPE/BIT:Bit rev
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5_pair "=brev(" S5_pair ")" is imm_21_27=0b0000110 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b110 & D5_pair {
         D5_pair = brev(S5_pairi);
     }
@@ -175,7 +171,7 @@ with slot: iclass=0b1000 & mode=0 {
 }
 
 # XTYPE/BIT:Set clear toggle bit
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5"=setbit("S5","imm_8_12u")" is imm_21_27=0b1100110 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b000 & D5 {
        D5 = S5i | (1 << imm_8_12u);
     }
@@ -186,7 +182,7 @@ with slot: iclass=0b1000 & mode=0 {
        D5 = S5i ^ (1 << imm_8_12u);
     }
 }
-with slot: iclass=0b1100 & mode=0 {
+with slot: iclass=0b1100  {
     :D5 "=setbit(" S5 "," T5 ")" is imm_22_27=0b011010 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b00 & imm_5=0 & D5 {
         D5 = S5i | (1 << T5i);
     }
@@ -200,13 +196,13 @@ with slot: iclass=0b1100 & mode=0 {
 }
 
 # XTYPE/BIT:Split bit field
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5_pair "=bitsplit(" S5 "," imm_8_12u ")" is imm_21_27=0b1000110 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b100 & D5_pair  {
         local lo:8 = ((zext(S5i) >> imm_8_12u) << 31);
         D5_pair = zext(S5i) | lo;
     }
 }
-with slot: iclass=0b1001 & mode=0 {
+with slot: iclass=0b1001  {
     :D5_pair "=bitsplit(" S5 "," T5 ")" is imm_24_27=0b0100 & imm_22_23=0 & imm_21=1 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & D5_pair {
         local lo:8 = ((zext(S5i) >> T5i) << 31);
         D5_pair = zext(S5i) | lo;
@@ -219,7 +215,7 @@ define pcodeop tableidxh_raw;
 define pcodeop tableidxw_raw;
 define pcodeop tableidxd_raw;
 
-with slot: iclass=0b1000 & mode=0 {
+with slot: iclass=0b1000  {
     :D5 "=tableidxb(" S5 "," u4 "," imm_8_13 "):raw" is imm_22_27=0b011100 & imm_21u & S5 & S5i & imm_8_13 & imm_5_7u & D5 [ u4 = imm_5_7u | (imm_21u << 3);] {
         D5 = tableidxb_raw(S5i, u4:1, imm_8_13:1);
     }
