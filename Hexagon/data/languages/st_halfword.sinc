@@ -23,6 +23,7 @@ with slot: iclass=0b0011  {
         *[ram]:2 EA = s8;
     }
 }
+
 MEMH_GP_ADD:"GP+"v is imm_0_7u & imm_13u & imm_16_20u & imm_25_26u & IS_NOT_EXT [v = (imm_0_7u | imm_13u << 8 | imm_16_20u<<9 | imm_25_26u <<14)<<1;] { local tmp:4 = GP + v; export *[const]:4 tmp; }
 MEMH_GP_ADD:v is IS_EXT0 & immext0 & imm_0_5u [v = imm_0_5u | immext0; ] { export *[const]:4 v; }
 MEMH_GP_ADD:v is IS_EXT1 & immext1 & imm_0_5u [v = imm_0_5u | immext1; ] { export *[const]:4 v; }

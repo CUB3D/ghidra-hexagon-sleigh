@@ -544,6 +544,22 @@ S2R:"" is mode=1100 {}
 S2L:"" is mode=1100 {}
 
 
+L1R:"" is mode=200 {}
+L1L:"" is mode=200 {}
+
+L2R:"" is mode=200 {}
+L2L:"" is mode=200 {}
+
+A1R:"" is mode=200 {}
+A1L:"" is mode=200 {}
+
+S1R:"" is mode=200 {}
+S1L:"" is mode=200 {}
+
+S2R:"" is mode=200 {}
+S2L:"" is mode=200 {}
+
+
 duplex:"{{"L1R", "L1L"}}" is imm_29_31=0b000 & imm_13=0  & L1L & L1R {
     build L1R;
     build L1L;
@@ -608,4 +624,5 @@ define pcodeop duplex_0f_reserved;
 duplex:"duplex_0xf_reserved" is imm_29_31=0b111 & imm_13=1 {duplex_0f_reserved();}
 
 duplex: "duplex_branch_filler" is mode=1100 {}
+duplex: "duplex_nvh_filler" is mode=200 {}
 

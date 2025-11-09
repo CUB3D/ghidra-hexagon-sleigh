@@ -67,7 +67,7 @@ with slot: iclass=0b1100  {
     }
 }
 with slot: iclass=0b1101 {
-    :D2_pred_new "=cmph.eq(" S5 "," imm_5_12 ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & imm_12=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred_new {  
+    :D2_pred_new "=cmph.eq(" S5 "," imm_5_12 ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & imm_12=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred_new { 
         if (S5i != imm_5_12) goto <bad>;
         D2_pred_new = PTRUE;
         goto <end>;
