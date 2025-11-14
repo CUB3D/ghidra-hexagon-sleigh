@@ -595,9 +595,27 @@ with slot: iclass=0b1111  {
         <good>
         D2_pred_new = PTRUE;
         <end>
-    }  
-
+    }
+   
+    :D2_pred_new "=cmp.gtu("S5","imm_5_13u")" is Rs=0 & MajOp=0b101 & imm_23=1 & imm_21_22=0b00 & S5 & S5i & imm_5_13u & imm_2_4=0b000 & D2_pred_new {
+        if( S5i > imm_5_13u) goto <good>;
+        D2_pred_new = 0;
+        goto <end>;
+        <good>
+        D2_pred_new = PTRUE;
+        <end>
+    }
+    
+    :D2_pred_new "=!cmp.gtu("S5","imm_5_13u")" is Rs=0 & MajOp=0b101 & imm_23=1 & imm_21_22=0b00 & S5 & S5i & imm_5_13u & imm_2_4=0b100 & D2_pred_new {
+        if( S5i <= imm_5_13u) goto <good>;
+        D2_pred_new = 0;
+        goto <end>;
+        <good>
+        D2_pred_new = PTRUE;
+        <end>
+    }
 }
+#TODO: u9, 1100
 
 # ALU32/PRED:cmp gen
 with slot: iclass=0b0111  {

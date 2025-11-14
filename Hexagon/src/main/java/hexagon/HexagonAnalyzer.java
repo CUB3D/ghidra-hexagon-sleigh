@@ -51,7 +51,7 @@ public class HexagonAnalyzer extends AbstractAnalyzer {
 	private Register or3;
 	private Register analysed;
 
-	private Register[] regs_set = { or1, or2, or3 };;
+	private Register[] regs_set = { or1, or2, or3 };
 
 	public HexagonAnalyzer() {
 		super("Hexagon dotnew Analyzer",
@@ -181,7 +181,7 @@ public class HexagonAnalyzer extends AbstractAnalyzer {
 				if (idx2 < 3) {
 					int val = outvals.get(idx2);
 					try {
-						pc.setValue(regs_set[idx2], addr, addr, new BigInteger("" + val));
+						pc.setValue(regs_set[idx2], addr, addr.add(inst.getParsedLength()), new BigInteger("" + val));
 					} catch (ContextChangeException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
