@@ -4,6 +4,18 @@
 #
 # IMPORTANT: The -a option should NOT be specified
 #
-#-n
+
+# Temporary too big
+-o
+
+# Must use local keyword
+-e
+
+# Log dead temporaries
 #-t
--u
+
+# Useless pcode instructions
+#-u
+
+# Unused token fields
+#-f

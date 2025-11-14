@@ -21,11 +21,11 @@ BR_Call_V: v is immext1pos=pktid & immext1 & imm_1_6u  [v = inst_start + (imm_1_
 
 #J:Call subroutine
 with slot: iclass=0b0101  {
-     :^"call" NR_Call_V is imm_25_27=0b101 & imm_16_24 & imm_1_13u & imm_0=0 & NR_Call_V {}
+     :^"call" NR_Call_V is imm_25_27=0b101 & imm_0=0 & NR_Call_V {}
 
-     :"if ("U2") call "NR_Call_R152 is imm_24_27=0b1101 & imm_21=0 & NR_Call_R152 & imm_12=0 & imm_11=0 & imm_10=0 & U2 & U2i & imm_0=0 {}
+     :"if ("U2") call "NR_Call_R152 is imm_24_27=0b1101 & imm_21=0 & NR_Call_R152 & imm_12=0 & imm_11=0 & imm_10=0 & U2 & imm_0=0 {}
 
-     :"if (!"U2") call "NR_Call_R152 is imm_24_27=0b1101 & imm_21=1 & NR_Call_R152 & imm_12=0 & imm_11=0 & imm_10=0 & U2 & U2i & imm_0=0 {}
+     :"if (!"U2") call "NR_Call_R152 is imm_24_27=0b1101 & imm_21=1 & NR_Call_R152 & imm_12=0 & imm_11=0 & imm_10=0 & U2 & imm_0=0 {}
  }
  with slotB: iclass=0b0101 {
      :^"call" BR_Call_V is imm_25_27=0b101 & imm_16_24 & imm_1_13u & imm_0=0 & BR_Call_V {

@@ -116,9 +116,9 @@ public class HexagonAnalyzer extends AbstractAnalyzer {
 
 			Address addr = addresses.next();
 
-			BigInteger old_or1 = pc.getValue(analysed, addr, false);
-			if (old_or1 != null) {
-				if (old_or1.intValue() != 0) {
+			BigInteger analysed_ctx_val = pc.getValue(analysed, addr, false);
+			if (analysed_ctx_val != null) {
+				if (analysed_ctx_val.intValue() != 0) {
 					continue;
 				}
 			}
@@ -169,10 +169,10 @@ public class HexagonAnalyzer extends AbstractAnalyzer {
 
 			}
 
-			list.clearCodeUnits(addr, addr.add(2), true);
+			list.clearCodeUnits(addr, addr.add(inst.getParsedLength()), true);
 
 			try {
-				pc.setValue(analysed, addr, addr, new BigInteger("1"));
+				pc.setValue(analysed, addr, addr.add(inst.getParsedLength()), new BigInteger("1"));
 			} catch (ContextChangeException e) {
 				e.printStackTrace();
 			}
