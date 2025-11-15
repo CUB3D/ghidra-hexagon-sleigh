@@ -18,13 +18,13 @@
 # CR:             Decode + pcode up to v79                                 regcache ever0 nvi
 # JR:             Decode + pcode up to v79                                 regcache ever0 nvi
 # J:              Decode + pcode up to v73                                 regcache ever0 nvi
-# LD:             Decode + pcode up to v73                                 regcache ever0 nvi
+# LD:             Decode + pcode up to v79                                 regcache ever0 nvi
 # LD/Dword:       Decode + pcode up to v79                                 regcache ever0 nvi
 # LD/Byte:        Decode + pcode up to v79                                 regcache ever0 nvi
 # LD/Halfword:    Decode + pcode up to v79                                 regcache ever0 nvi
 # LD/ubyte:       Decode + pcode up to v79                                 regcache ever0 nvi
-# LD/uHalfword:   Decode + pcode up to v73                                 regcache ever0 nvi
-# LD/word:        Decode + pcode up to v73                                 regcache ever0 nvi
+# LD/uHalfword:   Decode + pcode up to v79                                 regcache ever0 nvi
+# LD/word:        Decode + pcode up to v79                                 regcache ever0 nvi
 # MEMOP:          Decode + pcode up to v79                                 regcache ever0 nvi
 # NV:             Decode + pcode up to v73                                 regcache ever0 nvi
 # NV/HW:          Decode + pcode up to v73                                 regcache ever0 nvi nvst
