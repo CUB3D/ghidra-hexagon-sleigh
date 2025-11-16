@@ -82,6 +82,11 @@ with slot: iclass=0b1010  {
         S5 = S5i+s4;
         *[ram]:2 EA = T5i;
     }
+    :"memh(" S5 "++" s4 "):nt =" T5 is imm_21_27=0b1010010 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0  [s4 = imm_3_6 << 1;] {
+        local EA:4 = S5i;
+        S5 = S5i+s4;
+        *[ram]:2 EA = T5i;
+    }
 
     :"memh(" S5 "=" u6 ")=" T5 ".H" is imm_21_27=0b1011011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=1 & imm_6=0 & imm_0_5u [u6 = imm_0_5u << 1;]{
         local EA:4 = u6;
@@ -458,5 +463,24 @@ with slotNV: iclass=0b1010 {
             local EA:4 = BR_ST_HW_COND_2_u6;
             *[ram]:2 EA = T5i(2);
         <end>
+    }
+}
+
+# v79 non temporal
+with slot: iclass=0b1010 {
+    :"if(" D2_pred ") memh(" S5 "++" s4 "):nt =" T5 is imm_21_27=0b1010010 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & imm_3_6 & imm_2=0 & D2_pred & D2_predi  [s4 = imm_3_6 << 1;] {
+        if(D2_predi == 0) goto <end>;
+    local EA:4 = S5i;
+    S5 = S5i + s4;
+    *[ram]:2 EA = T5i:2;
+    <end>
+    }
+
+    :"if(!" D2_pred ") memh(" S5 "++" s4 "):nt =" T5 is imm_21_27=0b1010010 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & imm_3_6 & imm_2=0 & D2_pred & D2_predi  [s4 = imm_3_6 << 1;] {
+        if(D2_predi != 0) goto <end>;
+    local EA:4 = S5i;
+    S5 = S5i + s4;
+    *[ram]:2 EA = T5i:2;
+    <end>
     }
 }

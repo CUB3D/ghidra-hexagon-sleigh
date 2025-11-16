@@ -55,6 +55,11 @@ with slot: iclass=0b1010  {
         S5 = S5i+s4;
         *[ram]:4 EA = T5i;
     }
+    :"memw(" S5 "++" s4 "):nt =" T5 is imm_21_27=0b1010100 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0  [s4 = imm_3_6 << 2;] {
+        local EA:4 = S5i;
+        S5 = S5i+s4;
+        *[ram]:4 EA = T5i;
+    }
 
     :"memw(" S5 "<<" u2 "+" EXT_imm_0_5u ")=" T5 is imm_21_27=0b1101100 & S5 & S5i & imm_13u & T5 & T5i & imm_7=1 & imm_6u & EXT_imm_0_5u [u2 = imm_6u | (imm_13u << 1); ] {
         local EA:4 = (S5i << u2) + EXT_imm_0_5u;
@@ -267,6 +272,25 @@ with slotNV: iclass=0b1010 {
     :"if(!" D2_pred ".new) memw(" BR_ST_W_COND_2_u6 ")=" T5 is imm_21_27=0b1111100 & imm_18_20=0 & imm_16_17u & imm_13=1 & T5 & T5i & imm_7=1 & imm_3_6u & imm_2=1 & D2_pred & D2_predi & BR_ST_W_COND_2_u6  {
         if(D2_predi != 0) goto <end>;
         local EA:4 = BR_ST_W_COND_2_u6;
+        *[ram]:4 EA = T5i;
+    <end>
+    }
+}
+
+# v79 non temporal
+with slot: iclass=0b1010 {
+    :"if(" D2_pred ") memw(" S5 "++" s4 "):nt =" T5 is imm_21_27=0b1010100 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & imm_3_6 & imm_2=0 & D2_pred & D2_predi  [ s4 = imm_3_6 << 2;] {
+        if (D2_predi == 0) goto <end>;
+        local EA:4 = S5i;
+        S5 = S5i + s4;
+        *[ram]:4 EA = T5;
+    <end>
+    }
+
+    :"if(!" D2_pred ") memw(" S5 "++" s4 "):nt =" T5 is imm_21_27=0b1010100 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & imm_3_6 & imm_2=0 & D2_pred & D2_predi  [ s4 = imm_3_6 << 2;] {
+        if (D2_predi != 0) goto <end>;
+        local EA:4 = S5i;
+        S5 = S5i + s4;
         *[ram]:4 EA = T5i;
     <end>
     }

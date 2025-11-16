@@ -26,15 +26,15 @@
 # LD/uHalfword:   Decode + pcode up to v79                                 regcache ever0 nvi
 # LD/word:        Decode + pcode up to v79                                 regcache ever0 nvi
 # MEMOP:          Decode + pcode up to v79                                 regcache ever0 nvi
-# NV:             Decode + pcode up to v73                                 regcache ever0 nvi
-# NV/HW:          Decode + pcode up to v73                                 regcache ever0 nvi nvst
-# NV/W:           Decode + pcode up to v73                                 regcache ever0 nvi nvst
-# NV/B:           Decode + pcode up to v73                                 regcache ever0 nvi nvst
-# ST:             Decode + pcode up to v73                                 regcache ever0 nvi
-# ST/byte:        Decode + pcode up to v73                                 regcache ever0 nvi
-# ST/Dword:       Decode + pcode up to v73                                 regcache ever0 nvi
-# ST/halfword:    Decode + pcode up to v73                                 regcache ever0 nvi
-# ST/word:        Decode + pcode up to v73                                 regcache ever0 nvi
+# NV:             Decode + pcode up to v79                                 regcache ever0 nvi
+# NV/HW:          Decode + pcode up to v79                                 regcache ever0 nvi nvst
+# NV/W:           Decode + pcode up to v79                                 regcache ever0 nvi nvst
+# NV/B:           Decode + pcode up to v79                                 regcache ever0 nvi nvst
+# ST:             Decode + pcode up to v79                                 regcache ever0 nvi
+# ST/byte:        Decode + pcode up to v79                                 regcache ever0 nvi
+# ST/Dword:       Decode + pcode up to v79                                 regcache ever0 nvi
+# ST/halfword:    Decode + pcode up to v79                                 regcache ever0 nvi
+# ST/word:        Decode + pcode up to v79                                 regcache ever0 nvi
 # SYSTEM/USER:    Decode + pcode up to v79                                 regcache ever0 nvi
 # SYSTEM/GUEST:   Decode + pcode up to v66 (latest for this section)       regcache ever0 nvi
 # SYSTEM/MONITOR: Decode + pcode up to v66 (latest for this section)       regcache ever0 nvi

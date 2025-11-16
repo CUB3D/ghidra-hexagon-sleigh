@@ -46,6 +46,11 @@ with slot: iclass=0b1010  {
         S5 = S5i + s4;
         *[ram]:8 EA = T5_pairi;
      }
+     :"memd("S5"++"s4"):nt="T5_pair is imm_21_27=0b1010110 & S5 & S5i & imm_13=0 & T5_pair & T5_pairi & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0 [ s4 = imm_3_6 << 3;] {
+        local EA:4 = S5i;
+        S5 = S5i + s4;
+        *[ram]:8 EA = T5_pairi;
+     }
      :"memd(" S5 "<<" u2 "+" EXT_imm_0_5u ")=" T5_pair is imm_21_27=0b1101110 & S5 & S5i & imm_13u & T5_pair & T5_pairi & imm_7=1 & imm_6u & EXT_imm_0_5u [u2 = imm_6u | (imm_13u << 1); ] {
         local EA:4 = (S5i << u2) + EXT_imm_0_5u;
         *[ram]:8 EA = T5_pairi;
@@ -215,6 +220,25 @@ with slotNV: iclass=0b1010 {
     :"if(!" D2_pred_new ".new) memd(" u6 ")=" T5_pair is imm_21_27=0b1111110 & imm_18_20=0 & imm_16_17u & imm_11_13=0b110 & T5_pair & T5_pairi & imm_7=1 & imm_3_6u & imm_2=1 & D2_pred_new [u6 = imm_3_6u | (imm_16_17u << 4);] {
         if(D2_pred_new != 0) goto <end>;
     local EA:4 = u6;
+        *[ram]:8 EA = T5_pairi;
+    <end>
+    }
+}
+
+# v79 non temporal
+with slot: iclass=0b1010 {
+    :"if(" D2_pred ") memd(" S5 "++" s4 "):nt =" T5_pair is imm_21_27=0b1010110 & S5 & S5i & imm_13=1 & T5_pair & T5_pairi & imm_7=0 & imm_3_6 & imm_2=0 & D2_pred & D2_predi  [ s4 = imm_3_6 << 3;] {
+        if (D2_predi == 0) goto <end>;
+        local EA:4 = S5i;
+        S5 = S5i + s4;
+        *[ram]:8 EA = T5_pairi;
+    <end>
+    }
+
+    :"if(!" D2_pred ") memd(" S5 "++" s4 "):nt =" T5_pair is imm_21_27=0b1010110 & S5 & S5i & imm_13=1 & T5_pair & T5_pairi & imm_7=1 & imm_3_6 & imm_2=0 & D2_pred & D2_predi  [ s4 = imm_3_6 << 3;] {
+        if (D2_predi != 0) goto <end>;
+        local EA:4 = S5i;
+        S5 = S5i + s4;
         *[ram]:8 EA = T5_pairi;
     <end>
     }
