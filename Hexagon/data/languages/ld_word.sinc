@@ -7,18 +7,14 @@ with slot: iclass=0b0011  {
         D5 = *[ram]:4 EA;
     }
 }
+
+LD_MEMW_GP_ADD:"GP+"v is imm_5_13u & imm_16_20u & imm_25_26 & IS_NOT_EXT [v = (imm_5_13u | imm_16_20u << 8 | imm_16_20u<<9 | imm_25_26 <<14);] { local tmp:4 = GP + v; export *[const]:4 tmp; }
+LD_MEMW_GP_ADD:v is IS_EXT0 & immext0 & imm_5_10u [v = imm_5_10u | immext0; ] { export *[const]:4 v; }
+LD_MEMW_GP_ADD:v is IS_EXT1 & immext1 & imm_5_10u [v = imm_5_10u | immext1; ] { export *[const]:4 v; }
+
 with slot: iclass=0b0100  {
-    :D5"=memw(GP+"v")" is imm_27=1 & imm_25_26 & imm_21_24=0b1100 & imm_16_20u & imm_5_13u & D5 & (hasext0=0 | immext0used=1) [v = (imm_5_13u | (imm_16_20u << 9) | (imm_25_26 << 14)) << 2; ]  {
-        local EA:4 = GP + v;
-        D5 = *[ram]:4 EA;
-    }
-    :D5"=memw("v")" is imm_27=1 & imm_25_26 & imm_21_24=0b1100 & imm_16_20u & imm_5_13u & D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [v = (immext0) | imm_5_10u; immext0used=1; immext0everused=1; ]  {
-        local EA:4 = v;
-        D5 = *[ram]:4 EA;
-    }
-    :D5"=memw("v")" is imm_27=1 & imm_25_26 & imm_21_24=0b1100 & imm_16_20u & imm_5_13u & D5 & hasext0=1 & immext0used=1 & hasext1=1 & immext1 & imm_5_10u [v = (immext1) | imm_5_10u; immext1used=1; ]  {
-        local EA:4 = v;
-        D5 = *[ram]:4 EA;
+    :D5"=memw("LD_MEMW_GP_ADD")" is imm_27=1 & imm_21_24=0b1100 & D5 & LD_MEMW_GP_ADD {
+        D5 = *[ram]:4 LD_MEMW_GP_ADD;
     }
 }
 with slot: iclass=0b1001  {

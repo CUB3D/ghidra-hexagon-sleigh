@@ -9,13 +9,21 @@ with slotNV: iclass=0b0011 {
         *[ram]:2 EA = NV_T3_0_2_new;
     }
 }
+
+NR_NV_ST_U16_H:"GP +" u16 is imm_0_7u & imm_13u & imm_16_20u & imm_25_26u & (hasext0=0 | immext0used=1) [u16 = (imm_0_7u | imm_13u << 8 | imm_16_20u<<9 | imm_25_26u <<14) << 1;] { local tmp:4 = GP + u16:4; export *[const]:4 tmp; }
+BR_NV_ST_U16_H:"GP +" u16 is imm_0_7u & imm_13u & imm_16_20u & imm_25_26u [u16 = (imm_0_7u | imm_13u << 8 | imm_16_20u<<9 | imm_25_26u <<14) << 1;] { local tmp: 4 = GP + u16:4; export *[const]:4 tmp; }
+
+NR_NV_ST_U16_H:val is imm_0_5u & hasext0=1 & immext0used=0 & immext0 [ val = immext0 | imm_0_5u; immext0used=1; immext0everused=1; immext0pos=pktid;] { export *[const]:4 val; }
+BR_NV_ST_U16_H:val is imm_0_5u & immext0pos=pktid  & immext0 [ val = immext0 | imm_0_5u; ] { export *[const]:4 val; }
+NR_NV_ST_U16_H:val is imm_0_5u & hasext0=1 & immext0used=1 & hasext1=1 & immext1 [ val = immext1 | imm_0_5u; immext1used=1; immext1pos=pktid;] { export *[const]:4 val; }
+BR_NV_ST_U16_H:val is imm_0_5u & immext1pos=pktid  & immext1 [ val = immext1 | imm_0_5u; ] { export *[const]:4 val; }
+
 with slot: iclass=0b0100 {
-    :"memh(GP+"u16")="NV_T3_new_8_10 is imm_27=1 & imm_25_26u & imm_21_24=0b0101 & imm_16_20u & imm_13u & imm_11_12=0b01 & NV_T3_new_8_10 & imm_0_7u  [u16 = imm_0_7u | imm_13u << 8 | imm_16_20u<<9 | imm_25_26u <<14;] {}
+    :"memh("NR_NV_ST_U16_H")="NV_T3_new_8_10 is imm_27=1 & imm_25_26u & imm_21_24=0b0101 & imm_16_20u & imm_13u & imm_11_12=0b01 & NV_T3_new_8_10 & NR_NV_ST_U16_H {}
 }
 with slotNV: iclass=0b0100 {
-    :"memh(GP+"u16")="NV_T3_new_8_10 is imm_27=1 & imm_25_26u & imm_21_24=0b0101 & imm_16_20u & imm_13u & imm_11_12=0b01 & NV_T3_new_8_10 & imm_0_7u [u16 = imm_0_7u | imm_13u << 8 | imm_16_20u<<9 | imm_25_26u <<14;] {
-        local EA:4 = GP + u16;
-        *[ram]:2 EA = NV_T3_new_8_10;
+    :"memh("BR_NV_ST_U16_H")="NV_T3_new_8_10 is imm_27=1 & imm_25_26u & imm_21_24=0b0101 & imm_16_20u & imm_13u & imm_11_12=0b01 & NV_T3_new_8_10 & BR_NV_ST_U16_H {
+        *[ram]:2 BR_NV_ST_U16_H = NV_T3_new_8_10;
     }
 }
 

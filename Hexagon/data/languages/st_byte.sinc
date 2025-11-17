@@ -42,10 +42,10 @@ with slot: iclass=0b1010  {
         S5 = circ_add(S5i, s4:1, M1_13);
         *[ram]:1 EA = T5i;
      }
-    :"memb(" S5 "=" imm_0_5u ")=" T5_pair is imm_21_27=0b1011000 & S5 & S5i & imm_13=0 & T5_pair & T5_pairi & imm_7=1 & imm_6=0 & imm_0_5u {
-        local EA:4 = imm_0_5u;
-        *[ram]:1 EA = T5_pairi;
-        S5 = imm_0_5u;
+    :"memb(" S5 "=" EXT_imm_0_5u ")=" T5_pair is imm_21_27=0b1011000 & S5 & S5i & imm_13=0 & T5_pair & T5_pairi & imm_7=1 & imm_6=0 & EXT_imm_0_5u {
+        local EA:4 = EXT_imm_0_5u;
+        *[ram]:1 EA = T5_pairi:1;
+        S5 = EA;
      }
     :"memb(" S5 "++" s4 ")=" T5 is imm_21_27=0b1011000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0  [s4 = imm_3_6 << 2;] {
         local EA:4 = S5i;

@@ -7,22 +7,14 @@ with slot: iclass=0b0011  {
     D5=zext(tmp3);
     }
 }
+
+LD_MEMUB_GP_ADD:"GP+"v is imm_5_13u & imm_16_20u & imm_25_26 & IS_NOT_EXT [v = (imm_5_13u | imm_16_20u << 8 | imm_16_20u<<9 | imm_25_26 <<14);] { local tmp:4 = GP + v; export *[const]:4 tmp; }
+LD_MEMUB_GP_ADD:v is IS_EXT0 & immext0 & imm_5_10u [v = imm_5_10u | immext0; ] { export *[const]:4 v; }
+LD_MEMUB_GP_ADD:v is IS_EXT1 & immext1 & imm_5_10u [v = imm_5_10u | immext1; ] { export *[const]:4 v; }
+
 with slot: iclass=0b0100  {
-    :D5"=memub(GP+"u16")" is imm_27=1 & imm_25_26u & imm_21_24=0b1001 & imm_16_20u & imm_5_13u & D5 & (hasext0=0 | immext0used=1) [u16 = imm_5_13u | (imm_16_20u << 9) | (imm_25_26u << 14); ] {
-        local tmp:4 = u16;
-        local tmp2:4 = GP + tmp;
-        local tmp3:1 = *[ram]:1 tmp2;
-    D5=zext(tmp3);
-    }
-    :D5"=memub("v")" is imm_27=1 & imm_25_26u & imm_21_24=0b1001 & imm_16_20u & imm_5_13u & D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [v = imm_5_10u | immext0; immext0used=1; immext0everused=1;] {
-        local tmp2:4 = v;
-        local tmp3:1 = *[ram]:1 tmp2;
-    D5=zext(tmp3);
-    }
-    :D5"=memub("v")" is imm_27=1 & imm_25_26u & imm_21_24=0b1001 & imm_16_20u & imm_5_13u & D5 & hasext0=1 & hasext1=1  & immext0used=1 & immext1 & imm_5_10u [v = imm_5_10u | immext1; immext1used=1; ] {
-        local tmp2:4 = v;
-        local tmp3:1 = *[ram]:1 tmp2;
-    D5=zext(tmp3);
+    :D5"=memub("LD_MEMUB_GP_ADD")" is imm_27=1 & imm_21_24=0b1001 & D5 & LD_MEMUB_GP_ADD {
+    	D5=zext(*[ram]:1 LD_MEMUB_GP_ADD);
     }
 }
 with slot: iclass=0b1001  {
@@ -55,15 +47,10 @@ with slot: iclass=0b1001  {
         D5 = zext(*[ram]:1 EA);
     }
 
-    :D5 "=memub(" S5 "=" val ")" is imm_21_27=0b1011001 & S5 & S5i & imm_12_13=0b01 & imm_8_11u & imm_7=0 & imm_5_6u & D5 & (hasext0=0 | immext0used=1) [val = imm_5_6u | (imm_8_11u << 2);]{
-        local EA:4 = val;
+    :D5 "=memub(" S5 "=" EXT_LD_U6 ")" is imm_21_27=0b1011001 & S5 & S5i & imm_12_13=0b01 & imm_8_11u & imm_7=0 & imm_5_6u & D5 & EXT_LD_U6 {
+        local EA:4 = EXT_LD_U6;
         D5 = zext(*[ram]:1 EA);
-        S5 = val;
-    }
-    :D5 "=memub(" S5 "=" val ")" is imm_21_27=0b1011001 & S5 & S5i & imm_12_13=0b01 & imm_8_11u & imm_7=0 & imm_5_6u & D5 & hasext0=1 & immext0used=0 & immext0 [val = (imm_5_6u | (imm_8_11u << 2)) | immext0; immext0used=1; immext0everused=1;]{
-        local EA:4 = val;
-        D5 = zext(*[ram]:1 EA);
-        S5 = val;
+        S5 = EA;
     }
     :D5 "=memub(" S5 "++" imm_5_8 ")" is imm_21_27=0b1011001 & S5 & S5i & imm_12_13=0b00 & imm_9_11=0 & imm_5_8 & D5 {
         local EA:4 = S5i;

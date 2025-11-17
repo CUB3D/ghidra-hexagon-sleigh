@@ -397,12 +397,12 @@ with slotNV: iclass=0b0111 {
     }
 }
 with slot: iclass=0b0111 {
-    :"if(!"U2_pred_new_21_22".new) "D5"="s12 is imm_23_27=0b11101 & U2_pred_new_21_22 & imm_20=0 & imm_16_19 & imm_13=1 & imm_5_12u & D5 & (hasext0=0 | immext0used=1) [ s12 = imm_5_12u | (imm_16_19 << 8);]{}
+    :"if(!"U2_pred_new_21_22".new) "D5"="NR_PRED_TRANS_S12 is imm_23_27=0b11101 & U2_pred_new_21_22 & imm_20=0 & imm_16_19 & imm_13=1 & imm_5_12u & D5 & NR_PRED_TRANS_S12 {}
 }
 with slotNV: iclass=0b0111 {
-    :"if(!"U2_pred_new_21_22".new) "D5"="s12 is imm_23_27=0b11101 & U2_pred_new_21_22 & imm_20=0 & imm_16_19 & imm_13=1 & imm_5_12u & D5 & (hasext0=0 | immext0used=1) [ s12 = imm_5_12u | (imm_16_19 << 8);]{
+    :"if(!"U2_pred_new_21_22".new) "D5"="BR_PRED_TRANS_S12 is imm_23_27=0b11101 & U2_pred_new_21_22 & imm_20=0 & imm_16_19 & imm_13=1 & imm_5_12u & D5 & BR_PRED_TRANS_S12 {
         if(U2_pred_new_21_22 != 0) goto <end>;
-        D5 = s12;
+        D5 = BR_PRED_TRANS_S12;
         <end>
     }
 }
@@ -619,11 +619,11 @@ with slot: iclass=0b1111  {
 
 # ALU32/PRED:cmp gen
 with slot: iclass=0b0111  {
-    :D5 "=cmp.eq(" S5 "," imm_5_12 ")" is imm_24_27=0b0011 & imm_23=0 & imm_21_22=0b10 & S5 & S5i & imm_13=1 & imm_5_12 & D5 {
-        D5 = zext(S5i == imm_5_12);
+    :D5 "=cmp.eq(" S5 "," EXT_imm_5_12 ")" is imm_24_27=0b0011 & imm_23=0 & imm_21_22=0b10 & S5 & S5i & imm_13=1 & EXT_imm_5_12 & D5 {
+        D5 = zext(S5i == EXT_imm_5_12);
     }
-    :D5 "=!cmp.eq(" S5 "," imm_5_12 ")" is imm_24_27=0b0011 & imm_23=0 & imm_21_22=0b11 & S5 & S5i & imm_13=1 & imm_5_12 & D5 {
-        D5 = zext(S5i != imm_5_12);
+    :D5 "=!cmp.eq(" S5 "," EXT_imm_5_12 ")" is imm_24_27=0b0011 & imm_23=0 & imm_21_22=0b11 & S5 & S5i & imm_13=1 & EXT_imm_5_12 & D5 {
+        D5 = zext(S5i != EXT_imm_5_12);
     }
 }
 with slot: iclass=0b1111  {

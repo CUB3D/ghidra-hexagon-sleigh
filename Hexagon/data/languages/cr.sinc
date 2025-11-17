@@ -24,25 +24,29 @@ with slot: iclass=0b0110  {
     }
 }
 
+EXT_LOOP0_imm: tmp is IS_NOT_EXT & imm_3_4u & imm_8_12 [ tmp = inst_start + ((((imm_3_4u) | (imm_8_12 << 2))<<2) & (~3)); ] { export *[const]:4 tmp; }
+EXT_LOOP0_imm: tmp is IS_EXT0 & imm_3_4u & imm_8_11 & immext0 [ tmp = inst_start + ((((imm_3_4u) | (imm_8_11 << 2))<<0) & (~3)) + immext0; ] { export *[const]:4 tmp; }
+EXT_LOOP0_imm: tmp is IS_EXT1 & imm_3_4u & imm_8_11 & immext1 [ tmp = inst_start + ((((imm_3_4u) | (imm_8_11 << 2))<<0) & (~3)) + immext1; ] { export *[const]:4 tmp; }
+
 # CR: Loops
 with slot: iclass=0b0110  {
-    :"loop0("tmp","S5")" is imm_21_27=0b0000000 & S5 & S5i & imm_13=0 & imm_8_12 & imm_5_7=0 & imm_3_4u & imm_0_2=0 [ tmp = inst_start + ((((imm_3_4u) | (imm_8_12 << 2))<<2) & (~3)); ] {
-        SA0 = tmp;
+    :"loop0("EXT_LOOP0_imm","S5")" is imm_21_27=0b0000000 & S5 & S5i & imm_13=0 & imm_8_12 & imm_5_7=0 & imm_3_4u & imm_0_2=0 & EXT_LOOP0_imm {
+        SA0 = EXT_LOOP0_imm;
         LC0 = S5i;
         USR = USR & (~(3 << 8));
         
     }
-    :"loop1("tmp","S5")" is imm_21_27=0b0000001 & S5 & S5i & imm_13=0 & imm_8_12 & imm_5_7=0 & imm_3_4u & imm_0_2=0 [  tmp = inst_start + ((((imm_3_4u) | (imm_8_12 << 2))<<2) & (~3)); ]{
-        SA1 = tmp;
+    :"loop1("EXT_LOOP0_imm","S5")" is imm_21_27=0b0000001 & S5 & S5i & imm_13=0 & imm_8_12 & imm_5_7=0 & imm_3_4u & imm_0_2=0 & EXT_LOOP0_imm {
+        SA1 = EXT_LOOP0_imm;
         LC1 = S5i;
     }
-    :"loop0("tmp","u10")" is imm_21_27=0b1001000 & imm_16_20 & imm_13=0 & imm_8_12 & imm_5_7 & imm_3_4u & imm_2=0 & imm_0_1 [ tmp = inst_start + ((((imm_3_4u) | (imm_8_12 << 2))<<2) & (~3)); u10 = imm_0_1 | (imm_5_7 << 2) | (imm_16_20 << 5);]{
-        SA0 = tmp;
+    :"loop0("EXT_LOOP0_imm","u10")" is imm_21_27=0b1001000 & imm_16_20 & imm_13=0 & imm_8_12 & imm_5_7 & imm_3_4u & imm_2=0 & imm_0_1 & EXT_LOOP0_imm [ u10 = imm_0_1 | (imm_5_7 << 2) | (imm_16_20 << 5);]{
+        SA0 = EXT_LOOP0_imm;
         LC0 = u10;
         USR = USR & (~(3 << 8));
     }
-    :"loop1("tmp","u10")" is imm_21_27=0b1001001 & imm_16_20 & imm_13=0 & imm_8_12 & imm_5_7 & imm_3_4u & imm_2=0 & imm_0_1  [ tmp = inst_start + ((((imm_3_4u) | (imm_8_12 << 2))<<2) & (~3));  u10 = imm_0_1 | (imm_5_7 << 2) | (imm_16_20 << 5);]{
-        SA1 = tmp;
+    :"loop1("EXT_LOOP0_imm","u10")" is imm_21_27=0b1001001 & imm_16_20 & imm_13=0 & imm_8_12 & imm_5_7 & imm_3_4u & imm_2=0 & imm_0_1  & EXT_LOOP0_imm [ u10 = imm_0_1 | (imm_5_7 << 2) | (imm_16_20 << 5);]{
+        SA1 = EXT_LOOP0_imm;
         LC1 = u10;
     }
 }

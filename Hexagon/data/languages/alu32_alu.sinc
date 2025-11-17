@@ -28,7 +28,7 @@ ALU32_AND_S10:val is IS_EXT1 & immext1 & imm_5_10u  [val = imm_5_10u | immext1; 
 
 # ALU32/ALU:logical
 with slot: iclass=0b0111  {
-    :D5 = "and"(S5",#"ALU32_AND_S10) is Rs=0 & MajOp = 0b110 & imm_22_23=0b00 & S5 & S5i & D5 & ALU32_AND_S10 {
+    :D5 = "and"(S5",#"ALU32_AND_S10) is Rs=0 & MajOp = 0b110 & imm_22_23=0b00 & S5 & S5i & D5 & ALU32_AND_S10 & OUTPUT_D5 {
         D5 = S5i & ALU32_AND_S10;
     } 
     :D5 = "or("S5","ALU32_AND_S10")" is Rs=0 & MajOp = 0b110 & imm_22_23=0b10 & S5 & S5i & D5 & ALU32_AND_S10 {

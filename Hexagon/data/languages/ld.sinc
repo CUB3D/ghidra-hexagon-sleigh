@@ -4,7 +4,7 @@ NR_LD_COND_u6: val is imm_8u & imm_16_20u & (hasext0=0 | immext0used=1) [val = i
 BR_LD_COND_u6: val is imm_8u & imm_16_20u [val = imm_8u | (imm_16_20u << 1);] {export *[const]:4 val;}
 NR_LD_COND_u6: val is imm_8u & imm_16_20u & hasext0=1 & immext0used=0 & immext0 [val = immext0 | imm_8u | (imm_16_20u << 1); immext0used=1; immext0everused=1; immext0pos=pktid;] {export *[const]:4 val;}
 BR_LD_COND_u6: val is imm_8u & imm_16_20u & immext0pos=pktid & immext0 [val = immext0 | imm_8u | (imm_16_20u << 1); ] {export *[const]:4 val;}
-NR_LD_COND_u6: val is imm_8u & imm_16_20u & hasext0=1 & immext0used=1 & hasext1=1 & immext1 [val = immext1 | imm_8u | (imm_16_20u << 1); immext1pos=pktid;] {export *[const]:4 val;}
+NR_LD_COND_u6: val is imm_8u & imm_16_20u & hasext0=1 & immext0used=1 & hasext1=1 & immext1 [val = immext1 | imm_8u | (imm_16_20u << 1); immext1pos=pktid; immext1used=1;] {export *[const]:4 val;}
 BR_LD_COND_u6: val is imm_8u & imm_16_20u & immext1pos=pktid & immext1 [val = immext1 | imm_8u | (imm_16_20u << 1); ] {export *[const]:4 val;}
 
 

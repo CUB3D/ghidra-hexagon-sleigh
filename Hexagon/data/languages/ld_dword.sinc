@@ -5,18 +5,14 @@ with slot: iclass=0b0011  {
         D5_pair = *[ram]:8 EA;
     }
 }
+
+LD_MEMD_GP_ADD:"GP+"v is imm_5_13u & imm_16_20u & imm_25_26 & IS_NOT_EXT [v = (imm_5_13u | imm_16_20u << 8 | imm_16_20u<<9 | imm_25_26 <<14)<<3;] { local tmp:4 = GP + v; export *[const]:4 tmp; }
+LD_MEMD_GP_ADD:v is IS_EXT0 & immext0 & imm_5_10u [v = imm_5_10u | immext0; ] { export *[const]:4 v; }
+LD_MEMD_GP_ADD:v is IS_EXT1 & immext1 & imm_5_10u [v = imm_5_10u | immext1; ] { export *[const]:4 v; }
+
 with slot: iclass=0b0100  {
-    :D5_pair "=memd(GP+" u16 ")" is imm_27=1 & imm_25_26u & imm_21_24=0b1110 & imm_16_20u & imm_5_13u & D5_pair & (hasext0=0 | immext0used=1) [u16 = (imm_5_13u | (imm_16_20u << 9) | (imm_25_26u << 14)) << 3; ]{
-        local tmp2:4 = GP + u16;
-        D5_pair = *[ram]:8 tmp2;
-    }
-    :D5_pair "=memd(" u16 ")" is imm_27=1 & imm_25_26u & imm_21_24=0b1110 & imm_16_20u & imm_5_13u & D5_pair & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [u16 = immext0 | imm_5_10u; immext0used=1; immext0everused=1;]{
-        local tmp2:4 = u16;
-        D5_pair = *[ram]:8 tmp2;
-    }
-    :D5_pair "=memd(" u16 ")" is imm_27=1 & imm_25_26u & imm_21_24=0b1110 & imm_16_20u & imm_5_13u & D5_pair & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [u16 = immext1 | imm_5_10u; immext1used=1; immext0everused=1;]{
-        local tmp2:4 = u16;
-        D5_pair = *[ram]:8 tmp2;
+    :D5_pair "=memd("LD_MEMD_GP_ADD")" is imm_27=1 & imm_25_26u & imm_21_24=0b1110 & imm_16_20u & imm_5_13u & D5_pair & LD_MEMD_GP_ADD {
+        D5_pair = *[ram]:8 LD_MEMD_GP_ADD;
     }
 }
 with slot: iclass=0b1001  {
@@ -109,36 +105,49 @@ with slotNV: iclass=0b0011 {
     <end>
     }
 }
+
+
+NR_EXT_COND_D_u6:v  is imm_5_10u & IS_NOT_EXT [ v = imm_5_10u << 3;] { export *[const]:4 v; }
+BR_EXT_COND_D_u6:v  is imm_5_10u [ v = imm_5_10u << 3;] { export *[const]:4 v; }
+
+NR_EXT_COND_D_u6:val       is imm_5_10u & IS_EXT0 & immext0 [ val = immext0 | imm_5_10u; immext0pos=pktid;  ] { export *[const]:4 val; }
+BR_EXT_COND_D_u6:v is immext0pos=pktid & immext0 & imm_5_10u [v = imm_5_10u | immext0; ]  { export *[const]:4 v; }
+
+NR_EXT_COND_D_u6:val       is imm_5_10u & IS_EXT1 & immext1 [ val = immext1 | imm_5_10u; immext1pos=pktid;  ] { export *[const]:4 val; }
+BR_EXT_COND_D_u6:v is immext1pos=pktid & immext1 & imm_5_10u [v = imm_5_10u | immext1; ]  { export *[const]:4 v; }
+
+#TODO: by, hw, ub, w
+
 with slot: iclass=0b0100 {
-    :"if("T2_11_12_pred") "D5_pair"=memd("S5"+#"u6")" is imm_21_27=0b0001110 & S5 & S5i & imm_13=0 & T2_11_12_pred & T2_11_12_predi & imm_5_10 & D5_pair   [ u6 = imm_5_10 << 3;]{
+    :"if("T2_11_12_pred") "D5_pair"=memd("S5"+#"NR_EXT_COND_D_u6")" is imm_21_27=0b0001110 & S5 & S5i & imm_13=0 & T2_11_12_pred & T2_11_12_predi & imm_5_10 & D5_pair & NR_EXT_COND_D_u6 {
         if(T2_11_12_predi == 0) goto <end>;
-        local EA:4 = S5i + u6;
+        local EA:4 = S5i + NR_EXT_COND_D_u6;
         D5_pair = *[ram]:8 EA;
         <end>
     }
-    :"if("T2_11_12_pred_new".new) "D5_pair"=memd("S5"+#"u6")" is imm_21_27=0b0011110 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10 & D5_pair  [ u6 = imm_5_10 << 3;]{}
+    :"if("T2_11_12_pred_new".new) "D5_pair"=memd("S5"+#"NR_EXT_COND_D_u6")" is imm_21_27=0b0011110 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10 & D5_pair & NR_EXT_COND_D_u6 {}
 }
 with slotNV: iclass=0b0100 {
-    :"if("T2_11_12_pred_new".new) "D5_pair"=memd("S5"+#"u6")" is imm_21_27=0b0011110 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10 & D5_pair [ u6 = imm_5_10 << 3;]{
+    :"if("T2_11_12_pred_new".new) "D5_pair"=memd("S5"+#"BR_EXT_COND_D_u6")" is imm_21_27=0b0011110 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10 & D5_pair & BR_EXT_COND_D_u6 {
         if(T2_11_12_pred_new == 0) goto <end>;
-        local EA:4 = S5i + u6;
+        local EA:4 = S5i + BR_EXT_COND_D_u6;
         D5_pair = *[ram]:8 EA;
         <end>
     }
 }
 with slot: iclass=0b0100 {
-    :"if(!"T2_11_12_pred") "D5_pair"=memd("S5"+#"u6")" is imm_21_27=0b0101110 & S5 & S5i & imm_13=0 & T2_11_12_pred & T2_11_12_predi & imm_5_10 & D5_pair  [ u6 = imm_5_10 << 3;]{
+    :"if(!"T2_11_12_pred") "D5_pair"=memd("S5"+#"NR_EXT_COND_D_u6")" is imm_21_27=0b0101110 & S5 & S5i & imm_13=0 & T2_11_12_pred & T2_11_12_predi & imm_5_10 & D5_pair & NR_EXT_COND_D_u6 {
         if(T2_11_12_predi != 0) goto <end>;
-        local EA:4 = S5i + u6;
+        local EA:4 = S5i + NR_EXT_COND_D_u6;
         D5_pair = *[ram]:8 EA;
         <end>
     }
-    :"if(!"T2_11_12_pred_new".new) "D5_pair"=memd("S5"+#"u6")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10 & D5_pair  [ u6 = imm_5_10 << 3;] {}
+    :"if(!"T2_11_12_pred_new".new) "D5_pair"=memd("S5"+#"NR_EXT_COND_D_u6")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10 & D5_pair & NR_EXT_COND_D_u6 {}
 }
 with slotNV: iclass=0b0100 {
-    :"if(!"T2_11_12_pred_new".new) "D5_pair"=memd("S5"+#"u6")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10 & D5_pair [ u6 = imm_5_10 << 3;] {
+    :"if(!"T2_11_12_pred_new".new) "D5_pair"=memd("S5"+#"BR_EXT_COND_D_u6")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T2_11_12_pred_new & imm_5_10 & D5_pair & BR_EXT_COND_D_u6 {
         if(T2_11_12_pred_new != 0) goto <end>;
-        local EA:4 = S5i + u6;
+        local EA:4 = S5i + BR_EXT_COND_D_u6;
         D5_pair = *[ram]:8 EA;
         <end>
     }
