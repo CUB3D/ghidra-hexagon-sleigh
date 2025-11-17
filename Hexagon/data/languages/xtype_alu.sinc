@@ -28,25 +28,19 @@ with slot: iclass=0b1000  {
     }
 }
 
+EXT_XTYPE_ALU_ADDACC_s6: s6 is imm_5_7u & imm_13u & imm_21_22 & IS_NOT_EXT [ s6 = imm_5_7u | (imm_13u << 3) | (imm_21_22 << 4);] { export *[const]:4 s6;}
+EXT_XTYPE_ALU_ADDACC_s6: s6 is imm_5_7u & imm_13u & imm_21_22u & IS_EXT0 & immext0 [ s6 = imm_5_7u | (imm_13u << 3) | (imm_21_22u << 4) | immext0;] { export *[const]:4 s6;}
+EXT_XTYPE_ALU_ADDACC_s6: s6 is imm_5_7u & imm_13u & imm_21_22u & IS_EXT1 & immext1 [ s6 = imm_5_7u | (imm_13u << 3) | (imm_21_22u << 4) | immext1;] { export *[const]:4 s6;}
+
 # XTYPE/ALU:Add acc
 with slot: iclass=0b1101 {
     
-        :T5 "=add(" S5 ", add(" D5 "," s6 "))" is imm_23_27=0b10110 & imm_21_22 & S5 & S5i & imm_13u & T5 & T5i & imm_5_7u & D5 & D5i & IS_NOT_EXT [ s6 = imm_5_7u | (imm_13u << 3) | (imm_21_22 << 4);] {
-        local EA:4 = D5i + s6;
+        :T5 "=add(" S5 ", add(" D5 "," EXT_XTYPE_ALU_ADDACC_s6 "))" is imm_23_27=0b10110 & imm_21_22 & S5 & S5i & imm_13u & T5 & T5i & imm_5_7u & D5 & D5i & EXT_XTYPE_ALU_ADDACC_s6 {
+        local EA:4 = D5i + EXT_XTYPE_ALU_ADDACC_s6;
         T5 = EA + S5i;
         }
-        :T5 "=add(" S5 ", sub(" s6 "," D5 "))" is imm_23_27=0b10111 & imm_21_22 & S5 & S5i & imm_13u & T5 & T5i & imm_5_7u & D5 & D5i & IS_NOT_EXT [ s6 = imm_5_7u | (imm_13u << 3) | (imm_21_22 << 4);] {
-        local EA:4 = s6 - D5i;
-        T5 = EA + S5i;
-        }
-        
-    
-        :T5 "=add(" S5 ", add(" D5 "," s6 "))" is imm_23_27=0b10110 & imm_21_22 & S5 & S5i & imm_13u & T5 & T5i & imm_5_7u & D5 & D5i & immext0 & IS_EXT0 [ s6 = (imm_5_7u | (imm_13u << 3) | (imm_21_22 << 4)) | immext0; ] {
-        local EA:4 = D5i + s6;
-        T5 = EA + S5i;
-        }
-        :T5 "=add(" S5 ", sub(" s6 "," D5 "))" is imm_23_27=0b10111 & imm_21_22 & S5 & S5i & imm_13u & T5 & T5i & imm_5_7u & D5 & D5i & immext0 & IS_EXT0 [ s6 = (imm_5_7u | (imm_13u << 3) | (imm_21_22 << 4)) | immext0; ] {
-        local EA:4 = s6 - D5i;
+        :T5 "=add(" S5 ", sub(" EXT_XTYPE_ALU_ADDACC_s6 "," D5 "))" is imm_23_27=0b10111 & imm_21_22 & S5 & S5i & imm_13u & T5 & T5i & imm_5_7u & D5 & D5i & EXT_XTYPE_ALU_ADDACC_s6 {
+        local EA:4 = EXT_XTYPE_ALU_ADDACC_s6 - D5i;
         T5 = EA + S5i;
         }
     

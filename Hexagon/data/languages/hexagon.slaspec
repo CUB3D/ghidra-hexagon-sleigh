@@ -836,19 +836,19 @@ LRc
 ];
 
 define register offset=0x80 size=4 [
-    SA0 # 80
-    LC0 # 84
-    SA1 # 88
-    LC1 # 8c
-    P30 # 90
+    SA0   # 80
+    LC0   # 84
+    SA1   # 88
+    LC1   # 8c
+    P30   # 90
     Reserve_5 # 94
-    M0 # 98
-    M1 # 9c
-    USR # a0
-    PC
-    UGP
-    GP
-    CS0
+    M0    # 98
+    M1    # 9c
+    USR   # a0
+    PC    # a4
+    UGP   # a8
+    GP    # ac
+    CS0   # d0
     CS1
     UPCYCLELO
     UPCYCLEHI

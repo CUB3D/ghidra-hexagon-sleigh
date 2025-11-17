@@ -26,12 +26,20 @@ with slotNV: iclass=0b0100 {
         *[ram]:1 BR_NV_ST_GP_U16_B = NV_T3_new_8_10;
     }
 }
+
+NR_NV_B_S11: s11 is imm_0_7u & imm_13u & imm_25_26 & IS_NOT_EXT [s11 = imm_0_7u | (imm_13u<<8) | (imm_25_26 << 9);] { export *[const]:4 s11; }
+BR_NV_B_S11: s11 is imm_0_7u & imm_13u & imm_25_26 [s11 = imm_0_7u | (imm_13u<<8) | (imm_25_26 << 9);] { export *[const]:4 s11; }
+NR_NV_B_S11: s11 is imm_0_5u & IS_EXT0 & immext0 [s11 = imm_0_5u | immext0; immext0pos=pktid;] { export *[const]:4 s11; }
+BR_NV_B_S11: s11 is imm_0_5u & immext0pos=pktid & immext0 [s11 = imm_0_5u | immext0; ] { export *[const]:4 s11; }
+NR_NV_B_S11: s11 is imm_0_5u & IS_EXT1 & immext1 [s11 = imm_0_5u | immext1; immext1pos=pktid;] { export *[const]:4 s11; }
+BR_NV_B_S11: s11 is imm_0_5u & immext1pos=pktid & immext1 [s11 = imm_0_5u | immext1; ] { export *[const]:4 s11; }
+
 with slot: iclass=0b1010 {
-    :"memb(" S5 "+" s11 ")=" NV_T3_new_8_10 is imm_27=0 & imm_25_26 & imm_21_24=0b1101 & S5 & S5i & imm_13u & imm_11_12=0b00 & NV_T3_new_8_10 & imm_0_7u  [s11 = imm_0_7u | (imm_13u<<8) | (imm_25_26 << 9);]{}
+    :"memb(" S5 "+" NR_NV_B_S11 ")=" NV_T3_new_8_10 is imm_27=0 & imm_21_24=0b1101 & S5 & S5i & imm_11_12=0b00 & NV_T3_new_8_10 & NR_NV_B_S11 {}
 }
 with slotNV: iclass=0b1010 {
-    :"memb(" S5 "+" s11 ")=" NV_T3_new_8_10 is imm_27=0 & imm_25_26 & imm_21_24=0b1101 & S5 & S5i & imm_13u & imm_11_12=0b00 & NV_T3_new_8_10 & imm_0_7u & mode=230 [s11 = imm_0_7u | (imm_13u<<8) | (imm_25_26 << 9);]{
-        local EA:4 = S5i + s11;
+    :"memb(" S5 "+" BR_NV_B_S11 ")=" NV_T3_new_8_10 is imm_27=0 & imm_21_24=0b1101 & S5 & S5i & imm_11_12=0b00 & NV_T3_new_8_10 & BR_NV_B_S11 {
+        local EA:4 = S5i + BR_NV_B_S11;
         *[ram]:1 EA = NV_T3_new_8_10;
     }
 }
