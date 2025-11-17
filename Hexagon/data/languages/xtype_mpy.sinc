@@ -80,7 +80,7 @@ with slot: iclass=0b1110  {
     }
 }
 
-# XTYPE/MPY: vec mul w by sign 32
+# XTYPE/MPY: vec mul word by signed half (32x16)
 define pcodeop vmpyweh_sat;
 define pcodeop vmpywoh_sat;
 define pcodeop vmpyweh_rnd_sat;
@@ -146,7 +146,7 @@ with slot: iclass=0b1110  {
     }
 }
 
-# XTYPE/MPY: Mul signed hw#
+# XTYPE/MPY: Mul signed hw
 define pcodeop mpy_rnd;
 define pcodeop mpy_sat;
 define pcodeop mpy_rnd_sat;

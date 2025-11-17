@@ -139,6 +139,8 @@ define pcodeop ret_t;
 define pcodeop ret_f;
 define pcodeop ret_tnew;
 define pcodeop ret_fnew;
+
+#if(p0) dealloc_ret
 L2L:"ret_t" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_0_2=0b100 & mode=0 {
     ret_t();
 }
@@ -146,6 +148,7 @@ L2R:"ret_t" is immdup1_6_12=0b1111101 & immdup1_3_5=0 & immdup1_0_2=0b100 & mode
     ret_t();
 }
 
+#if(!p0) dealloc_ret
 L2L:"ret_f" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_0_2=0b101 & mode=0 {
     ret_f();
 }
