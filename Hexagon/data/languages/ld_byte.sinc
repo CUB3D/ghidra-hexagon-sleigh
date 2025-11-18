@@ -1,6 +1,6 @@
 #LD:Load by
 with slot: iclass=0b0011  {
-    :D5 "=memb(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b1010000 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & imm_5_6=0 & D5 [ u2 = imm_7u | (imm_13u << 1);] {
+    :D5 "=memb(" S5 "+" T5 "<<" u2 ")" is imm_21_27=0b1010000 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & imm_5_6=0 & D5 & OUTPUT_D5 [ u2 = imm_7u | (imm_13u << 1);] {
         local EA:4 = S5i + (T5i << u2);
         D5 = sext(*[ram]:1 EA);
     }
@@ -11,20 +11,20 @@ LD_MEMB_GP_ADD:v is IS_EXT0 & immext0 & imm_5_10u [v = imm_5_10u | immext0; ] { 
 LD_MEMB_GP_ADD:v is IS_EXT1 & immext1 & imm_5_10u [v = imm_5_10u | immext1; ] { export *[const]:4 v; }
 
 with slot: iclass=0b0100  {
-    :D5"=memb("LD_MEMB_GP_ADD")" is imm_27=1 & imm_25_26 & imm_21_24=0b1000 & imm_16_20u & imm_5_13u & D5 & LD_MEMB_GP_ADD  {
+    :D5"=memb("LD_MEMB_GP_ADD")" is imm_27=1 & imm_25_26 & imm_21_24=0b1000 & imm_16_20u & imm_5_13u & D5 & LD_MEMB_GP_ADD & OUTPUT_D5  {
         D5 = sext(*[ram]:1 LD_MEMB_GP_ADD);
     }
 }
 with slot: iclass=0b1001  {
-    :D5"=memb("S5"+"s11")" is imm_27=0 & imm_25_26 & imm_21_24=0b1000 & S5 & S5i & imm_5_13u & D5 & (hasext0=0 | immext0used=1) [ s11 = ((imm_5_13u | (imm_25_26 << 9)));]{
+    :D5"=memb("S5"+"s11")" is imm_27=0 & imm_25_26 & imm_21_24=0b1000 & S5 & S5i & imm_5_13u & D5 & OUTPUT_D5 & (hasext0=0 | immext0used=1) [ s11 = ((imm_5_13u | (imm_25_26 << 9)));]{
         local EA:4 = S5i + s11;
         D5 = sext(*[ram]:1 EA);
     }
-    :D5"=memb("S5"+"s11")" is imm_27=0 & imm_25_26 & imm_21_24=0b1000 & S5 & S5i & imm_5_13u & D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ s11 = ((imm_5_13u | immext0 )); immext0used=1;immext0everused=1;]{
+    :D5"=memb("S5"+"s11")" is imm_27=0 & imm_25_26 & imm_21_24=0b1000 & S5 & S5i & imm_5_13u & D5 & OUTPUT_D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ s11 = ((imm_5_13u | immext0 )); immext0used=1;immext0everused=1;]{
         local EA:4 = S5i + s11;
         D5 = sext(*[ram]:1 EA);
     }
-    :D5"=memb("S5"+"s11")" is imm_27=0 & imm_25_26 & imm_21_24=0b1000 & S5 & S5i & imm_5_13u & D5 & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [ s11 = ((imm_5_13u | immext1 )); immext1used=1;]{
+    :D5"=memb("S5"+"s11")" is imm_27=0 & imm_25_26 & imm_21_24=0b1000 & S5 & S5i & imm_5_13u & D5 & OUTPUT_D5 & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [ s11 = ((imm_5_13u | immext1 )); immext1used=1;]{
         local EA:4 = S5i + s11;
         D5 = sext(*[ram]:1 EA);
     }
@@ -56,12 +56,12 @@ with slot: iclass=0b1001  {
         D5 = sext(*[ram]:1 EA);
     }
 
-    :D5 "=memb(" S5 "++" M1_13 ")" is imm_21_27=0b1101000 & S5 & S5i & M1_13 & imm_12=0 & imm_8_12=0 & imm_7=0 & imm_5_6=0 & D5 {
+    :D5 "=memb(" S5 "++" M1_13 ")" is imm_21_27=0b1101000 & S5 & S5i & M1_13 & imm_12=0 & imm_8_12=0 & imm_7=0 & imm_5_6=0 & D5 & OUTPUT_D5 {
         local EA:4 = S5i;
         S5 = S5i+M1_13;
         D5 = sext(*[ram]:1 EA);
     }
-    :D5 "=memb(" S5 "++" M1_13 ":brev)" is imm_21_27=0b1111000 & S5 & S5i & M1_13 & imm_12=0 & imm_8_12=0 & imm_7=0 & imm_5_6=0 & D5 {
+    :D5 "=memb(" S5 "++" M1_13 ":brev)" is imm_21_27=0b1111000 & S5 & S5i & M1_13 & imm_12=0 & imm_8_12=0 & imm_7=0 & imm_5_6=0 & D5 & OUTPUT_D5 {
         local rx_h:2 = S5i(2);
     local rx_l:2 = brev(S5i:2);
         local EA:4 = zext(rx_h | rx_l);

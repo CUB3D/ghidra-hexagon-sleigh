@@ -26,13 +26,6 @@ def init_emu(emuHelper):
     emuHelper.writeRegister("FP", 0)
     emuHelper.writeRegister("USR", 0)
 
-class UnimplNVCallback(BreakCallBack):
-    def __init__(self):
-        pass
-    def pcodeCallback(self, _state):
-        #print("_unimpl_nv()")
-        return True
-
 class DCacheZeroAddrCallback(BreakCallBack):
     def __init__(self):
         pass
@@ -82,6 +75,7 @@ IN_BUF_END = 0xc6702e08
 DECOMPRESS_FUNCTION = 0xc0bac220
 
 # Pixel 5, March 2023
+# this might actually be clade
 # OUT_BUF = 0xD0000000
 # IN_BUF = 0xCF600000
 # IN_BUF_END = 0xCF70F3C9
@@ -93,7 +87,6 @@ def main():
     global IN_BUF_END
 
     emuHelper = EmulatorHelper(currentProgram)
-    emuHelper.registerCallOtherCallback("_unimpl_nv", UnimplNVCallback())
     emuHelper.registerCallOtherCallback("dcache_zero_addr", DCacheZeroAddrCallback())
     emuHelper.registerCallOtherCallback("l2fetch", L2FetchCallback())
     emuHelper.registerCallOtherCallback("dcache_fetch", DCacheFetchCallback())

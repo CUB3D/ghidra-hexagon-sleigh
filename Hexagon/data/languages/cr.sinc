@@ -53,7 +53,7 @@ with slot: iclass=0b0110  {
 
 # CR:Pc add
 with slot: iclass=0b0110 {
-    :D5"=add(pc,"EXT_imm_7_12")" is imm_16_27=0b101001001001 & imm_13=0 & imm_7_12 & imm_5_6=0 & D5 & EXT_imm_7_12 {
+    :D5"=add(pc,"EXT_imm_7_12")" is imm_16_27=0b101001001001 & imm_13=0 & imm_7_12 & imm_5_6=0 & D5 & EXT_imm_7_12 & OUTPUT_D5 {
         D5 = inst_start + EXT_imm_7_12;
     }
 }
@@ -170,7 +170,7 @@ with slot: iclass=0b0110  {
     :D5_pair "=" S5_ctrl_pair is imm_21_27=0b1000000 & S5_ctrl_pair & imm_5_13=0 & D5_pair {
         D5_pair = S5_ctrl_pair;
     }
-    :D5 = S5_ctrl is imm_21_27=0b1010000 & S5_ctrl & imm_5_13=0 & D5 {
+    :D5 = S5_ctrl is imm_21_27=0b1010000 & S5_ctrl & imm_5_13=0 & D5 & OUTPUT_D5 {
         D5 = S5_ctrl;
     }
 }

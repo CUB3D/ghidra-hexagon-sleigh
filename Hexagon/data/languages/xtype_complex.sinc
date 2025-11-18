@@ -81,10 +81,10 @@ with slot: iclass=0b1110  {
 define pcodeop cmpy_rnd_sat;
 define pcodeop cmpy_conj_rnd_sat;
 with slot: iclass=0b1110  {
-    :D5 "=cmpy(" S5 "," T5 "):<<" imm_23u ":rnd:sat" is imm_24_27=0b1101 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 {
+    :D5 "=cmpy(" S5 "," T5 "):<<" imm_23u ":rnd:sat" is imm_24_27=0b1101 & imm_23u & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 & OUTPUT_D5 {
         D5 = cmpy_rnd_sat(S5i, T5i) << imm_23u;
     }
-    :D5 "=cmpy(" S5 "," T5 "*):<<" imm_23u ":rnd:sat" is imm_24_27=0b1101 & imm_23u & imm_21_22=0b11 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 {
+    :D5 "=cmpy(" S5 "," T5 "*):<<" imm_23u ":rnd:sat" is imm_24_27=0b1101 & imm_23u & imm_21_22=0b11 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 & OUTPUT_D5 {
         D5 = cmpy_conj_rnd_sat(S5i, T5i) << imm_23u;
     }
 }
@@ -95,16 +95,16 @@ define pcodeop cmpyiwh_conj_rnd_sat;
 define pcodeop cmpyrwh_rnd_sat;
 define pcodeop cmpyrwh_conj_rnd_sat;
 with slot: iclass=0b1100  {
-    :D5 "=cmpyiwh(" S5_pair "," T5 "):<<1:rnd:sat" is imm_24_27=0b0101 & imm_21_23=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 {
+    :D5 "=cmpyiwh(" S5_pair "," T5 "):<<1:rnd:sat" is imm_24_27=0b0101 & imm_21_23=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 & OUTPUT_D5 {
         D5 = cmpyiwh_rnd_sat(S5_pairi, T5i)<<1;
     }
-    :D5 "=cmpyiwh(" S5_pair "," T5 "*):<<1:rnd:sat" is imm_24_27=0b0101 & imm_21_23=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_5_7=0b101 & D5 {
+    :D5 "=cmpyiwh(" S5_pair "," T5 "*):<<1:rnd:sat" is imm_24_27=0b0101 & imm_21_23=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_5_7=0b101 & D5 & OUTPUT_D5 {
         D5 = cmpyiwh_conj_rnd_sat(S5_pairi, T5i)<<1;
     }
-    :D5 "=cmpyrwh(" S5_pair "," T5 "):<<1:rnd:sat" is imm_24_27=0b0101 & imm_21_23=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 {
+    :D5 "=cmpyrwh(" S5_pair "," T5 "):<<1:rnd:sat" is imm_24_27=0b0101 & imm_21_23=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 & OUTPUT_D5 {
         D5 = cmpyrwh_rnd_sat(S5_pairi, T5i)<<1;
     }
-    :D5 "=cmpyrwh(" S5_pair "," T5 "*):<<1:rnd:sat" is imm_24_27=0b0101 & imm_21_23=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 {
+    :D5 "=cmpyrwh(" S5_pair "," T5 "*):<<1:rnd:sat" is imm_24_27=0b0101 & imm_21_23=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 & OUTPUT_D5 {
         D5 = cmpyrwh_conj_rnd_sat(S5_pairi, T5i)<<1;
     }
 }
@@ -138,29 +138,29 @@ with slot: iclass=0b1110  {
        D5_pair = cmpyiw_conj(S5_pairi, T5_pairi);
     }
     
-    :D5 "=cmpyiw(" S5_pair "," T5_pair "*):<<1:sat" is imm_21_27=0b1001000 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b100 & D5 {
+    :D5 "=cmpyiw(" S5_pair "," T5_pair "*):<<1:sat" is imm_21_27=0b1001000 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b100 & D5 & OUTPUT_D5 {
         D5 = cmpyiw_conj_sat(S5_pairi, T5_pairi) << 1;
     }
-    :D5 "=cmpyiw(" S5_pair "," T5_pair "):<<1:sat" is imm_21_27=0b1001001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5 {
+    :D5 "=cmpyiw(" S5_pair "," T5_pair "):<<1:sat" is imm_21_27=0b1001001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5 & OUTPUT_D5 {
         D5 = cmpyiw_sat(S5_pairi, T5_pairi) << 1;
     }
-    :D5 "=cmpyrw(" S5_pair "," T5_pair "):<<1:sat" is imm_21_27=0b1001010 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5 {
+    :D5 "=cmpyrw(" S5_pair "," T5_pair "):<<1:sat" is imm_21_27=0b1001010 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5 & OUTPUT_D5 {
          D5 = cmpyrw_sat(S5_pairi, T5_pairi) << 1;
     }
-    :D5 "=cmpyrw(" S5_pair "," T5_pair "*):<<1:sat" is imm_21_27=0b1001011 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5 {
+    :D5 "=cmpyrw(" S5_pair "," T5_pair "*):<<1:sat" is imm_21_27=0b1001011 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5 & OUTPUT_D5 {
         D5 = cmpyrw_conj_sat(S5_pairi, T5_pairi) << 1;
     }
     
-    :D5 "=cmpyiw(" S5_pair "," T5_pair "*):<<1:rnd:sat" is imm_21_27=0b1001100 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b100 & D5 {
+    :D5 "=cmpyiw(" S5_pair "," T5_pair "*):<<1:rnd:sat" is imm_21_27=0b1001100 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b100 & D5 & OUTPUT_D5 {
         D5 = cmpyiw_conj_rnd_sat(S5_pairi, T5_pairi) << 1;
     }
-    :D5 "=cmpyiw(" S5_pair "," T5_pair "):<<1:rnd:sat" is imm_21_27=0b1001101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5 {
+    :D5 "=cmpyiw(" S5_pair "," T5_pair "):<<1:rnd:sat" is imm_21_27=0b1001101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5 & OUTPUT_D5 {
         D5 = cmpyiw_rnd_sat(S5_pairi, T5_pairi) << 1;
     }
-    :D5 "=cmpyrw(" S5_pair "," T5_pair "):<<1:rnd:sat" is imm_21_27=0b1001110 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5 {
+    :D5 "=cmpyrw(" S5_pair "," T5_pair "):<<1:rnd:sat" is imm_21_27=0b1001110 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5 & OUTPUT_D5 {
         D5 = cmpyrw_rnd_sat(S5_pairi, T5_pairi) << 1;
     }
-    :D5 "=cmpyrw(" S5_pair "," T5_pair "*):<<1:rnd:sat" is imm_21_27=0b1001111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5 {
+    :D5 "=cmpyrw(" S5_pair "," T5_pair "*):<<1:rnd:sat" is imm_21_27=0b1001111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5 & OUTPUT_D5 {
         D5 = cmpyrw_conj_rnd_sat(S5_pairi, T5_pairi) << 1;
     }
 #ns
@@ -271,10 +271,10 @@ with slot: iclass=0b1110  {
 define pcodeop vrcmpys_rnd_sat_raw_hi;
 define pcodeop vrcmpys_rnd_sat_raw_lo;
 with slot: iclass=0b1110  {
-    :D5 "=vrcmpys(" S5_pair "," T5_pair "):<<1:rnd:sat:raw:hi" is imm_23_27=0b10011 & imm_22=0 & imm_21=1 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b110 & D5 {
+    :D5 "=vrcmpys(" S5_pair "," T5_pair "):<<1:rnd:sat:raw:hi" is imm_23_27=0b10011 & imm_22=0 & imm_21=1 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b110 & D5 & OUTPUT_D5 {
         D5 = vrcmpys_rnd_sat_raw_hi(S5_pairi, T5_pairi) << 1;
     }
-    :D5 "=vrcmpys(" S5_pair "," T5_pair "):<<1:rnd:sat:raw:lo" is imm_23_27=0b10011 & imm_22=0 & imm_21=1 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b111 & D5 {
+    :D5 "=vrcmpys(" S5_pair "," T5_pair "):<<1:rnd:sat:raw:lo" is imm_23_27=0b10011 & imm_22=0 & imm_21=1 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b111 & D5 & OUTPUT_D5 {
         D5 = vrcmpys_rnd_sat_raw_lo(S5_pairi, T5_pairi) << 1;
     }
 }

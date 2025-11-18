@@ -1321,6 +1321,27 @@ OUTPUT_D5: is pktid=2 & imm_0_4 [ or2test = imm_0_4 << 2; analysed=1; ] {}
 OUTPUT_D5: is pktid=3 & imm_0_4 [ or3test = imm_0_4 << 2; analysed=1; ] {}
 OUTPUT_D5: is pktid=4 {}
 
+OUTPUT_S5: is pktid=1 & imm_16_20 [ or1test = imm_16_20 << 2; analysed=1; ] {}
+OUTPUT_S5: is pktid=2 & imm_16_20 [ or2test = imm_16_20 << 2; analysed=1; ] {}
+OUTPUT_S5: is pktid=3 & imm_16_20 [ or3test = imm_16_20 << 2; analysed=1; ] {}
+OUTPUT_S5: is pktid=4 {}
+
+OUTPUT_T5: is pktid=1 & imm_8_12 [ or1test = imm_8_12 << 2; analysed=1; ] {}
+OUTPUT_T5: is pktid=2 & imm_8_12 [ or2test = imm_8_12 << 2; analysed=1; ] {}
+OUTPUT_T5: is pktid=3 & imm_8_12 [ or3test = imm_8_12 << 2; analysed=1; ] {}
+OUTPUT_T5: is pktid=4 {}
+
+OUTPUT_D4_16_19: is pktid=1 & imm_16_19 [ or1test = imm_16_19 << 2; analysed=1; ] {}
+OUTPUT_D4_16_19: is pktid=2 & imm_16_19 [ or2test = imm_16_19 << 2; analysed=1; ] {}
+OUTPUT_D4_16_19: is pktid=3 & imm_16_19 [ or3test = imm_16_19 << 2; analysed=1; ] {}
+OUTPUT_D4_16_19: is pktid=4 {}
+
+OUTPUT_D4_8_11: is pktid=1 & imm_8_11 [ or1test = imm_8_11 << 2; analysed=1; ] {}
+OUTPUT_D4_8_11: is pktid=2 & imm_8_11 [ or2test = imm_8_11 << 2; analysed=1; ] {}
+OUTPUT_D4_8_11: is pktid=3 & imm_8_11 [ or3test = imm_8_11 << 2; analysed=1; ] {}
+OUTPUT_D4_8_11: is pktid=4 {}
+
+
 # As per the spec, the (16,18) bits should  be a 2-bit packet reference with a reserved lower bit that should be 0
 # In practise "MPSS.DI.4.0.1.C1.3-86154" has values with a lsb of 1. Lets assume this is an ignored bit
 

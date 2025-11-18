@@ -355,7 +355,7 @@ with slot: iclass=0b1101  {
 # XTYPE/PRED:viterbi pack even and odd predicate bits
 define pcodeop vitpack;
 with slot: iclass=0b1000  {
-    :D5 "=vitpack(" S2_pred "," T2_pred ")" is imm_24_27=0b1001 & imm_23=0 & imm_21_22=0b00 & imm_18_20 & S2_pred & imm_10_13=0 & T2_pred & T2_predi & imm_5_7 & D5 {
+    :D5 "=vitpack(" S2_pred "," T2_pred ")" is imm_24_27=0b1001 & imm_23=0 & imm_21_22=0b00 & imm_18_20 & S2_pred & imm_10_13=0 & T2_pred & T2_predi & imm_5_7 & D5 & OUTPUT_D5 {
         D5 = vitpack(S2_pred, T2_predi);
     }
 }

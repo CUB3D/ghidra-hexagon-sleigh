@@ -25,13 +25,6 @@ def init_emu(emuHelper):
     emuHelper.writeRegister("FP", 0)
     emuHelper.writeRegister("USR", 0)
 
-class UnimplNVCallback(BreakCallBack):
-    def __init__(self):
-        pass
-    def pcodeCallback(self, _state):
-        # print("_unimpl_nv()")
-        return True
-
 class DCacheZeroAddrCallback(BreakCallBack):
     def __init__(self):
         pass
@@ -56,7 +49,6 @@ END_OF_FUNCTION_MAGIC = 0xDEADBEEF
 
 def main():
     emuHelper = EmulatorHelper(currentProgram)
-    emuHelper.registerCallOtherCallback("_unimpl_nv", UnimplNVCallback())
     emuHelper.registerCallOtherCallback("dcache_zero_addr", DCacheZeroAddrCallback())
 
     init_emu(emuHelper)
