@@ -44,7 +44,6 @@ with slot: iclass=0b1001  {
 @include "ld_uhalfword.sinc"
 @include "ld_word.sinc"
 
-
 #LD:Dealloc
 with slot: iclass=0b1001  {
     :D5_pair"=deallocframe("S5"):raw" is imm_21_27=0b0000000 & S5 & S5i & imm_13=0 & imm_5_12=0 & D5_pair & imm_0=0 {
@@ -83,6 +82,115 @@ with slotB: iclass=0b1001 {
     }
     
     #TODO: cond ones v79
+}
+
+# if (Pv) Rdd=dealloc_return(Rs):raw
+with slot: iclass=0b1001 {
+    :"if("T2_pred")" D5_pair "=dealloc_return(" S5 "):raw" is imm_21_27=0b0110000 & S5 & S5i & imm_10_13=0b0100 & T2_pred & T2_predi & imm_5_7=0 & D5_pair {
+        if(T2_predi == 0) goto <end>;
+            local EA:4 = S5i;
+            local tmp:8 = *[ram]:8 EA;
+            D5_pair = tmp;
+            SP = EA+8;
+        <end>    
+    }
+}
+with slotB: iclass=0b1001 {
+    :"if("T2_pred")" D5_pair "=dealloc_return(" S5 "):raw" is imm_21_27=0b0110000 & S5 & S5i & imm_10_13=0b0100 & T2_pred & T2_predi & imm_5_7=0 & D5_pair {
+        if(T2_predi == 0) goto <end>;
+            local EA:4 = S5i;
+            local tmp:8 = *[ram]:8 EA;
+            
+            local tmp2:8 = tmp>>32;
+            local tmp3:4 = tmp2:4;
+            
+            return [tmp3];
+        <end>    
+    }
+}
+
+#if (!Pv) Rdd=dealloc_return(Rs):raw
+with slot: iclass=0b1001 {
+    :"if(!"T2_pred")" D5_pair "=dealloc_return(" S5 "):raw" is imm_21_27=0b0110000 & S5 & S5i & imm_10_13=0b1100 & T2_pred & T2_predi & imm_5_7=0 & D5_pair {
+        if(T2_predi != 0) goto <end>;
+            local EA:4 = S5i;
+            local tmp:8 = *[ram]:8 EA;
+            D5_pair = tmp;
+            SP = EA+8;
+        <end>    
+    }
+}
+with slotB: iclass=0b1001 {
+    :"if(!"T2_pred")" D5_pair "=dealloc_return(" S5 "):raw" is imm_21_27=0b0110000 & S5 & S5i & imm_10_13=0b1100 & T2_pred & T2_predi & imm_5_7=0 & D5_pair {
+        if(T2_predi != 0) goto <end>;
+            local EA:4 = S5i;
+            local tmp:8 = *[ram]:8 EA;
+            
+            local tmp2:8 = tmp>>32;
+            local tmp3:4 = tmp2:4;
+            
+            return [tmp3];
+        <end>
+    }
+}
+
+ld_deallocret_hint:"t" is imm_12=1 {}
+ld_deallocret_hint:"nt" is imm_12=0 {}
+
+# if (Pv.new) Rdd=dealloc_return(Rs):t/nt:raw
+with slot: iclass=0b1001 {
+    :"if("T2_pred".new)" D5_pair "=dealloc_return(" S5 "):"ld_deallocret_hint":raw" is imm_21_27=0b0110000 & S5 & S5i & imm_10_13=0b0110 & T2_pred & T2_predi & imm_5_7=0 & D5_pair & ld_deallocret_hint {}
+}
+with slotNV: iclass=0b1001 {
+    :"if("T2_pred".new)" D5_pair "=dealloc_return(" S5 "):"ld_deallocret_hint":raw" is imm_21_27=0b0110000 & S5 & S5i & imm_10_13=0b0110 & T2_pred & T2_predi & imm_5_7=0 & D5_pair & ld_deallocret_hint {
+        if(T2_pred == 0) goto <end>;
+            local EA:4 = S5i;
+            local tmp:8 = *[ram]:8 EA;
+            D5_pair = tmp;
+            SP = EA+8;
+        <end>  
+    }
+}
+with slotB: iclass=0b1001 {
+    :"if("T2_pred".new)" D5_pair "=dealloc_return(" S5 "):"ld_deallocret_hint":raw" is imm_21_27=0b0110000 & S5 & S5i & imm_10_13=0b0110 & T2_pred & T2_predi & imm_5_7=0 & D5_pair & ld_deallocret_hint {
+        if(T2_pred == 0) goto <end>;
+            local EA:4 = S5i;
+            local tmp:8 = *[ram]:8 EA;
+            
+            local tmp2:8 = tmp>>32;
+            local tmp3:4 = tmp2:4;
+            
+            return [tmp3];
+        <end> 
+    }
+}
+
+# if (!Pv.new) Rdd=dealloc_return(Rs):t/nt:raw
+with slot: iclass=0b1001 {
+    :"if(!"T2_pred".new)" D5_pair "=dealloc_return(" S5 "):"ld_deallocret_hint":raw" is imm_21_27=0b0110000 & S5 & S5i & imm_10_13=0b1110 & T2_pred & T2_predi & imm_5_7=0 & D5_pair & ld_deallocret_hint {}
+}
+with slotNV: iclass=0b1001 {
+    :"if(!"T2_pred".new)" D5_pair "=dealloc_return(" S5 "):"ld_deallocret_hint":raw" is imm_21_27=0b0110000 & S5 & S5i & imm_10_13=0b1110 & T2_pred & T2_predi & imm_5_7=0 & D5_pair & ld_deallocret_hint {
+        if(T2_pred != 0) goto <end>;
+            local EA:4 = S5i;
+            local tmp:8 = *[ram]:8 EA;
+            D5_pair = tmp;
+            SP = EA+8;
+        <end>  
+    }
+}
+with slotB: iclass=0b1001 {
+    :"if(!"T2_pred".new)" D5_pair "=dealloc_return(" S5 "):"ld_deallocret_hint":raw" is imm_21_27=0b0110000 & S5 & S5i & imm_10_13=0b1110 & T2_pred & T2_predi & imm_5_7=0 & D5_pair & ld_deallocret_hint {
+        if(T2_pred != 0) goto <end>;
+            local EA:4 = S5i;
+            local tmp:8 = *[ram]:8 EA;
+            
+            local tmp2:8 = tmp>>32;
+            local tmp3:4 = tmp2:4;
+            
+            return [tmp3];
+        <end> 
+    }
 }
 
 #LD:Ld and unpack by to hw
