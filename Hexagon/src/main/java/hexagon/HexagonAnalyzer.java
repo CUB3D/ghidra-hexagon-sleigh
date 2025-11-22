@@ -54,7 +54,7 @@ public class HexagonAnalyzer extends AbstractAnalyzer {
 	private Register[] regs_set = { or1, or2, or3 };
 
 	public HexagonAnalyzer() {
-		super("Hexagon dotnew Analyzer",
+		super("Hexagon dotnew Analyzer (DEPRECATED)",
 				"Sets the output register context required for dotnew (NV/J + NV/ST) instructions",
 				AnalyzerType.INSTRUCTION_ANALYZER);
 	}
@@ -62,7 +62,7 @@ public class HexagonAnalyzer extends AbstractAnalyzer {
 	@Override
 	public boolean getDefaultEnablement(Program program) {
 		// Return true if analyzer should be enabled by default
-		return true;
+		return false;
 	}
 
 	@Override

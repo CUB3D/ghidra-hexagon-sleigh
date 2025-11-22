@@ -854,10 +854,10 @@ define register offset=0x80 size=4 [
     CS1
     UPCYCLELO
     UPCYCLEHI
-    Reserved_16
-    Reserved_17
-    Reserved_18
-    Reserved_19
+    FRAMELIMIT
+    FRAMEKEY
+    PKTCOUNTLO
+    PKTCOUNTHI
     Reserved_20
     Reserved_21
     Reserved_22
@@ -868,8 +868,8 @@ define register offset=0x80 size=4 [
     Reserved_27
     Reserved_28
     Reserved_29
-    Reserved_30
-    Reserved_31
+    UTIMERLO
+    UTIMERHI
 ];
 
 attach variables [M1_13] [M0 M1];
@@ -893,10 +893,10 @@ CS1
 UPCYCLELO
 UPCYCLEHI
 
-Reserved_16
-Reserved_17
-Reserved_18
-Reserved_19
+FRAMELIMIT
+FRAMEKEY
+PKTCOUNTLO
+PKTCOUNTHI
 Reserved_20
 Reserved_21
 Reserved_22
@@ -907,8 +907,8 @@ Reserved_26
 Reserved_27
 Reserved_28
 Reserved_29
-Reserved_30
-Reserved_31
+UTIMERLO
+UTIMERHI
 ];
 
 define register offset=0x104 size=1 [

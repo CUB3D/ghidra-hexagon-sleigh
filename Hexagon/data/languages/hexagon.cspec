@@ -77,7 +77,7 @@
 
 
     <default_proto>
-        <prototype name="__stdcall" extrapop="0" stackshift="0">
+        <prototype name="__stdcall" extrapop="0" stackshift="0" type="stdcall" strategy="standard">
             <input>
                 <pentry minsize="1" maxsize="4">
                     <register name="r0"/>
@@ -161,4 +161,52 @@
             </unaffected>
         </prototype>
     </default_proto>
+    
+    <callfixup name="backup_regs_r20_to_r23">
+          <pcode>
+            <body><![CDATA[
+              local tmp:4 = FP - 0x18;
+              *[ram]:4 tmp = r20;
+              tmp = tmp - 4;
+              *[ram]:4 tmp = r21;
+              tmp = tmp - 4;
+              *[ram]:4 tmp = r22;
+              tmp = tmp - 4;
+              *[ram]:4 tmp = r23;
+              tmp = tmp - 4;
+            ]]></body>
+          </pcode>
+        </callfixup>
+        
+            <callfixup name="backup_regs_r16_to_r19">
+          <pcode>
+            <body><![CDATA[
+              local tmp:4 = FP - 0x10;
+              *[ram]:4 tmp = r16;
+              tmp = tmp - 4;
+              *[ram]:4 tmp = r17;
+              tmp = tmp - 4;
+              *[ram]:4 tmp = r18;
+              tmp = tmp - 4;
+              *[ram]:4 tmp = r19;
+              tmp = tmp - 4;
+            ]]></body>
+          </pcode>
+        </callfixup>
+        
+        <callfixup name="backup_regs_r18_to_r21">
+          <pcode>
+            <body><![CDATA[
+              local tmp:4 = FP - 0x10;
+              *[ram]:4 tmp = r18;
+              tmp = tmp - 4;
+              *[ram]:4 tmp = r19;
+              tmp = tmp - 4;
+              *[ram]:4 tmp = r20;
+              tmp = tmp - 4;
+              *[ram]:4 tmp = r21;
+              tmp = tmp - 4;
+            ]]></body>
+          </pcode>
+        </callfixup>
 </compiler_spec>

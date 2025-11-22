@@ -583,7 +583,7 @@ duplex:"{{"A1R", "A1L"}}" is imm_29_31=0b001 & imm_13=1 & A1L & A1R {
     build A1L;
     build A1R;
 }
-duplex:"{{"L1L "," A1R "}}" is imm_29_31=0b010 & imm_13=0 & A1R & L1L {
+duplex:"{{"A1R","L1L "}}" is imm_29_31=0b010 & imm_13=0 & A1R & L1L {
     build L1L;
     build A1R;
 }

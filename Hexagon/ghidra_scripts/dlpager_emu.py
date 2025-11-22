@@ -30,7 +30,7 @@ class DCacheZeroAddrCallback(BreakCallBack):
         pass
 
     def pcodeCallback(self, _state):
-        print("dcache_zero_addr()")
+        #print("dcache_zero_addr()")
         return True
 
 
@@ -44,10 +44,15 @@ class DCacheZeroAddrCallback(BreakCallBack):
 # IN_BUF = 0xCF710000
 # DECOMPRESS_FUNCTION = 0xc05ebbd0
 
+# OnePlus 6, OnePlus6Oxygen_22.J.62_OTA_0620_all_2111252336_14afec75dd6fa
+OUT_BUF = 0xD05ed000
+IN_BUF = 0xc69ea000
+DECOMPRESS_FUNCTION = 0xd921ba30
+
 # OnePlus 7 Pro, GM1913_11.H.40_4400_202303231743
-OUT_BUF = 0xD04F9000
-IN_BUF = 0xc8e30000
-DECOMPRESS_FUNCTION = 0xc0ce715c
+#OUT_BUF = 0xD04F9000
+#IN_BUF = 0xc8e30000
+#DECOMPRESS_FUNCTION = 0xc0ce715c
 
 END_OF_FUNCTION_MAGIC = 0xDEADBEEF
 
