@@ -77,7 +77,7 @@
 
 
     <default_proto>
-        <prototype name="__stdcall" extrapop="0" stackshift="0" type="stdcall" strategy="standard">
+        <prototype name="__stdcall" extrapop="0" stackshift="0" strategy="standard">
             <input>
                 <pentry minsize="1" maxsize="4">
                     <register name="r0"/>
@@ -112,10 +112,11 @@
 
                 <register name="PTRUE"/>
 
+<!--
 
                 <register name="r1"/>
                 <register name="r2"/>
-                <register name="r3"/>
+                <register name="r3"/> -->
                 <register name="r4"/>
                 <register name="r5"/>
                 <register name="r6"/>
@@ -205,6 +206,59 @@
               *[ram]:4 tmp = r20;
               tmp = tmp - 4;
               *[ram]:4 tmp = r21;
+              tmp = tmp - 4;
+            ]]></body>
+          </pcode>
+        </callfixup>
+        
+        
+        
+        
+        
+        <callfixup name="backup_regs_r16_to_r23">
+          <pcode>
+            <body><![CDATA[
+              local tmp:4 = FP - 4;
+              *[ram]:4 tmp = r16;
+              tmp = tmp - 4;
+              *[ram]:4 tmp = r17;
+              tmp = tmp - 4;
+              *[ram]:4 tmp = r18;
+              tmp = tmp - 4;
+              *[ram]:4 tmp = r19;
+              tmp = tmp - 4;
+               *[ram]:4 tmp = r20;
+              tmp = tmp - 4;
+               *[ram]:4 tmp = r21;
+              tmp = tmp - 4;
+               *[ram]:4 tmp = r22;
+              tmp = tmp - 4;
+               *[ram]:4 tmp = r13;
+              tmp = tmp - 4;
+            ]]></body>
+          </pcode>
+        </callfixup>
+        
+        
+        <callfixup name="restore_regs_r16_to_r23">
+          <pcode>
+            <body><![CDATA[
+              local tmp:4 = FP - 4;
+              r16 = *[ram]:4 tmp;
+              tmp = tmp - 4;
+              r17 = *[ram]:4 tmp;
+              tmp = tmp - 4;
+              r18 = *[ram]:4 tmp;
+              tmp = tmp - 4;
+              r19 = *[ram]:4 tmp;
+              tmp = tmp - 4;
+              r20 = *[ram]:4 tmp;
+              tmp = tmp - 4;
+              r21 = *[ram]:4 tmp;
+              tmp = tmp - 4;
+              r22 = *[ram]:4 tmp;
+              tmp = tmp - 4;
+              r23 = *[ram]:4 tmp;
               tmp = tmp - 4;
             ]]></body>
           </pcode>

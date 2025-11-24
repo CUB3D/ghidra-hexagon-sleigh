@@ -99,7 +99,11 @@
 # TODO: is this needed, dotnew's always reference their new register so have to come after the producer?
 # If a new value input is required then the instruction must run in the new-value-input slice, which is after all normal outputs are complete
 # Then using normal, uncached inputs will give the new value
-
+#
+#
+# TODO: change access of _pairs to a pair of 4 byte accesses, it seems the decompiler doesn't want to split registers
+#  if the full width version of the register is explicitly referenced in pcode. Also it would allow correct pair syntax
+#  and might help fix the overlapping varnode problem somewhat
 
 #############
 # REGISTERS #

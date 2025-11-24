@@ -19,10 +19,15 @@ with slot: iclass=0b0111  {
 
 #TODO: check ext sign
     :D5_pair"=combine("NR_EXT_imm_5_12u","S5")" is Rs=0 & MajOp=0b011 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=1 & NR_EXT_imm_5_12u & D5_pair {
-        local tmp1:4 = NR_EXT_imm_5_12u;
-        local tmp2:8 = zext(tmp1);
-        local tmp3:8 = zext(S5i);
-        D5_pair = (tmp2 << 32) | tmp3;
+#        local tmp1:4 = NR_EXT_imm_5_12u;
+#        local tmp2:8 = zext(tmp1);
+#        local tmp3:8 = zext(S5i);
+#        D5_pair = (tmp2 << 32) | tmp3;
+        
+        local tmp:4 = &D5_pair;
+        *[register]:4 tmp = S5i;
+        tmp = tmp + 4;
+        *[register]:4 tmp = NR_EXT_imm_5_12u;
     }
 
     :D5_pair"=combine(#"NR_EXT_imm_5_12u",#"S8")" is Rs=1 & MajOp=0b100 & imm_23=0 & imm_16_22 & imm_13u & D5_pair & NR_EXT_imm_5_12u [S8 = imm_13u | (imm_16_22<<1);] {
@@ -33,11 +38,16 @@ with slot: iclass=0b0111  {
     }
 
     :D5_pair"=combine(#"imm_5_12",#"ALU32_PERM_COMBIME_U6")" is Rs=1 & MajOp=0b100 & imm_23=1 & imm_21_22=0 & imm_16_20u & imm_13u & imm_5_12 & D5_pair & ALU32_PERM_COMBIME_U6 {
-        local tmp:4 = ALU32_PERM_COMBIME_U6;
-        local tmp1:8 = zext(tmp);
-        local tmp2:4 = imm_5_12;
-        local tmp3:8 = zext(tmp2);
-        D5_pair = (tmp3<<32)|tmp1;
+#        local tmp:4 = ALU32_PERM_COMBIME_U6;
+#        local tmp1:8 = zext(tmp);
+#        local tmp2:4 = imm_5_12;
+#        local tmp3:8 = zext(tmp2);
+#        D5_pair = (tmp3<<32)|tmp1;
+        
+        local tmp:4 = &D5_pair;
+        *[register]:4 tmp = ALU32_PERM_COMBIME_U6;
+        tmp = tmp + 4;
+        *[register]:4 tmp = imm_5_12;
     }
 }
 with slot: iclass=0b1111  {

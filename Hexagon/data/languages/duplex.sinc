@@ -3,6 +3,9 @@ EXT_immdup1_8_11w: v is immdup1_8_11 & IS_EXT0 & immext0 [ v = immdup1_8_11 | im
 EXT_immdup1_8_11w: v is immdup1_8_11 & IS_EXT1 & immext1 [ v = immdup1_8_11 | immext1; ] { export *[const]:4 v; }
 
 
+const_zero:v is epsilon [v=0;] { export *[const]:4 v; }
+const_one:v is epsilon [v=1;] { export *[const]:4 v; }
+
 L1L:immdup0_D4 "=memw(" immdup0_S4 "+" v ")" is immdup0_12=0 & immdup0_8_11 & immdup0_S4 & immdup0_S4i & immdup0_D4 & mode=0  [v = immdup0_8_11 << 2;]{
     local EA:4 = immdup0_S4i + v;
     immdup0_D4 = *[ram]:4 EA;
@@ -240,56 +243,68 @@ with : mode=0 {
         immdup1_D4 = *[ram]:2 EA;
     }
     
-    S2L:"memw(SP+" a ") =" immdup0_D4 is immdup0_9_12=0b0100 & immdup0_4_8 & immdup0_D4 & immdup0_D4i [a = immdup0_4_8 << 2;]{
+    S2L:"memw("SP"+" a ") =" immdup0_D4 is immdup0_9_12=0b0100 & immdup0_4_8 & immdup0_D4 & immdup0_D4i & SP [a = immdup0_4_8 << 2;]{
         local EA:4 = SPc + a;
         *[ram]:4 EA = immdup0_D4i;
     }
-    S2R:"memw(SP+" a ") =" immdup1_D4 is immdup1_9_12=0b0100 & immdup1_4_8 & immdup1_D4 & immdup1_D4i [a = immdup1_4_8 << 2;]{
+    S2R:"memw("SP"+" a ") =" immdup1_D4 is immdup1_9_12=0b0100 & immdup1_4_8 & immdup1_D4 & immdup1_D4i & SP [a = immdup1_4_8 << 2;]{
         local EA:4 = SPc + a;
         *[ram]:4 EA = immdup1_D4i;
     }
     
-    S2L:"memd(SP+" a ") =" immdup0_D3_pair is immdup0_9_12=0b0101 & immdup0_3_8 & immdup0_D3_pair & immdup0_D3_pairi [a = immdup0_3_8 << 3;]{
+    S2L:"memd("SP"+" a ") =" immdup0_D3_pair is immdup0_9_12=0b0101 & immdup0_3_8 & immdup0_D3_pair & immdup0_D3_pairi & SP [a = immdup0_3_8 << 3;]{
         local EA:4 = SPc + a;
-        *[ram]:8 EA = immdup0_D3_pairi;
+#        *[ram]:8 EA = immdup0_D3_pairi;
+
+        local r:4 = &immdup0_D3_pairi;
+        *[ram]:4 EA = r;
+        r = r + 4;
+        EA = EA + 4;
+        *[ram]:4 EA = r;
     }
-    S2R:"memd(SP+" a ") =" immdup1_D3_pair is immdup1_9_12=0b0101 & immdup1_3_8 & immdup1_D3_pair & immdup1_D3_pairi [a = immdup1_3_8 << 3;]{
+    S2R:"memd("SP"+" a ") =" immdup1_D3_pair is immdup1_9_12=0b0101 & immdup1_3_8 & immdup1_D3_pair & immdup1_D3_pairi & SP [a = immdup1_3_8 << 3;]{
         local EA:4 = SPc + a;
-        *[ram]:8 EA = immdup1_D3_pairi;
+#        *[ram]:8 EA = immdup1_D3_pairi;
+
+        local r:4 = &immdup1_D3_pairi;
+        *[ram]:4 EA = r;
+        r = r + 4;
+        EA = EA + 4;
+        *[ram]:4 EA = r;
     }
     
-    S2L:"memw(" immdup0_S4 "+"v ") = 0" is immdup0_8_12=0b10000 & immdup0_S4 & immdup0_S4i & immdup0_0_3 [v = immdup0_0_3 << 2;] {
+    S2L:"memw(" immdup0_S4 "+"v ") =" const_zero is immdup0_8_12=0b10000 & immdup0_S4 & immdup0_S4i & immdup0_0_3 & const_zero [v = immdup0_0_3 << 2;] {
         local EA:4 = immdup0_S4i + v;
         *[ram]:4 EA = 0;
     }
-    S2R:"memw(" immdup1_S4 "+"v ") = 0" is immdup1_8_12=0b10000 & immdup1_S4 & immdup1_S4i & immdup1_0_3 [v = immdup1_0_3 << 2;] {
+    S2R:"memw(" immdup1_S4 "+"v ") =" const_zero is immdup1_8_12=0b10000 & immdup1_S4 & immdup1_S4i & immdup1_0_3 & const_zero [v = immdup1_0_3 << 2;] {
         local EA:4 = immdup1_S4i + v;
         *[ram]:4 EA = 0;
     }
     
-    S2L:"memw(" immdup0_S4 "+"v ") = 1" is immdup0_8_12=0b10001 & immdup0_S4 & immdup0_S4i & immdup0_0_3 [v = immdup0_0_3 << 2;] {
+    S2L:"memw(" immdup0_S4 "+"v ") =" const_one is immdup0_8_12=0b10001 & immdup0_S4 & immdup0_S4i & immdup0_0_3 & const_one [v = immdup0_0_3 << 2;] {
         local EA:4 = immdup0_S4i + v;
         *[ram]:4 EA = 1;
     }
-    S2R:"memw(" immdup1_S4 "+"v ") = 1" is immdup1_8_12=0b10001 & immdup1_S4 & immdup1_S4i & immdup1_0_3 [v = immdup1_0_3 << 2;] {
+    S2R:"memw(" immdup1_S4 "+"v ") =" const_one is immdup1_8_12=0b10001 & immdup1_S4 & immdup1_S4i & immdup1_0_3 & const_one  [v = immdup1_0_3 << 2;] {
         local EA:4 = immdup1_S4i + v;
         *[ram]:4 EA = 1;
     }
     
-    S2L:"memb(" immdup0_S4 "+" immdup0_0_3 ") = 0" is immdup0_8_12=0b10010 & immdup0_S4 & immdup0_S4i & immdup0_0_3 {
+    S2L:"memb(" immdup0_S4 "+" immdup0_0_3 ") =" const_zero is immdup0_8_12=0b10010 & immdup0_S4 & immdup0_S4i & immdup0_0_3 & const_zero {
         local EA:4 = immdup0_S4i + immdup0_0_3;
         *[ram]:1 EA = 0;
     }
-    S2R:"memb(" immdup1_S4 "+" immdup1_0_3 ") = 0" is immdup1_8_12=0b10010 & immdup1_S4 & immdup1_S4i & immdup1_0_3  {
+    S2R:"memb(" immdup1_S4 "+" immdup1_0_3 ") =" const_zero is immdup1_8_12=0b10010 & immdup1_S4 & immdup1_S4i & immdup1_0_3 & const_zero {
         local EA:4 = immdup1_S4i + immdup1_0_3;
         *[ram]:1 EA = 0;
     }
     
-    S2L:"memb(" immdup0_S4 "+" immdup0_0_3 ") = 1" is immdup0_8_12=0b10011 & immdup0_S4 & immdup0_S4i & immdup0_0_3 {
+    S2L:"memb(" immdup0_S4 "+" immdup0_0_3 ") =" const_one is immdup0_8_12=0b10011 & immdup0_S4 & immdup0_S4i & immdup0_0_3 & const_one {
         local EA:4 = immdup0_S4i + immdup0_0_3;
         *[ram]:1 EA = 1;
     }
-    S2R:"memb(" immdup1_S4 "+" immdup1_0_3 ") = 1" is immdup1_8_12=0b10011 & immdup1_S4 & immdup1_S4i & immdup1_0_3 {
+    S2R:"memb(" immdup1_S4 "+" immdup1_0_3 ") =" const_one is immdup1_8_12=0b10011 & immdup1_S4 & immdup1_S4i & immdup1_0_3 & const_one {
         local EA:4 = immdup1_S4i + immdup1_0_3;
         *[ram]:1 EA = 1;
     }
@@ -488,11 +503,21 @@ with : mode=0 {
         <end>
     }
 
-A1L:immdup0_D4_pair "= combine(0," immdup0_5_6 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=0 & immdup0_7=0 & immdup0_5_6 & immdup0_3_4=0b00 & immdup0_D4_pair {
-        immdup0_D4_pair = immdup0_5_6;
+A1L:immdup0_D4_pair "= combine("const_zero"," immdup0_5_6 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=0 & immdup0_7=0 & immdup0_5_6 & immdup0_3_4=0b00 & immdup0_D4_pair & const_zero {
+#        immdup0_D4_pair = immdup0_5_6;
+        
+        local tmp:4 = &immdup0_D4_pair;
+        *[register]:4 tmp = immdup0_5_6;
+        tmp = tmp + 4;
+        *[register]:4 tmp = 0;
 }
-A1R:immdup1_D4_pair  "= combine(0," immdup1_5_6 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=0 & immdup1_7=0 & immdup1_5_6 & immdup1_3_4=0b00 & immdup1_D4_pair {
-        immdup1_D4_pair = immdup1_5_6;
+A1R:immdup1_D4_pair  "= combine("const_zero"," immdup1_5_6 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=0 & immdup1_7=0 & immdup1_5_6 & immdup1_3_4=0b00 & immdup1_D4_pair & const_zero {
+#        immdup1_D4_pair = immdup1_5_6;
+        
+        local tmp:4 = &immdup1_D4_pair;
+        *[register]:4 tmp = immdup1_5_6;
+        tmp = tmp + 4;
+        *[register]:4 tmp = 0;
 }
 
 A1L:immdup0_D3_pair "=combine(1," immdup0_5_6 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=0 & immdup0_7=0 & immdup0_5_6 & immdup0_3_4=0b01 & immdup0_D3_pair {
@@ -516,18 +541,18 @@ A1R:immdup1_D3_pair "=combine(3," immdup1_5_6 ")" is immdup1_10_12=0b111 & immdu
     immdup1_D3_pair = (3<<32) | immdup1_5_6;
 }
 
-A1L:immdup0_D3_pair "=combine(0," immdup0_S4 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=1 & immdup0_S4 & immdup0_S4i & immdup0_3=0 & immdup0_D3_pair & immdup0_D3_pairi {
+A1L:immdup0_D3_pair "=combine("const_zero"," immdup0_S4 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=1 & immdup0_S4 & immdup0_S4i & immdup0_3=0 & immdup0_D3_pair & immdup0_D3_pairi & const_zero {
     immdup0_D3_pair = zext(immdup0_S4i);
 }
-A1R:immdup1_D3_pair "=combine(0," immdup1_S4 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=1 & immdup1_S4 & immdup1_S4i & immdup1_3=0 & immdup1_D3_pair & immdup1_D3_pairi {
+A1R:immdup1_D3_pair "=combine("const_zero"," immdup1_S4 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=1 & immdup1_S4 & immdup1_S4i & immdup1_3=0 & immdup1_D3_pair & immdup1_D3_pairi & const_zero {
     immdup1_D3_pair = zext(immdup1_S4i);
 }
 
-A1L:immdup0_D3_pair "=combine(" immdup0_S4 ", 0)" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=1 & immdup0_S4 & immdup0_S4i & immdup0_3=1 & immdup0_D3_pair & immdup0_D3_pairi {
+A1L:immdup0_D3_pair "=combine(" immdup0_S4 ", "const_zero")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=1 & immdup0_S4 & immdup0_S4i & immdup0_3=1 & immdup0_D3_pair & immdup0_D3_pairi & const_zero {
     immdup0_D3_pair = zext(immdup0_S4i);
     immdup0_D3_pair = immdup0_D3_pairi << 32;
 }
-A1R:immdup1_D3_pair "=combine(" immdup1_S4 ", 0)" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=1 & immdup1_S4 & immdup1_S4i & immdup1_3=1 & immdup1_D3_pair & immdup1_D3_pairi {
+A1R:immdup1_D3_pair "=combine(" immdup1_S4 ", "const_zero")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=1 & immdup1_S4 & immdup1_S4i & immdup1_3=1 & immdup1_D3_pair & immdup1_D3_pairi & const_zero {
     immdup1_D3_pair = zext(immdup1_S4i);
     immdup1_D3_pair = immdup1_D3_pairi << 32;
 }
