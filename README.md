@@ -14,11 +14,14 @@ Supports:
 - Q6ZIP and DELTA/DLPAGER decompression via emulation, see scripts
 
 Currently broken / unimplemented:
-- Some immediate extensions are missing for less common ops and most duplexes
+- Some immediate extensions are missing for less common ops and duplexes
 
 (See notes at top of `Hexagon/data/languages/Hexagon.slaspec`) for up to date details:
+
+Ghidra 12.0+ is recommended due to the fix for the "Overlapping Input Varnodes" error when functions take wide register inputs also affecting Hexagon 64-bit register pairs (GP-5863)
 
 ### How to install
 Grab the latest release from [releases](https://github.com/CUB3D/ghidra-hexagon-sleigh/releases)
 
+In Ghidra:
 File -> Install Extensions -> Green plus -> Downloaded Zip
