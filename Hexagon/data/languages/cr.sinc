@@ -40,12 +40,12 @@ with slot: iclass=0b0110  {
         SA1 = EXT_LOOP0_imm;
         LC1 = S5i;
     }
-    :"loop0("EXT_LOOP0_imm","u10")" is imm_21_27=0b1001000 & imm_16_20 & imm_13=0 & imm_8_12 & imm_5_7 & imm_3_4u & imm_2=0 & imm_0_1 & EXT_LOOP0_imm [ u10 = imm_0_1 | (imm_5_7 << 2) | (imm_16_20 << 5);]{
+    :"loop0("EXT_LOOP0_imm","u10")" is imm_21_27=0b1001000 & imm_16_20u & imm_13=0 & imm_8_12 & imm_5_7u & imm_3_4u & imm_2=0 & imm_0_1u & EXT_LOOP0_imm [ u10 = imm_0_1u | (imm_5_7u << 2) | (imm_16_20u << 5);]{
         SA0 = EXT_LOOP0_imm;
         LC0 = u10;
         USR = USR & (~(3 << 8));
     }
-    :"loop1("EXT_LOOP0_imm","u10")" is imm_21_27=0b1001001 & imm_16_20 & imm_13=0 & imm_8_12 & imm_5_7 & imm_3_4u & imm_2=0 & imm_0_1  & EXT_LOOP0_imm [ u10 = imm_0_1 | (imm_5_7 << 2) | (imm_16_20 << 5);]{
+    :"loop1("EXT_LOOP0_imm","u10")" is imm_21_27=0b1001001 & imm_16_20u & imm_13=0 & imm_8_12 & imm_5_7u & imm_3_4u & imm_2=0 & imm_0_1u  & EXT_LOOP0_imm [ u10 = imm_0_1u | (imm_5_7u << 2) | (imm_16_20u << 5);]{
         SA1 = EXT_LOOP0_imm;
         LC1 = u10;
     }
