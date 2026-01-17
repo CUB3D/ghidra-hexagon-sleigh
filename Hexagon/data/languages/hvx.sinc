@@ -522,27 +522,33 @@ define pcodeop vscatter_hp;
 
 with slot: iclass=0b0010 {
     :"vscatter(" S5, imm_13u, VT5_pair").w = " VD5_pair is imm_21_27=0b1111001 & S5 & imm_13u & VT5_pair & imm_5_7=0b000 & VD5_pair {
-        vscatter_w(S5, imm_13u:1, VT5_pair, VD5_pair); 
+        _vstub();
+#        vscatter_w(S5, imm_13u:1, VT5_pair, VD5_pair); 
     }
     :"vscatter(" S5, imm_13u, VT5_pair").h = " VD5_pair is imm_21_27=0b1111001 & S5 & imm_13u & VT5_pair & imm_5_7=0b001 & VD5_pair {
-        vscatter_h(S5, imm_13u:1, VT5_pair, VD5_pair); 
+        _vstub();
+#        vscatter_h(S5, imm_13u:1, VT5_pair, VD5_pair); 
     }
     :"vscatter(" S5, imm_13u, VT5_pair").w+ = " VD5_pair is imm_21_27=0b1111001 & S5 & imm_13u & VT5_pair & imm_5_7=0b100 & VD5_pair {
-        vscatter_wp(S5, imm_13u:1, VT5_pair, VD5_pair); 
+        _vstub();
+#        vscatter_wp(S5, imm_13u:1, VT5_pair, VD5_pair); 
     }
     :"vscatter(" S5, imm_13u, VT5_pair").h+ = " VD5_pair is imm_21_27=0b1111001 & S5 & imm_13u & VT5_pair & imm_5_7=0b101 & VD5_pair {
-        vscatter_hp(S5, imm_13u:1, VT5_pair, VD5_pair); 
+        _vstub();
+#        vscatter_hp(S5, imm_13u:1, VT5_pair, VD5_pair); 
     }
     
     :"if("Qs4_5_6_pred") vscatter(" S5, imm_13u, VT5_pair").w = " VD5_pair is imm_21_27=0b1111100 & S5 & imm_13u & VT5_pair & imm_7=0 & Qs4_5_6_pred & VD5_pair {
-        if(Qs4_5_6_pred == 0) goto <end>;
-            vscatter_w(S5, imm_13u:1, VT5_pair, VD5_pair);
-        <end> 
+        _vstub();
+#        if(Qs4_5_6_pred == 0) goto <end>;
+#            vscatter_w(S5, imm_13u:1, VT5_pair, VD5_pair);
+#        <end> 
     }
     :"if("Qs4_5_6_pred") vscatter(" S5, imm_13u, VT5_pair").h = " VD5_pair is imm_21_27=0b1111100 & S5 & imm_13u & VT5_pair & imm_7=1 & Qs4_5_6_pred & VD5_pair {
-        if(Qs4_5_6_pred == 0) goto <end>;
-            vscatter_h(S5, imm_13u:1, VT5_pair, VD5_pair);
-        <end> 
+        _vstub();
+#        if(Qs4_5_6_pred == 0) goto <end>;
+#            vscatter_h(S5, imm_13u:1, VT5_pair, VD5_pair);
+#        <end> 
     }
 }
 

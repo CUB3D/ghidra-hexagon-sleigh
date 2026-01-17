@@ -1,21 +1,21 @@
 # ALU32/PRED:Compare add
 
 with slot: iclass=0b0111 {
-    :"if ("U2_pred_21_22") "D5"=add("S5","EXT_imm_5_12")" is Rs=0 & MajOp=0b100 & imm_23=0 & U2_pred_21_22 & U2_pred_21_22i & S5 & S5i & imm_13=0 & EXT_imm_5_12 & D5 {
+    :"if ("U2_pred_21_22") "D5"=add("S5","EXT_imm_5_12")" is Rs=0 & MajOp=0b100 & imm_23=0 & U2_pred_21_22 & U2_pred_21_22i & S5 & S5i & imm_13=0 & EXT_imm_5_12 & D5 & OUTPUT_D5 {
         if(U2_pred_21_22i == 0) goto <end>;
         D5 = S5i + EXT_imm_5_12;
         <end>
         }
         
-     :"if ("U2_pred_new_21_22".new) "D5"=add("S5","EXT_imm_5_12")" is Rs=0 & MajOp=0b100 & imm_23=0 & U2_pred_new_21_22 & S5 & S5i & imm_13=1 & EXT_imm_5_12 & D5 {}
+     :"if ("U2_pred_new_21_22".new) "D5"=add("S5","EXT_imm_5_12")" is Rs=0 & MajOp=0b100 & imm_23=0 & U2_pred_new_21_22 & S5 & S5i & imm_13=1 & EXT_imm_5_12 & D5 & OUTPUT_D5 {}
     
-     :"if (!"U2_pred_21_22") "D5"=add("S5","EXT_imm_5_12")" is Rs=0 & MajOp=0b100 & imm_23=1 & U2_pred_21_22 & U2_pred_21_22i & S5 & S5i & imm_13=0 & EXT_imm_5_12 & D5 {
+     :"if (!"U2_pred_21_22") "D5"=add("S5","EXT_imm_5_12")" is Rs=0 & MajOp=0b100 & imm_23=1 & U2_pred_21_22 & U2_pred_21_22i & S5 & S5i & imm_13=0 & EXT_imm_5_12 & D5 & OUTPUT_D5 {
         if(U2_pred_21_22i != 0) goto <end>;
         D5 = S5i + EXT_imm_5_12;
         <end>
      }
         
-     :"if (!"U2_pred_new_21_22".new) "D5"=add("S5","EXT_imm_5_12")" is Rs=0 & MajOp=0b100 & imm_23=1 & U2_pred_new_21_22 & S5 & S5i & imm_13=1 & EXT_imm_5_12 & D5 {} 
+     :"if (!"U2_pred_new_21_22".new) "D5"=add("S5","EXT_imm_5_12")" is Rs=0 & MajOp=0b100 & imm_23=1 & U2_pred_new_21_22 & S5 & S5i & imm_13=1 & EXT_imm_5_12 & D5 & OUTPUT_D5 {} 
 }
 
 with slotNV: iclass=0b0111 {
@@ -35,18 +35,18 @@ with slotNV: iclass=0b0111 {
 }
 
 with slot: iclass=0b1111 {
-    :"if(" U2_5_6 ") " D5 "=add(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_21=0 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & U2_5_6 & U2_5_6i & D5 {
+    :"if(" U2_5_6 ") " D5 "=add(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_21=0 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & U2_5_6 & U2_5_6i & D5 & OUTPUT_D5 {
         if(U2_5_6i == 0) goto <end>;
         D5 = S5i + T5i;
         <end>
     }
-    :"if(!" U2_5_6 ") " D5 "=add(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_21=0 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=1 & U2_5_6 & U2_5_6i & D5 {
+    :"if(!" U2_5_6 ") " D5 "=add(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_21=0 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=1 & U2_5_6 & U2_5_6i & D5 & OUTPUT_D5 {
         if(U2_5_6i != 0) goto <end>;
         D5 = S5i + T5i;
         <end>
     }
     
-    :"if(" U2_5_6_pred_new ".new) " D5 "=add(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_21=0 & imm_21=0 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & U2_5_6_pred_new & D5 {}
+    :"if(" U2_5_6_pred_new ".new) " D5 "=add(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_21=0 & imm_21=0 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & U2_5_6_pred_new & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b1111 {
     :"if(" U2_5_6_pred_new ".new) " D5 "=add(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_21=0 & imm_21=0 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & U2_5_6_pred_new & D5 {
@@ -56,7 +56,7 @@ with slotNV: iclass=0b1111 {
     }
 }
 with slot: iclass=0b1111 {
-    :"if(!" U2_5_6_pred_new ".new) " D5 "=add(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_21=0 & imm_21=0 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & U2_5_6_pred_new & D5 {}
+    :"if(!" U2_5_6_pred_new ".new) " D5 "=add(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_21=0 & imm_21=0 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & U2_5_6_pred_new & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b1111 {
     :"if(!" U2_5_6_pred_new ".new) " D5 "=add(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_21=0 & imm_21=0 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & U2_5_6_pred_new & D5 {
@@ -68,12 +68,12 @@ with slotNV: iclass=0b1111 {
 
 # ALU32/PRED:Cond shift hw
 with slot: iclass=0b0111 {
-    :"if(" U2 ") " D5 "=aslh(" S5 ")" is Rs=0 & MajOp=0b000 & MinOp=0b000 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b00 & U2 & U2i & imm_5_7=0 & D5 {
+    :"if(" U2 ") " D5 "=aslh(" S5 ")" is Rs=0 & MajOp=0b000 & MinOp=0b000 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b00 & U2 & U2i & imm_5_7=0 & D5 & OUTPUT_D5 {
         if(U2i == 0) goto <end>;
         D5 = S5i << 16;
     <end>
     }
-    :"if(" U2_pred_new ".new) " D5 "=aslh(" S5 ")"  is Rs=0 & MajOp=0b000 & MinOp=0b000 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5 {}
+    :"if(" U2_pred_new ".new) " D5 "=aslh(" S5 ")"  is Rs=0 & MajOp=0b000 & MinOp=0b000 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b0111 {
     :"if(" U2_pred_new ".new) " D5 "=aslh(" S5 ")"  is Rs=0 & MajOp=0b000 & MinOp=0b000 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5 {
@@ -83,12 +83,12 @@ with slotNV: iclass=0b0111 {
     }
 }
 with slot: iclass=0b0111 {
-    :"if(!" U2 ") " D5 "=aslh(" S5 ")"  is Rs=0 & MajOp=0b000 & MinOp=0b000 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b10 & U2 & U2i & imm_5_7=0 & D5 {
+    :"if(!" U2 ") " D5 "=aslh(" S5 ")"  is Rs=0 & MajOp=0b000 & MinOp=0b000 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b10 & U2 & U2i & imm_5_7=0 & D5 & OUTPUT_D5 {
         if(U2i != 0) goto <end>;
         D5 = S5i << 16;
     <end>
     }
-    :"if(!" U2_pred_new ".new) " D5 "=aslh(" S5 ")"  is Rs=0 & MajOp=0b000 & MinOp=0b000 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b11 & U2_pred_new & imm_5_7=0 & D5 {}
+    :"if(!" U2_pred_new ".new) " D5 "=aslh(" S5 ")"  is Rs=0 & MajOp=0b000 & MinOp=0b000 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b11 & U2_pred_new & imm_5_7=0 & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b0111 {
     :"if(!" U2_pred_new ".new) " D5 "=aslh(" S5 ")"  is Rs=0 & MajOp=0b000 & MinOp=0b000 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b11 & U2_pred_new & imm_5_7=0 & D5 {
@@ -99,12 +99,12 @@ with slotNV: iclass=0b0111 {
 }
 with slot: iclass=0b0111 {
 
-    :"if(" U2 ") " D5 "=asrh(" S5 ")" is Rs=0 & MajOp=0b000 & MinOp=0b001 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b00 & U2 & U2i & imm_5_7=0 & D5 {
+    :"if(" U2 ") " D5 "=asrh(" S5 ")" is Rs=0 & MajOp=0b000 & MinOp=0b001 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b00 & U2 & U2i & imm_5_7=0 & D5 & OUTPUT_D5 {
         if(U2i == 0) goto <end>;
             D5 = S5i s>> 16;
         <end>
     }
-    :"if(" U2_pred_new ".new) " D5 "=asrh(" S5 ")" is Rs=0 & MajOp=0b000 & MinOp=0b001 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5 {}
+    :"if(" U2_pred_new ".new) " D5 "=asrh(" S5 ")" is Rs=0 & MajOp=0b000 & MinOp=0b001 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b0111 {
     :"if(" U2_pred_new ".new) " D5 "=asrh(" S5 ")" is Rs=0 & MajOp=0b000 & MinOp=0b001 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5 {
@@ -115,12 +115,12 @@ with slotNV: iclass=0b0111 {
 }
 with slot: iclass=0b0111 {
     
-    :"if(!" U2 ") " D5 "=asrh(" S5 ")" is Rs=0 & MajOp=0b000 & MinOp=0b001 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b10 & U2 & U2i & imm_5_7=0 & D5 {
+    :"if(!" U2 ") " D5 "=asrh(" S5 ")" is Rs=0 & MajOp=0b000 & MinOp=0b001 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b10 & U2 & U2i & imm_5_7=0 & D5 & OUTPUT_D5 {
         if(U2i != 0) goto <end>;
             D5 = S5i s>> 16;
         <end>
     }
-    :"if(!" U2_pred_new ".new) " D5 "=asrh(" S5 ")" is Rs=0 & MajOp=0b000 & MinOp=0b001 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b11 & U2_pred_new & imm_5_7=0 & D5 {}
+    :"if(!" U2_pred_new ".new) " D5 "=asrh(" S5 ")" is Rs=0 & MajOp=0b000 & MinOp=0b001 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b11 & U2_pred_new & imm_5_7=0 & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b0111 {
     :"if(!" U2_pred_new ".new) " D5 "=asrh(" S5 ")" is Rs=0 & MajOp=0b000 & MinOp=0b001 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b11 & U2_pred_new & imm_5_7=0 & D5 {
@@ -132,19 +132,19 @@ with slotNV: iclass=0b0111 {
 
 # ALU32/PRED:Cond comb
 with slot: iclass=0b1111 {
-    :"if(" U2_5_6 ")" D5_pair "=combine(" S5 "," T5 ")" is Rs=1 & MajOp=0b101 & MinOp=0b000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & U2_5_6 & U2_5_6i & D5_pair {
+    :"if(" U2_5_6 ")" D5_pair "=combine(" S5 "," T5 ")" is Rs=1 & MajOp=0b101 & MinOp=0b000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & U2_5_6 & U2_5_6i & D5_pair & OUTPUT_D5 {
         if(U2_5_6i == 0) goto <end>;
         local tmp:8 = zext(S5i);
         D5_pair = (tmp << 32) | zext(T5i);
         <end>
     }
-    :"if(!" U2_5_6 ")" D5_pair "=combine(" S5 "," T5 ")" is Rs=1 & MajOp=0b101 & MinOp=0b000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=1 & U2_5_6 & U2_5_6i & D5_pair {
+    :"if(!" U2_5_6 ")" D5_pair "=combine(" S5 "," T5 ")" is Rs=1 & MajOp=0b101 & MinOp=0b000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=1 & U2_5_6 & U2_5_6i & D5_pair & OUTPUT_D5 {
         if(U2_5_6i != 0) goto <end>;
         local tmp:8 = zext(S5i);
         D5_pair = (tmp << 32) | zext(T5i);
         <end>
     }
-    :"if(" U2_5_6_pred_new ".new)" D5_pair "=combine(" S5 "," T5 ")" is Rs=1 & MajOp=0b101 & MinOp=0b000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & U2_5_6_pred_new & D5_pair {}
+    :"if(" U2_5_6_pred_new ".new)" D5_pair "=combine(" S5 "," T5 ")" is Rs=1 & MajOp=0b101 & MinOp=0b000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & U2_5_6_pred_new & D5_pair & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b1111 {
     :"if(" U2_5_6_pred_new ".new)" D5_pair "=combine(" S5 "," T5 ")" is Rs=1 & MajOp=0b101 & MinOp=0b000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & U2_5_6_pred_new & D5_pair {
@@ -155,7 +155,7 @@ with slotNV: iclass=0b1111 {
     }
 }
 with slot: iclass=0b1111 {
-    :"if(!" U2_5_6_pred_new ".new)" D5_pair "=combine(" S5 "," T5 ")" is Rs=1 & MajOp=0b101 & MinOp=0b000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & U2_5_6_pred_new & D5_pair {}
+    :"if(!" U2_5_6_pred_new ".new)" D5_pair "=combine(" S5 "," T5 ")" is Rs=1 & MajOp=0b101 & MinOp=0b000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & U2_5_6_pred_new & D5_pair & OUTPUT_D5 {}
 }    
 with slotNV: iclass=0b1111 {   
     :"if(!" U2_5_6_pred_new ".new)" D5_pair "=combine(" S5 "," T5 ")" is Rs=1 & MajOp=0b101 & MinOp=0b000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & U2_5_6_pred_new & D5_pair {
@@ -168,17 +168,17 @@ with slotNV: iclass=0b1111 {
 
 # ALU32/PRED:Cond logical
 with slot: iclass=0b1111 {
-    :"if(" U2_5_6 ") " D5 "=and(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & U2_5_6 & U2_5_6i & D5  {
+    :"if(" U2_5_6 ") " D5 "=and(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & U2_5_6 & U2_5_6i & D5 & OUTPUT_D5 {
         if(U2_5_6i == 0) goto <end>;
     D5 = S5i & T5i;
     <end>
     }
-    :"if(!" U2_5_6 ") " D5 "=and(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=1 & U2_5_6 & U2_5_6i & D5  {
+    :"if(!" U2_5_6 ") " D5 "=and(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=1 & U2_5_6 & U2_5_6i & D5 & OUTPUT_D5 {
         if(U2_5_6i != 0) goto <end>;
     D5 = S5i & T5i;
     <end>
     }
-    :"if(" U2_5_6_pred_new ".new) " D5 "=and(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & U2_5_6_pred_new & D5  {}
+    :"if(" U2_5_6_pred_new ".new) " D5 "=and(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & U2_5_6_pred_new & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b1111 {    
     :"if(" U2_5_6_pred_new ".new) " D5 "=and(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & U2_5_6_pred_new & D5 {
@@ -188,7 +188,7 @@ with slotNV: iclass=0b1111 {
     }
 }
 with slot: iclass=0b1111 {
-    :"if(!" U2_5_6_pred_new ".new) " D5 "=and(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & U2_5_6_pred_new & D5  {}
+    :"if(!" U2_5_6_pred_new ".new) " D5 "=and(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & U2_5_6_pred_new & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b1111 {
     :"if(!" U2_5_6_pred_new ".new) " D5 "=and(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & U2_5_6_pred_new & D5 {
@@ -198,18 +198,18 @@ with slotNV: iclass=0b1111 {
     }
 }
 with slot: iclass=0b1111 {
-    :"if(" U2_5_6 ") " D5 "=or(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & U2_5_6 & U2_5_6i & D5  {
+    :"if(" U2_5_6 ") " D5 "=or(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & U2_5_6 & U2_5_6i & D5 & OUTPUT_D5 {
         if(U2_5_6i == 0) goto <end>;
     D5 = S5i | T5i;
     <end>
     }
-    :"if(!" U2_5_6 ") " D5 "=or(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=1 & U2_5_6 & U2_5_6i & D5  {
+    :"if(!" U2_5_6 ") " D5 "=or(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=1 & U2_5_6 & U2_5_6i & D5 & OUTPUT_D5 {
         if(U2_5_6i != 0) goto <end>;
     D5 = S5i | T5i;
     <end>
     }
     
-    :"if(" U2_5_6_pred_new ".new) " D5 "=or(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & U2_5_6_pred_new & D5  {}
+    :"if(" U2_5_6_pred_new ".new) " D5 "=or(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & U2_5_6_pred_new & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b1111 {
     :"if(" U2_5_6_pred_new ".new) " D5 "=or(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & U2_5_6_pred_new & D5 {
@@ -219,7 +219,7 @@ with slotNV: iclass=0b1111 {
     }
 }
 with slot: iclass=0b1111 {
-    :"if(!" U2_5_6_pred_new ".new) " D5 "=or(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & U2_5_6_pred_new & D5  {}
+    :"if(!" U2_5_6_pred_new ".new) " D5 "=or(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & U2_5_6_pred_new & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b1111 {
     :"if(!" U2_5_6_pred_new ".new) " D5 "=or(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & U2_5_6_pred_new & D5 {
@@ -230,18 +230,18 @@ with slotNV: iclass=0b1111 {
 }
 with slot: iclass=0b1111 {
 
-    :"if(" U2_5_6 ") " D5 "=xor(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b11 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & U2_5_6 & U2_5_6i & D5  {
+    :"if(" U2_5_6 ") " D5 "=xor(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b11 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & U2_5_6 & U2_5_6i & D5 & OUTPUT_D5 {
         if(U2_5_6i == 0) goto <end>;
     D5 = S5i ^ T5i;
     <end>
     }
-    :"if(!" U2_5_6 ") " D5 "=xor(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b11 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=1 & U2_5_6 & U2_5_6i & D5  {
+    :"if(!" U2_5_6 ") " D5 "=xor(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b11 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=1 & U2_5_6 & U2_5_6i & D5 & OUTPUT_D5 {
         if(U2_5_6i != 0) goto <end>;
     D5 = S5i ^ T5i;
     <end>
     }
     
-    :"if(" U2_5_6_pred_new ".new) " D5 "=xor(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b11 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & U2_5_6_pred_new & D5  {}
+    :"if(" U2_5_6_pred_new ".new) " D5 "=xor(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b11 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & U2_5_6_pred_new & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b1111 {
     :"if(" U2_5_6_pred_new ".new) " D5 "=xor(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b11 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & U2_5_6_pred_new & D5 {
@@ -251,7 +251,7 @@ with slotNV: iclass=0b1111 {
     }
 }
 with slot: iclass=0b1111 {
-    :"if(!" U2_5_6_pred_new ".new) " D5 "=xor(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b11 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & U2_5_6_pred_new & D5  {}
+    :"if(!" U2_5_6_pred_new ".new) " D5 "=xor(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b11 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & U2_5_6_pred_new & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b1111 {
     :"if(!" U2_5_6_pred_new ".new) " D5 "=xor(" S5 "," T5 ")" is Rs=1 & MajOp=0b001 & imm_23=0 & imm_21_22=0b11 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & U2_5_6_pred_new & D5 {
@@ -262,17 +262,17 @@ with slotNV: iclass=0b1111 {
 }
 # ALU32/PRED:Cond sub
 with slot: iclass=0b1111 {
-    :"if(" U2_5_6 ") " D5 "=sub(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_22=0 & imm_21=1 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & U2_5_6 & U2_5_6i & D5  {
+    :"if(" U2_5_6 ") " D5 "=sub(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_22=0 & imm_21=1 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & U2_5_6 & U2_5_6i & D5 & OUTPUT_D5 {
         if(U2_5_6i == 0) goto <end>;
     D5 = S5i - T5i;
     <end>
     }
-    :"if(!" U2_5_6 ") " D5 "=sub(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_22=0 & imm_21=1 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=1 & U2_5_6 & U2_5_6i & D5  {
+    :"if(!" U2_5_6 ") " D5 "=sub(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_22=0 & imm_21=1 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=1 & U2_5_6 & U2_5_6i & D5 & OUTPUT_D5 {
         if(U2_5_6i != 0) goto <end>;
     D5 = S5i - T5i;
     <end>
     }
-    :"if(" U2_5_6_pred_new ".new) " D5 "=sub(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_22=0 & imm_21=1 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & U2_5_6_pred_new & D5  {}
+    :"if(" U2_5_6_pred_new ".new) " D5 "=sub(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_22=0 & imm_21=1 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & U2_5_6_pred_new & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b1111 {
     :"if(" U2_5_6_pred_new ".new) " D5 "=sub(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_22=0 & imm_21=1 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & U2_5_6_pred_new & D5 {
@@ -283,7 +283,7 @@ with slotNV: iclass=0b1111 {
 }
 with slot: iclass=0b1111 {
     
-    :"if(!" U2_5_6_pred_new ".new) " D5 "=sub(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_22=0 & imm_21=1 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & U2_5_6_pred_new & D5  {}
+    :"if(!" U2_5_6_pred_new ".new) " D5 "=sub(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_22=0 & imm_21=1 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & U2_5_6_pred_new & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b1111 {
     :"if(!" U2_5_6_pred_new ".new) " D5 "=sub(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_22=0 & imm_21=1 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & U2_5_6_pred_new & D5 {
@@ -295,13 +295,13 @@ with slotNV: iclass=0b1111 {
 
 # ALU32/PRED:sext
 with slot: iclass=0b0111 {
-    :"if(" U2_pred ") " D5 "=sxtb(" S5 ")" is imm_21_27=0b0000101 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b00 & U2_pred & U2_predi & imm_5_7=0 & D5  {
+    :"if(" U2_pred ") " D5 "=sxtb(" S5 ")" is imm_21_27=0b0000101 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b00 & U2_pred & U2_predi & imm_5_7=0 & D5 & OUTPUT_D5 {
         if(U2_predi == 0) goto <end>;
     D5 = sext(S5i:1);
     <end>
     }
     
-    :"if(" U2_pred_new ".new) " D5 "=sxtb(" S5 ")" is imm_21_27=0b0000101 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5  {}
+    :"if(" U2_pred_new ".new) " D5 "=sxtb(" S5 ")" is imm_21_27=0b0000101 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b0111 {
     :"if(" U2_pred_new ".new) " D5 "=sxtb(" S5 ")" is imm_21_27=0b0000101 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5 {
@@ -312,13 +312,13 @@ with slotNV: iclass=0b0111 {
 }
 with slot: iclass=0b0111 {
     
-    :"if(!" U2_pred ") " D5 "=sxtb(" S5 ")" is imm_21_27=0b0000101 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b10 & U2_pred & U2_predi & imm_5_7=0 & D5  {
+    :"if(!" U2_pred ") " D5 "=sxtb(" S5 ")" is imm_21_27=0b0000101 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b10 & U2_pred & U2_predi & imm_5_7=0 & D5 & OUTPUT_D5 {
         if(U2_predi != 0) goto <end>;
     D5 = sext(S5i:1);
     <end>
     }
 
-    :"if(!" U2_pred_new ".new) " D5 "=sxtb(" S5 ")" is imm_21_27=0b0000101 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b11 & U2_pred_new & imm_5_7=0 & D5  {}
+    :"if(!" U2_pred_new ".new) " D5 "=sxtb(" S5 ")" is imm_21_27=0b0000101 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b11 & U2_pred_new & imm_5_7=0 & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b0111 {
     :"if(!" U2_pred_new ".new) " D5 "=sxtb(" S5 ")" is imm_21_27=0b0000101 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b11 & U2_pred_new & imm_5_7=0 & D5 {
@@ -329,13 +329,13 @@ with slotNV: iclass=0b0111 {
 }
 with slot: iclass=0b0111 {
 
-    :"if(" U2_pred ") " D5 "=sxth(" S5 ")" is imm_21_27=0b0000111 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b00 & U2_pred & U2_predi & imm_5_7=0 & D5  {
+    :"if(" U2_pred ") " D5 "=sxth(" S5 ")" is imm_21_27=0b0000111 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b00 & U2_pred & U2_predi & imm_5_7=0 & D5 & OUTPUT_D5 {
         if(U2_predi == 0) goto <end>;
     D5 = sext(S5i:2);
     <end>
     }
     
-    :"if(" U2_pred_new ".new) " D5 "=sxth(" S5 ")" is imm_21_27=0b0000111 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5  {}
+    :"if(" U2_pred_new ".new) " D5 "=sxth(" S5 ")" is imm_21_27=0b0000111 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b0111 {
     :"if(" U2_pred_new ".new) " D5 "=sxth(" S5 ")" is imm_21_27=0b0000111 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5 {
@@ -346,13 +346,13 @@ with slotNV: iclass=0b0111 {
 }
 with slot: iclass=0b0111 {
     
-    :"if(!" U2_pred ") " D5 "=sxth(" S5 ")" is imm_21_27=0b0000111 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b10 & U2_pred & U2_predi & imm_5_7=0 & D5  {
+    :"if(!" U2_pred ") " D5 "=sxth(" S5 ")" is imm_21_27=0b0000111 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b10 & U2_pred & U2_predi & imm_5_7=0 & D5 & OUTPUT_D5 {
         if(U2_predi != 0) goto <end>;
     D5 = sext(S5i:2);
     <end>
     }
     
-    :"if(!" U2_pred_new ".new) " D5 "=sxth(" S5 ")" is imm_21_27=0b0000111 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b11 & U2_pred_new & imm_5_7=0 & D5  {}
+    :"if(!" U2_pred_new ".new) " D5 "=sxth(" S5 ")" is imm_21_27=0b0000111 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b11 & U2_pred_new & imm_5_7=0 & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b0111 {
     :"if(!" U2_pred_new ".new) " D5 "=sxth(" S5 ")" is imm_21_27=0b0000111 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b11 & U2_pred_new & imm_5_7=0 & D5 {
@@ -371,13 +371,13 @@ with slot: iclass=0b0111 {
     NR_PRED_TRANS_S12:s12 is imm_5_10u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 [ s12 = imm_5_10u | immext1; immext1used=1; immext1pos=pktid;] {export *[const]:4 s12;}
     BR_PRED_TRANS_S12:s12 is imm_5_10u & immext1pos=pktid & immext1 [ s12 = imm_5_10u | immext1; ] {export *[const]:4 s12;}
     
-    :"if("U2_pred_21_22") "D5"="NR_PRED_TRANS_S12 is imm_23_27=0b11100 & U2_pred_21_22 & U2_pred_21_22i & imm_20=0 & imm_16_19 & imm_13=0 & imm_5_12u & D5 &  NR_PRED_TRANS_S12 {
+    :"if("U2_pred_21_22") "D5"="NR_PRED_TRANS_S12 is imm_23_27=0b11100 & U2_pred_21_22 & U2_pred_21_22i & imm_20=0 & imm_16_19 & imm_13=0 & imm_5_12u & D5 &  NR_PRED_TRANS_S12 & OUTPUT_D5 {
         if(U2_pred_21_22i == 0) goto <end>;
         D5 = NR_PRED_TRANS_S12;
         <end>
     }
     
-    :"if("U2_pred_new_21_22".new) "D5"="NR_PRED_TRANS_S12 is imm_23_27=0b11100 & U2_pred_new_21_22 & imm_20=0 & imm_16_19 & imm_13=1 & imm_5_12u & D5 &  NR_PRED_TRANS_S12  {}
+    :"if("U2_pred_new_21_22".new) "D5"="NR_PRED_TRANS_S12 is imm_23_27=0b11100 & U2_pred_new_21_22 & imm_20=0 & imm_16_19 & imm_13=1 & imm_5_12u & D5 &  NR_PRED_TRANS_S12 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b0111 {
     :"if("U2_pred_new_21_22".new) "D5"="BR_PRED_TRANS_S12 is imm_23_27=0b11100 & U2_pred_new_21_22 & imm_20=0 & imm_16_19 & imm_13=1 & imm_5_12u & D5 &  BR_PRED_TRANS_S12 {
@@ -387,7 +387,7 @@ with slotNV: iclass=0b0111 {
     }
 }
 with slot: iclass=0b0111 {
-    :"if(!"U2_pred_21_22") "D5"="NR_PRED_TRANS_S12 is imm_23_27=0b11101 & U2_pred_21_22 & U2_pred_21_22i & imm_20=0 & imm_16_19 & imm_13=0 & imm_5_12u & D5 & NR_PRED_TRANS_S12  {}
+    :"if(!"U2_pred_21_22") "D5"="NR_PRED_TRANS_S12 is imm_23_27=0b11101 & U2_pred_21_22 & U2_pred_21_22i & imm_20=0 & imm_16_19 & imm_13=0 & imm_5_12u & D5 & NR_PRED_TRANS_S12 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b0111 {
     :"if(!"U2_pred_21_22") "D5"="BR_PRED_TRANS_S12 is imm_23_27=0b11101 & U2_pred_21_22 & U2_pred_21_22i & imm_20=0 & imm_16_19 & imm_13=0 & imm_5_12u & D5 & BR_PRED_TRANS_S12 {
@@ -397,7 +397,7 @@ with slotNV: iclass=0b0111 {
     }
 }
 with slot: iclass=0b0111 {
-    :"if(!"U2_pred_new_21_22".new) "D5"="NR_PRED_TRANS_S12 is imm_23_27=0b11101 & U2_pred_new_21_22 & imm_20=0 & imm_16_19 & imm_13=1 & imm_5_12u & D5 & NR_PRED_TRANS_S12 {}
+    :"if(!"U2_pred_new_21_22".new) "D5"="NR_PRED_TRANS_S12 is imm_23_27=0b11101 & U2_pred_new_21_22 & imm_20=0 & imm_16_19 & imm_13=1 & imm_5_12u & D5 & NR_PRED_TRANS_S12 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b0111 {
     :"if(!"U2_pred_new_21_22".new) "D5"="BR_PRED_TRANS_S12 is imm_23_27=0b11101 & U2_pred_new_21_22 & imm_20=0 & imm_16_19 & imm_13=1 & imm_5_12u & D5 & BR_PRED_TRANS_S12 {
@@ -407,7 +407,7 @@ with slotNV: iclass=0b0111 {
     }
 }
 with slot: iclass=0b0111 {
-    :"if(!"U2_pred_new_21_22".new) "D5"="s12 is imm_23_27=0b11101 & U2_pred_new_21_22 & imm_20=0 & imm_16_19 & imm_13=1 & imm_5_12u & D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ s12 = imm_5_10u | immext0; immext0used=1;immext0everused=1;]{}
+    :"if(!"U2_pred_new_21_22".new) "D5"="s12 is imm_23_27=0b11101 & U2_pred_new_21_22 & imm_20=0 & imm_16_19 & imm_13=1 & imm_5_12u & D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u & OUTPUT_D5 [ s12 = imm_5_10u | immext0; immext0used=1;immext0everused=1;]{}
 }
 with slotNV: iclass=0b0111 {
     :"if(!"U2_pred_new_21_22".new) "D5"="s12 is imm_23_27=0b11101 & U2_pred_new_21_22 & imm_20=0 & imm_16_19 & imm_13=1 & imm_5_12u & D5 & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ s12 = imm_5_10u | immext0; immext0used=1;immext0everused=1;]{
@@ -419,13 +419,13 @@ with slotNV: iclass=0b0111 {
 
 # ALU32/PRED:zext
 with slot: iclass=0b0111 {
-    :"if(" U2_pred ") " D5 "=zxtb(" S5 ")" is imm_21_27=0b0000100 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b00 & U2_pred & U2_predi & imm_5_7=0 & D5  {
+    :"if(" U2_pred ") " D5 "=zxtb(" S5 ")" is imm_21_27=0b0000100 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b00 & U2_pred & U2_predi & imm_5_7=0 & D5 & OUTPUT_D5 {
         if(U2_predi == 0) goto <end>;
     D5 = zext(S5i:1);
     <end>
     }
     
-    :"if(" U2_pred_new ".new) " D5 "=zxtb(" S5 ")" is imm_21_27=0b0000100 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5  {}
+    :"if(" U2_pred_new ".new) " D5 "=zxtb(" S5 ")" is imm_21_27=0b0000100 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b0111 {
     :"if(" U2_pred_new ".new) " D5 "=zxtb(" S5 ")" is imm_21_27=0b0000100 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5 {
@@ -436,13 +436,13 @@ with slotNV: iclass=0b0111 {
 }
 with slot: iclass=0b0111 {
     
-    :"if(!" U2_pred ") " D5 "=zxtb(" S5 ")" is imm_21_27=0b0000100 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b10 & U2_pred & U2_predi & imm_5_7=0 & D5  {
+    :"if(!" U2_pred ") " D5 "=zxtb(" S5 ")" is imm_21_27=0b0000100 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b10 & U2_pred & U2_predi & imm_5_7=0 & D5 & OUTPUT_D5 {
         if(U2_predi != 0) goto <end>;
     D5 = zext(S5i:1);
     <end>
     }
     
-    :"if(!" U2_pred_new ".new) " D5 "=zxtb(" S5 ")" is imm_21_27=0b0000100 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b11 & U2_pred_new & imm_5_7=0 & D5  {}
+    :"if(!" U2_pred_new ".new) " D5 "=zxtb(" S5 ")" is imm_21_27=0b0000100 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b11 & U2_pred_new & imm_5_7=0 & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b0111 {
     :"if(!" U2_pred_new ".new) " D5 "=zxtb(" S5 ")" is imm_21_27=0b0000100 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b11 & U2_pred_new & imm_5_7=0 & D5 {
@@ -453,13 +453,13 @@ with slotNV: iclass=0b0111 {
 }
 with slot: iclass=0b0111 {
 
-    :"if(" U2_pred ") " D5 "=zxth(" S5 ")" is imm_21_27=0b0000110 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b00 & U2_pred & U2_predi & imm_5_7=0 & D5  {
+    :"if(" U2_pred ") " D5 "=zxth(" S5 ")" is imm_21_27=0b0000110 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b00 & U2_pred & U2_predi & imm_5_7=0 & D5 & OUTPUT_D5 {
         if(U2_predi == 0) goto <end>;
     D5 = zext(S5i:2);
     <end>
     }
     
-    :"if(" U2_pred_new ".new) " D5 "=zxth(" S5 ")" is imm_21_27=0b0000110 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5  {}
+    :"if(" U2_pred_new ".new) " D5 "=zxth(" S5 ")" is imm_21_27=0b0000110 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b0111 {
     :"if(" U2_pred_new ".new) " D5 "=zxth(" S5 ")" is imm_21_27=0b0000110 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5 {
@@ -470,13 +470,13 @@ with slotNV: iclass=0b0111 {
 }
 with slot: iclass=0b0111 {
     
-    :"if(!" U2_pred ") " D5 "=zxth(" S5 ")" is imm_21_27=0b0000110 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b10 & U2_pred & U2_predi & imm_5_7=0 & D5  {
+    :"if(!" U2_pred ") " D5 "=zxth(" S5 ")" is imm_21_27=0b0000110 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b10 & U2_pred & U2_predi & imm_5_7=0 & D5 & OUTPUT_D5 {
         if(U2_predi != 0) goto <end>;
     D5 = zext(S5i:2);
     <end>
     }
     
-    :"if(!" U2_pred_new ".new) " D5 "=zxth(" S5 ")" is imm_21_27=0b0000110 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b11 & U2_pred_new & imm_5_7=0 & D5  {}
+    :"if(!" U2_pred_new ".new) " D5 "=zxth(" S5 ")" is imm_21_27=0b0000110 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b11 & U2_pred_new & imm_5_7=0 & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b0111 {
     :"if(!" U2_pred_new ".new) " D5 "=zxth(" S5 ")" is imm_21_27=0b0000110 & S5 & S5i & imm_13=1 & imm_12=0 & imm_10_11=0b11 & U2_pred_new & imm_5_7=0 & D5 {
