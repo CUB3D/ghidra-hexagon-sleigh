@@ -345,6 +345,9 @@ EXT_immdup0_4_10: v is immext0 & immdup0_4_9 & IS_EXT1 [ v = immdup0_4_9 | immex
     A1R:immdup1_D4"="v is immdup1_10_12=0b010 & immdup1_4_9 & immdup1_D4 & IS_EXT0 [v = immdup1_4_9 | immext0; ] {
         immdup1_D4 = v;
     }
+    A1R:immdup1_D4"="v is immdup1_10_12=0b010 & immdup1_4_9 & immdup1_D4 & IS_EXT1 [v = immdup1_4_9 | immext1; ] {
+        immdup1_D4 = v;
+    }
     
     A1L:immdup0_D4"=add(SP, " v ")" is immdup0_10_12=0b011 & immdup0_4_9 & immdup0_D4 [v = immdup0_4_9 << 2; ]{
         immdup0_D4 = SPc + v;

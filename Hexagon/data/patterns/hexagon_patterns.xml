@@ -1,17 +1,41 @@
 <patternlist>
 	<!-- NOTE: These are matching on raw bytes, not on 32bit LE instructions, so the bytes are endian-swapped here -->
-	<pattern>
-	 	
-		
-		<!-- CALL XXX -->
-		<!-- allocframe(Rx,imm):raw -->
+ 	
+ 	<pattern>
+        <!--} {CALL XXX; allocframe(Rx,imm):raw} -->
 
-		<!-- Unswapped: 0101101........................0    10100000100.......000...........-->
-		<data>.......0................0101101...........000...100.....10100000</data>
+        <!-- Unswapped: 0101101........................0    10100000100.......000...........-->
+        <data>................11.....................0................0101101...........000...100.....10100000</data>
 
-		<align mark="0" bits="1"/>
-		<codeboundary/>
-		<possiblefuncstart/>
-	</pattern>
+        <codeboundary/>
+        <possiblefuncstart/>
+    </pattern>
+    
+   <pattern>
+        <!--} { JUMP XXX } -->
 
+        <data>................11..............0101100.........11..............</data>
+
+        <codeboundary/>
+        <possiblefuncstart thunk="true"/>
+    </pattern>
+    
+   <pattern>
+        <!-- { immext(N) JUMP XXX } -->
+
+        <data>0101100.........11..............0000............................</data>
+
+        <codeboundary/>
+        <possiblefuncstart thunk="true"/>
+    </pattern>
+	
+    <pattern>
+        <!-- { nop; jumpr lr; memd(fp-0x10)=r19r18; memd(fp-0x8)=r17r16; } -->    
+        <data>0x00 0x40 0x00 0x7f 0x00 0x40 0x9f 0x52 0xfe 0x72 0xde 0xa7 0xff 0xf0 0xde 0xa7</data>
+        <codeboundary/>
+        <funcstart  label="__backup_r16_to_r19" />
+    </pattern>
+    
+    <!-- 3d c0 9d a0 allocframe 1e8-->
+    <!-- TODO: Make sure instruction before is terminal for jump patterns-->
 </patternlist>

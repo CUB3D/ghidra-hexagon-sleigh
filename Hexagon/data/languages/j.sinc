@@ -1097,19 +1097,14 @@ with slot: iclass=0b0110  {
      }
  }
 
-NR_TransJmp_R9: v is imm_20_21 & imm_1_7u & (hasext0=0 | immext0used=1) [v = inst_start + (((imm_20_21 << 7) | (imm_1_7u)) << 2); ] {
-            export *[ram]:4 v;
-          }
-          BR_TransJmp_R9: v is imm_20_21 & imm_1_7u [v = inst_start + (((imm_20_21 << 7) | (imm_1_7u)) << 2); ] {
-            export *[ram]:4 v;
-          }
+NR_TransJmp_R9: v is imm_20_21 & imm_1_7u & IS_NOT_EXT [v = inst_start + (((imm_20_21 << 7) | (imm_1_7u)) << 2); ] { export *[ram]:4 v; }
+BR_TransJmp_R9: v is imm_20_21 & imm_1_7u [v = inst_start + (((imm_20_21 << 7) | (imm_1_7u)) << 2); ] { export *[ram]:4 v; }
           
-        NR_TransJmp_R9: v is imm_20_21 & imm_1_7 & hasext0=1 & immext0used=0 & imm_1_6u [v = inst_start + (imm_1_6u | immext0); immext0used=1;immext0everused=1; immext0pos=pktid;] {
-            export *[ram]:4 v;
-          }
-        BR_TransJmp_R9: v is imm_20_21 & imm_1_7 & immext0pos=pktid  & imm_1_6u [v = inst_start + (imm_1_6u | immext0);] {
-            export *[ram]:4 v;
-          }
+NR_TransJmp_R9: v is IS_EXT0 & imm_1_6u & immext0 [v = inst_start + (imm_1_6u | immext0); immext0pos=pktid;] {export *[ram]:4 v;}
+BR_TransJmp_R9: v is immext0pos=pktid & imm_1_6u & immext0 [v = inst_start + (imm_1_6u | immext0);] {export *[ram]:4 v;}
+
+NR_TransJmp_R9: v is IS_EXT1 & imm_1_6u & immext1 [v = inst_start + (imm_1_6u | immext1); immext1pos=pktid;] {export *[ram]:4 v;}
+BR_TransJmp_R9: v is immext1pos=pktid & imm_1_6u & immext1 [v = inst_start + (imm_1_6u | immext0);] {export *[ram]:4 v;}
 
 # J/Transfer and jump
 with slot: iclass=0b0001  {

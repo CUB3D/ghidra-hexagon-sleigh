@@ -253,8 +253,8 @@ with slotNV: iclass=0b1010 {
     }
 }
 
-NR_EXT_COND_NV_ST_W_u6:v  is imm_3_6u & imm_16_17u & IS_NOT_EXT [ v = (imm_3_6u | (imm_16_17u << 4)) << 3;] { export *[const]:4 v; }
-BR_EXT_COND_NV_ST_W_u6:v  is imm_3_6u & imm_16_17u [ v = (imm_3_6u | (imm_16_17u << 4)) << 3;] { export *[const]:4 v; }
+NR_EXT_COND_NV_ST_W_u6:v  is imm_3_6u & imm_16_17u & IS_NOT_EXT [ v = (imm_3_6u | (imm_16_17u << 4)) << 2;] { export *[const]:4 v; }
+BR_EXT_COND_NV_ST_W_u6:v  is imm_3_6u & imm_16_17u [ v = (imm_3_6u | (imm_16_17u << 4)) << 2;] { export *[const]:4 v; }
 
 NR_EXT_COND_NV_ST_W_u6:val       is imm_3_6u & imm_16_17u & IS_EXT0 & immext0 [ val = immext0 | imm_3_6u | (imm_16_17u << 4); immext0pos=pktid;  ] { export *[const]:4 val; }
 BR_EXT_COND_NV_ST_W_u6:v is immext0pos=pktid & immext0 & imm_3_6u & imm_16_17u [v = imm_3_6u | (imm_16_17u << 4) | immext0; ]  { export *[const]:4 v; }

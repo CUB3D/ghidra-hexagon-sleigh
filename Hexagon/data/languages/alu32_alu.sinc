@@ -59,7 +59,7 @@ with slot: iclass=0b1111  {
 
 # ALU32/ALU:negate
 with slot: iclass=0b0111 {
-    :D5"=neg("S5")" is imm_22_27=0b011001 & imm_21=0 & S5 & S5i & imm_5_13u=0 & D5 & IS_NOT_EXT & OUTPUT_D5 {
+    :D5"=neg("S5")" is imm_22_27=0b011001 & imm_21=0 & S5 & S5i & imm_5_13u=0 & D5 & IS_NOT_EXT & hasext1=0 & OUTPUT_D5 {
         D5 = -S5i;
     } 
 }

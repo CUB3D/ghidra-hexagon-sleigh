@@ -1467,9 +1467,9 @@ EXT_LD_S11_hword:s11  is imm_25_26 & imm_5_13u & (hasext0=0 | immext0used=1) [ s
 EXT_LD_S11_hword:s11  is imm_25_26 & imm_5_13u & hasext0=1 & immext0used=0 & immext0 & imm_5_10u [ s11 = immext0 | imm_5_10u; immext0used=1;immext0everused=1; ] { export *[const]:4 s11; }
 EXT_LD_S11_hword:s11  is imm_25_26 & imm_5_13u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_10u [ s11 = immext1 | imm_5_10u; immext1used=1; ] { export *[const]:4 s11; }
 
-EXT_LD_U6:val  is imm_25_26 & (hasext0=0 | immext0used=1) & imm_8_11u & imm_5_6u [ val = imm_5_6u | (imm_8_11u << 2);] { export *[const]:4 val; }
-EXT_LD_U6:val  is imm_25_26 & hasext0=1 & immext0used=0 & immext0 & imm_5_6u & imm_8_11u [val = (imm_5_6u | (imm_8_11u << 2)) | immext0; immext0used=1;immext0everused=1;] { export *[const]:4 val; }
-EXT_LD_U6:val  is imm_25_26 & imm_8_11u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_6u [val = (imm_5_6u | (imm_8_11u << 2)) | immext1; immext1used=1;] { export *[const]:4 val; }
+EXT_LD_U6:val  is (hasext0=0 | immext0used=1) & imm_8_11u & imm_5_6u [ val = imm_5_6u | (imm_8_11u << 2);] { export *[const]:4 val; }
+EXT_LD_U6:val  is hasext0=1 & immext0used=0 & immext0 & imm_5_6u & imm_8_11u [val = (imm_5_6u | (imm_8_11u << 2)) | immext0; immext0used=1;immext0everused=1;] { export *[const]:4 val; }
+EXT_LD_U6:val  is imm_8_11u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_6u [val = (imm_5_6u | (imm_8_11u << 2)) | immext1; immext1used=1;] { export *[const]:4 val; }
 
 @include "alu32_alu.sinc"
 @include "alu32_perm.sinc"
