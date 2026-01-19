@@ -24,18 +24,20 @@ with slot: iclass=0b1100  {
     }
 }
 with slot: iclass=0b1101  {
-    :D2_pred" =cmpb.eq(" S5 "," NR_EXT_imm_5_12u ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & imm_5_12u & imm_3_4=0b00 & imm_2=0 & D2_pred & NR_EXT_imm_5_12u {
+    # cannot be extended
+    :D2_pred" =cmpb.eq(" S5 "," imm_5_12u ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & imm_5_12u & imm_3_4=0b00 & imm_2=0 & D2_pred {
         local tmp:4 = sext(S5i:1);
-        if(tmp != NR_EXT_imm_5_12u) goto <bad>;
+        if(tmp != imm_5_12u) goto <bad>;
             D2_pred = PTRUE;
             goto <end>;
         <bad>
             D2_pred = 0;
         <end>
     }
-    :D2_pred" =cmpb.gt(" S5 "," NR_EXT_imm_5_12u ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & imm_5_12 & imm_3_4=0b00 & imm_2=0 & D2_pred & NR_EXT_imm_5_12u {
+    # cannot be extended
+    :D2_pred" =cmpb.gt(" S5 "," imm_5_12 ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & imm_5_12 & imm_3_4=0b00 & imm_2=0 & D2_pred {
         local tmp:4 = sext(S5i:1);
-        if(tmp s<= NR_EXT_imm_5_12u) goto <bad>;
+        if(tmp s<= imm_5_12) goto <bad>;
             D2_pred = PTRUE;
             goto <end>;
         <bad>
@@ -67,18 +69,18 @@ with slot: iclass=0b1100  {
     }
 }
 with slot: iclass=0b1101 {
-    :D2_pred_new "=cmph.eq(" S5 "," NR_EXT_imm_5_12u ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & imm_12=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred_new & NR_EXT_imm_5_12u {
+    :D2_pred_new "=cmph.eq(" S5 "," EXT_imm_5_12 ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & imm_12=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred_new & EXT_imm_5_12 {
         local tmp:4 = sext(S5i:2);
-        if (tmp != NR_EXT_imm_5_12u) goto <bad>;
+        if (tmp != EXT_imm_5_12) goto <bad>;
             D2_pred_new = PTRUE;
             goto <end>;
         <bad>
             D2_pred_new = 0;
         <end>
     }
-    :D2_pred_new "=cmph.gt(" S5 "," NR_EXT_imm_5_12u ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred_new & NR_EXT_imm_5_12u {
+    :D2_pred_new "=cmph.gt(" S5 "," EXT_imm_5_12 ")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & imm_5_12 & imm_3_4=0b01 & imm_2=0 & D2_pred_new & EXT_imm_5_12 {
         local tmp:4 = sext(S5i:2);
-        if (tmp s<= NR_EXT_imm_5_12u) goto <bad>;
+        if (tmp s<= EXT_imm_5_12) goto <bad>;
             D2_pred_new = PTRUE;
             goto <end>;
         <bad>
