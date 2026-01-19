@@ -36,6 +36,14 @@
         <funcstart  label="__backup_r16_to_r19" />
     </pattern>
     
+    <pattern>
+        <!-- { jumpr lr; memd(fp-0x8)=r17r16; } -->    
+        <data>0x00 0x40 0x9f 0x52 0xff 0xf0 0xde 0xa7</data>
+        <codeboundary/>
+        <funcstart  label="__backup_r16_to_r17" />
+    </pattern>
+    
     <!-- 3d c0 9d a0 allocframe 1e8-->
-    <!-- TODO: Make sure instruction before is terminal for jump patterns-->
+  
+    
 </patternlist>

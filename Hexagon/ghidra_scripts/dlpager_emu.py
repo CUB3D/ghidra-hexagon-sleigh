@@ -1,3 +1,7 @@
+#@author CUB3D
+#@category Qualcomm
+#@runtime Jython
+
 # A script for decompressing memory regions compressed with delta compression via dlpager
 # You might have to adjust out and input buffer addresses
 # See: https://github.com/mzakocs/qualcomm_baseband_scripts/blob/main/dlpage_extractor_pixel_5.c

@@ -1,3 +1,7 @@
+#@author CUB3D
+#@category Qualcomm
+#@runtime Jython
+
 # A script for decompressing memory regions compressed with q6zip compression
 # You might have to adjust out and input buffer addresses as well as sizes
 # See: https://github.com/mzakocs/qualcomm_baseband_scripts/blob/main/dlpage_extractor_pixel_5.c

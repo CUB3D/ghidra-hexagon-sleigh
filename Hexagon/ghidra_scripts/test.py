@@ -1,3 +1,7 @@
+#@author CUB3D
+#@category Qualcomm
+#@runtime Jython
+
 from ghidra.program.disassemble import Disassembler
 from ghidra.app.util import PseudoDisassembler
 
