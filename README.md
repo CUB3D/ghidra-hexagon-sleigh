@@ -3,7 +3,7 @@
 This is an implementation of the Qualcomm Hexagon "QDSP6" architecture in Ghidra SLEIGH
 
 
-Supports:
+Features:
 - Dissassembly of v66/v67/v68/v73/v75/v79, all instructions supported
 - Most commonly used constant extenders supported
 - No broken java plugins needed
@@ -11,7 +11,9 @@ Supports:
 - Includes support for redacted System/Monitor and System/Guest instructions
 - Pcode implemented for most ops, (Only a few never-seen MPY and NV instructions are missing)
 - Function start recovery
-- Q6ZIP and DELTA/DLPAGER decompression via emulation, see scripts
+- Builtin scripts: 
+- - Q6ZIP and DELTA/DLPAGER decompression via emulation
+- - Annotation of hashed log messages
 
 Currently broken / unimplemented:
 - Some immediate extensions are missing for less common ops and duplexes
