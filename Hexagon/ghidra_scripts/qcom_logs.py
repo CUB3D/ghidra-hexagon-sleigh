@@ -8,6 +8,9 @@
 from ghidra.app.util.cparser.C import CParser
 from ghidra.program.model.data import DataTypeConflictHandler
 
+# Makes this much slower
+VERBOSE = False
+
 dtm = currentProgram.getDataTypeManager()
 parser = CParser(dtm)
 
@@ -22,10 +25,15 @@ transaction = dtm.startTransaction("Adding qcom_msg struct")
 dtm.addDataType(log_struct, None)
 dtm.endTransaction(transaction, True)
 
+start_address = currentProgram.getMinAddress()
 
 f = askFile("Select log hashes file", "Load")
 with open(f.getPath()) as f:
-    for line in f.readlines():
+    lines = f.readlines()
+    num_lines = len(lines)
+    monitor.initialize(num_lines, "Adding logs")
+    for idx,line in enumerate(lines):
+        monitor.incrementProgress()
         parts = line.split(":")
         if len(parts) < 2:
             continue
@@ -34,21 +42,23 @@ with open(f.getPath()) as f:
         except:
             continue
         msg = ":".join(parts[1:])
-        print "hash = " + hex(hsh) + ", msg=" + msg.replace("\n", "\\n")
+        print str(idx) + "/" + str(num_lines) + ", hash = " + hex(hsh) + ", msg=" + msg.replace("\n", "\\n")
 
-        hsh_be_bytes = bytearray()
+        # Convert hash to LE bytestring
+        hsh_le_bytes = ""
         while hsh:
-            hsh_be_bytes.insert(0, hsh & 0xff)
+            hsh_le_bytes += ("\\x" +("00"+ hex(int(hsh & 0xFF))[2:])[-2:])
             hsh >>= 8
-        hsh_le_bytes = bytes(hsh_be_bytes)[::-1]
-
-        msg_struct_start = find(currentProgram.getMinAddress(), hsh_le_bytes)
-        if msg_struct_start is None:
-            print "Log not found"
+        
+        msg_struct_start = findBytes(start_address, hsh_le_bytes, 1, 4)
+        if len(msg_struct_start) == 0:
+            if VERBOSE:
+                print "Log not found"
             continue
+        msg_struct_start = msg_struct_start[0]  
 
         print "Creating log @ " + str(msg_struct_start)
-        setPreComment(msg_struct_start, msg)
         clearListing(msg_struct_start, msg_struct_start.add(8))
+        setPreComment(msg_struct_start, msg)
         createData(msg_struct_start, log_struct)
 
