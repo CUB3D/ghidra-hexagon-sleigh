@@ -99,7 +99,7 @@ with slot: iclass=0b0011 {
     <end>
     }
     :"if(!" U2_5_6 ") memw(" S5 "+" T5 "<<" u2 ")=" D5 is imm_21_27=0b0101100 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & U2_5_6 & U2_5_6i  & D5 & D5i  [u2 = imm_7u | (imm_13u << 1);] {
-        if (U2_5_6i == 0) goto <end>;
+        if (U2_5_6i != 0) goto <end>;
         local EA:4 = S5i + (T5i << u2);
         *[ram]:4 EA = D5i;
     <end>
