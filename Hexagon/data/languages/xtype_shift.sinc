@@ -127,8 +127,8 @@ with slot: iclass=0b1101  {
 
 #XTYPE/SHIFT:Shift by imm and add
 with slot: iclass=0b1100  {
-    :D5"=addasl("T5","S5"<<"imm_5_7")" is imm_21_27=0b0100000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7 & D5 & OUTPUT_D5 {
-        D5 = T5i + (S5i << imm_5_7);
+    :D5"=addasl("T5","S5"<<"imm_5_7u")" is imm_21_27=0b0100000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7u & D5 & OUTPUT_D5 {
+        D5 = T5i + (S5i << imm_5_7u);
     }
 }
 
