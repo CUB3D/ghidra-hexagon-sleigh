@@ -239,7 +239,7 @@ with : mode=0 {
         *[ram]:2 EA = immdup0_D4i;
     }
     S2R:"memh("immdup1_S4"+#"v")="immdup1_D4 is immdup1_11_12=0b00 & immdup1_8_10 & immdup1_S4 & immdup1_S4i & immdup1_D4 & immdup1_D4i [ v = immdup1_8_10 << 1; ] {
-         local EA:4 = immdup1_S4i + v;
+        local EA:4 = immdup1_S4i + v;
         *[ram]:2 EA = immdup1_D4i;
     }
     
