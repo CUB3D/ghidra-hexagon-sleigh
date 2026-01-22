@@ -234,13 +234,13 @@ L2R:"if(!p0.new) jumpr:nt LR" is immdup1_6_12=0b1111111 & immdup1_3_5=0 & immdup
 with : mode=0 {
 
 # Duplex/S2
-    S2L:immdup0_D4 "=memh(" immdup0_S4 "+" v ")" is immdup0_11_12=0b00 & immdup0_8_10 & immdup0_S4 & immdup0_S4i & immdup0_D4 [ v = immdup0_8_10 << 1; ] {
+    S2L:"memh("immdup0_S4"+#"v")="immdup0_D4 is immdup0_11_12=0b00 & immdup0_8_10 & immdup0_S4 & immdup0_S4i & immdup0_D4 & immdup0_D4i [ v = immdup0_8_10 << 1; ] {
         local EA:4 = immdup0_S4i + v;
-        immdup0_D4 = sext(*[ram]:2 EA);
+        *[ram]:2 EA = immdup0_D4i;
     }
-    S2R:immdup1_D4 "=memh(" immdup1_S4 "+" v ")" is immdup1_11_12=0b00 & immdup1_8_10 & immdup1_S4 & immdup1_S4i & immdup1_D4 [ v = immdup1_8_10 << 1; ] {
+    S2R:"memh("immdup1_S4"+#"v")="immdup1_D4 is immdup1_11_12=0b00 & immdup1_8_10 & immdup1_S4 & immdup1_S4i & immdup1_D4 & immdup1_D4i [ v = immdup1_8_10 << 1; ] {
         local EA:4 = immdup1_S4i + v;
-        immdup1_D4 = sext(*[ram]:2 EA);
+        *[ram]:2 EA = immdup1_D4i;
     }
     
     S2L:"memw("SP"+" a ") =" immdup0_D4 is immdup0_9_12=0b0100 & immdup0_4_8 & immdup0_D4 & immdup0_D4i & SP [a = immdup0_4_8 << 2;]{
@@ -257,20 +257,20 @@ with : mode=0 {
 #        *[ram]:8 EA = immdup0_D3_pairi;
 
         local r:4 = &immdup0_D3_pairi;
-        *[ram]:4 EA = r;
+        *[ram]:4 EA = *[register]:4 r;
         r = r + 4;
         EA = EA + 4;
-        *[ram]:4 EA = r;
+        *[ram]:4 EA = *[register]:4 r;
     }
     S2R:"memd("SP"+" a ") =" immdup1_D3_pair is immdup1_9_12=0b0101 & immdup1_3_8 & immdup1_D3_pair & immdup1_D3_pairi & SP [a = immdup1_3_8 << 3;]{
         local EA:4 = SPc + a;
 #        *[ram]:8 EA = immdup1_D3_pairi;
 
         local r:4 = &immdup1_D3_pairi;
-        *[ram]:4 EA = r;
+        *[ram]:4 EA = *[register]:4 r;
         r = r + 4;
         EA = EA + 4;
-        *[ram]:4 EA = r;
+        *[ram]:4 EA = *[register]:4 r;
     }
     
     S2L:"memw(" immdup0_S4 "+"v ") =" const_zero is immdup0_8_12=0b10000 & immdup0_S4 & immdup0_S4i & immdup0_0_3 & const_zero [v = immdup0_0_3 << 2;] {
