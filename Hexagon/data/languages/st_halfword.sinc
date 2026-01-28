@@ -30,7 +30,7 @@ MEMH_GP_ADD:v is IS_EXT1 & immext1 & imm_0_5u [v = imm_0_5u | immext1; ] { expor
 
 with slot: iclass=0b0100 {
     :"memh("MEMH_GP_ADD")="T5 is imm_27=1 & imm_21_24=0b0010 & T5 & T5i & MEMH_GP_ADD {
-        *[ram]:2 MEMH_GP_ADD = T5i;
+        *[ram]:2 MEMH_GP_ADD = T5i:2;
     }
     
     :"memh("MEMH_GP_ADD")="T5 ".H" is imm_27=1 & imm_21_24=0b0011 & T5 & T5i & MEMH_GP_ADD {
@@ -56,7 +56,7 @@ with slot: iclass=0b1010  {
         local EA:4 = S5i;
         local m:4 = M1_13:4;
         S5 = circ_add(S5i, s4:1, m<<1);
-        *[ram]:2 EA = T5i;
+        *[ram]:2 EA = T5i:2;
      }
     
     :"memh(" S5 "++I:circ(" M1_13 "))=" T5 ".H"  is imm_21_27=0b1001011 & S5 & S5i & M1_13 & T5 & T5i & imm_7=0 & imm_2_6=0 & imm_1=1 & imm_0=0 {
@@ -80,12 +80,12 @@ with slot: iclass=0b1010  {
     :"memh(" S5 "++" s4 ")=" T5 is imm_21_27=0b1011010 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0  [s4 = imm_3_6 << 1;] {
         local EA:4 = S5i;
         S5 = S5i+s4;
-        *[ram]:2 EA = T5i;
+        *[ram]:2 EA = T5i:2;
     }
     :"memh(" S5 "++" s4 "):nt =" T5 is imm_21_27=0b1010010 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0  [s4 = imm_3_6 << 1;] {
         local EA:4 = S5i;
         S5 = S5i+s4;
-        *[ram]:2 EA = T5i;
+        *[ram]:2 EA = T5i:2;
     }
 
     :"memh(" S5 "=" u6 ")=" T5 ".H" is imm_21_27=0b1011011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=1 & imm_6=0 & imm_0_5u [u6 = imm_0_5u << 1;]{
@@ -102,7 +102,7 @@ with slot: iclass=0b1010  {
 
     :"memh(" S5 "<<" u2 "+" EXT_imm_0_5u ")=" T5 is imm_21_27=0b1101010 & S5 & S5i & imm_13u & T5 & T5i & imm_7=1 & imm_6u & EXT_imm_0_5u [ u2 = imm_6u | (imm_13u << 1); ]{
         local EA:4 = (S5i << u2) + EXT_imm_0_5u;
-        *[ram]:2 EA = T5i;
+        *[ram]:2 EA = T5i:2;
     }
 
     :"memb(" S5 "++" M1_13 ")=" T5 is imm_21_27=0b1101010 & S5 & S5i & M1_13 & T5 & T5i & imm_7=0 & imm_0_6=0 {
