@@ -6,6 +6,7 @@
 # You might have to adjust out and input buffer addresses
 # See: https://github.com/mzakocs/qualcomm_baseband_scripts/blob/main/dlpage_extractor_pixel_5.c
 # See: https://research.checkpoint.com/2021/security-probe-of-qualcomm-msm/
+# See: https://cub3d.pw/blog/01-qcom-delta/
 
 from ghidra.app.emulator import EmulatorHelper
 from ghidra.program.model.symbol import SymbolUtilities

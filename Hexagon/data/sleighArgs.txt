@@ -5,9 +5,6 @@
 # IMPORTANT: The -a option should NOT be specified
 #
 
-# Temporary too big
--o
-
 # Must use local keyword
 -e
 
