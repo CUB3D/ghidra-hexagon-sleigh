@@ -322,17 +322,17 @@ with : mode=0 {
             SP = EA - v;
     }
 
-EXT_immdup0_4_10: immdup0_4_10 is immdup0_4_10 & IS_NOT_EXT { export *[const]:4 immdup0_4_10; }
-EXT_immdup0_4_10: v is immext0 & immdup0_4_9 & IS_EXT0 [ v = immdup0_4_9 | immext0; ] { export *[const]:4 v; }
-EXT_immdup0_4_10: v is immext0 & immdup0_4_9 & IS_EXT1 [ v = immdup0_4_9 | immext0; ] { export *[const]:4 v; }
+EXT_immdup1_4_10: immdup1_4_10 is immdup1_4_10 & IS_NOT_EXT { export *[const]:4 immdup1_4_10; }
+EXT_immdup1_4_10: v is immext0 & immdup1_4_9 & IS_EXT0 [ v = immdup1_4_9 | immext0; ] { export *[const]:4 v; }
+EXT_immdup1_4_10: v is immext1 & immdup1_4_9 & IS_EXT1 [ v = immdup1_4_9 | immext1; ] { export *[const]:4 v; }
 
     
 # Duplex/A
     A1L:immdup0_D4 "=add("immdup0_D4_dup "," immdup0_4_10 ")" is immdup0_11_12=0b00 & immdup0_4_10 & immdup0_D4 & immdup0_D4_dup & immdup0_D4i {
         immdup0_D4 = immdup0_D4i + immdup0_4_10;
     }
-    A1R:immdup1_D4 "=add("immdup1_D4_dup"," EXT_immdup0_4_10 ")" is immdup1_11_12=0b00 & immdup1_4_10 & immdup1_D4 & immdup1_D4_dup & immdup1_D4i & EXT_immdup0_4_10 {
-        immdup1_D4 = immdup1_D4i + EXT_immdup0_4_10;
+    A1R:immdup1_D4 "=add("immdup1_D4_dup"," EXT_immdup1_4_10 ")" is immdup1_11_12=0b00 & immdup1_4_10 & immdup1_D4 & immdup1_D4_dup & immdup1_D4i & EXT_immdup1_4_10 {
+        immdup1_D4 = immdup1_D4i + EXT_immdup1_4_10;
     }
     
 # seti
