@@ -201,10 +201,10 @@ define pcodeop vzxtbh;
 define pcodeop vzxthw;
 
 with slot: iclass=0b1000  {
-    :D5_pair "=vzxtbh(" S5 ")" is imm_21_27=0b010000 & imm_21=0 & S5 & S5i & imm_8_13=0 & imm_6_7=0b01 & imm_5=0 & D5_pair {
+    :D5_pair "=vzxtbh(" S5 ")" is imm_22_27=0b010000 & imm_21=0 & S5 & S5i & imm_8_13=0 & imm_6_7=0b01 & imm_5=0 & D5_pair {
        D5_pair = vzxtbh(S5i);
     }
-    :D5_pair "=vzxthw(" S5 ")" is imm_21_27=0b010000 & imm_21=0 & S5 & S5i & imm_8_13=0 & imm_6_7=0b11 & imm_5=0 & D5_pair {
+    :D5_pair "=vzxthw(" S5 ")" is imm_22_27=0b010000 & imm_21=0 & S5 & S5i & imm_8_13=0 & imm_6_7=0b11 & imm_5=0 & D5_pair {
        D5_pair = vzxthw(S5i);
     }
 }

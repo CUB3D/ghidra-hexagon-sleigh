@@ -35,7 +35,7 @@ with slot: iclass=0b1100  {
         D2_pred_new = PTRUE;
         <end>
     }
-    :D2_pred_new "=sfcmp.uo(" S5 "," T5 ")" is imm_21_27=0b0010111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & imm_2_4=0 & D2_pred_new {
+    :D2_pred_new "=sfcmp.uo(" S5 "," T5 ")" is imm_21_27=0b0111111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & imm_2_4=0 & D2_pred_new {
         D2_pred_new = sfcmp_uo(S5i, T5i);
     }
     :D2_pred_new "=sfcmp.eq(" S5 "," T5 ")" is imm_21_27=0b0111111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & imm_2_4=0 & D2_pred_new {
