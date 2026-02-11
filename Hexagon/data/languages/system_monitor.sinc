@@ -148,14 +148,14 @@ with slot: iclass=0b0101  {
 define pcodeop l2cache_clean_idx;
 define pcodeop l2cache_inv_idx;
 define pcodeop l2cache_clean_invalidate_idx;
-with slot: iclass=0b0101  {
+with slot: iclass=0b1010  {
     :"l2cleanidx("S5")" is imm_21_27=0b0110001 & S5 & S5i & imm_0_13=0 {
         l2cache_clean_idx(S5i);
     }
     :"l2invidx("S5")" is imm_21_27=0b0110010 & S5 & S5i & imm_0_13=0 {
         l2cache_inv_idx(S5i);
     }
-    :"l2cleaninvidx("S5")" is imm_21_27=0b0110011 & S5 & S5i & imm_0_13=0 {
+    :"l2cleaninvidx("S5")" is imm_21_27=0b1000011 & S5 & S5i & imm_0_13=0 {
         l2cache_clean_invalidate_idx(S5i);
     }
 }
