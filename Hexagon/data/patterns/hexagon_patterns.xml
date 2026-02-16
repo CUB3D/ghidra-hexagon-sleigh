@@ -1,49 +1,111 @@
 <patternlist>
 	<!-- NOTE: These are matching on raw bytes, not on 32bit LE instructions, so the bytes are endian-swapped here -->
- 	
- 	<pattern>
-        <!--} {CALL XXX; allocframe(Rx,imm):raw} -->
 
-        <!-- Unswapped: 0101101........................0    10100000100.......000...........-->
-        <data>................11.....................0................0101101...........000...100.....10100000</data>
-
-        <codeboundary/>
-        <possiblefuncstart/>
-    </pattern>
-    
-   <pattern>
-        <!--} { JUMP XXX } -->
-
-        <data>................11..............0101100.........11..............</data>
-
-        <codeboundary/>
-        <possiblefuncstart thunk="true"/>
-    </pattern>
-    
-   <pattern>
-        <!-- { immext(N) JUMP XXX } -->
-
-        <data>0101100.........11..............0000............................</data>
-
-        <codeboundary/>
-        <possiblefuncstart thunk="true"/>
-    </pattern>
-	
-    <pattern>
-        <!-- { nop; jumpr lr; memd(fp-0x10)=r19r18; memd(fp-0x8)=r17r16; } -->    
-        <data>0x00 0x40 0x00 0x7f 0x00 0x40 0x9f 0x52 0xfe 0x72 0xde 0xa7 0xff 0xf0 0xde 0xa7</data>
-        <codeboundary/>
-        <funcstart  label="__backup_r16_to_r19" />
-    </pattern>
-    
-    <pattern>
-        <!-- { jumpr lr; memd(fp-0x8)=r17r16; } -->    
-        <data>0x00 0x40 0x9f 0x52 0xff 0xf0 0xde 0xa7</data>
-        <codeboundary/>
-        <funcstart  label="__backup_r16_to_r17" />
-    </pattern>
-    
-    <!-- 3d c0 9d a0 allocframe 1e8-->
   
-    
+    <patternpairs totalbits="26" postbits="24">
+    <prepatterns>
+    	<!-- Any sub-instruction with end of packet marker -->
+        <data> ........11...................... </data>
+    </prepatterns>
+    <postpatterns>
+        <data> .......0 ........ ........ 0101101. ........ 11000... 100..... 10100000 </data> <!-- {CALL XXX; allocframe(Rx,imm):raw} -->
+        <codeboundary/>
+    	<possiblefuncstart/>
+    </postpatterns>
+  </patternpairs>
+  
+  <patternpairs totalbits="12" postbits="10">
+    <prepatterns>
+    	<!-- Any sub-instruction with end of packet marker -->
+        <data> ........11...................... </data>
+    </prepatterns>
+    <postpatterns>
+        <data> .......0 11...... ........ 0101100. </data> <!-- { JUMP XXX } -->
+        <codeboundary/>
+    	<possiblefuncstart thunk="true"/>
+    </postpatterns>
+  </patternpairs>
+  
+  <patternpairs totalbits="16" postbits="14">
+    <prepatterns>
+    	<!-- Any sub-instruction with end of packet marker -->
+        <data> ........11...................... </data>
+    </prepatterns>
+    <postpatterns>
+        <data>.......0 11...... ........ 0101100. ........ ........ ........ 0000....</data> <!-- { immext(N) JUMP XXX } -->
+        <codeboundary/>
+    	<possiblefuncstart thunk="true"/>
+    </postpatterns>
+  </patternpairs>
+  
+  <patternpairs totalbits="18" postbits="16">
+    <prepatterns>
+    	<!-- Any sub-instruction with end of packet marker -->
+        <data> ........11...................... </data>
+    </prepatterns>
+    <postpatterns>
+        <data>........ 11000... 100..... 10100000</data> <!-- { allocframe(N) } -->
+        <codeboundary/>
+    	<possiblefuncstart thunk="true"/>
+    </postpatterns>
+  </patternpairs>
+  <patternpairs totalbits="20" postbits="18">
+    <prepatterns>
+    	<!-- Any sub-instruction with end of packet marker -->
+        <data> ........11...................... </data>
+    </prepatterns>
+    <postpatterns>
+        <data>........ 01...... ........ ........ ........ 11000... 100..... 10100000</data> <!-- { <any> allocframe(N) } -->
+        <data>........ 10...... ........ ........ ........ 11000... 100..... 10100000</data> <!-- { <any> allocframe(N) } -->
+        <codeboundary/>
+    	<possiblefuncstart thunk="true"/>
+    </postpatterns>
+  </patternpairs>
+  
+  <!-- Duplex allocframe: 
+  60 3c 00 79   0b 01111001000000000011110001100000
+  10 1c 4f eb   0b 11101011010011110001110000010000
+  10 1c f4 eb   0b 11101011111101000001110000010000
+  20 1c f4 eb   0b 11101011111101000001110000100000
+  40 3c 10 79   0b 01111001000100000011110001000000
+  80 3c 00 79   0b 01111001000000000011110010000000
+                   .11.10.1........00.11100....0000
+  -->
+   <patternpairs totalbits="18" postbits="16">
+    <prepatterns>
+    	<!-- Any sub-instruction with end of packet marker -->
+        <data> ........11...................... </data>
+    </prepatterns>
+    <postpatterns>
+        <data>.11.10.1 ........ 00.11100 ....0000 </data> <!-- {{ <any>; allocframe(N) }} -->
+        <codeboundary/>
+    	<possiblefuncstart/>
+    </postpatterns>
+  </patternpairs>
+   <patternpairs totalbits="20" postbits="18">
+    <prepatterns>
+    	<!-- Any sub-instruction with end of packet marker -->
+        <data> ........11...................... </data>
+    </prepatterns>
+    <postpatterns>
+        <data>.11.10.1 ........ 00.11100 ....0000 ........ 10...... ........ ........ </data> <!-- { <any> {{ <any>; allocframe(N) }} } -->
+        <data>.11.10.1 ........ 00.11100 ....0000 ........ 01...... ........ ........ </data> <!-- { <any> {{ <any>; allocframe(N) }} } -->
+        <codeboundary/>
+    	<possiblefuncstart/>
+    </postpatterns>
+  </patternpairs>
+      
+  <pattern>
+      <!-- { nop; jumpr lr; memd(fp-0x10)=r19r18; memd(fp-0x8)=r17r16; } -->    
+      <data>0x00 0x40 0x00 0x7f 0x00 0x40 0x9f 0x52 0xfe 0x72 0xde 0xa7 0xff 0xf0 0xde 0xa7</data>
+      <codeboundary/>
+      <funcstart  label="__backup_r16_to_r19" />
+  </pattern>
+  
+  <pattern>
+      <!-- { jumpr lr; memd(fp-0x8)=r17r16; } -->    
+      <data>0x00 0x40 0x9f 0x52 0xff 0xf0 0xde 0xa7</data>
+      <codeboundary/>
+      <funcstart  label="__backup_r16_to_r17" />
+  </pattern>
 </patternlist>
