@@ -553,6 +553,110 @@ with slot: iclass=0b0010 {
 }
 
 # HVX/HVX SHIFT RESOURCE
+
+# Narrowing shift
+with slot: iclass=0b0001 {
+	:VD5_pair".b = vasr("VT5_pair".h,"VS5_pair".h,"S3_16_18"):sat" is imm_24_27=0b1000 & VS5_pair & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+		_stub();
+	}
+	:VD5_pair".uh = vasr("VT5_pair".uw,"VS5_pair".uw,"S3_16_18"):rnd:sat" is imm_24_27=0b1000 & VS5_pair & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+		_stub();
+	}
+	:VD5_pair".uh = vasr("VT5_pair".w,"VS5_pair".w,"S3_16_18"):rnd:sat" is imm_24_27=0b1000 & VS5_pair & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b010 & VD5_pair {
+		_stub();
+	}
+	:VD5_pair".ub = vasr("VT5_pair".uh,"VS5_pair".uh,"S3_16_18"):rnd:sat" is imm_24_27=0b1000 & VS5_pair & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b111 & VD5_pair {
+		_stub();
+	}
+	:VD5_pair".uh = vasr("VT5_pair".uw,"VS5_pair".uw,"S3_16_18"):sat" is imm_24_27=0b1000 & VS5_pair & S3_16_18 & imm_13=1 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+		_stub();
+	}
+	:VD5_pair".ub = vasr("VT5_pair".uh,"VS5_pair".uh,"S3_16_18"):sat" is imm_24_27=0b1000 & VS5_pair & S3_16_18 & imm_13=1 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+		_stub();
+	}
+	:VD5_pair".h = vasr("VT5_pair".w,"VS5_pair".w,"S3_16_18")" is imm_24_27=0b1011 & VS5_pair & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b010 & VD5_pair {
+		_stub();
+	}
+	:VD5_pair".h = vasr("VT5_pair".w,"VS5_pair".w,"S3_16_18"):sat" is imm_24_27=0b1011 & VS5_pair & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b011 & VD5_pair {
+		_stub();
+	}
+	:VD5_pair".h = vasr("VT5_pair".w,"VS5_pair".w,"S3_16_18"):rnd:sat" is imm_24_27=0b1011 & VS5_pair & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+		_stub();
+	}
+	:VD5_pair".uh = vasr("VT5_pair".w,"VS5_pair".w,"S3_16_18"):sat" is imm_24_27=0b1011 & VS5_pair & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+		_stub();
+	}
+	
+	:VD5_pair".ub = vasr("VT5_pair".h,"VS5_pair".h,"S3_16_18"):sat" is imm_24_27=0b1011 & VS5_pair & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b110 & VD5_pair {
+		_stub();
+	}
+	:VD5_pair".ub = vasr("VT5_pair".h,"VS5_pair".h,"S3_16_18"):rnd:sat" is imm_24_27=0b1011 & VS5_pair & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b111 & VD5_pair {
+		_stub();
+	}
+	:VD5_pair".b = vasr("VT5_pair".h,"VS5_pair".h,"S3_16_18"):rnd:sat" is imm_24_27=0b1011 & VS5_pair & S3_16_18 & imm_13=1 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+		_stub();
+	}
+}
+
+# Compute Contiguous offsets for valid positions
+with slot: iclass=0b0001 {
+	:VD5_pair".b = prefixsum(" Qv4 ")" is imm_24_27=0b1110 & Qv4 & im_21=0 & imm_19_20=0 & imm_16_18=0b011 & imm_13=1 & imm_11_12=0 & imm5_10=0b000010 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair".h = prefixsum(" Qv4 ")" is imm_24_27=0b1110 & Qv4 & im_21=0 & imm_19_20=0 & imm_16_18=0b011 & imm_13=1 & imm_11_12=0 & imm5_10=0b001010 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair".w = prefixsum(" Qv4 ")" is imm_24_27=0b1110 & Qv4 & im_21=0 & imm_19_20=0 & imm_16_18=0b011 & imm_13=1 & imm_11_12=0 & imm5_10=0b010010 & VD5_pair {
+		_vstub();
+	}
+}
+
+# Add half precision vector by vector
+with slot: iclass=0b0001 {
+	:VD5_pair".qf16 = vadd(" VT5_pair".qf16,"VT5_pair".qf16)" is imm_21_27=0b1111011 & VS5_pair & imm_13=1 & VT5_pair & imm5_7=0b010 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair".qf16 = vadd(" VT5_pair".hf,"VT5_pair".hf)" is imm_21_27=0b1111011 & VS5_pair & imm_13=1 & VT5_pair & imm5_7=0b011 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair".qf16 = vadd(" VT5_pair".qf16,"VT5_pair".hf)" is imm_21_27=0b1111011 & VS5_pair & imm_13=1 & VT5_pair & imm5_7=0b100 & VD5_pair {
+		_vstub();
+	}
+}
+
+# Add single precision vector by vector
+with slot: iclass=0b0001 {
+	:VD5_pair".qf32 = vadd(" VT5_pair".qf32,"VT5_pair".qf32)" is imm_21_27=0b1111101 & VS5_pair & imm_13=1 & VT5_pair & imm5_7=0b000 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair".qf32 = vadd(" VT5_pair".sf,"VT5_pair".sf)" is imm_21_27=0b1111101 & VS5_pair & imm_13=1 & VT5_pair & imm5_7=0b001 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair".qf32 = vadd(" VT5_pair".qf32,"VT5_pair".sf)" is imm_21_27=0b1111101 & VS5_pair & imm_13=1 & VT5_pair & imm5_7=0b010 & VD5_pair {
+		_vstub();
+	}
+}
+
+# Shift and add
+with slot: iclass=0b0001 {
+	:VD5_pair".w += vasl("VT5_pair".w,"S5")" is imm_21_27=0b1001011 & S5 & imm_13=1 & VT5_pair & imm5_7=0b010 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair".w += vasr("VT5_pair".w,"S5")" is imm_21_27=0b1001011 & S5 & imm_13=1 & VT5_pair & imm5_7=0b101 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair".h += vasr("VT5_pair".h,"S5")" is imm_21_27=0b1001100 & S5 & imm_13=1 & VT5_pair & imm5_7=0b111 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair".h += vasl("VT5_pair".h,"S5")" is imm_21_27=0b1001101 & S5 & imm_13=1 & VT5_pair & imm5_7=0b101 & VD5_pair {
+		_vstub();
+	}
+}
+
+#shift
+#TODO
+
+# Narrowing shift by vector
 #TODO
 
 # HVX/MPY STORE
