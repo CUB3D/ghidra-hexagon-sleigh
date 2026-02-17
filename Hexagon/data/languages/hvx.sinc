@@ -253,7 +253,6 @@ with slot: iclass=0b0001 {
         _vstub();
     }
 
-    #TODO FLOATS HERE
     :VD5 ".sf = vmax(" VT5 ".sf," VS5 ".sf)" is imm_21_27=0b1111110 & VS5 & imm_13=1 & VT5 & imm_5_7=0b001 & VD5 {
         _vstub();
     }
@@ -491,12 +490,18 @@ with slot: iclass=0b0010 {
 }
 
 # HVX/LOAD
-#TODO
 
 # load aligned
+#TODO
+
 # load immediate use
+#TODO
+
 # load temporary immediate use
+#TODO
+
 # load unaligned
+#TODO
 
 # HVX/MPY DOUBLE RESOURCE
 #TODO
@@ -507,7 +512,25 @@ with slot: iclass=0b0010 {
 # HVX/PERMUTE RESOURCE
 
 # Byte alignment
-#TODO
+with slot: iclass=0b0001 {
+	:VD5_pair" = vror("VT5_pair","VS5_pair")" is imm_21_27=0b1001011 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+		_vstub();
+	}
+	
+	:VD5_pair" = valign("VT5_pair","VS5_pair_19_23","S3_16_18")" is imm_24_27=0b11011 & VS5_pair_19_23 & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair" = vlalign("VT5_pair","VS5_pair_19_23","S3_16_18")" is imm_24_27=0b11011 & VS5_pair_19_23 & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+		_vstub();
+	}
+	
+	:VD5_pair" = valign("VT5_pair","VS5_pair","imm_5_7u")" is imm_21_27=0b1110001 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7u & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair" = valign("VT5_pair","VS5_pair","imm_5_7u")" is imm_21_27=0b1110011 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7u & VD5_pair {
+		_vstub();
+	}
+}
 
 # General permute network
 with slot: iclass=0b0001 {
@@ -553,7 +576,18 @@ with slot: iclass=0b0001 {
 
 
 # Vector in-lane lookup table
-#TODO
+with slot: iclass=0b0001 {
+	:VD5_pair".b = vlut32("VT5_pair".b,"VS5_pair_19_23".b,"S3_16_18"):nomatch" is imm_24_27=0b1000 & VS5_pair_19_23 & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b011 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair".b = vlut32("VT5_pair".b,"VS5_pair_19_23".b,"S3_16_18")" is imm_24_27=0b1011 & VS5_pair_19_23 & S3_16_18 & imm_13=1 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+		_vstub();
+	}
+	
+	:VD5_pair".b = vlut32("VT5_pair".b,"VS5_pair".b,"imm_5_7u")" is imm_21_27=0b1110001 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7u & VD5_pair {
+		_vstub();
+	}	
+}
 
 # HVX/PERMUTE SHIFT RESOURCE
 # Vector ASR overlay
@@ -564,15 +598,60 @@ with slot: iclass=0b0001 {
 }
 
 # Vector shuffle and deal cross lane
-#TODO
+with slot: iclass=0b0001 {
+	:"vshuff("VT5_pair","VS5_pair","S5")" is imm_21_27=0b1001111 & S5 & imm_13=1 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+		_vstub();
+	}
+	:"vdeal("VT5_pair","VS5_pair","S5")" is imm_21_27=0b1001111 & S5 & imm_13=1 & VT5_pair & imm_5_7=0b010 & VD5_pair {
+		_vstub();
+	}
+	
+	:VD5_pair" = vshuff("VT5_pair","VS5_pair_19_23","S3_16_18")" is imm_24_27=0b1011 & VS5_pair_19_23 & S3_16_18 & imm_13=1 & VT5_pair & imm_5_7=0b011 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair" = vdeal("VT5_pair","VS5_pair_19_23","S3_16_18")" is imm_24_27=0b1011 & VS5_pair_19_23 & S3_16_18 & imm_13=1 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+		_vstub();
+	}
+}
 
 # Unpack
-# TODO
+with slot: iclass=0b0001 {
+	:VD5_pair".uh = vunpack("VT5_pair".ub)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0 & imm_16_17=0b01 & imm_13=0 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair".uw = vunpack("VT5_pair".uh)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0 & imm_16_17=0b01 & imm_13=0 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair".h = vunpack("VT5_pair".b)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0 & imm_16_17=0b01 & imm_13=0 & VT5_pair & imm_5_7=0b010 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair".w = vunpack("VT5_pair".h)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0 & imm_16_17=0b01 & imm_13=0 & VT5_pair & imm_5_7=0b011 & VD5_pair {
+		_vstub();
+	}
+	
+	:VD5_pair".h |= vunpack("VT5_pair".b)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_19_20=0 & imm_16_18=0b000 & imm_13=1 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair".w |= vunpack("VT5_pair".h)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_19_20=0 & imm_16_18=0b000 & imm_13=1 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+		_vstub();
+	}
+}
 
 # HVX/HVX SCATTER DOUBLE RESOURCE
 
 # Vector Scatter
-#TODO
+with slot: iclass=0b0010 {
+	:"vscatter("S5","M1_13","VT5_pair".w).h="VD5_pair is imm_21_27=0b1111001 & S5 & M1_13 & VT5_pair & imm_5_7=0b010 & VD5_pair {
+		_vstub();
+	}	
+	:"vscatter("S5","M1_13","VT5_pair".w).h+="VD5_pair is imm_21_27=0b1111001 & S5 & M1_13 & VT5_pair & imm_5_7=0b110 & VD5_pair {
+		_vstub();
+	}
+	
+	:"if("Qs4") vscatter("S5","M1_13","VT5_pair".w).h="VD5_pair is imm_21_27=0b1111101 & S5 & M1_13 & VT5_pair & imm_7=0 & Qs4 & VD5_pair {
+		_vstub();
+	}
+}
 
 # HVX/HVX SCATTER
 # vector scatter
@@ -728,7 +807,6 @@ with slot: iclass=0b0001 {
 	:VD5_pair".ub = vasr("VS5_pair".uh,"VT5_pair".ub):sat" is imm_21_27=0b1101000 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b010 & VD5_pair {
 		_vstub();
 	}
-	#TODO
 	:VD5_pair".ub = vasr("VS5_pair".uh,"VT5_pair".ub):rnd:sat" is imm_21_27=0b1101000 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b011 & VD5_pair {
 		_vstub();
 	}
@@ -742,7 +820,6 @@ with slot: iclass=0b0001 {
 	:VD5_pair".hf = "VT5_pair".qf16" is imm_24_27=0b1110 & imm_22_23=0 & imm_12=0 & imm_19_20=0 & imm_16_18=0b100 & imm_13=1 & VT5_pair & imm_5_7=0b011 & VD5_pair {
 		_vstub();
 	}
-	#TODO: Vuu vs Vu
 	:VD5_pair".hf = "VT5_pair".qf32" is imm_24_27=0b1110 & imm_22_23=0 & imm_12=0 & imm_19_20=0 & imm_16_18=0b100 & imm_13=1 & VT5_pair & imm_5_7=0b110 & VD5_pair {
 		_vstub();
 	}
@@ -831,13 +908,63 @@ with slot: iclass=0b0001 {
 # HVX/MPY STORE
 
 # Byte enabled aligned
-#TODO
+with slot: iclass=0b0010 {
+	:"if("Qv4_11_12") vmem("S5"+"s4") = VD5_pair" is imm_21_27=0b1000100 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b000 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") vmem("S5"+"s4") = VD5_pair" is imm_21_27=0b1000100 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b001 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if("Qv4_11_12") vmem("S5"+"s4"):nt = VD5_pair" is imm_21_27=0b1000110 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b000 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if("!Qv4_11_12") vmem("S5"+"s4"):nt = VD5_pair" is imm_21_27=0b1000110 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b001 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	
+	:"if("Qv4_11_12") vmem("S5"++"imm_8_10") = VD5_pair" is imm_21_27=0b1001100 & S5 & imm_13=0 & Qv4_11_12 & imm_8_10 & imm_5_7=0b000 & VD5_pair {
+		_vstub();
+	}
+}
 
 # New
 #TODO
 
-# Unaligned
+# Aligned
 #TODO
+
+# Unaligned
+with slot: iclass=0b0010 {
+	:"vmemu("S5"+"s4") = " VD5_pair is imm_21_27=0b1000001 & S5 & imm_13u & imm_11_12=0 & imm_8_10 & imm_5_7=0b111 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if("Qv4_11_12") vmemu("S5"+"s4") = " VD5_pair is imm_21_27=0b1000101 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b110 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") vmemu("S5"+"s4") = " VD5_pair is imm_21_27=0b1000101 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b111 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	
+	:"vmemu("S5"++"imm_8_10") = " VD5_pair is imm_21_27=0b1001001 & S5 & imm_11_13=0 & imm_8_10 & imm_5_7=0b111 & VD5_pair {
+		_vstub();
+	}
+	:"if("Qv4_11_12") vmemu("S5"++"imm_8_10") = " VD5_pair is imm_21_27=0b1001101 & S5 & Qv4_11_12 & imm_8_10 & imm_5_7=0b110 & VD5_pair {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") vmemu("S5"++"imm_8_10") = " VD5_pair is imm_21_27=0b1001101 & S5 & Qv4_11_12 & imm_8_10 & imm_5_7=0b111 & VD5_pair {
+		_vstub();
+	}
+	
+	:"vmemu("S5"++"M1_13") = " VD5_pair is imm_21_27=0b1011001 & S5 & M1_13 & imm_8_12=0 & imm_5_7=0b111 & VD5_pair {
+		_vstub();
+	}
+	:"if("Qv4_11_12") vmemu("S5"++"M1_13") = " VD5_pair is imm_21_27=0b1011101 & S5 & M1_13 & Qv4_11_12 & imm_5_7=0b110 & VD5_pair {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") vmemu("S5"++"M1_13") = " VD5_pair is imm_21_27=0b1011101 & S5 & M1_13 & Qv4_11_12 & imm_5_7=0b111 & VD5_pair {
+		_vstub();
+	}
+}
 
 # Scatter release
 with slot: iclass=0b0010 {

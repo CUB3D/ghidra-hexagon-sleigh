@@ -480,6 +480,7 @@ define token instr (32)
     Qs4               = ( 8, 9)
     Qd4               = ( 0, 1)
     Qx4               = ( 5, 6)
+    Qv4_11_12         = (11,12)
     
     Qs4_5_6_pred               = ( 5, 6)
 
@@ -488,6 +489,7 @@ define token instr (32)
     VT5_pair          = ( 9,12)
     VS5               = (16,20)
     VS5_pair          = (17,20)
+    VS5_pair_19_23    = (19,23)
     VD5_pair          = ( 1, 4)
     VD5               = ( 0, 4)
 ;
