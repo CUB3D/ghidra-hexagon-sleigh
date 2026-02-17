@@ -520,13 +520,37 @@ with slot: iclass=0b0001 {
 }
 
 # Shuffle - deal
-#TODO
+with slot: iclass=0b0001 {
+    :VD5_pair".h = vdeal("VT5_pair".h)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0 & imm_16_17=0b00 & imm_13=0 & VT5_pair & imm_5_7=0b110 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".b = vdeal("VT5_pair".b)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0 & imm_16_17=0b00 & imm_13=0 & VT5_pair & imm_5_7=0b111 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".h = vshuff("VT5_pair".h)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0 & imm_16_17=0b01 & imm_13=0 & VT5_pair & imm_5_7=0b111 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".b = vshuff("VT5_pair".b)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0 & imm_16_17=0b10 & imm_13=0 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".b = vdeale("VT5_pair".b,"VS5_pair".b)" is imm_21_27=0b1111001 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b111 & VD5_pair {
+        _vstub();
+    }
+}
 
 # Pack
 #TODO
 
 # Set predicate
-#TODO
+with slot: iclass=0b0001 {
+    :Qd4" = vsetq("S5")" is imm_21_27=0b1001101 & S5 & imm_13=0 & imm_8_12=0 & imm_5_7=0b010 & imm_4=0 & imm_2_3=0b01 & Qd4 {
+        _vstub();
+    }   
+    :Qd4" = vsetq1("S5")" is imm_21_27=0b1001101 & S5 & imm_13=0 & imm_8_12=0 & imm_5_7=0b010 & imm_4=0 & imm_2_3=0b11 & Qd4 {
+        _vstub();
+    }
+}
+
 
 # Vector in-lane lookup table
 #TODO

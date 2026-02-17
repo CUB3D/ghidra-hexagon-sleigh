@@ -31,8 +31,8 @@ known_diags = [
     
     ("(\\xf1\\x00){2}.{4}(\\xf2\\x00){2}", 9, "DIAG_tcxo_0"),
     
-    ("(\\xfa\\x00){2}.{4}(\\xfa\\x02){2}", 86, "DIAG_uim"),
-    ("(\\x00\\x00){2}.{4}(\\x00\\x09){2}.{4}(\\x00\\x0a{2}", 4, "DIAG_umts"),
+    ("(\\x00\\xfa){2}.{4}(\\x02\\xfa){2}", 86, "DIAG_uim"),
+    ("(\\x00\\x00){2}.{4}(\\x09\\x00){2}.{4}(\\x0a\\x00){2}", 4, "DIAG_umts"),
 ]
 
 transaction = dtm.startTransaction("Adding qcom_diag_ent struct")
