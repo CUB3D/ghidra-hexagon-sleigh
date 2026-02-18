@@ -674,49 +674,231 @@ with slot: iclass=0b0010 {
 # HVX/LOAD
 
 # load aligned
-#TODO
+with slot: iclass=0b0010 {
+	:VD5_pair" = vmemu("S5"+"s4")" is imm_21_27=0b1000000 & S5 & imm_13u & imm_11_12=0b00 & imm_8_10 & imm_5_7=0b000 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}	
+	:VD5_pair" = vmemu("S5"+"s4")" is imm_21_27=0b1000010 & S5 & imm_13u & imm_11_12=0b00 & imm_8_10 & imm_5_7=0b000 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}	
+	:"if("Qv4_11_12") "VD5_pair" = vmemu("S5"+"s4")" is imm_21_27=0b1000100 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b010 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") "VD5_pair" = vmemu("S5"+"s4")" is imm_21_27=0b1000100 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b011 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if("Qv4_11_12") "VD5_pair" = vmemu("S5"+"s4"):nt" is imm_21_27=0b1000110 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b010 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if("Qv4_11_12") "VD5_pair" = vmemu("S5"+"s4"):nt" is imm_21_27=0b1000110 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b011 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	
+	:VD5_pair" = vmemu("S5"+"imm_8_10")" is imm_21_27=0b1001000 & S5 & imm_13=0 & imm_11_12=0b00 & imm_8_10 & imm_5_7=0b000 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair" = vmemu("S5"+"imm_8_10"):nt" is imm_21_27=0b1001010 & S5 & imm_13=0 & imm_11_12=0b00 & imm_8_10 & imm_5_7=0b000 & VD5_pair {
+		_vstub();
+	}
+	:"if("Qv4_11_12") "VD5_pair" = vmemu("S5"+"imm_8_10")" is imm_21_27=0b1001100 & S5 & imm_13=0 & Qv4_11_12 & imm_8_10 & imm_5_7=0b010 & VD5_pair {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") "VD5_pair" = vmemu("S5"+"imm_8_10")" is imm_21_27=0b1001100 & S5 & imm_13=0 & Qv4_11_12 & imm_8_10 & imm_5_7=0b011 & VD5_pair {
+		_vstub();
+	}
+	:"if("Qv4_11_12") "VD5_pair" = vmemu("S5"+"imm_8_10"):nt" is imm_21_27=0b1001110 & S5 & imm_13=0 & Qv4_11_12 & imm_8_10 & imm_5_7=0b010 & VD5_pair {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") "VD5_pair" = vmemu("S5"+"imm_8_10"):nt" is imm_21_27=0b1001110 & S5 & imm_13=0 & Qv4_11_12 & imm_8_10 & imm_5_7=0b011 & VD5_pair {
+		_vstub();
+	}
+	
+	:VD5_pair" = vmemu("S5"+"M1_13")" is imm_21_27=0b1011000 & S5 & M1_13 & imm_11_12=0b00 & imm_8_10=0 & imm_5_7=0b000 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair" = vmemu("S5"+"M1_13"):nt" is imm_21_27=0b1011010 & S5 & M1_13 & imm_11_12=0b00 & imm_8_10=0 & imm_5_7=0b000 & VD5_pair {
+		_vstub();
+	}
+	:"if("Qv4_11_12") "VD5_pair" = vmemu("S5"+"M1_13")" is imm_21_27=0b1011100 & S5 & M1_13 & Qv4_11_12 & imm_8_10 & imm_5_7=0b010 & VD5_pair {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") "VD5_pair" = vmemu("S5"+"M1_13")" is imm_21_27=0b1011100 & S5 & M1_13 & Qv4_11_12 & imm_8_10 & imm_5_7=0b011 & VD5_pair {
+		_vstub();
+	}
+	:"if("Qv4_11_12") "VD5_pair" = vmemu("S5"+"M1_13"):nt" is imm_21_27=0b1011110 & S5 & M1_13 & Qv4_11_12 & imm_8_10 & imm_5_7=0b010 & VD5_pair {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") "VD5_pair" = vmemu("S5"+"M1_13"):nt" is imm_21_27=0b1011110 & S5 & M1_13 & Qv4_11_12 & imm_8_10 & imm_5_7=0b011 & VD5_pair {
+		_vstub();
+	}
+}
 
 # load immediate use
-#TODO
+with slot: iclass=0b0010 {
+	:VD5_pair".cur = vmemu("S5"+"s4")" is imm_21_27=0b1000000 & S5 & imm_13u & imm_11_12=0b00 & imm_8_10 & imm_5_7=0b001 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:VD5_pair".cur = vmemu("S5"+"s4"):nt" is imm_21_27=0b1000010 & S5 & imm_13u & imm_11_12=0b00 & imm_8_10 & imm_5_7=0b001 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if("Qv4_11_12") "VD5_pair".cur = vmemu("S5"+"s4")" is imm_21_27=0b1000100 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b100 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") "VD5_pair".cur = vmemu("S5"+"s4")" is imm_21_27=0b1000100 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b101 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if("Qv4_11_12") "VD5_pair".cur = vmemu("S5"+"s4"):nt" is imm_21_27=0b1000110 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b100 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") "VD5_pair".cur = vmemu("S5"+"s4"):nt" is imm_21_27=0b1000110 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b101 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	
+	:VD5_pair".cur = vmemu("S5"+"imm_8_10")" is imm_21_27=0b1001000 & S5 & imm_13=0 & imm_11_12=0b00 & imm_8_10 & imm_5_7=0b001 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair".cur = vmemu("S5"+"imm_8_10"):nt" is imm_21_27=0b1001010 & S5 & imm_13=0 & imm_11_12=0b00 & imm_8_10 & imm_5_7=0b001 & VD5_pair {
+		_vstub();
+	}
+	:"if("Qv4_11_12") "VD5_pair".cur = vmemu("S5"+"imm_8_10")" is imm_21_27=0b1001100 & S5 & imm_13=0 & Qv4_11_12 & imm_8_10 & imm_5_7=0b100 & VD5_pair {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") "VD5_pair".cur = vmemu("S5"+"imm_8_10")" is imm_21_27=0b1001100 & S5 & imm_13=0 & Qv4_11_12 & imm_8_10 & imm_5_7=0b101 & VD5_pair {
+		_vstub();
+	}
+	:"if("Qv4_11_12") "VD5_pair".cur = vmemu("S5"+"imm_8_10"):nt" is imm_21_27=0b1001110 & S5 & imm_13=0 & Qv4_11_12 & imm_8_10 & imm_5_7=0b100 & VD5_pair {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") "VD5_pair".cur = vmemu("S5"+"imm_8_10"):nt" is imm_21_27=0b1001110 & S5 & imm_13=0 & Qv4_11_12 & imm_8_10 & imm_5_7=0b101 & VD5_pair {
+		_vstub();
+	}
+	
+	:VD5_pair".cur = vmemu("S5"+"M1_13")" is imm_21_27=0b1011000 & S5 & M1_13 & imm_11_12=0b00 & imm_8_10=0 & imm_5_7=0b001 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair".cur = vmemu("S5"+"M1_13"):nt" is imm_21_27=0b1011010 & S5 & M1_13 & imm_11_12=0b00 & imm_8_10=0 & imm_5_7=0b001 & VD5_pair {
+		_vstub();
+	}
+	:"if("Qv4_11_12") "VD5_pair".cur = vmemu("S5"+"M1_13")" is imm_21_27=0b1011100 & S5 & M1_13 & Qv4_11_12 & imm_8_10 & imm_5_7=0b100 & VD5_pair {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") "VD5_pair".cur = vmemu("S5"+"M1_13")" is imm_21_27=0b1011100 & S5 & M1_13 & Qv4_11_12 & imm_8_10 & imm_5_7=0b101 & VD5_pair {
+		_vstub();
+	}
+	:"if("Qv4_11_12") "VD5_pair".cur = vmemu("S5"+"M1_13"):nt" is imm_21_27=0b1011110 & S5 & M1_13 & Qv4_11_12 & imm_8_10 & imm_5_7=0b100 & VD5_pair {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") "VD5_pair".cur = vmemu("S5"+"M1_13"):nt" is imm_21_27=0b1011110 & S5 & M1_13 & Qv4_11_12 & imm_8_10 & imm_5_7=0b101 & VD5_pair {
+		_vstub();
+	}
+}
 
 # load temporary immediate use
-#TODO
+with slot: iclass=0b0010 {
+	:VD5_pair".tmp = vmemu("S5"+"s4")" is imm_21_27=0b1000000 & S5 & imm_13u & imm_11_12=0b00 & imm_8_10 & imm_5_7=0b010 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:VD5_pair".tmp = vmemu("S5"+"s4"):nt" is imm_21_27=0b1000010 & S5 & imm_13u & imm_11_12=0b00 & imm_8_10 & imm_5_7=0b010 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if("Qv4_11_12") "VD5_pair".tmp = vmemu("S5"+"s4")" is imm_21_27=0b1000100 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b110 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") "VD5_pair".tmp = vmemu("S5"+"s4")" is imm_21_27=0b1000100 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b111 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if("Qv4_11_12") "VD5_pair".tmp = vmemu("S5"+"s4"):nt" is imm_21_27=0b1000110 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b110 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") "VD5_pair".tmp = vmemu("S5"+"s4"):nt" is imm_21_27=0b1000110 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b111 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	
+	:VD5_pair".tmp = vmemu("S5"+"imm_8_10")" is imm_21_27=0b1001000 & S5 & imm_13=0 & imm_11_12=0b00 & imm_8_10 & imm_5_7=0b010 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair".tmp = vmemu("S5"+"imm_8_10"):nt" is imm_21_27=0b1001010 & S5 & imm_13=0 & imm_11_12=0b00 & imm_8_10 & imm_5_7=0b010 & VD5_pair {
+		_vstub();
+	}
+	:"if("Qv4_11_12") "VD5_pair".tmp = vmemu("S5"+"imm_8_10")" is imm_21_27=0b1001100 & S5 & imm_13=0 & Qv4_11_12 & imm_8_10 & imm_5_7=0b110 & VD5_pair {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") "VD5_pair".tmp = vmemu("S5"+"imm_8_10")" is imm_21_27=0b1001100 & S5 & imm_13=0 & Qv4_11_12 & imm_8_10 & imm_5_7=0b111 & VD5_pair {
+		_vstub();
+	}
+	:"if("Qv4_11_12") "VD5_pair".tmp = vmemu("S5"+"imm_8_10"):nt" is imm_21_27=0b1001110 & S5 & imm_13=0 & Qv4_11_12 & imm_8_10 & imm_5_7=0b110 & VD5_pair {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") "VD5_pair".tmp = vmemu("S5"+"imm_8_10"):nt" is imm_21_27=0b1001110 & S5 & imm_13=0 & Qv4_11_12 & imm_8_10 & imm_5_7=0b111 & VD5_pair {
+		_vstub();
+	}
+	
+	:VD5_pair".tmp = vmemu("S5"+"M1_13")" is imm_21_27=0b1011000 & S5 & M1_13 & imm_11_12=0b00 & imm_8_10=0 & imm_5_7=0b010 & VD5_pair {
+		_vstub();
+	}
+	:VD5_pair".tmp = vmemu("S5"+"M1_13"):nt" is imm_21_27=0b1011010 & S5 & M1_13 & imm_11_12=0b00 & imm_8_10=0 & imm_5_7=0b010 & VD5_pair {
+		_vstub();
+	}
+	:"if("Qv4_11_12") "VD5_pair".tmp = vmemu("S5"+"M1_13")" is imm_21_27=0b1011100 & S5 & M1_13 & Qv4_11_12 & imm_8_10 & imm_5_7=0b110 & VD5_pair {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") "VD5_pair".tmp = vmemu("S5"+"M1_13")" is imm_21_27=0b1011100 & S5 & M1_13 & Qv4_11_12 & imm_8_10 & imm_5_7=0b111 & VD5_pair {
+		_vstub();
+	}
+	:"if("Qv4_11_12") "VD5_pair".tmp = vmemu("S5"+"M1_13"):nt" is imm_21_27=0b1011110 & S5 & M1_13 & Qv4_11_12 & imm_8_10 & imm_5_7=0b110 & VD5_pair {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") "VD5_pair".tmp = vmemu("S5"+"M1_13"):nt" is imm_21_27=0b1011110 & S5 & M1_13 & Qv4_11_12 & imm_8_10 & imm_5_7=0b111 & VD5_pair {
+		_vstub();
+	}
+}
 
 # load unaligned
-#TODO
+with slot: iclass=0b0010 {
+	:VD5_pair" = vmemu("S5"+"s4")" is imm_21_27=0b1000000 & S5 & imm_13u & imm_11_12=0b00 & imm_8_10 & imm_5_7=0b111 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	
+	:VD5_pair" = vmemu("S5"++"imm_8_10")" is imm_21_27=0b1001000 & S5 & imm_13=0 & imm_11_12=0b00 & imm_8_10 & imm_5_7=0b111 & VD5_pair {
+		_vstub();
+	}
+	
+	:VD5_pair" = vmemu("S5"++"M1_13")" is imm_21_27=0b1011000 & S5 & M1_13 & imm_11_12=0b00 & imm_8_10=0 & imm_5_7=0b111 & VD5_pair {
+		_vstub();
+	}
+}
 
 # HVX/MPY DOUBLE RESOURCE
-#TODO
 
 # Arithmetic widening
 with slot: iclass=0b0001 {
     :VD5_pair" += vadd("VT5_pair","VS5_pair")" is imm_21_27=0b1100001 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b010 & VD5_pair {
         _vstub();
     }
-    :VD5_pair".w += vadd("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1100001 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+    :VD5_pair".w += vadd("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1100010 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b100 & VD5_pair {
         _vstub();
     }
-    :VD5_pair".h += vadd("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1100001 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b101 & VD5_pair {
-        _vstub();
-    }
-
-    :VD5_pair".h = vadd("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1100101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b010 & Vdd5_pair {
+    :VD5_pair".h += vadd("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1100010 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b101 & VD5_pair {
         _vstub();
     }
 
-    :VD5_pair".w = vadd("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1100101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b011 & Vdd5_pair {
+    :VD5_pair".h = vadd("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1100101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b010 & VD5_pair {
         _vstub();
     }
-    :VD5_pair".w = vadd("VT5_pair".h,"VS5_pair".h)" is imm_21_27=0b1100101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b100 & Vdd5_pair {
+
+    :VD5_pair".w = vadd("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1100101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b011 & VD5_pair {
         _vstub();
     }
-    :VD5_pair".h = vsub("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1100101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b101 & Vdd5_pair {
+    :VD5_pair".w = vadd("VT5_pair".h,"VS5_pair".h)" is imm_21_27=0b1100101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b100 & VD5_pair {
         _vstub();
     }
-    :VD5_pair".w = vsub("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1100101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b110 & Vdd5_pair {
+    :VD5_pair".h = vsub("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1100101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b101 & VD5_pair {
         _vstub();
     }
-    :VD5_pair".w = vsub("VT5_pair".h,"VS5_pair".h)" is imm_21_27=0b1100101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b111 & Vdd5_pair {
+    :VD5_pair".w = vsub("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1100101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b110 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".w = vsub("VT5_pair".h,"VS5_pair".h)" is imm_21_27=0b1100101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b111 & VD5_pair {
         _vstub();
     }
 }
@@ -741,7 +923,7 @@ with slot: iclass=0b0001 {
     :VD5_pair".w = vdmpy("VT5_pair".h,"S5".h):sat" is imm_21_27=0b1001001 & S5 & imm_13=0 & VT5_pair & imm_5_7=0b011 & VD5_pair {
         _vstub();
     }
-    :Vdd5_pair".w = vdmpy("VT5_pair".h,"S5".b)" is imm_21_27=0b1001001 & S5 & imm_13=0 & VT5_pair & imm_5_7=0b100 & Vdd5_pair {
+    :VD5_pair".w = vdmpy("VT5_pair".h,"S5".b)" is imm_21_27=0b1001001 & S5 & imm_13=0 & VT5_pair & imm_5_7=0b100 & VD5_pair {
         _vstub();
     }
     :VD5_pair".w += vdmpy("VT5_pair".h,"S5".uh):sat" is imm_21_27=0b1001001 & S5 & imm_13=1 & VT5_pair & imm_5_7=0b000 & VD5_pair {
@@ -776,25 +958,123 @@ with slot: iclass=0b0001 {
 
 # Multiply with piecewise add/sub from 64-bit scalar
 with slot: iclass=0b0001 {
-    :VD5_pair".h = vmpa("VD5_pair".h,"VT5_pair".h,"VS5_pair".h):sat" is imm_21_27=0b1001100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+    :VD5_pair".h = vmpa("VD5_pair_dup".h,"VT5_pair".h,"VS5_pair".h):sat" is imm_21_27=0b1001100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b100 & VD5_pair & VD5_pair_dup {
         _vstub();
     }
-    :VD5_pair".h = vmpa("VD5_pair".uh,"VT5_pair".uh,"VS5_pair".uh):sat" is imm_21_27=0b1001100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+    :VD5_pair".h = vmpa("VD5_pair_dup".uh,"VT5_pair".uh,"VS5_pair".uh):sat" is imm_21_27=0b1001100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b101 & VD5_pair & VD5_pair_dup {
         _vstub();
     }
-    :VD5_pair".h = vmpa("VD5_pair".h,"VT5_pair".uh,"VS5_pair".uh):sat" is imm_21_27=0b1001100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b110 & VD5_pair {
+    :VD5_pair".h = vmpa("VD5_pair_dup".h,"VT5_pair".uh,"VS5_pair".uh):sat" is imm_21_27=0b1001100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b110 & VD5_pair & VD5_pair_dup {
         _vstub();
     }
 }
 
 
 # Multiply - add
-#TODO
+with slot: iclass=0b0001 {
+    :VD5_pair".h = vmpa("VT5_pair".ub,"VS5_pair".b)" is imm_21_27=0b1001001 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b110 & VD5_pair {
+        _vstub();
+    }
+	:VD5_pair".w = vmpa("VT5_pair".h,"VS5_pair".b)" is imm_21_27=0b1001001 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b111 & VD5_pair {
+        _vstub();
+    }
+
+	:VD5_pair".h += vmpa("VT5_pair".ub,"VS5_pair".b)" is imm_21_27=0b1001001 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b110 & VD5_pair {
+        _vstub();
+    }
+	:VD5_pair".w += vmpa("VT5_pair".h,"VS5_pair".b)" is imm_21_27=0b1001001 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b111 & VD5_pair {
+        _vstub();
+    }
+
+	:VD5_pair".h = vmpa("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1001011 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b011 & VD5_pair {
+        _vstub();
+    }
+	:VD5_pair".w = vmpa("VT5_pair".uh,"VS5_pair".b)" is imm_21_27=0b1001100 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+        _vstub();
+    }
+
+	:VD5_pair".w += vmpa("VT5_pair".uh,"VS5_pair".b)" is imm_21_27=0b1001100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b010 & VD5_pair {
+        _vstub();
+    }
+	:VD5_pair".h += vmpa("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1001101 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+        _vstub();
+    }
+
+	:VD5_pair".h = vmpa("VT5_pair".ub,"VS5_pair".b)" is imm_21_27=0b1100001 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b011 & VD5_pair {
+        _vstub();
+    }
+	:VD5_pair".h = vmpa("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1100111 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b111 & VD5_pair {
+        _vstub();
+    }
+}
 
 # Multiply vector by scalar
-#TODO
+with slot: iclass=0b0001 {
+    :VD5_pair".h = vmpy("VT5_pair".ub,"VS5_pair".b)" is imm_21_27=0b1001001 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+        _vstub();
+    }
+
+	:VD5_pair".h += vmpy("VT5_pair".ub,"VS5_pair".b)" is imm_21_27=0b1001001 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+        _vstub();
+    }
+
+	:VD5_pair".w = vmpy("VT5_pair".h,"VS5_pair".h)" is imm_21_27=0b1001010 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    }
+	:VD5_pair".uw = vmpy("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1001010 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b011 & VD5_pair {
+        _vstub();
+    }
+
+	:VD5_pair".w += vmpy("VT5_pair".h,"VS5_pair".h):sat" is imm_21_27=0b1001010 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    }
+	:VD5_pair".uw += vmpy("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1001010 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+        _vstub();
+    }
+	:VD5_pair".uh += vmpy("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1001100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    }
+	:VD5_pair".w += vmpy("VT5_pair".h,"VS5_pair".h)" is imm_21_27=0b1001101 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b110 & VD5_pair {
+        _vstub();
+    }
+
+	:VD5_pair".uh = vmpy("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1001110 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    }
+}
+
 # Multiply vector by vector
-#TODO
+
+with slot: iclass=0b0001 {
+    :VD5_pair".h = vmpy("VT5_pair".b,"VS5_pair".b)" is imm_21_27=0b1100000 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".uh = vmpy("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1100000 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".h = vmpy("VT5_pair".ub,"VS5_pair".b)" is imm_21_27=0b1100000 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b110 & VD5_pair {
+        _vstub();
+    }
+    
+    :VD5_pair".h += vmpy("VT5_pair".b,"VS5_pair".b)" is imm_21_27=0b1100000 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".uh += vmpy("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1100000 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".h += vmpy("VT5_pair".ub,"VS5_pair".b)" is imm_21_27=0b1100000 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b110 & VD5_pair {
+        _vstub();
+    }
+    
+    :VD5_pair".uw = vmpy("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1100001 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    }
+    
+    :VD5_pair".uw += vmpy("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1100001 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    }
+    
+}
 
 # Integer multiply - vector by vector
 with slot: iclass=0b0001 {
@@ -828,16 +1108,54 @@ with slot: iclass=0b0001 {
     :VD5_pair".w += vmpyi("VT5_pair".w,"VS5_pair".h)" is imm_21_27=0b1001010 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b011 & VD5_pair {
         _vstub();
     }    
-    :VD5_pair".w = vmpyi("VT5_pair".w,"VS5_pair".h)" is imm_21_27=0b1001100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b111 & VD5_pair {
+    :VD5_pair".w = vmpyi("VT5_pair".w,"VS5_pair".h)" is imm_21_27=0b1001100 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b111 & VD5_pair {
         _vstub();
     }    
 }
 
 # Multiply 32x16
-#TODO
+with slot: iclass=0b0001 {
+	:VD5_pair" += vmpyo("VT5_pair".w,"VS5_pair".h)" is imm_21_27=0b1100001 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b011 & VD5_pair {
+        _vstub();
+    }    
+    :VD5_pair".w += vmpyo("VT5_pair".w,"VS5_pair".h):<<1:sat:shift" is imm_21_27=0b1100001 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b110 & VD5_pair {
+        _vstub();
+    }    
+    :VD5_pair".w += vmpyo("VT5_pair".w,"VS5_pair".h):<<1:rnd:sat:shift" is imm_21_27=0b1100001 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b111 & VD5_pair {
+        _vstub();
+    }   
+    
+    :VD5_pair" = vmpye("VT5_pair".w,"VS5_pair".uh)" is imm_21_27=0b1110101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b110 & VD5_pair {
+        _vstub();
+    }  
+    :VD5_pair".w = vmpyo("VT5_pair".w,"VS5_pair".h):<<1:rnd:sat" is imm_21_27=0b1111010 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    }  
+    :VD5_pair".w = vmpye("VT5_pair".w,"VS5_pair".h)" is imm_21_27=0b1111111 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+        _vstub();
+    }  
+    :VD5_pair".w = vmpyo("VT5_pair".w,"VS5_pair".h):<<1:sat" is imm_21_27=0b1111111 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b111 & VD5_pair {
+        _vstub();
+    }  
+}
 
 # Multiply bytes with 4-wide reduction
-#TODO
+with slot: iclass=0b0001 {
+	:VD5_pair".w = vrmpy("VT5_pair".ub,"VS5_pair".b,"imm_5u")" is imm_21_27=0b1001010 & VS5_pair & imm_13=0 & VT5_pair & imm_6_7=0b10 & imm_5u & VD5_pair {
+        _vstub();
+    }
+    
+    :VD5_pair".w += vrmpy("VT5_pair".ub,"VS5_pair".b,"imm_5u")" is imm_21_27=0b1001010 & VS5_pair & imm_13=1 & VT5_pair & imm_6_7=0b10 & imm_5u & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".uw += vrmpy("VT5_pair".ub,"VS5_pair".ub,"imm_5u")" is imm_21_27=0b1001011 & VS5_pair & imm_13=1 & VT5_pair & imm_6_7=0b11 & imm_5u & VD5_pair {
+        _vstub();
+    }
+    
+    :VD5_pair".uw += vrmpy("VT5_pair".ub,"VS5_pair".ub,"imm_5u")" is imm_21_27=0b1001101 & VS5_pair & imm_13=0 & VT5_pair & imm_6_7=0b11 & imm_5u & VD5_pair {
+        _vstub();
+    }
+}
 
 # Multiply by byte with accumulate
 with slot: iclass=0b0001 {
@@ -852,7 +1170,28 @@ with slot: iclass=0b0001 {
     }              
 }
 # Multiply with 3-wide reduction
-#TODO
+with slot: iclass=0b0001 {
+	:VD5_pair".h = vtmpy("VT5_pair".b,"VS5_pair".b)" is imm_21_27=0b1001000 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".h = vtmpy("VT5_pair".ub,"VS5_pair".b)" is imm_21_27=0b1001000 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+        _vstub();
+    }
+    
+    :VD5_pair".h += vtmpy("VT5_pair".b,"VS5_pair".b)" is imm_21_27=0b1001000 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".h += vtmpy("VT5_pair".ub,"VS5_pair".b)" is imm_21_27=0b1001000 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".w += vtmpy("VT5_pair".h,"VS5_pair".b)" is imm_21_27=0b1001000 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b010 & VD5_pair {
+        _vstub();
+    }
+    
+    :VD5_pair".w = vtmpy("VT5_pair".h,"VS5_pair".b)" is imm_21_27=0b1001101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+        _vstub();
+    }
+}
 
 # Sum of reduction of absolute differences
 with slot: iclass=0b0001 {
@@ -877,7 +1216,21 @@ with slot: iclass=0b0001 {
 # HVX/MPY RESOURCE
 
 # Multiply by byte with 2-wide reduction
-#TODO
+with slot: iclass=0b0001 {
+    :VD5_pair".w = vdmpy("VT5_pair".h,"VS5_pair".b)" is imm_21_27=0b1001000 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b010 & VD5_pair {
+        _vstub();
+    }    
+    :VD5_pair".h = vdmpy("VT5_pair".ub,"VS5_pair".b)" is imm_21_27=0b1001000 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b110 & VD5_pair {
+        _vstub();
+    }
+    
+    :VD5_pair".w += vdmpy("VT5_pair".h,"VS5_pair".b)" is imm_21_27=0b1001000 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b011 & VD5_pair {
+        _vstub();
+    }    
+    :VD5_pair".h += vdmpy("VT5_pair".ub,"VS5_pair".b)" is imm_21_27=0b1001000 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b110 & VD5_pair {
+        _vstub();
+    }
+}
 
 # Multiply half of the elements
 with slot: iclass=0b0001 {
@@ -887,7 +1240,31 @@ with slot: iclass=0b0001 {
 }
 
 # Integer multiply by byte
-#TODO
+with slot: iclass=0b0001 {
+    :VD5_pair".w += vmpyi("VT5_pair".w,"VS5_pair".b)" is imm_21_27=0b1001010 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b010 & VD5_pair {
+        _vstub();
+    }
+    
+    :VD5_pair".h = vmpyi("VT5_pair".h,"VS5_pair".b)" is imm_21_27=0b1001011 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    }
+    
+    :VD5_pair".h += vmpyi("VT5_pair".h,"VS5_pair".b)" is imm_21_27=0b1001011 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+        _vstub();
+    }
+    
+    :VD5_pair".w = vmpyi("VT5_pair".w,"VS5_pair".ub)" is imm_21_27=0b1001100 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b110 & VD5_pair {
+        _vstub();
+    }
+    
+    :VD5_pair".w += vmpyi("VT5_pair".w,"VS5_pair".ub)" is imm_21_27=0b1001100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+        _vstub();
+    }
+    
+    :VD5_pair".w = vmpyi("VT5_pair".w,"VS5_pair".b)" is imm_21_27=0b1001101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    }
+}
 
 # Multiply half of the elements with scalar
 with slot: iclass=0b0001 {
@@ -931,13 +1308,13 @@ with slot: iclass=0b0001 {
 
 # Splat from scalar
 with slot: iclass=0b0001 {
-    :VD5_pair" = vsplat("S5")" is imm_21_27=0b1001101 & VS5_pair & imm_13=0 & imm9_12=0 & imm_5_8=0b0001 & VD5_pair {
+    :VD5_pair" = vsplat("S5")" is imm_21_27=0b1001101 & S5 & imm_13=0 & imm_9_12=0 & imm_5_8=0b0001 & VD5_pair {
         _vstub();
     }
-    :VD5_pair".h = vsplat("S5")" is imm_21_27=0b1001110 & VS5_pair & imm_13=0 & imm8_12=0 & imm_5_7=0b001 & VD5_pair {
+    :VD5_pair".h = vsplat("S5")" is imm_21_27=0b1001110 & S5 & imm_13=0 & imm_8_12=0 & imm_5_7=0b001 & VD5_pair {
         _vstub();
     }     
-    :VD5_pair".b = vsplat("S5")" is imm_21_27=0b1001110 & VS5_pair & imm_13=0 & imm8_12=0 & imm_5_7=0b010 & VD5_pair {
+    :VD5_pair".b = vsplat("S5")" is imm_21_27=0b1001110 & S5 & imm_13=0 & imm_8_12=0 & imm_5_7=0b010 & VD5_pair {
         _vstub();
     }     
 }
@@ -953,7 +1330,21 @@ with slot: iclass=0b0001 {
 }
 
 # Predicate to vector transfer
-#TODO
+with slot: iclass=0b0001 {
+    :VD5_pair" |= vand("Qs4","S5")" is imm_21_27=0b1001011 & S5 & imm_13=1 & imm_11_12=0 & imm_10=0 & Qs4 & imm_5_7=0b011 & VD5_pair {
+        _vstub();
+    }   
+    :VD5_pair" |= vand(!"Qs4","S5")" is imm_21_27=0b1001011 & S5 & imm_13=1 & imm_11_12=0 & imm_10=1 & Qs4 & imm_5_7=0b011 & VD5_pair {
+        _vstub();
+    }   
+    
+    :VD5_pair" = vand("Qs4","S5")" is imm_21_27=0b1001101 & S5 & imm_13=0 & imm_11_12=0 & imm_10=0 & Qs4 & imm_5_7=0b101 & VD5_pair {
+        _vstub();
+    }   
+    :VD5_pair" = vand(!"Qs4","S5")" is imm_21_27=0b1001101 & S5 & imm_13=0 & imm_11_12=0 & imm_10=1 & Qs4 & imm_5_7=0b101 & VD5_pair {
+        _vstub();
+    }   
+}
 
 # Absolute value of difference
 with slot: iclass=0b0001 {
@@ -1288,68 +1679,31 @@ with slot: iclass=0b0001 {
 
 #shift
 with slot: iclass=0b0001 {
-    :VD5_pair".b = vasr("VT5_pair".h,"VS5_pair".h,"S3_16_18"):sat" is imm_24_27=0b1000 & VS5_pair & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+# First section is a duplicate of the narrowing shift
+
+    :VD5_pair".w = vasr("VT5_pair".w,"S5")" is imm_21_27=0b1001011 & S5 & imm_13=0 & VT5_pair & imm_5_7=0b101 & VD5_pair {
         _vstub();
     }
-    :VD5_pair".uh = vasr("VT5_pair".hw,"VS5_pair".uw,"S3_16_18"):rnd:sat" is imm_24_27=0b1000 & VS5_pair & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+    :VD5_pair".h = vasr("VT5_pair".h,"S5")" is imm_21_27=0b1001011 & S5 & imm_13=0 & VT5_pair & imm_5_7=0b110 & VD5_pair {
         _vstub();
     }
-    :VD5_pair".uh = vasr("VT5_pair".w,"VS5_pair".w,"S3_16_18"):sat" is imm_24_27=0b1000 & VS5_pair & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b010 & VD5_pair {
+    :VD5_pair".w = vasl("VT5_pair".w,"S5")" is imm_21_27=0b1001011 & S5 & imm_13=0 & VT5_pair & imm_5_7=0b111 & VD5_pair {
         _vstub();
     }
-    :VD5_pair".ub = vasr("VT5_pair".uh,"VS5_pair".uh,"S3_16_18"):rnd:sat" is imm_24_27=0b1000 & VS5_pair & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b111 & VD5_pair {
+    :VD5_pair".h = vasl("VT5_pair".w,"S5")" is imm_21_27=0b1001100 & S5 & imm_13=0 & VT5_pair & imm_5_7=0b000 & VD5_pair {
         _vstub();
     }
-    :VD5_pair".uh = vasr("VT5_pair".uw,"VS5_pair".uw,"S3_16_18"):sat" is imm_24_27=0b1000 & VS5_pair & S3_16_18 & imm_13=1 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+    :VD5_pair".uw = vasl("VT5_pair".uw,"S5")" is imm_21_27=0b1001100 & S5 & imm_13=0 & VT5_pair & imm_5_7=0b001 & VD5_pair {
         _vstub();
     }
-    :VD5_pair".ub = vasr("VT5_pair".uh,"VS5_pair".uh,"S3_16_18"):sat" is imm_24_27=0b1000 & VS5_pair & S3_16_18 & imm_13=1 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+    :VD5_pair".uh = vasl("VT5_pair".uh,"S5")" is imm_21_27=0b1001100 & S5 & imm_13=0 & VT5_pair & imm_5_7=0b010 & VD5_pair {
         _vstub();
     }
-    
-    :VD5_pair".w = vasr("VT5_pair".w,"T5")" is imm_21_27=0b1001011 & VS5_pair & imm_13=0 & T5 & imm_5_7=0b101 & VD5_pair {
+    :VD5_pair".ub = vasl("VT5_pair".ub,"S5")" is imm_21_27=0b1001100 & S5 & imm_13=0 & VT5_pair & imm_5_7=0b011 & VD5_pair {
         _vstub();
     }
-    :VD5_pair".h = vasr("VT5_pair".h,"T5")" is imm_21_27=0b1001011 & VS5_pair & imm_13=0 & T5 & imm_5_7=0b110 & VD5_pair {
-        _vstub();
-    }
-    :VD5_pair".w = vasl("VT5_pair".w,"T5")" is imm_21_27=0b1001011 & VS5_pair & imm_13=0 & T5 & imm_5_7=0b111 & VD5_pair {
-        _vstub();
-    }
-    :VD5_pair".h = vasl("VT5_pair".w,"T5")" is imm_21_27=0b1001100 & VS5_pair & imm_13=0 & T5 & imm_5_7=0b000 & VD5_pair {
-        _vstub();
-    }
-    :VD5_pair".uw = vasl("VT5_pair".uw,"T5")" is imm_21_27=0b1001100 & VS5_pair & imm_13=0 & T5 & imm_5_7=0b001 & VD5_pair {
-        _vstub();
-    }
-    :VD5_pair".uh = vasl("VT5_pair".uh,"T5")" is imm_21_27=0b1001100 & VS5_pair & imm_13=0 & T5 & imm_5_7=0b010 & VD5_pair {
-        _vstub();
-    }
-    :VD5_pair".ub = vasl("VT5_pair".ub,"T5")" is imm_21_27=0b1001100 & VS5_pair & imm_13=0 & T5 & imm_5_7=0b011 & VD5_pair {
-        _vstub();
-    }
-    
-    :VD5_pair".h = vasr("VT5_pair".w,"VS5_pair".w,"S3_16_18")" is imm_24_27=0b1011 & VS5_pair & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b010 & VD5_pair {
-        _vstub();
-    }
-    :VD5_pair".h = vasr("VT5_pair".w,"VS5_pair".w,"S3_16_18"):sat" is imm_24_27=0b1011 & VS5_pair & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b011 & VD5_pair {
-        _vstub();
-    }
-    :VD5_pair".h = vasr("VT5_pair".w,"VS5_pair".w,"S3_16_18"):rnd:sat" is imm_24_27=0b1011 & VS5_pair & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b100 & VD5_pair {
-        _vstub();
-    }
-    :VD5_pair".uh = vasr("VT5_pair".w,"VS5_pair".w,"S3_16_18"):sat" is imm_24_27=0b1011 & VS5_pair & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b101 & VD5_pair {
-        _vstub();
-    }
-    :VD5_pair".ub = vasr("VT5_pair".h,"VS5_pair".h,"S3_16_18"):sat" is imm_24_27=0b1011 & VS5_pair & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b110 & VD5_pair {
-        _vstub();
-    }
-    :VD5_pair".ub = vasr("VT5_pair".h,"VS5_pair".h,"S3_16_18"):rnd:sat" is imm_24_27=0b1011 & VS5_pair & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b111 & VD5_pair {
-        _vstub();
-    }
-    :VD5_pair".b = vasr("VT5_pair".h,"VS5_pair".h,"S3_16_18"):rnd:sat" is imm_24_27=0b1011 & VS5_pair & S3_16_18 & imm_13=1 & VT5_pair & imm_5_7=0b000 & VD5_pair {
-        _vstub();
-    }
+
+	# Rest overlaps with narrowing shift
 }
 
 
@@ -1485,10 +1839,126 @@ with slot: iclass=0b0010 {
 }
 
 # New
-#TODO
+with slot: iclass=0b0010 {
+	:"vmemu("S5"+"s4") = " T3_0_2_new is imm_21_27=0b1000001 & S5 & imm_13u & imm_11_12=0 & imm_8_10 & imm_5_7=0b001 & imm_4=0 & imm_3=0 & T3_0_2_new [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"vmemu("S5"+"s4"):nt = " T3_0_2_new is imm_21_27=0b1000011 & S5 & imm_13u & imm_11_12=0 & imm_8_10 & imm_5_7=0b001 & imm_3_4 & T3_0_2_new [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	
+	:"if("T2_11_12_pred") vmemu("S5"+"s4") = " T3_0_2_new is imm_21_27=0b1000101 & S5 & imm_13u & T2_11_12_pred & imm_8_10 & imm_3_7=0b01000 & T3_0_2_new [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if(!"T2_11_12_pred") vmemu("S5"+"s4") = " T3_0_2_new is imm_21_27=0b1000101 & S5 & imm_13u & T2_11_12_pred & imm_8_10 & imm_3_7=0b01101 & T3_0_2_new [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if("T2_11_12_pred") vmemu("S5"+"s4"):nt = " T3_0_2_new is imm_21_27=0b1000101 & S5 & imm_13u & T2_11_12_pred & imm_8_10 & imm_3_7=0b01010 & T3_0_2_new [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if(!"T2_11_12_pred") vmemu("S5"+"s4"):nt = " T3_0_2_new is imm_21_27=0b1000101 & S5 & imm_13u & T2_11_12_pred & imm_8_10 & imm_3_7=0b01111 & T3_0_2_new [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	
+	:"vmemu("S5"++"imm_8_10") = " T3_0_2_new is imm_21_27=0b1001001 & S5 & imm_11_13=0 & imm_8_10 & imm_5_7=0b001 & imm_4=0 & imm_3=0 & T3_0_2_new {
+		_vstub();
+	}
+	:"vmemu("S5"++"imm_8_10"):nt = " T3_0_2_new is imm_21_27=0b1001011 & S5 & imm_11_13=0 & imm_8_10 & imm_5_7=0b001 & imm_3_4=0 & T3_0_2_new {
+		_vstub();
+	}
+	:"if("T2_11_12_pred") vmemu("S5"++"imm_8_10") = " T3_0_2_new is imm_21_27=0b1001101 & S5 & imm_13u=0 & T2_11_12_pred & imm_8_10 & imm_3_7=0b01000 & T3_0_2_new {
+		_vstub();
+	}
+	:"if(!"T2_11_12_pred") vmemu("S5"++"imm_8_10") = " T3_0_2_new is imm_21_27=0b1001101 & S5 & imm_13u=0 & T2_11_12_pred & imm_8_10 & imm_3_7=0b01101 & T3_0_2_new {
+		_vstub();
+	}
+	:"if("T2_11_12_pred") vmemu("S5"++"imm_8_10"):nt = " T3_0_2_new is imm_21_27=0b1001111 & S5 & imm_13u=0 & T2_11_12_pred & imm_8_10 & imm_3_7=0b01010 & T3_0_2_new {
+		_vstub();
+	}
+	:"if(!"T2_11_12_pred") vmemu("S5"++"imm_8_10"):nt = " T3_0_2_new is imm_21_27=0b1001111 & S5 & imm_13u=0 & T2_11_12_pred & imm_8_10 & imm_3_7=0b01111 & T3_0_2_new {
+		_vstub();
+	}
+	
+	:"vmemu("S5"++"M1_13") = " T3_0_2_new is imm_21_27=0b1011001 & S5 & M1_13 & imm_8_12=0 & imm_5_7=0b001 & imm_4=0 & imm_3=0 & T3_0_2_new {
+		_vstub();
+	}
+	:"vmemu("S5"++"M1_13"):nt = " T3_0_2_new is imm_21_27=0b1011011 & S5 & M1_13 & imm_8_12=0 & imm_5_7=0b001 & imm_3_4=0 & T3_0_2_new {
+		_vstub();
+	}
+	
+	:"if("T2_11_12_pred") vmemu("S5"++"M1_13") = " T3_0_2_new is imm_21_27=0b1011101 & S5 & M1_13 & T2_11_12_pred & imm_8_10=0 & imm_3_7=0b01000 & T3_0_2_new {
+		_vstub();
+	}
+	:"if(!"T2_11_12_pred") vmemu("S5"++"M1_13") = " T3_0_2_new is imm_21_27=0b1011101 & S5 & M1_13 & T2_11_12_pred & imm_8_10=0 & imm_3_7=0b01101 & T3_0_2_new {
+		_vstub();
+	}
+	:"if("T2_11_12_pred") vmemu("S5"++"M1_13"):nt = " T3_0_2_new is imm_21_27=0b1011111 & S5 & M1_13 & T2_11_12_pred & imm_8_10=0 & imm_3_7=0b01010 & T3_0_2_new {
+		_vstub();
+	}
+	:"if(!"T2_11_12_pred") vmemu("S5"++"M1_13"):nt = " T3_0_2_new is imm_21_27=0b1011111 & S5 & M1_13 & T2_11_12_pred & imm_8_10=0 & imm_3_7=0b01111 & T3_0_2_new {
+		_vstub();
+	}
+}
 
 # Aligned
-#TODO
+with slot: iclass=0b0010 {
+	:"vmemu("S5"+"s4") = " VD5_pair is imm_21_27=0b1000001 & S5 & imm_13u & imm_11_12=0 & imm_8_10 & imm_5_7=0b000 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}	
+	:"vmemu("S5"+"s4"):nt = " VD5_pair is imm_21_27=0b1000011 & S5 & imm_13u & imm_11_12=0 & imm_8_10 & imm_5_7=0b000 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if("Qv4_11_12") vmemu("S5"+"s4") = " VD5_pair is imm_21_27=0b1000101 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b000 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") vmemu("S5"+"s4") = " VD5_pair is imm_21_27=0b1000101 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b001 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if("Qv4_11_12") vmemu("S5"+"s4"):nt = " VD5_pair is imm_21_27=0b1000111 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b000 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") vmemu("S5"+"s4"):nt = " VD5_pair is imm_21_27=0b1000111 & S5 & imm_13u & Qv4_11_12 & imm_8_10 & imm_5_7=0b001 & VD5_pair [ s4 = (imm_13u << 3) | imm_8_10;] {
+		_vstub();
+	}
+	
+	:"vmemu("S5"++"imm_8_10") = " VD5_pair is imm_21_27=0b1001001 & S5 & imm_11_13=0 & imm_8_10 & imm_5_7=0b000 & VD5_pair {
+		_vstub();
+	}
+	:"vmemu("S5"++"imm_8_10"):nt = " VD5_pair is imm_21_27=0b1001011 & S5 & imm_11_13=0 & imm_8_10 & imm_5_7=0b000 & VD5_pair {
+		_vstub();
+	}
+	:"if("Qv4_11_12") vmemu("S5"++"imm_8_10") = " VD5_pair is imm_21_27=0b1001101 & S5 & Qv4_11_12 & imm_8_10 & imm_5_7=0b000 & VD5_pair {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") vmemu("S5"++"imm_8_10") = " VD5_pair is imm_21_27=0b1001101 & S5 & Qv4_11_12 & imm_8_10 & imm_5_7=0b001 & VD5_pair {
+		_vstub();
+	}
+	:"if("Qv4_11_12") vmemu("S5"++"imm_8_10"):nt = " VD5_pair is imm_21_27=0b1001111 & S5 & Qv4_11_12 & imm_8_10 & imm_5_7=0b000 & VD5_pair {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") vmemu("S5"++"imm_8_10"):nt = " VD5_pair is imm_21_27=0b1001111 & S5 & Qv4_11_12 & imm_8_10 & imm_5_7=0b001 & VD5_pair {
+		_vstub();
+	}
+	
+	:"vmemu("S5"++"M1_13") = " VD5_pair is imm_21_27=0b1011001 & S5 & M1_13 & imm_8_12=0 & imm_5_7=0b000 & VD5_pair {
+		_vstub();
+	}
+	:"vmemu("S5"++"M1_13"):nt = " VD5_pair is imm_21_27=0b1011011 & S5 & M1_13 & imm_8_12=0 & imm_5_7=0b000 & VD5_pair {
+		_vstub();
+	}
+	:"if("Qv4_11_12") vmemu("S5"++"M1_13") = " VD5_pair is imm_21_27=0b1011101 & S5 & M1_13 & Qv4_11_12 & imm_5_7=0b000 & VD5_pair {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") vmemu("S5"++"M1_13") = " VD5_pair is imm_21_27=0b1011101 & S5 & M1_13 & Qv4_11_12 & imm_5_7=0b001 & VD5_pair {
+		_vstub();
+	}
+	:"if("Qv4_11_12") vmemu("S5"++"M1_13"):nt = " VD5_pair is imm_21_27=0b1011111 & S5 & M1_13 & Qv4_11_12 & imm_5_7=0b000 & VD5_pair {
+		_vstub();
+	}
+	:"if(!"Qv4_11_12") vmemu("S5"++"M1_13"):nt = " VD5_pair is imm_21_27=0b1011111 & S5 & M1_13 & Qv4_11_12 & imm_5_7=0b001 & VD5_pair {
+		_vstub();
+	}
+}
 
 # Unaligned
 with slot: iclass=0b0010 {

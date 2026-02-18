@@ -194,6 +194,7 @@ define token instr (32)
     imm_10            = (10,10)
 
     imm_9_13          = ( 9,13)
+    imm_9_12          = ( 9,12)
     imm_9_11          = ( 9,11)
     imm_9_10          = ( 9,10)
     imm_9             = ( 9, 9)
@@ -491,6 +492,7 @@ define token instr (32)
     VS5_pair          = (17,20)
     VS5_pair_19_23    = (19,23)
     VD5_pair          = ( 1, 4)
+    VD5_pair_dup      = ( 1, 4)
     VD5               = ( 0, 4)
 ;
 
