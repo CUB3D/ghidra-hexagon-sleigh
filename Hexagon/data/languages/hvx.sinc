@@ -768,28 +768,215 @@ with slot: iclass=0b0001 {
 }
 
 # Lookup table for piecewise from 64bit scalar
-#TODO
+with slot: iclass=0b0001 {
+    :VD5_pair".h = vlut4("VT5_pair","VS5_pair")" is imm_21_27=0b1001011 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+        _vstub();
+    }
+}
 
 # Multiply with piecewise add/sub from 64-bit scalar
-#TODO
+with slot: iclass=0b0001 {
+    :VD5_pair".h = vmpa("VD5_pair".h,"VT5_pair".h,"VS5_pair".h):sat" is imm_21_27=0b1001100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".h = vmpa("VD5_pair".uh,"VT5_pair".uh,"VS5_pair".uh):sat" is imm_21_27=0b1001100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".h = vmpa("VD5_pair".h,"VT5_pair".uh,"VS5_pair".uh):sat" is imm_21_27=0b1001100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b110 & VD5_pair {
+        _vstub();
+    }
+}
+
 
 # Multiply - add
 #TODO
 
 # Multiply vector by scalar
+#TODO
 # Multiply vector by vector
+#TODO
+
 # Integer multiply - vector by vector
+with slot: iclass=0b0001 {
+    :VD5_pair".h = vmpyi("VT5_pair".h,"VS5_pair".h)" is imm_21_27=0b1100001 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".h += vmpyi("VT5_pair".h,"VS5_pair".h)" is imm_21_27=0b1100001 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+        _vstub();
+    }
+}
+
 # Integer multiply 32x16
+with slot: iclass=0b0001 {
+    :VD5_pair".w += vmpyie("VT5_pair".w,"VS5_pair".uh)" is imm_21_27=0b1100001 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".w += vmpyie("VT5_pair".w,"VS5_pair".h)" is imm_21_27=0b1100010 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    } 
+    
+    :VD5_pair".w += vmpyie("VT5_pair".w,"VS5_pair".uh)" is imm_21_27=0b1111110 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    } 
+    :VD5_pair".w += vmpyio("VT5_pair".w,"VS5_pair".h)" is imm_21_27=0b1111110 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+        _vstub();
+    } 
+}
+
 # Integer multiply accumulate even/odd
+with slot: iclass=0b0001 {
+    :VD5_pair".w += vmpyi("VT5_pair".w,"VS5_pair".h)" is imm_21_27=0b1001010 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b011 & VD5_pair {
+        _vstub();
+    }    
+    :VD5_pair".w = vmpyi("VT5_pair".w,"VS5_pair".h)" is imm_21_27=0b1001100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b111 & VD5_pair {
+        _vstub();
+    }    
+}
+
 # Multiply 32x16
+#TODO
+
 # Multiply bytes with 4-wide reduction
+#TODO
+
 # Multiply by byte with accumulate
+with slot: iclass=0b0001 {
+    :VD5_pair".uw += vrmpy("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1100000 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    }        
+    :VD5_pair".w += vrmpy("VT5_pair".b,"VS5_pair".b)" is imm_21_27=0b1100000 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+        _vstub();
+    }  
+    :VD5_pair".w += vrmpy("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1100000 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b010 & VD5_pair {
+        _vstub();
+    }              
+}
 # Multiply with 3-wide reduction
+#TODO
+
 # Sum of reduction of absolute differences
+with slot: iclass=0b0001 {
+    :VD5_pair".uw = vdsad("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1001000 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".uw += vdsad("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1001011 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    }      
+}
+
 # Sum of absolute differences bytes
+with slot: iclass=0b0001 {
+    :VD5_pair".uw = vrsad("VT5_pair".ub,"VS5_pair".ub,"imm_5u")" is imm_21_27=0b1001010 & VS5_pair & imm_13=0 & VT5_pair & imm_6_7=0b11 & imm_5u & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".uw += vrsad("VT5_pair".ub,"VS5_pair".ub,"imm_5u")" is imm_21_27=0b1001010 & VS5_pair & imm_13=1 & VT5_pair & imm_6_7=0b11 & imm_5u & VD5_pair {
+        _vstub();
+    }      
+}
 
 # HVX/MPY RESOURCE
+
+# Multiply by byte with 2-wide reduction
 #TODO
+
+# Multiply half of the elements
+with slot: iclass=0b0001 {
+    :VD5_pair".w = vmpyieo("VT5_pair".h,"VS5_pair".h)" is imm_21_27=0b1111011 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    }    
+}
+
+# Integer multiply by byte
+#TODO
+
+# Multiply half of the elements with scalar
+with slot: iclass=0b0001 {
+    :VD5_pair".uw = vmpye("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1001011 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b010 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".uw += vmpye("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1001100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b011 & VD5_pair {
+        _vstub();
+    }      
+}
+
+# Multiply bytes with 4-wide reduction - vector by scalar
+with slot: iclass=0b0001 {
+    :VD5_pair".uw = vmpy("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1001000 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b011 & VD5_pair {
+        _vstub();
+    } 
+    :VD5_pair".w = vmpy("VT5_pair".ub,"VS5_pair".b)" is imm_21_27=0b1001000 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+        _vstub();
+    }   
+    
+    :VD5_pair".uw += vmpy("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1001000 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+        _vstub();
+    } 
+    :VD5_pair".w = vmpy("VT5_pair".ub,"VS5_pair".b)" is imm_21_27=0b1001000 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+        _vstub();
+    }   
+}
+
+# Multiply bytes with 4-wide reduction - vector by vector
+with slot: iclass=0b0001 {
+    :VD5_pair".uw = vrmpy("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1100000 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    }     
+    :VD5_pair".w = vrmpy("VT5_pair".b,"VS5_pair".b)" is imm_21_27=0b1100000 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+        _vstub();
+    }     
+    :VD5_pair".w = vrmpy("VT5_pair".ub,"VS5_pair".b)" is imm_21_27=0b1100000 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b010 & VD5_pair {
+        _vstub();
+    }     
+}
+
+# Splat from scalar
+with slot: iclass=0b0001 {
+    :VD5_pair" = vsplat("S5")" is imm_21_27=0b1001101 & VS5_pair & imm_13=0 & imm9_12=0 & imm_5_8=0b0001 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".h = vsplat("S5")" is imm_21_27=0b1001110 & VS5_pair & imm_13=0 & imm8_12=0 & imm_5_7=0b001 & VD5_pair {
+        _vstub();
+    }     
+    :VD5_pair".b = vsplat("S5")" is imm_21_27=0b1001110 & VS5_pair & imm_13=0 & imm8_12=0 & imm_5_7=0b010 & VD5_pair {
+        _vstub();
+    }     
+}
+
+# Vector to predicate transfer
+with slot: iclass=0b0001 {
+    :Qd4" |= vand("VT5_pair","S5")" is imm_21_27=0b1001011 & S5 & imm_13=1 & VT5_pair & imm_5_7=0b100 & imm_2_4=0 & Qd4 {
+        _vstub();
+    }   
+    :Qd4" = vand("VT5_pair","S5")" is imm_21_27=0b1001011 & S5 & imm_13=1 & VT5_pair & imm_5_7=0b010 & imm_4=0 & imm_2_3=0b10 & Qd4 {
+        _vstub();
+    }   
+}
+
+# Predicate to vector transfer
+#TODO
+
+# Absolute value of difference
+with slot: iclass=0b0001 {
+    :VD5_pair".ub = vabsdiff("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1100110 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".uh = vabsdiff("VT5_pair".h,"VS5_pair".h)" is imm_21_27=0b1100110 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".uh = vabsdiff("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1100110 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b010 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".uw = vabsdiff("VT5_pair".w,"VS5_pair".w)" is imm_21_27=0b1100110 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b011 & VD5_pair {
+        _vstub();
+    }
+}
+
+# Insert element
+with slot: iclass=0b0001 {
+    :VD5_pair".w = vinsert("S5")" is imm_21_27=0b1001101 & S5 & imm_13=1 & imm_8_12=0 & imm_5_7=0b001 & VD5_pair {
+        _vstub();
+    }    
+}
 
 # HVX/PERMUTE RESOURCE
 # Byte alignment
