@@ -39,7 +39,7 @@ else if (project.hasProperty("GHIDRA_INSTALL_DIR")) {
 	ghidraInstallDir = project.getProperty("GHIDRA_INSTALL_DIR")
 }
 else {
-	ghidraInstallDir = "/home/cub3d/.local/opt/gvm/ghidra_11.4_PUBLIC/"
+	ghidraInstallDir = "/home/cub3d/.local/opt/gvm/ghidra_12.0.3_PUBLIC/"
 }
 
 task distributeExtension {
