@@ -86,8 +86,8 @@ with slot: iclass=0b1111  {
     } 
 
     :D5" = sub("T5","S5"):sat" is imm_21_27=0b0110110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & D5 & OUTPUT_D5 {
-        D5 = S5i - T5i;
-        if (D5 > S5i) goto <sat>;
+        D5 = T5i - S5i;
+        if (D5 > T5i) goto <sat>;
         goto <end>;
         <sat>
         D5 = 0;
