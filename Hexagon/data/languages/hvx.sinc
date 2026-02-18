@@ -688,11 +688,110 @@ with slot: iclass=0b0010 {
 # HVX/MPY DOUBLE RESOURCE
 #TODO
 
+# Arithmetic widening
+with slot: iclass=0b0001 {
+    :VD5_pair" += vadd("VT5_pair","VS5_pair")" is imm_21_27=0b1100001 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b010 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".w += vadd("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1100001 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".h += vadd("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1100001 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+        _vstub();
+    }
+
+    :VD5_pair".h = vadd("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1100101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b010 & Vdd5_pair {
+        _vstub();
+    }
+
+    :VD5_pair".w = vadd("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1100101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b011 & Vdd5_pair {
+        _vstub();
+    }
+    :VD5_pair".w = vadd("VT5_pair".h,"VS5_pair".h)" is imm_21_27=0b1100101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b100 & Vdd5_pair {
+        _vstub();
+    }
+    :VD5_pair".h = vsub("VT5_pair".ub,"VS5_pair".ub)" is imm_21_27=0b1100101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b101 & Vdd5_pair {
+        _vstub();
+    }
+    :VD5_pair".w = vsub("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1100101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b110 & Vdd5_pair {
+        _vstub();
+    }
+    :VD5_pair".w = vsub("VT5_pair".h,"VS5_pair".h)" is imm_21_27=0b1100101 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b111 & Vdd5_pair {
+        _vstub();
+    }
+}
+
+# Multiply with 2-wide reduction
+with slot: iclass=0b0001 {
+    :VD5_pair".h = vdmpy("VT5_pair".ub,"S5".b)" is imm_21_27=0b1001000 & S5 & imm_13=0 & VT5_pair & imm_5_7=0b111 & VD5_pair {
+        _vstub();
+    }  
+    :VD5_pair".h += vdmpy("VT5_pair".ub,"S5".b)" is imm_21_27=0b1001000 & S5 & imm_13=1 & VT5_pair & imm_5_7=0b111 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".w = vdmpy("VT5_pair".h,"S5".uh):sat" is imm_21_27=0b1001001 & S5 & imm_13=0 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".w = vdmpy("VT5_pair".h,"S5".uh,1):sat" is imm_21_27=0b1001001 & S5 & imm_13=0 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".w = vdmpy("VT5_pair".h,"S5".h):sat" is imm_21_27=0b1001001 & S5 & imm_13=0 & VT5_pair & imm_5_7=0b010 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".w = vdmpy("VT5_pair".h,"S5".h):sat" is imm_21_27=0b1001001 & S5 & imm_13=0 & VT5_pair & imm_5_7=0b011 & VD5_pair {
+        _vstub();
+    }
+    :Vdd5_pair".w = vdmpy("VT5_pair".h,"S5".b)" is imm_21_27=0b1001001 & S5 & imm_13=0 & VT5_pair & imm_5_7=0b100 & Vdd5_pair {
+        _vstub();
+    }
+    :VD5_pair".w += vdmpy("VT5_pair".h,"S5".uh):sat" is imm_21_27=0b1001001 & S5 & imm_13=1 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".w += vdmpy("VT5_pair".h,"S5".uh,1):sat" is imm_21_27=0b1001001 & S5 & imm_13=1 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".w += vdmpy("VT5_pair".h,"S5".h):sat" is imm_21_27=0b1001001 & S5 & imm_13=1 & VT5_pair & imm_5_7=0b010 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".w += vdmpy("VT5_pair".h,"S5".h):sat" is imm_21_27=0b1001001 & S5 & imm_13=1 & VT5_pair & imm_5_7=0b011 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".w += vdmpy("VT5_pair".h,"S5".b)" is imm_21_27=0b1001001 & S5 & imm_13=1 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".w = vdmpy("VT5_pair".h,"VS5_pair".h):sat" is imm_21_27=0b1110000 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b011 & VD5_pair {
+        _vstub();
+    }
+    :VD5_pair".w += vdmpy("VT5_pair".h,"VS5_pair".h):sat" is imm_21_27=0b1110000 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b011 & VD5_pair {
+        _vstub();
+    }
+}
+
+# Lookup table for piecewise from 64bit scalar
+#TODO
+
+# Multiply with piecewise add/sub from 64-bit scalar
+#TODO
+
+# Multiply - add
+#TODO
+
+# Multiply vector by scalar
+# Multiply vector by vector
+# Integer multiply - vector by vector
+# Integer multiply 32x16
+# Integer multiply accumulate even/odd
+# Multiply 32x16
+# Multiply bytes with 4-wide reduction
+# Multiply by byte with accumulate
+# Multiply with 3-wide reduction
+# Sum of reduction of absolute differences
+# Sum of absolute differences bytes
+
 # HVX/MPY RESOURCE
 #TODO
 
 # HVX/PERMUTE RESOURCE
-
 # Byte alignment
 with slot: iclass=0b0001 {
 	:VD5_pair" = vror("VT5_pair","VS5_pair")" is imm_21_27=0b1001011 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b001 & VD5_pair {
