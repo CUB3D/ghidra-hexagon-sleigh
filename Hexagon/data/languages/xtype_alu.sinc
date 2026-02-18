@@ -148,8 +148,7 @@ with slot: iclass=0b1101  {
     }
 }
 
-# XTYPE/ALU:Add or sub dword w/ cary
-define pcodeop sub_carry;
+# XTYPE/ALU:Add or sub dword w/ carry
 with slot: iclass=0b1100  {
     :D5_pair "=add(" S5_pair "," T5_pair "," U2_5_6 "):carry"  is imm_21_27=0b0010110 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_7=0 & U2_5_6 & U2_5_6i & D5_pair {
         local tmp:9 = zext(S5_pairi) + zext(T5_pairi) + zext(U2_5_6i);
@@ -157,8 +156,9 @@ with slot: iclass=0b1100  {
         U2_5_6 = PTRUE * ((tmp >> 64) != 0);
     }
     :D5_pair "=sub(" S5_pair "," T5_pair "," U2_5_6 "):carry" is imm_21_27=0b0010111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_7=0 & U2_5_6 & U2_5_6i & D5_pair {
-
-        D5_pair = sub_carry(S5_pairi, T5_pairi, U2_5_6i);
+        local tmp:9 = zext(S5_pairi) + zext(~T5_pairi) + zext(U2_5_6i);
+        D5_pair = tmp:8;
+        U2_5_6 = PTRUE * ((tmp >> 64) != 0);
     }
 }
 
