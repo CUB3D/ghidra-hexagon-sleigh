@@ -14,7 +14,7 @@ with slot: iclass=0b001 {
     :"vhist" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_19_20=0 & imm_16_18=0b000 & imm_13=1 & imm_12=0 & imm_9_11=0b000 & imm_8=0 & imm_5_7=0b100 & imm_0_4=0 {
         vhist();
     }
-    :"vhist" is imm_24_27=0b1110 & Qv4 & imm_21=0 & imm_19_20=0 & imm_16_18=0b010 & imm_13=1 & imm_11_12=0 & imm_9_10=0b000 & imm_8=0 & imm_5_7=0b100 & imm_0_4=0 {
+    :"vhist("Qv4")" is imm_24_27=0b1110 & Qv4 & imm_21=0 & imm_19_20=0 & imm_16_18=0b010 & imm_13=1 & imm_11_12=0 & imm_9_10=0b000 & imm_8=0 & imm_5_7=0b100 & imm_0_4=0 {
         vhist(Qv4);
     }
 }
@@ -362,6 +362,9 @@ with slot: iclass=0b0001 {
     }
 }
 
+# arithmetic with carry bit
+#TODO
+
 # Logical ops
 with slot: iclass=0b0001 {
     :VD5 "= vand(" VT5 "," VS5")" is imm_21_27=0b1100001 & VS5 & imm_13=0 & VT5 & imm_5_7=0b101 & VD5 {
@@ -567,6 +570,7 @@ with slot: iclass=0b0001 {
         _vstub();
     }
 }
+#TODO: v79
 
 # cond accumulate
 with slot: iclass=0b0001 {
@@ -592,6 +596,7 @@ with slot: iclass=0b0001 {
         _vstub();
     }
 }
+#TODO: v79
 
 # mux select
 with slot: iclass=0b0001 {
@@ -632,6 +637,7 @@ with slot: iclass=0b0001 {
     }
 }
 
+#TODO: clear vec register alias
 
 # HVX/ALU-RESORUCE/DEBUG
 # extract vector element
@@ -868,6 +874,8 @@ with slot: iclass=0b0010 {
 	}
 }
 
+#TODO: 3x2mult for 2x2 tile
+
 # HVX/MPY DOUBLE RESOURCE
 
 # Arithmetic widening
@@ -1073,8 +1081,8 @@ with slot: iclass=0b0001 {
     :VD5_pair".uw += vmpy("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1100001 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b000 & VD5_pair {
         _vstub();
     }
-    
 }
+#TODO: v79
 
 # Integer multiply - vector by vector
 with slot: iclass=0b0001 {
@@ -1112,6 +1120,9 @@ with slot: iclass=0b0001 {
         _vstub();
     }    
 }
+
+#TODO: floating point multiply - half precision
+#TODO: floating point multiply - single precision
 
 # Multiply 32x16
 with slot: iclass=0b0001 {
@@ -1193,6 +1204,8 @@ with slot: iclass=0b0001 {
     }
 }
 
+#TODO: floating point multiply: widening
+
 # Sum of reduction of absolute differences
 with slot: iclass=0b0001 {
     :VD5_pair".uw = vdsad("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1001000 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b101 & VD5_pair {
@@ -1215,6 +1228,8 @@ with slot: iclass=0b0001 {
 
 # HVX/MPY RESOURCE
 
+#TODO: mutlt with 2-wide reduction
+
 # Multiply by byte with 2-wide reduction
 with slot: iclass=0b0001 {
     :VD5_pair".w = vdmpy("VT5_pair".h,"VS5_pair".b)" is imm_21_27=0b1001000 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b010 & VD5_pair {
@@ -1231,6 +1246,11 @@ with slot: iclass=0b0001 {
         _vstub();
     }
 }
+
+#TODO: read and set extended bits
+# mult vec by scalar
+# mult vec by vec
+
 
 # Multiply half of the elements
 with slot: iclass=0b0001 {
@@ -1497,7 +1517,7 @@ with slot: iclass=0b0001 {
 		_vstub();
 	}
 }
-
+#TODO: vector in lane lookup
 # Unpack
 with slot: iclass=0b0001 {
 	:VD5_pair".uh = vunpack("VT5_pair".ub)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0 & imm_16_17=0b01 & imm_13=0 & VT5_pair & imm_5_7=0b000 & VD5_pair {
@@ -1635,6 +1655,9 @@ with slot: iclass=0b0001 {
 	}
 }
 
+#TODO: floating point add and sub - half
+#TODO: floating point add and sub - single
+
 # Add half precision vector by vector
 with slot: iclass=0b0001 {
 	:VD5_pair".qf16 = vadd(" VT5_pair".qf16,"VS5_pair".qf16)" is imm_21_27=0b1111011 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b010 & VD5_pair {
@@ -1678,6 +1701,7 @@ with slot: iclass=0b0001 {
 }
 
 #shift
+#TODO: check this one
 with slot: iclass=0b0001 {
 # First section is a duplicate of the narrowing shift
 
@@ -1735,6 +1759,8 @@ with slot: iclass=0b0001 {
 		_vstub();
 	}
 }
+#TODO: v79
+#TODO: merge with ext bits
 
 # Round to next smaller element size
 with slot: iclass=0b0001 {
@@ -1837,6 +1863,7 @@ with slot: iclass=0b0010 {
 		_vstub();
 	}
 }
+#TODO: v79
 
 # New
 with slot: iclass=0b0010 {
