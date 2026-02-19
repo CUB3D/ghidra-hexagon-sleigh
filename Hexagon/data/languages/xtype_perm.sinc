@@ -17,16 +17,16 @@ with slot: iclass=0b1000  {
     :D5 "=sat(" S5_pair ")" is imm_21_27=0b1000110 & S5_pair & S5_pairi & imm_8_13 & imm_5_7=0b000 & D5 & OUTPUT_D5 {
        D5 = sat(S5_pairi);
     }
-    :D5 "=sath(" S5 ")" is imm_21_27=0b1000110 & S5 & S5i & imm_8_13 & imm_5_7=0b100 & D5 & OUTPUT_D5 {
+    :D5 "=sath(" S5 ")" is imm_21_27=0b1100110 & S5 & S5i & imm_8_13 & imm_5_7=0b100 & D5 & OUTPUT_D5 {
        D5 = sath(S5i);
     }
-    :D5 "=satuh(" S5 ")" is imm_21_27=0b1000110 & S5 & S5i & imm_8_13 & imm_5_7=0b101 & D5 & OUTPUT_D5 {
+    :D5 "=satuh(" S5 ")" is imm_21_27=0b1100110 & S5 & S5i & imm_8_13 & imm_5_7=0b101 & D5 & OUTPUT_D5 {
        D5 = satuh(S5i);
     }
-    :D5 "=satub(" S5 ")" is imm_21_27=0b1000110 & S5 & S5i & imm_8_13 & imm_5_7=0b110 & D5 & OUTPUT_D5 {
+    :D5 "=satub(" S5 ")" is imm_21_27=0b1100110 & S5 & S5i & imm_8_13 & imm_5_7=0b110 & D5 & OUTPUT_D5 {
        D5 = satub(S5i);
     }
-    :D5 "=satb(" S5 ")" is imm_21_27=0b1000110 & S5 & S5i & imm_8_13 & imm_5_7=0b111 & D5 & OUTPUT_D5 {
+    :D5 "=satb(" S5 ")" is imm_21_27=0b1100110 & S5 & S5i & imm_8_13 & imm_5_7=0b111 & D5 & OUTPUT_D5 {
        D5 = satb(S5i);
     }
 }
