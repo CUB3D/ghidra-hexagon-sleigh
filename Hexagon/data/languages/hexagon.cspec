@@ -27,6 +27,8 @@
     <stackpointer register="SP" space="ram" growth="negative"/>
     <spacebase name="FP" register="FP" space="ram"/>
     <spacebase name="SP" register="SP" space="ram"/>
+    <spacebase name="FPc" register="FPc" space="ram"/>
+    <spacebase name="SPc" register="SPc" space="ram"/>
     <funcptr align="4"/>
 
     <global>
@@ -105,32 +107,14 @@
                 <pentry minsize="1" maxsize="4" extension="zero">
                     <register name="r0"/>
                 </pentry>
+                <pentry minsize="1" maxsize="4">
+                    <register name="r1" />
+                </pentry>
             </output>
 
 
             <unaffected>
-
                 <register name="PTRUE"/>
-
-<!--
-
-                <register name="r1"/>
-                <register name="r2"/>
-                <register name="r3"/> -->
-                <register name="r4"/>
-                <register name="r5"/>
-                <register name="r6"/>
-                <register name="r7"/>
-                <register name="r8"/>
-                <register name="r9"/>
-                <register name="r10"/>
-                <register name="r11"/>
-                <register name="r12"/>
-                <register name="r13"/>
-                <register name="r14"/>
-                <register name="r15"/>
-
-
                 <register name="r16"/>
                 <register name="r17"/>
                 <register name="r18"/>
@@ -143,25 +127,336 @@
                 <register name="r25"/>
                 <register name="r26"/>
                 <register name="r27"/>
-                <register name="r28"/>
-
-
                 <register name="SP"/>
                 <register name="FP"/>
-
-
-                <register name="P0"/>
-                <register name="P1"/>
-                <register name="P2"/>
-                <register name="P3"/>
                 <register name="LC0"/>
                 <register name="SA0"/>
                 <register name="SA1"/>
-
-
             </unaffected>
+            <killedbycall>
+                <register name="r6" />
+                <register name="r7" />
+                <register name="r8" />
+                <register name="r9" />
+                <register name="r10" />
+                <register name="r11" />
+                <register name="r12" />
+                <register name="r13" />
+                <register name="r14" />
+                <register name="r15" />
+                <register name="r28" />
+                <register name="P0" />
+                <register name="P1" />
+                <register name="P2" />
+                <register name="P3" />
+            </killedbycall>
         </prototype>
     </default_proto>
+    <prototype name="__varargl" extrapop="0" stackshift="0" strategy="standard">
+        <input>
+            <pentry minsize="1" maxsize="4">
+                <register name="r0"/>
+            </pentry>               
+            <pentry minsize="1" maxsize="500" align="4">
+                <addr offset="0" space="stack"/>
+            </pentry>
+        </input>
+        <output>
+            <pentry minsize="1" maxsize="4" extension="zero">
+                <register name="r0"/>
+            </pentry>
+            <pentry minsize="1" maxsize="4">
+                <register name="r1" />
+            </pentry>
+        </output>
+        <unaffected>
+            <register name="PTRUE"/>
+            <register name="r16"/>
+            <register name="r17"/>
+            <register name="r18"/>
+            <register name="r19"/>
+            <register name="r20"/>
+            <register name="r21"/>
+            <register name="r22"/>
+            <register name="r23"/>
+            <register name="r24"/>
+            <register name="r25"/>
+            <register name="r26"/>
+            <register name="r27"/>
+            <register name="SP"/>
+            <register name="FP"/>
+            <register name="LC0"/>
+            <register name="SA0"/>
+            <register name="SA1"/>
+        </unaffected>
+        <killedbycall>
+            <register name="r6" />
+            <register name="r7" />
+            <register name="r8" />
+            <register name="r9" />
+            <register name="r10" />
+            <register name="r11" />
+            <register name="r12" />
+            <register name="r13" />
+            <register name="r14" />
+            <register name="r15" />
+            <register name="r28" />
+            <register name="P0" />
+            <register name="P1" />
+            <register name="P2" />
+            <register name="P3" />
+        </killedbycall>
+    </prototype>
+    <prototype name="__vararg2" extrapop="0" stackshift="0" strategy="standard">
+        <input>
+            <pentry minsize="1" maxsize="4">
+                <register name="r0"/>
+            </pentry>
+            <pentry minsize="1" maxsize="4">
+                <register name="r1"/>
+            </pentry>
+            <pentry minsize="1" maxsize="500" align="4">
+                <addr offset="0" space="stack"/>
+            </pentry>
+        </input>
+        <output>
+            <pentry minsize="1" maxsize="4" extension="zero">
+                <register name="r0"/>
+            </pentry>
+            <pentry minsize="1" maxsize="4">
+                <register name="r1" />
+            </pentry>
+        </output>
+        <unaffected>
+            <register name="PTRUE"/>
+            <register name="r16"/>
+            <register name="r17"/>
+            <register name="r18"/>
+            <register name="r19"/>
+            <register name="r20"/>
+            <register name="r21"/>
+            <register name="r22"/>
+            <register name="r23"/>
+            <register name="r24"/>
+            <register name="r25"/>
+            <register name="r26"/>
+            <register name="r27"/>
+            <register name="SP"/>
+            <register name="FP"/>
+            <register name="LC0"/>
+            <register name="SA0"/>
+            <register name="SA1"/>
+        </unaffected>
+        <killedbycall>
+            <register name="r6" />
+            <register name="r7" />
+            <register name="r8" />
+            <register name="r9" />
+            <register name="r10" />
+            <register name="r11" />
+            <register name="r12" />
+            <register name="r13" />
+            <register name="r14" />
+            <register name="r15" />
+            <register name="r28" />
+            <register name="P0" />
+            <register name="P1" />
+            <register name="P2" />
+            <register name="P3" />
+        </killedbycall>
+    </prototype>
+    <prototype name="__vararg3" extrapop="0" stackshift="0" strategy="standard">
+        <input>
+            <pentry minsize="1" maxsize="4">
+                <register name="r0"/>
+            </pentry>
+            <pentry minsize="1" maxsize="4">
+                <register name="r1"/>
+            </pentry>
+            <pentry minsize="1" maxsize="4">
+                <register name="r2"/>
+            </pentry>
+            <pentry minsize="1" maxsize="500" align="4">
+                <addr offset="0" space="stack"/>
+            </pentry>
+        </input>
+        <output>
+            <pentry minsize="1" maxsize="4" extension="zero">
+                <register name="r0"/>
+            </pentry>
+            <pentry minsize="1" maxsize="4">
+                <register name="r1" />
+            </pentry>
+        </output>
+        <unaffected>
+            <register name="PTRUE"/>
+            <register name="r16"/>
+            <register name="r17"/>
+            <register name="r18"/>
+            <register name="r19"/>
+            <register name="r20"/>
+            <register name="r21"/>
+            <register name="r22"/>
+            <register name="r23"/>
+            <register name="r24"/>
+            <register name="r25"/>
+            <register name="r26"/>
+            <register name="r27"/>
+            <register name="SP"/>
+            <register name="FP"/>
+            <register name="LC0"/>
+            <register name="SA0"/>
+            <register name="SA1"/>
+        </unaffected>
+        <killedbycall>
+            <register name="r6" />
+            <register name="r7" />
+            <register name="r8" />
+            <register name="r9" />
+            <register name="r10" />
+            <register name="r11" />
+            <register name="r12" />
+            <register name="r13" />
+            <register name="r14" />
+            <register name="r15" />
+            <register name="r28" />
+            <register name="P0" />
+            <register name="P1" />
+            <register name="P2" />
+            <register name="P3" />
+        </killedbycall>
+    </prototype>
+    <prototype name="__vararg4" extrapop="0" stackshift="0" strategy="standard">
+        <input>
+            <pentry minsize="1" maxsize="4">
+                <register name="r0"/>
+            </pentry>
+            <pentry minsize="1" maxsize="4">
+                <register name="r1"/>
+            </pentry>
+            <pentry minsize="1" maxsize="4">
+                <register name="r2"/>
+            </pentry>
+            <pentry minsize="1" maxsize="4">
+                <register name="r3"/>
+            </pentry>
+            <pentry minsize="1" maxsize="500" align="4">
+                <addr offset="0" space="stack"/>
+            </pentry>
+        </input>
+        <output>
+            <pentry minsize="1" maxsize="4" extension="zero">
+                <register name="r0"/>
+            </pentry>
+            <pentry minsize="1" maxsize="4">
+                <register name="r1" />
+            </pentry>
+        </output>
+        <unaffected>
+            <register name="PTRUE"/>
+            <register name="r16"/>
+            <register name="r17"/>
+            <register name="r18"/>
+            <register name="r19"/>
+            <register name="r20"/>
+            <register name="r21"/>
+            <register name="r22"/>
+            <register name="r23"/>
+            <register name="r24"/>
+            <register name="r25"/>
+            <register name="r26"/>
+            <register name="r27"/>
+            <register name="SP"/>
+            <register name="FP"/>
+            <register name="LC0"/>
+            <register name="SA0"/>
+            <register name="SA1"/>
+        </unaffected>
+        <killedbycall>
+            <register name="r6" />
+            <register name="r7" />
+            <register name="r8" />
+            <register name="r9" />
+            <register name="r10" />
+            <register name="r11" />
+            <register name="r12" />
+            <register name="r13" />
+            <register name="r14" />
+            <register name="r15" />
+            <register name="r28" />
+            <register name="P0" />
+            <register name="P1" />
+            <register name="P2" />
+            <register name="P3" />
+        </killedbycall>
+    </prototype>
+    <prototype name="__vararg5" extrapop="0" stackshift="0" strategy="standard">
+        <input>
+            <pentry minsize="1" maxsize="4">
+                <register name="r0"/>
+            </pentry>
+            <pentry minsize="1" maxsize="4">
+                <register name="r1"/>
+            </pentry>
+            <pentry minsize="1" maxsize="4">
+                <register name="r2"/>
+            </pentry>
+            <pentry minsize="1" maxsize="4">
+                <register name="r3"/>
+            </pentry>
+            <pentry minsize="1" maxsize="4">
+                <register name="r4"/>
+            </pentry>
+            <pentry minsize="1" maxsize="500" align="4">
+                <addr offset="0" space="stack"/>
+            </pentry>       
+        </input>
+        <output>
+            <pentry minsize="1" maxsize="4" extension="zero">
+                <register name="r0"/>
+            </pentry>
+            <pentry minsize="1" maxsize="4">
+                <register name="r1" />
+            </pentry>
+        </output>
+        <unaffected>
+            <register name="PTRUE"/>
+            <register name="r16"/>
+            <register name="r17"/>
+            <register name="r18"/>
+            <register name="r19"/>
+            <register name="r20"/>
+            <register name="r21"/>
+            <register name="r22"/>
+            <register name="r23"/>
+            <register name="r24"/>
+            <register name="r25"/>
+            <register name="r26"/>
+            <register name="r27"/>
+            <register name="SP"/>
+            <register name="FP"/>
+            <register name="LC0"/>
+            <register name="SA0"/>
+            <register name="SA1"/>
+        </unaffected>
+        <killedbycall>
+            <register name="r6" />
+            <register name="r7" />
+            <register name="r8" />
+            <register name="r9" />
+            <register name="r10" />
+            <register name="r11" />
+            <register name="r12" />
+            <register name="r13" />
+            <register name="r14" />
+            <register name="r15" />
+            <register name="r28" />
+            <register name="P0" />
+            <register name="P1" />
+            <register name="P2" />
+            <register name="P3" />
+        </killedbycall>
+    </prototype>
     
     <callfixup name="backup_regs_r20_to_r23">
           <pcode>
