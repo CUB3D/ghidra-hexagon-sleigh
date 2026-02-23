@@ -1510,6 +1510,13 @@ define pcodeop brev;
 @include "hvx.sinc"
 
 
+# Not documented in any manual I know of, but found in real binaries
+# If you know what this is, please get in touch
+define pcodeop unknown_vendor_01;
+slot:"unknown_vendor_01" is iclass=0b1111 & imm_21_27=0b1000000 {
+	unknown_vendor_01();
+}
+
 
 macro prelude() {
 
@@ -1832,5 +1839,5 @@ macro endloop1() {
 immext_marker0:""  is imm_0_13u & imm_16_27 [immext0 = ((imm_0_13u) | (imm_16_27 << 14)) << 6;] { }
 immext_marker1:""  is imm_0_13u & imm_16_27 [immext1 = ((imm_0_13u) | (imm_16_27 << 14)) << 6;] { }
 
-slot:"immext0(" immext0 ")"  is iclass=0b0000 & imm_16_27 & imm_0_13u & hasext0=0 & (parse=0b00 | parse=0b01 | parse=0b10) & immext_marker0 & immext0 [hasext0=1; pktid=pktid-1;] { build immext_marker0; }
-slot:"immext1(" immext1 ")"  is iclass=0b0000 & imm_16_27 & imm_0_13u & hasext0=1 & immext_marker1 & immext1 [ hasext1=1;pktid=pktid-1; ] { build immext_marker1; }
+slot:"immext(" immext0 ")"  is iclass=0b0000 & imm_16_27 & imm_0_13u & hasext0=0 & (parse=0b00 | parse=0b01 | parse=0b10) & immext_marker0 & immext0 [hasext0=1; pktid=pktid-1;] { build immext_marker0; }
+slot:"immext(" immext1 ")"  is iclass=0b0000 & imm_16_27 & imm_0_13u & hasext0=1 & immext_marker1 & immext1 [ hasext1=1;pktid=pktid-1; ] { build immext_marker1; }
