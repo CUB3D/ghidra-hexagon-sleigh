@@ -42,7 +42,11 @@ dtm.endTransaction(transaction, True)
 start_address = currentProgram.getMinAddress()
 
 for (pattern, size, name) in known_diags:
-    pos = findBytes(start_address, pattern, 1, 4)[0]
+    matches = findBytes(start_address, pattern, 1, 4)
+    if not matches:
+        print name, "Not found"
+        continue
+    pos = matches[0]
     print "Found", name, "@", pos
     clearListing(pos, pos.add(8 * (size - 1)+4))
     createLabel(pos, name, True)
