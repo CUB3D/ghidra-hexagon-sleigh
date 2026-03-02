@@ -1404,6 +1404,24 @@ macro rotl64(out, a, b) {
     out = out1;
 }
 
+macro dealloc_return_mode0() {
+	local EA:4 = FPc;
+    local tmp:8 = *[ram]:8 EA;
+    LRFP = tmp;
+
+    SP = EA+8;
+}
+
+macro dealloc_return_mode1100() {
+	local EA:4 = FPc;
+    local tmp:8 = *[ram]:8 EA;
+
+    local tmp2:8 = tmp>>32;
+    local tmp3:4 = tmp2:4;
+
+    return [tmp3];
+}
+
 #TODO: use everywhere
 IS_NOT_EXT:"" is (hasext0=0 | immext0used=1) {}
 IS_EXT0:"" is hasext0=1 & immext0used=0 [immext0used=1; immext0everused=1;] {}

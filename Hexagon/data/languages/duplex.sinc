@@ -106,71 +106,107 @@ L2R:"deallocframe" is immdup1_6_12=0b1111100 & immdup1_3_5=0 & immdup1_2=0 & imm
 }
 
 L2L:"dealloc_return" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_2=0 & immdup0_0_1=0 & mode=0 {
-        local EA:4 = FPc;
-        local tmp:8 = *[ram]:8 EA;
-        LRFP = tmp;
-
-        SP = EA+8;
+    dealloc_return_mode0();
 }
 L2L:"dealloc_return" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_2=0 & immdup0_0_1=0 & mode=1100 {
-        local EA:4 = FPc;
-        local tmp:8 = *[ram]:8 EA;
-
-        local tmp2:8 = tmp>>32;
-        local tmp3:4 = tmp2:4;
-
-        return [tmp3];
+    dealloc_return_mode1100();
 }
 L2R:"dealloc_return" is immdup1_6_12=0b1111101 & immdup1_3_5=0 & immdup1_2=0 & immdup1_0_1=0 & mode=0 {
-        local EA:4 = FPc;
-        local tmp:8 = *[ram]:8 EA;
-        LRFP = tmp;
-
-        SP = EA+8;
+    dealloc_return_mode0();
 }
 L2R:"dealloc_return" is immdup1_6_12=0b1111101 & immdup1_3_5=0 & immdup1_2=0 & immdup1_0_1=0 & mode=1100 {
-        local EA:4 = FPc;
-        local tmp:8 = *[ram]:8 EA;
-        
-        local tmp2:8 = tmp>>32;
-        local tmp3:4 = tmp2:4;
-        
-        return [tmp3];
+    dealloc_return_mode1100();
 }
 
-define pcodeop ret_t;
-define pcodeop ret_f;
-define pcodeop ret_tnew;
-define pcodeop ret_fnew;
+
 
 #if(p0) dealloc_ret
-L2L:"ret_t" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_0_2=0b100 & mode=0 {
-    ret_t();
+L2L:"if("P0") dealloc_return" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_0_2=0b100 & mode=0 & P0 {
+    if(P0c == 0) goto <end>;
+    	dealloc_return_mode0();
+    <end>
 }
-L2R:"ret_t" is immdup1_6_12=0b1111101 & immdup1_3_5=0 & immdup1_0_2=0b100 & mode=0 {
-    ret_t();
+L2L:"if("P0") dealloc_return" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_0_2=0b100 & mode=1100 & P0 {
+	if(P0c == 0) goto <end>;
+    	dealloc_return_mode1100();
+	<end>
 }
+L2R:"if("P0") dealloc_return" is immdup1_6_12=0b1111101 & immdup1_3_5=0 & immdup1_0_2=0b100 & mode=0 & P0 {
+     if(P0c == 0) goto <end>;
+    	dealloc_return_mode0();
+    <end>
+}
+L2R:"if("P0") dealloc_return" is immdup1_6_12=0b1111101 & immdup1_3_5=0 & immdup1_0_2=0b100 & mode=1100 & P0 {
+     if(P0c == 0) goto <end>;
+    	dealloc_return_mode1100();
+    <end>
+}
+
 
 #if(!p0) dealloc_ret
-L2L:"ret_f" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_0_2=0b101 & mode=0 {
-    ret_f();
+L2L:"if(!"P0") dealloc_return" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_0_2=0b101 & mode=0 & P0 {
+    if(P0c != 0) goto <end>;
+    	dealloc_return_mode0();
+    <end>
 }
-L2R:"ret_f" is immdup1_6_12=0b1111101 & immdup1_3_5=0 & immdup1_0_2=0b101 & mode=0 {
-    ret_f();
+L2L:"if(!"P0") dealloc_return" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_0_2=0b101 & mode=1100 & P0 {
+    if(P0c != 0) goto <end>;
+    	dealloc_return_mode1100();
+    <end>
+}
+L2R:"if(!"P0") dealloc_return" is immdup1_6_12=0b1111101 & immdup1_3_5=0 & immdup1_0_2=0b101 & mode=0 & P0 {
+    if(P0c != 0) goto <end>;
+    	dealloc_return_mode0();
+    <end>
+}
+L2R:"if(!"P0") dealloc_return" is immdup1_6_12=0b1111101 & immdup1_3_5=0 & immdup1_0_2=0b101 & mode=1100 & P0 {
+    if(P0c != 0) goto <end>;
+    	dealloc_return_mode1100();
+    <end>
 }
 
-L2L:"ret_tnew" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_0_2=0b110 & mode=0 {
-    ret_tnew();
+#if(p0.new) dealloc_ret
+L2L:"if("P0".NEW) dealloc_return" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_0_2=0b110 & mode=0 & P0 {
+    if(P0 == 0) goto <end>;
+    	dealloc_return_mode0();
+    <end>
 }
-L2R:"ret_tnew" is immdup1_6_12=0b1111101 & immdup1_3_5=0 & immdup1_0_2=0b110 & mode=0 {
-    ret_tnew();
+L2L:"if("P0".NEW) dealloc_return" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_0_2=0b110 & mode=1100 & P0 {
+    if(P0 == 0) goto <end>;
+    	dealloc_return_mode1100();
+    <end>
+}
+L2R:"if("P0".NEW) dealloc_return" is immdup1_6_12=0b1111101 & immdup1_3_5=0 & immdup1_0_2=0b110 & mode=0 & P0 {
+    if(P0 == 0) goto <end>;
+    	dealloc_return_mode0();
+    <end>
+}
+L2R:"if("P0".NEW) dealloc_return" is immdup1_6_12=0b1111101 & immdup1_3_5=0 & immdup1_0_2=0b110 & mode=1100 & P0 {
+    if(P0 == 0) goto <end>;
+    	dealloc_return_mode1100();
+    <end>
 }
 
-L2L:"ret_fnew" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_0_2=0b111 & mode=0 {
-    ret_fnew();
+#if(!p0.new) dealloc_ret
+L2L:"if(!"P0".NEW) dealloc_return" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_0_2=0b111 & mode=0 & P0 {
+    if(P0 != 0) goto <end>;
+    	dealloc_return_mode0();
+    <end>
 }
-L2R:"ret_fnew" is immdup1_6_12=0b1111101 & immdup1_3_5=0 & immdup1_0_2=0b111 & mode=0 {
-    ret_fnew();
+L2L:"if(!"P0".NEW) dealloc_return" is immdup0_6_12=0b1111101 & immdup0_3_5=0 & immdup0_0_2=0b111 & mode=1100 & P0 {
+    if(P0 != 0) goto <end>;
+    	dealloc_return_mode1100();
+    <end>
+}
+L2R:"if(!"P0".NEW) dealloc_return" is immdup1_6_12=0b1111101 & immdup1_3_5=0 & immdup1_0_2=0b111 & mode=0 & P0 {
+    if(P0 != 0) goto <end>;
+    	dealloc_return_mode0();
+    <end>
+}
+L2R:"if(!"P0".NEW) dealloc_return" is immdup1_6_12=0b1111101 & immdup1_3_5=0 & immdup1_0_2=0b111 & mode=1100 & P0 {
+    if(P0 != 0) goto <end>;
+    	dealloc_return_mode1100();
+    <end>
 }
 
 L2L:"jumpr LR" is immdup0_6_12=0b1111111 & immdup0_3_5=0 & immdup0_2=0 & immdup0_0_1=0 & mode=0 {}

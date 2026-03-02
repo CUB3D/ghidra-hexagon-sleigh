@@ -340,6 +340,14 @@ define pcodeop min;
 with slot: iclass=0b1101  {
     :D5_pair "=min(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b110 & D5_pair {
         D5_pair = min(T5_pairi, S5_pairi);
+        
+        
+        if (D5_pair s< S5_pairi) goto <p2>;
+        D5_pair = S5_pairi;
+        goto <end>;
+        <p2>
+        D5_pair = T5_pairi;
+        <end>
     }
     :D5_pair "=minu(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b111 & D5_pair {
         if (T5_pairi < S5_pairi) goto <p2>;
@@ -351,11 +359,10 @@ with slot: iclass=0b1101  {
     }
 }
 
-# XTYPE/ALU:mod wrap
-define pcodeop modwrap;
+# XTYPE/ALU:Modulo wrap
 with slot: iclass=0b1101  {
     :D5 "=modwrap(" S5 "," T5 ")" is imm_21_27=0b0011111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 & OUTPUT_D5 {
-        D5 = modwrap(S5i, T5i);
+        D5 = S5i % T5i;
     }
 }
 
@@ -366,7 +373,7 @@ with slot: iclass=0b1000  {
         D5_pair = -S5_pairi;
     }
     :D5 "=neg(" S5 "):sat" is imm_21_27=0b1100100 & S5 & S5i & imm_8_13=0 & imm_5_7=0b110 & D5 & OUTPUT_D5 {
-    D5 = neg_sat(S5i);
+      D5 = neg_sat(S5i);
     }
 }
 
@@ -563,6 +570,7 @@ with slot: iclass=0b1110  {
 }
 
 # XTYPE/ALU:vector add hw
+define pcodeop vaddh;
 with slot: iclass=0b1101  {
     :D5_pair "=vaddh(" S5_pair "," T5_pair ")" is imm_21_27=0b0011000 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {
         D5_pair = vaddh(S5_pairi, T5_pairi);
@@ -879,7 +887,7 @@ with slot: iclass=0b1110  {
 }
 
 # XTYPE/ALU:vector sub halfword
-#define pcodeop vsubh;
+define pcodeop vsubh;
 #define pcodeop vsubh_sat;
 #define pcodeop vsubuh_sat;
 with slot: iclass=0b1101  {

@@ -142,12 +142,17 @@ with slot: iclass=0b0111  {
 
 
 # ALU32/ALU:vector add halfwords
-define pcodeop vaddh;
 define pcodeop vaddh_sat;
 define pcodeop vadduh_sat;
 with slot: iclass=0b1111  {
     :D5 "=vaddh(" S5 "," T5 ")" is imm_21_27=0b0110000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & D5 & OUTPUT_D5 {
-        D5 = vaddh(S5i, T5i);
+    	local tmpa:4 = &S5i;
+    	local tmpb:4 = &T5i;
+    	local tmpo:4 = &D5;
+    	
+    	*[register]:2 tmpo = (*[register]:2 tmpa) + (*[register]:2 tmpb);
+    	tmpo = tmpo + 2; tmpa = tmpa + 2;  tmpb = tmpb + 2;
+    	*[register]:2 tmpo = (*[register]:2 tmpa) + (*[register]:2 tmpb);
     }
     :D5 "=vaddh(" S5 "," T5 "):sat" is imm_21_27=0b0110001 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & D5 & OUTPUT_D5 {
         D5 = vaddh_sat(S5i, T5i);
@@ -175,12 +180,17 @@ with slot: iclass=0b1111  {
 }
 
 # ALU32/ALU:vector subtract halfwords
-define pcodeop vsubh;
 define pcodeop vsubh_sat;
 define pcodeop vsubuh_sat;
 with slot: iclass=0b1111  {
     :D5 "=vsubh(" T5 "," S5 ")"  is imm_21_27=0b0110100 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & D5 & OUTPUT_D5 {
-        D5 = vsubh(T5i, S5i);
+        local tmpa:4 = &T5i;
+    	local tmpb:4 = &S5i;
+    	local tmpo:4 = &D5;
+    	
+    	*[register]:2 tmpo = (*[register]:2 tmpa) - (*[register]:2 tmpb);
+    	tmpo = tmpo + 2; tmpa = tmpa + 2;  tmpb = tmpb + 2;
+    	*[register]:2 tmpo = (*[register]:2 tmpa) - (*[register]:2 tmpb);
     }
     :D5 "=vsubh(" T5 "," S5 "):sat"  is imm_21_27=0b0110101 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & D5 & OUTPUT_D5 {
         D5 = vsubh_sat(T5i, S5i);

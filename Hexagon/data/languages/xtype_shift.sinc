@@ -465,33 +465,89 @@ with slot: iclass=0b1000  {
 # XTYPE/SHIFT:Vector shift halfwords by register
 with slot: iclass=0b1100  {
     :D5_pair "=vasrh(" S5_pair "," T5 ")" is imm_22_27=0b001101 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_6_7=0b00 & imm_5=0 & D5_pair {
-        D5_pair = vasrh(S5_pairi, T5i);
+        local tmpa:4 = &S5_pairi;
+    	local tmpo:4 = &D5_pair;
+    	#TODO: negative reverses direction, maybe for others too
+    	local shamt:2 = (T5i:2) & 0b01111111;
+    	
+    	*[register]:2 tmpo = (*[register]:2 tmpa) s>> shamt;
+    	tmpo = tmpo + 2; tmpa = tmpa + 2;
+    	*[register]:2 tmpo = (*[register]:2 tmpa) s>> shamt;
+    	tmpo = tmpo + 2; tmpa = tmpa + 2;
+    	*[register]:2 tmpo = (*[register]:2 tmpa) s>> shamt;
+    	tmpo = tmpo + 2; tmpa = tmpa + 2;
+    	*[register]:2 tmpo = (*[register]:2 tmpa) s>> shamt;
     }
     :D5_pair "=vlsrh(" S5_pair "," T5 ")" is imm_22_27=0b001101 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_6_7=0b01 & imm_5=0 & D5_pair {
-        D5_pair = vlsrh(S5_pairi, T5i);
+        local tmpa:4 = &S5_pairi;
+    	local tmpo:4 = &D5_pair;
+    	#TODO: negative reverses direction, maybe for others too
+    	local shamt:2 = (T5i:2) & 0b01111111;
+    	
+    	*[register]:2 tmpo = (*[register]:2 tmpa) >> shamt;
+    	tmpo = tmpo + 2; tmpa = tmpa + 2;
+    	*[register]:2 tmpo = (*[register]:2 tmpa) >> shamt;
+    	tmpo = tmpo + 2; tmpa = tmpa + 2;
+    	*[register]:2 tmpo = (*[register]:2 tmpa) >> shamt;
+    	tmpo = tmpo + 2; tmpa = tmpa + 2;
+    	*[register]:2 tmpo = (*[register]:2 tmpa) >> shamt;
     }
 
     :D5_pair "=vaslh(" S5_pair "," T5 ")" is imm_22_27=0b001101 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_6_7=0b10 & imm_5=0 & D5_pair {
-        D5_pair = vaslh(S5_pairi, T5i);
+        local tmpa:4 = &S5_pairi;
+    	local tmpo:4 = &D5_pair;
+    	#TODO: negative reverses direction, maybe for others too
+    	local shamt:2 = (T5i:2) & 0b01111111;
+    	
+    	*[register]:2 tmpo = (*[register]:2 tmpa) << shamt;
+    	tmpo = tmpo + 2; tmpa = tmpa + 2;
+    	*[register]:2 tmpo = (*[register]:2 tmpa) << shamt;
+    	tmpo = tmpo + 2; tmpa = tmpa + 2;
+    	*[register]:2 tmpo = (*[register]:2 tmpa) << shamt;
+    	tmpo = tmpo + 2; tmpa = tmpa + 2;
+    	*[register]:2 tmpo = (*[register]:2 tmpa) << shamt;
     }
     :D5_pair "=vlslh(" S5_pair "," T5 ")" is imm_22_27=0b001101 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_6_7=0b11 & imm_5=0 & D5_pair {
-        D5_pair = vlslh(S5_pairi, T5i);
+        local tmpa:4 = &S5_pairi;
+    	local tmpo:4 = &D5_pair;
+    	#TODO: negative reverses direction, maybe for others too
+    	local shamt:2 = (T5i:2) & 0b01111111;
+    	
+    	*[register]:2 tmpo = (*[register]:2 tmpa) << shamt;
+    	tmpo = tmpo + 2; tmpa = tmpa + 2;
+    	*[register]:2 tmpo = (*[register]:2 tmpa) << shamt;
+    	tmpo = tmpo + 2; tmpa = tmpa + 2;
+    	*[register]:2 tmpo = (*[register]:2 tmpa) << shamt;
+    	tmpo = tmpo + 2; tmpa = tmpa + 2;
+    	*[register]:2 tmpo = (*[register]:2 tmpa) << shamt;
     }
 }
 
 # XTYPE/SHIFT:Vector shift words immediate
-define pcodeop vasrw;
-define pcodeop vlsrw;
-define pcodeop vaslw;
 with slot: iclass=0b1000  {
     :D5_pair "=vasrw(" S5_pair "," imm_8_12u ")" is imm_21_27=0b0000010 & S5_pair & S5_pairi & imm_13=0 & imm_8_12u & imm_5_7=0b000 & D5_pair {
-        D5_pair = vasrw(S5_pairi, imm_8_12u:4);
+        local tmpa:4 = &S5_pairi;
+    	local tmpo:4 = &D5_pair;
+    	
+    	*[register]:4 tmpo = (*[register]:4 tmpa) s>> (imm_8_12u:4);
+    	tmpo = tmpo + 4; tmpa = tmpa + 4;
+    	*[register]:4 tmpo = (*[register]:4 tmpa) s>> (imm_8_12u:4); 	
     }
     :D5_pair "=vlsrw(" S5_pair "," imm_8_12u ")" is imm_21_27=0b0000010 & S5_pair & S5_pairi & imm_13=0 & imm_8_12u & imm_5_7=0b001 & D5_pair {
-        D5_pair = vlsrw(S5_pairi, imm_8_12u:4);
+    	local tmpa:4 = &S5_pairi;
+    	local tmpo:4 = &D5_pair;
+    	
+    	*[register]:4 tmpo = (*[register]:4 tmpa) >> (imm_8_12u:4);
+    	tmpo = tmpo + 4; tmpa = tmpa + 4;
+    	*[register]:4 tmpo = (*[register]:4 tmpa) >> (imm_8_12u:4); 	
     }
     :D5_pair "=vaslw(" S5_pair "," imm_8_12u ")" is imm_21_27=0b0000010 & S5_pair & S5_pairi & imm_13=0 & imm_8_12u & imm_5_7=0b010 & D5_pair {
-        D5_pair = vaslw(S5_pairi, imm_8_12u:4);
+        local tmpa:4 = &S5_pairi;
+    	local tmpo:4 = &D5_pair;
+    	
+    	*[register]:4 tmpo = (*[register]:4 tmpa) << (imm_8_12u:4);
+    	tmpo = tmpo + 4; tmpa = tmpa + 4;
+    	*[register]:4 tmpo = (*[register]:4 tmpa) << (imm_8_12u:4); 	
     }
 }
 
@@ -499,6 +555,9 @@ with slot: iclass=0b1000  {
 # XTYPE/SHIFT:Vector shift words by register
 
 define pcodeop vlslw;
+define pcodeop vasrw;
+define pcodeop vlsrw;
+define pcodeop vaslw;
 with slot: iclass=0b1100  {
     :D5_pair "=vasrw(" S5_pair "," T5 ")" is imm_22_27=0b001100 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_6_7=0b00 & imm_5=0 & D5_pair {
         D5_pair = vasrw(S5_pairi, T5i);

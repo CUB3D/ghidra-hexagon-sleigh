@@ -315,41 +315,191 @@ with slot: iclass=0b1101  {
     }
 }
 
-# XTYPE/PRED:vec cmp by for any match
-define pcodeop vector_compare_byte_for_any_match;
-define pcodeop vector_compare_byte_for_any_match_not;
+# XTYPE/PRED:Vector compare bytes for any match
 with slot: iclass=0b1101  {
-    :D2_pred_new "=any8(vcmpb.eq(" S5_pair "," T5_pair "))" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=1 & T5_pair & T5_pairi & imm_5_7=0b000 & imm_2_4=0 & D2_pred_new {
-        D2_pred_new = vector_compare_byte_for_any_match(S5_pairi, T5_pairi);
+    :D2_pred "=any8(vcmpb.eq(" S5_pair "," T5_pair "))" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=1 & T5_pair & T5_pairi & imm_5_7=0b000 & imm_2_4=0 & D2_pred {        
+        local tmpa:4 = &S5_pairi;
+    	local tmpb:4 = &T5_pairi;
+    	
+    	local c0 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c1 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c2 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c3 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c4 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c5 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c6 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c7 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	
+    	local res:1 = c0 || c1 || c2 || c3 || c4 || c5 || c6 || c7;
+    	D2_pred = PTRUE * res; 	
     }
-    :D2_pred_new "=!any8(vcmpb.eq(" S5_pair "," T5_pair "))" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=1 & T5_pair & T5_pairi & imm_5_7=0b001 & imm_2_4=0 & D2_pred_new {
-        D2_pred_new = vector_compare_byte_for_any_match_not(S5_pairi, T5_pairi);
+    :D2_pred "=!any8(vcmpb.eq(" S5_pair "," T5_pair "))" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=1 & T5_pair & T5_pairi & imm_5_7=0b001 & imm_2_4=0 & D2_pred {        
+        local tmpa:4 = &S5_pairi;
+    	local tmpb:4 = &T5_pairi;
+    	
+    	local c0 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c1 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c2 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c3 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c4 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c5 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c6 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c7 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	
+    	local res:1 = c0 || c1 || c2 || c3 || c4 || c5 || c6 || c7;
+    	D2_pred = PTRUE * (res == 0); 	
     }
 }
 
-# XTYPE/PRED:vec cmp bytes
-define pcodeop vcmpb_eq;
-define pcodeop vcmpb_gt;
-define pcodeop vcmpb_gtu;
+# XTYPE/PRED:Vector compare bytes
 with slot: iclass=0b1101  {
     :D2_pred "=vcmpb.eq(" S5_pair "," T5_pair ")" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b110 & imm_2_4=0 & D2_pred {
-        D2_pred = vcmpb_eq(S5_pairi, T5_pairi);
+    	local tmpa:4 = &S5_pairi;
+    	local tmpb:4 = &T5_pairi;
+    	
+    	local c0 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c1 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c2 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c3 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c4 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c5 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c6 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c7 = (*[register]:1 tmpa) == (*[register]:1 tmpb);
+    	
+    	D2_pred = c0 | (c1 << 1) | (c2 << 2) | (c3 << 3) | (c4 << 4) | (c5 << 5) | (c6 << 6)| (c7 << 7);
+    	# TODO Confirm order
     }
     :D2_pred "=vcmpb.gt(" S5_pair "," T5_pair ")" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b111 & imm_2_4=0 & D2_pred {
-        D2_pred = vcmpb_gt(S5_pairi, T5_pairi);
+        local tmpa:4 = &S5_pairi;
+    	local tmpb:4 = &T5_pairi;
+    	
+    	local c0 = (*[register]:1 tmpa) s> (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c1 = (*[register]:1 tmpa) s> (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c2 = (*[register]:1 tmpa) s> (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c3 = (*[register]:1 tmpa) s> (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c4 = (*[register]:1 tmpa) s> (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c5 = (*[register]:1 tmpa) s> (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c6 = (*[register]:1 tmpa) s> (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c7 = (*[register]:1 tmpa) s> (*[register]:1 tmpb);
+    	
+    	D2_pred = c0 | (c1 << 1) | (c2 << 2) | (c3 << 3) | (c4 << 4) | (c5 << 5) | (c6 << 6)| (c7 << 7);
     }
     :D2_pred "=vcmpb.gtu(" S5_pair "," T5_pair ")" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=1 & T5_pair & T5_pairi & imm_5_7=0b010 & imm_2_4=0 & D2_pred {
-        D2_pred = vcmpb_gtu(S5_pairi, T5_pairi);
+        local tmpa:4 = &S5_pairi;
+    	local tmpb:4 = &T5_pairi;
+    	
+    	local c0 = (*[register]:1 tmpa) > (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c1 = (*[register]:1 tmpa) > (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c2 = (*[register]:1 tmpa) > (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c3 = (*[register]:1 tmpa) > (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c4 = (*[register]:1 tmpa) > (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c5 = (*[register]:1 tmpa) > (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c6 = (*[register]:1 tmpa) > (*[register]:1 tmpb);
+    	tmpa = tmpa + 1; tmpb = tmpb + 1;
+    	local c7 = (*[register]:1 tmpa) > (*[register]:1 tmpb);
+    	
+    	D2_pred = c0 | (c1 << 1) | (c2 << 2) | (c3 << 3) | (c4 << 4) | (c5 << 5) | (c6 << 6)| (c7 << 7);
     }
 
-    :D2_pred "=vcmpb.eq(" S5_pair "," imm_5_12 ")" is imm_21_27=0b1100000 & S5_pair & S5_pairi & imm_13=0 & imm_5_12 & imm_3_4=0b00 & imm_2=0 & D2_pred {
-        D2_pred = vcmpb_eq(S5_pairi, imm_5_12:1);
+    :D2_pred "=vcmpb.eq(" S5_pair "," imm_5_12 ")" is imm_21_27=0b1100000 & S5_pair & S5_pairi & imm_13=0 & imm_5_12 & imm_3_4=0b00 & imm_2=0 & D2_pred {        
+        local tmpa:4 = &S5_pairi;
+    	local tmpb:1 = imm_5_12:1;
+    	
+    	local c0 = (*[register]:1 tmpa) == tmpb;
+    	tmpa = tmpa + 1;
+    	local c1 = (*[register]:1 tmpa) == tmpb;
+    	tmpa = tmpa + 1;
+    	local c2 = (*[register]:1 tmpa) == tmpb;
+    	tmpa = tmpa + 1;
+    	local c3 = (*[register]:1 tmpa) == tmpb;
+    	tmpa = tmpa + 1;
+    	local c4 = (*[register]:1 tmpa) == tmpb;
+    	tmpa = tmpa + 1;
+    	local c5 = (*[register]:1 tmpa) == tmpb;
+    	tmpa = tmpa + 1;
+    	local c6 = (*[register]:1 tmpa) == tmpb;
+    	tmpa = tmpa + 1;
+    	local c7 = (*[register]:1 tmpa) == tmpb;
+    	
+    	D2_pred = c0 | (c1 << 1) | (c2 << 2) | (c3 << 3) | (c4 << 4) | (c5 << 5) | (c6 << 6)| (c7 << 7);
     }
     :D2_pred "=vcmpb.gt(" S5_pair "," imm_5_12 ")" is imm_21_27=0b1100001 & S5_pair & S5_pairi & imm_13=0 & imm_5_12 & imm_3_4=0b00 & imm_2=0 & D2_pred {
-        D2_pred = vcmpb_gt(S5_pairi, imm_5_12:1);
+        local tmpa:4 = &S5_pairi;
+    	local tmpb:1 = imm_5_12:1;
+    	
+    	local c0 = (*[register]:1 tmpa) s> tmpb;
+    	tmpa = tmpa + 1;
+    	local c1 = (*[register]:1 tmpa) s> tmpb;
+    	tmpa = tmpa + 1;
+    	local c2 = (*[register]:1 tmpa) s> tmpb;
+    	tmpa = tmpa + 1;
+    	local c3 = (*[register]:1 tmpa) s> tmpb;
+    	tmpa = tmpa + 1;
+    	local c4 = (*[register]:1 tmpa) s> tmpb;
+    	tmpa = tmpa + 1;
+    	local c5 = (*[register]:1 tmpa) s> tmpb;
+    	tmpa = tmpa + 1;
+    	local c6 = (*[register]:1 tmpa) s> tmpb;
+    	tmpa = tmpa + 1;
+    	local c7 = (*[register]:1 tmpa) s> tmpb;
+    	
+    	D2_pred = c0 | (c1 << 1) | (c2 << 2) | (c3 << 3) | (c4 << 4) | (c5 << 5) | (c6 << 6)| (c7 << 7);
     }
     :D2_pred "=vcmpb.gtu(" S5_pair "," imm_5_11u ")" is imm_21_27=0b1100010 & S5_pair & S5_pairi & imm_13=0 & imm_12=0 & imm_5_11u & imm_3_4=0b00 & imm_2=0 & D2_pred {
-        D2_pred = vcmpb_gtu(S5_pairi, imm_5_11u:1);
+        local tmpa:4 = &S5_pairi;
+    	local tmpb:1 = imm_5_11u:1;
+    	
+    	local c0 = (*[register]:1 tmpa) > tmpb;
+    	tmpa = tmpa + 1;
+    	local c1 = (*[register]:1 tmpa) > tmpb;
+    	tmpa = tmpa + 1;
+    	local c2 = (*[register]:1 tmpa) > tmpb;
+    	tmpa = tmpa + 1;
+    	local c3 = (*[register]:1 tmpa) > tmpb;
+    	tmpa = tmpa + 1;
+    	local c4 = (*[register]:1 tmpa) > tmpb;
+    	tmpa = tmpa + 1;
+    	local c5 = (*[register]:1 tmpa) > tmpb;
+    	tmpa = tmpa + 1;
+    	local c6 = (*[register]:1 tmpa) > tmpb;
+    	tmpa = tmpa + 1;
+    	local c7 = (*[register]:1 tmpa) > tmpb;
+    	
+    	D2_pred = c0 | (c1 << 1) | (c2 << 2) | (c3 << 3) | (c4 << 4) | (c5 << 5) | (c6 << 6)| (c7 << 7);
     }
 }
 
