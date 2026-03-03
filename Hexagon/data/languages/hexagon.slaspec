@@ -972,21 +972,21 @@ define register offset=0x400 size=4 [
     HTID
     BADVA
     IMASK
-    RESERVED_11
+    GEVB
     RESERVED_12
     RESERVED_13
     RESERVED_14
     RESERVED_15
-    EVB
+    EVB # Also GLB_START?
     MODECTL
     SYSCFG
     NULL_19
     IPEND
     VID
     IAD
-    NULL_23
+    BESTWAIT
     IEL
-    NULL_25
+    SCHEDCFG
     IAHL
     CFGBASE
     DIAG
@@ -996,7 +996,7 @@ define register offset=0x400 size=4 [
     ISDBST
     ISDBCFG0
     ISDBCFG1
-    NULL_35
+    LIVELOCK
     BRKPTPC0
     BRKPTCFG0
     BRKPTPC1
@@ -1005,21 +1005,21 @@ define register offset=0x400 size=4 [
     ISDBMBXOUT
     ISDBEN
     ISDBGPR
-    RESERVED_44
-    RESERVED_45
-    RESERVED_46
-    RESERVED_47
+    PMUCNT4
+    PMUCNT5
+    PMUCNT6
+    PMUCNT7
     PMUCNT0
     PMUCNT1
     PMUCNT2
     PMUCNT3
     PMUEVTCFG
+    PMUSTID0
+    PMUEVTCFG1
+    PMUSTID1
+    TIMERLO
+    TIMERHI
     PMUCFG
-    RESERVED_54
-    RESERVED_55
-    RESERVED_56
-    RESERVED_57
-    RESERVED_58
     RESERVED_59
     RESERVED_60
     RESERVED_61
@@ -1034,14 +1034,14 @@ define register offset=0x400 size=8 [
     BADVA0_BADVA1
     SSR_CCR
     HTID_BADVA
-    IMASK_RESERVED_11
+    IMASK_GEVB
     RESERVED_12_RESERVED_13
     RESERVED_14_RESERVED_15
     EVB_MODECTL
     SYSCFG_NULL_19
     IPEND_VID
-    IAD_NULL_23
-    IEL_NULL_25
+    IAD_BESTWAIT
+    IEL_SCHEDCFG
     IAHL_CFGBASE
     DIAG_REV
     PCYCLELO_PCYCLEHI
@@ -1051,32 +1051,32 @@ define register offset=0x400 size=8 [
     BRKPTPC1_BRKPTCFG1
     ISDBMBXIN_ISDBMBXOUT
     ISDBEN_ISDBGPR
-    RESERVED_44_RESERVED_45
-    RESERVED_46_RESERVED_47
+    PMUCNT4_PMUCNT5
+    PMUCNT6_PMUCNT7
     PMUCNT0_PMUCNT1
     PMUCNT2_PMUCNT3
-    PMUEVTCFG_PMUCFG
-    RESERVED_54_RESERVED_55
-    RESERVED_56_RESERVED_57
-    RESERVED_58_RESERVED_59
+    PMUEVTCFG_PMUSTID0
+    PMUEVTCFG1_PMUSTID1
+    TIMERLO_TIMERHI
+    PMUCFG_RESERVED_59
     RESERVED_60_RESERVED_61
     RESERVED_62_RESERVED_63
 ];
 
-attach variables [ S6_svctrl_pair ] [
+attach variables [ S6_svctrl_pair D5_ctrl_pair S5_ctrl_pair ] [
     SGP0_SGP1
     ELR_STID
     BADVA0_BADVA1
     SSR_CCR
     HTID_BADVA
-    IMASK_RESERVED_11
+    IMASK_GEVB
     RESERVED_12_RESERVED_13
     RESERVED_14_RESERVED_15
     EVB_MODECTL
     SYSCFG_NULL_19
     IPEND_VID
-    IAD_NULL_23
-    IEL_NULL_25
+    IAD_BESTWAIT
+    IEL_SCHEDCFG
     IAHL_CFGBASE
     DIAG_REV
     PCYCLELO_PCYCLEHI
@@ -1086,14 +1086,14 @@ attach variables [ S6_svctrl_pair ] [
     BRKPTPC1_BRKPTCFG1
     ISDBMBXIN_ISDBMBXOUT
     ISDBEN_ISDBGPR
-    RESERVED_44_RESERVED_45
-    RESERVED_46_RESERVED_47
+    PMUCNT4_PMUCNT5
+    PMUCNT6_PMUCNT7
     PMUCNT0_PMUCNT1
     PMUCNT2_PMUCNT3
-    PMUEVTCFG_PMUCFG
-    RESERVED_54_RESERVED_55
-    RESERVED_56_RESERVED_57
-    RESERVED_58_RESERVED_59
+    PMUEVTCFG_PMUSTID0
+    PMUEVTCFG1_PMUSTID1
+    TIMERLO_TIMERHI
+    PMUCFG_RESERVED_59
     RESERVED_60_RESERVED_61
     RESERVED_62_RESERVED_63
 ];
@@ -1110,7 +1110,7 @@ attach variables [ S6_svctrl D6_svctrl ] [
     HTID
     BADVA
     IMASK
-    RESERVED_11
+    GEVB
     RESERVED_12
     RESERVED_13
     RESERVED_14
@@ -1122,9 +1122,9 @@ attach variables [ S6_svctrl D6_svctrl ] [
     IPEND
     VID
     IAD
-    NULL_23
+    BESTWAIT
     IEL
-    NULL_25
+    SCHEDCFG
     IAHL
     CFGBASE
     DIAG
@@ -1134,7 +1134,7 @@ attach variables [ S6_svctrl D6_svctrl ] [
     ISDBST
     ISDBCFG0
     ISDBCFG1
-    NULL_35
+    LIVELOCK
     BRKPTPC0
     BRKPTCFG0
     BRKPTPC1
@@ -1143,21 +1143,21 @@ attach variables [ S6_svctrl D6_svctrl ] [
     ISDBMBXOUT
     ISDBEN
     ISDBGPR
-    RESERVED_44
-    RESERVED_45
-    RESERVED_46
-    RESERVED_47
+    PMUCNT4
+    PMUCNT5
+    PMUCNT6
+    PMUCNT7
     PMUCNT0
     PMUCNT1
     PMUCNT2
     PMUCNT3
     PMUEVTCFG
+    PMUSTID0
+    PMUEVTCFG1
+    PMUSTID1
+    TIMERLO
+    TIMERHI
     PMUCFG
-    RESERVED_54
-    RESERVED_55
-    RESERVED_56
-    RESERVED_57
-    RESERVED_58
     RESERVED_59
     RESERVED_60
     RESERVED_61
@@ -1166,26 +1166,26 @@ attach variables [ S6_svctrl D6_svctrl ] [
 ];
 
 define register offset=0x800 size=4 [
-    G0
-    G1
-    G2
-    G3
+    G0 # Also G_ELR
+    G1 # Also G_SR
+    G2 # Also G_OSP
+    G3 # Also G_BADVA
     GUEST_RESERVED_04
     GUEST_RESERVED_05
     GUEST_RESERVED_06
     GUEST_RESERVED_07
     GUEST_RESERVED_08
     GUEST_RESERVED_09
-    GUEST_RESERVED_10
-    GUEST_RESERVED_11
-    GUEST_RESERVED_12
-    GUEST_RESERVED_13
-    GUEST_RESERVED_14
-    GUEST_RESERVED_15
-    GUEST_ISDBMBXIN
-    GUEST_ISDBMBXOUT
-    GUEST_RESERVED_18
-    GUEST_RESERVED_19
+    GCYCLE_1T
+    GCYCLE_2T
+    GCYCLE_3T
+    GCYCLE_4T
+    GCYCLE_5T
+    GCYCLE_6T
+    GPMUCNT4
+    GPMUCNT5
+    GPMUCNT6
+    GPMUCNT7
     GUEST_RESERVED_20
     GUEST_RESERVED_21
     GUEST_RESERVED_22
@@ -1206,11 +1206,11 @@ define register offset=0x800 size=8 [
     GUEST_RESERVED_04GUEST_RESERVED_05
     GUEST_RESERVED_06GUEST_RESERVED_07
     GUEST_RESERVED_08GUEST_RESERVED_09
-    GUEST_RESERVED_10GUEST_RESERVED_11
-    GUEST_RESERVED_12GUEST_RESERVED_13
-    GUEST_RESERVED_14GUEST_RESERVED_15
-    GUEST_ISDBMBXINGUEST_ISDBMBXOUT
-    GUEST_RESERVED_18GUEST_RESERVED_19
+    GCYCLE_1T_GCYCLE_2T
+    GCYCLE_3T_GCYCLE_4T
+    GCYCLE_5T_GCYCLE_6T
+    GPMUCNT4_GPMUCNT5
+    GPMUCNT6_GPMUCNT7
     GUEST_RESERVED_20GUEST_RESERVED_21
     GUEST_RESERVED_22GUEST_RESERVED_23
     GPCYCLELOGPCYCLEHI
@@ -1230,16 +1230,16 @@ attach variables [GD5] [
     GUEST_RESERVED_07
     GUEST_RESERVED_08
     GUEST_RESERVED_09
-    GUEST_RESERVED_10
-    GUEST_RESERVED_11
-    GUEST_RESERVED_12
-    GUEST_RESERVED_13
-    GUEST_RESERVED_14
-    GUEST_RESERVED_15
-    GUEST_ISDBMBXIN
-    GUEST_ISDBMBXOUT
-    GUEST_RESERVED_18
-    GUEST_RESERVED_19
+    GCYCLE_1T
+    GCYCLE_2T
+    GCYCLE_3T
+    GCYCLE_4T
+    GCYCLE_5T
+    GCYCLE_6T
+    GPMUCNT4
+    GPMUCNT5
+    GPMUCNT6
+    GPMUCNT7
     GUEST_RESERVED_20
     GUEST_RESERVED_21
     GUEST_RESERVED_22
@@ -1260,11 +1260,11 @@ attach variables [GD5_pair] [
     GUEST_RESERVED_04GUEST_RESERVED_05
     GUEST_RESERVED_06GUEST_RESERVED_07
     GUEST_RESERVED_08GUEST_RESERVED_09
-    GUEST_RESERVED_10GUEST_RESERVED_11
-    GUEST_RESERVED_12GUEST_RESERVED_13
-    GUEST_RESERVED_14GUEST_RESERVED_15
-    GUEST_ISDBMBXINGUEST_ISDBMBXOUT
-    GUEST_RESERVED_18GUEST_RESERVED_19
+    GCYCLE_1T_GCYCLE_2T
+    GCYCLE_3T_GCYCLE_4T
+    GCYCLE_5T_GCYCLE_6T
+    GPMUCNT4_GPMUCNT5
+    GPMUCNT6_GPMUCNT7
     GUEST_RESERVED_20GUEST_RESERVED_21
     GUEST_RESERVED_22GUEST_RESERVED_23
     GPCYCLELOGPCYCLEHI
@@ -1307,6 +1307,104 @@ attach names [or1test_overlap or2test_overlap or3test_overlap] [
 "SP" _ _ _
 "LR" _ _ _
 ];
+
+#TODO: ghidra decompiler wont actually show these, make an issue?
+#TODO:actuallly check we set these, we probably missed a lot 
+
+define bitrange USR_OVF=USR[0,1]
+                USR_FPINVF=USR[1,1]
+                USR_FPDBZF=USR[2,1]
+                USR_FPOVFF=USR[3,1]
+                USR_FPUNFF=USR[4,1]
+                USR_FPINPF=USR[5,1]
+                USR_RESERVED0=USR[6,2]
+                USR_LPCFGE=USR[8,2]
+                USR_PCUME=USR[10,1]
+                USR_PCGME=USR[11,1]
+                USR_PCMME=USR[12,1]
+                USR_HFD=USR[13,2]
+                USR_HFI=USR[15,2]
+                USR_RESERVED1=USR[17,1]
+                USR_RESERVED2=USR[18,2]
+                USR_FPCOPROC=USR[20,2]
+                USR_FPRND=USR[22,2]
+                USR_RESERVED3=USR[24,1]
+                USR_FPINVE=USR[25,1]
+                USR_FPDBZE=USR[26,1]
+                USR_FPOVFE=USR[27,1]
+                USR_FPUNFE=USR[28,1]
+                USR_FPINEE=USR[29,1]
+                USR_RESERVED4=USR[30,1]
+                USR_PFA=USR[31,1];
+
+define bitrange SYSCFG_MMUEN=SYSCFG[0,1]
+                SYSCFG_ICEN=SYSCFG[1,1]
+                SYSCFG_DCEN=SYSCFG[2,1]
+                SYSCFG_ISDBTRUSTED=SYSCFG[3,1]
+                SYSCFG_GIE=SYSCFG[4,1]
+                SYSCFG_ISDBREADY=SYSCFG[5,1]
+                SYSCFG_PCYCLEEN=SYSCFG[6,1]
+                SYSCFG_V2X=SYSCFG[7,1]
+                SYSCFG_IGNOREDABORT=SYSCFG[8,1]
+                SYSCFG_PM=SYSCFG[9,1]
+                SYSCFG_TLBLOCK=SYSCFG[11,1]
+                SYSCFG_K0LOCK=SYSCFG[12,1]
+                SYSCFG_BQ=SYSCFG[13,1]
+                SYSCFG_PRIO=SYSCFG[14,1]
+                SYSCFG_DMT=SYSCFG[15,1]
+                SYSCFG_L2CFG=SYSCFG[16,3]
+                SYSCFG_ITCM=SYSCFG[19,1]
+                SYSCFG_L2NWA=SYSCFG[21,1]
+                SYSCFG_L2NRA=SYSCFG[22,1]
+                SYSCFG_L2WB=SYSCFG[23,1]
+                SYSCFG_L2P=SYSCFG[24,1]
+                SYSCFG_SLVCTL0=SYSCFG[25,2]
+                SYSCFG_SLVCTL1=SYSCFG[27,2]
+                SYSCFG_L2PARTSIZE=SYSCFG[29,2]
+                SYSCFG_L2GCA=SYSCFG[31,1];
+
+
+
+define bitrange SSR_CAUSE=SSR[0, 8]
+                SSR_ASID=SSR[8, 7]
+                SSR_UM=SSR[16, 1]
+                SSR_EX=SSR[17, 1]
+                SSR_IE=SSR[18, 1]
+                SSR_GM=SSR[19, 1]
+                SSR_V0=SSR[20, 1]
+                SSR_V1=SSR[21, 1]
+                SSR_BVS=SSR[22, 1]
+                SSR_CE=SSR[23, 1]
+                SSR_PE=SSR[24, 1]
+                SSR_BP=SSR[25, 1]
+                SSR_XE2=SSR[26, 1]
+                SSR_XA=SSR[27, 3]
+                SSR_SS=SSR[30, 1]
+                SSR_XE=SSR[31, 1];
+
+define bitrange IMASK_MASK=STID[0, 16];
+
+define bitrange STID_STID=STID[0, 8]
+                STIDL_PRIO=STID[16, 8];
+
+define bitrange MODECTL_E=MODECTL[0, 8]
+                MODECTL_W=MODECTL[16, 8];
+
+define bitrange CCR_L1ICP=CCR[0, 2]
+                CCR_L1DCP=CCR[3, 2]
+                CCR_L2CP=CCR[6, 2]
+                CCR_HFI=CCR[16, 1] 
+                CCR_HFD=CCR[17, 1]
+                CCR_HFIL2=CCR[18, 1]
+                CCR_HFDL2=CCR[19, 1]
+                CCR_SFD=CCR[20, 1]
+                CCR_GIE=CCR[24, 1]
+                CCR_GTE=CCR[25, 1]
+                CCR_GEE=CCR[26, 1]
+                CCR_GRE=CCR[27, 1]
+                CCR_VV1=CCR[29, 1]
+                CCR_VV2=CCR[30, 1]
+                CCR_VV3=CCR[31, 1];
 
 # This is special handling for output register referencing in .new instructions
 # We use an analyser to find the outputs of each sub inst and store in context
