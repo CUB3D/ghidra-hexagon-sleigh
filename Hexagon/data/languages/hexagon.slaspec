@@ -338,6 +338,7 @@ define token instr (32)
     MinOp             = (21,23)
     D7                = ( 0, 7)
     D6_svctrl         = ( 0, 5)
+    D6_svctrl_pair    = ( 1, 5)
 
     D5_pair           = ( 1, 4)
     D5_pair_val           = ( 1, 4)
@@ -1102,7 +1103,7 @@ define register offset=0x400 size=8 [
     RESERVED_62_RESERVED_63
 ];
 
-attach variables [ S6_svctrl_pair ] [
+attach variables [ S6_svctrl_pair D6_svctrl_pair ] [
     SGP0_SGP1
     ELR_STID
     BADVA0_BADVA1
