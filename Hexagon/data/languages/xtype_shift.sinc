@@ -251,7 +251,16 @@ with slot: iclass=0b1000  {
 define pcodeop asl_sat;
 with slot: iclass=0b1000  {
     :D5"=asl("S5",imm_8_12u):sat" is imm_21_27=0b1100010 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b010 & D5 & OUTPUT_D5 {
-        D5 = asl_sat(S5i, imm_8_12u:4);
+        local tmp:4 = S5i << imm_8_12u:4;
+        if(tmp s>= 0) goto <notlow>;
+    	tmp = 0;
+    	USR_OVF = 1;
+    	<notlow>
+    	if(tmp s<= 0x7FFFFFFF) goto <nothigh>;
+    	tmp = 0x7FFFFFFF;
+    	USR_OVF = 1;
+    	<nothigh>
+    	D5 = tmp;
     }
 }
 

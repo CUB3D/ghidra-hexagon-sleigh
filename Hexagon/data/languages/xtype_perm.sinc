@@ -18,9 +18,11 @@ with slot: iclass=0b1000  {
     	local res:4 = S5_pairi:4;
     	if(S5_pairi s>= 0) goto <notlow>;
     	res = 0;
+    	USR_OVF = 1;
     	<notlow>
-    	if(S5_pairi s<= 0xFFFFFFFF) goto <nothigh>;
+    	if(S5_pairi s<= 0x7FFFFFFF) goto <nothigh>;
     	res = 0x7FFFFFFF;
+    	USR_OVF = 1;
     	<nothigh>
     	D5 = res;
     }
@@ -28,9 +30,11 @@ with slot: iclass=0b1000  {
         local res:4 = S5i:4;
     	if(S5i s>= 0) goto <notlow>;
     	res = 0;
+    	USR_OVF = 1;
     	<notlow>
     	if(S5i s<= 0x7FFF) goto <nothigh>;
     	res = 0x7FFF;
+    	USR_OVF = 1;
     	<nothigh>
     	D5 = res;
     }
@@ -38,6 +42,7 @@ with slot: iclass=0b1000  {
         local res:4 = S5i:4;
     	if(S5i <= 0xFFFF) goto <nothigh>;
     	res = 0xFFFF;
+    	USR_OVF = 1;
     	<nothigh>
     	D5 = res;
     }
@@ -45,6 +50,7 @@ with slot: iclass=0b1000  {
        local res:4 = S5i:4;
     	if(S5i <= 0xFF) goto <nothigh>;
     	res = 0xFF;
+    	USR_OVF = 1;
     	<nothigh>
     	D5 = res;
     }
@@ -52,9 +58,11 @@ with slot: iclass=0b1000  {
         local res:4 = S5i:4;
     	if(S5i s>= 0) goto <notlow>;
     	res = 0;
+    	USR_OVF = 1;
     	<notlow>
     	if(S5i s<= 0x7F) goto <nothigh>;
     	res = 0x7F;
+    	USR_OVF = 1;
     	<nothigh>
     	D5 = res;
     }
