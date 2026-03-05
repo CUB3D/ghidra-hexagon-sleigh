@@ -330,8 +330,8 @@ with slot: iclass=0b0110  {
     :D6_svctrl "=" S5 is imm_22_27=0b011100 & imm_21=0 & S5 & S5i & imm_7_13=0 & D6_svctrl {
         D6_svctrl = S5i;
     }
-    :S6_svctrl_pair "=" D5_pair is imm_22_27=0b110100 & imm_21=0 & S6_svctrl_pair & imm_7_13=0 & D5_pair & D5_pairi {
-        S6_svctrl_pair = D5_pairi;
+    :D6_svctrl_pair "=" S5_pair is imm_22_27=0b110100 & imm_21=0 & D6_svctrl_pair & imm_7_13=0 & S5_pair & S5_pairi {
+        D6_svctrl_pair = S5_pairi;
     }
     :D5"="S6_svctrl is imm_23_27=0b11101 & S6_svctrl & imm_5_13=0 & D5 & OUTPUT_D5 {
         D5 = S6_svctrl;

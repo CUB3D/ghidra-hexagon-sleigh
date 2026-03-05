@@ -338,6 +338,7 @@ define token instr (32)
     MinOp             = (21,23)
     D7                = ( 0, 7)
     D6_svctrl         = ( 0, 5)
+    D6_svctrl_pair    = ( 1, 5)
 
     D5_pair           = ( 1, 4)
     D5_pair_val           = ( 1, 4)
@@ -883,8 +884,47 @@ define register offset=0x80 size=4 [
     UTIMERHI
 ];
 
+define register offset=0x80 size=8 [
+    LC0_SA0
+    LC1_SA1
+    RESERVED5_P3
+    M1_M0
+    PC_USR
+    GP_UGP
+    CS1_CS0
+    UPCYCLE
+
+    FRAMEKEY_FRAMELIMIT
+    PKTCOUNT
+    Reserved21_20
+    Reserved23_22
+    Reserved25_24
+    Reserved27_26
+    Reserved29_28
+    UTIMER
+];
+
 attach variables [M1_13] [M0 M1];
 
+attach variables [ D5_ctrl_pair S5_ctrl_pair ] [
+    LC0_SA0 _
+    LC1_SA1 _
+    RESERVED5_P3 _
+    M1_M0 _
+    PC_USR _
+    GP_UGP _
+    CS1_CS0 _
+    UPCYCLE _
+
+    FRAMEKEY_FRAMELIMIT _
+    PKTCOUNT _
+    Reserved21_20 _
+    Reserved23_22 _
+    Reserved25_24 _
+    Reserved27_26 _
+    Reserved29_28 _
+    UTIMER _
+];
 
  attach variables [ D5_ctrl S5_ctrl ] [
  SA0
@@ -1063,7 +1103,7 @@ define register offset=0x400 size=8 [
     RESERVED_62_RESERVED_63
 ];
 
-attach variables [ S6_svctrl_pair D5_ctrl_pair S5_ctrl_pair ] [
+attach variables [ S6_svctrl_pair D6_svctrl_pair ] [
     SGP0_SGP1
     ELR_STID
     BADVA0_BADVA1
