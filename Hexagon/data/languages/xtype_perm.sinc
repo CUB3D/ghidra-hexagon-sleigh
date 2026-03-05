@@ -81,10 +81,12 @@ with slot: iclass=0b1000  {
 define pcodeop valignb;
 with slot: iclass=0b1100  {
     :D5_pair "=valignb(" T5_pair "," S5_pair "," imm_5_7u ")" is imm_23_27=0b00000 & imm_21_22=0 & S5_pair & S5_pairi  & imm_13=0 & T5_pair & T5_pairi & imm_5_7u & D5_pair {
-        D5_pair = valignb(T5_pairi, S5_pairi, imm_5_7u:1);
+        local u8:8 = imm_5_7u:8;
+        D5_pair = (S5_pairi >>> u8*8)|(T5_pairi << ((8-u8)*8));
     }
     :D5_pair "=valignb(" T5_pair "," S5_pair "," U2_5_6 ")" is imm_23_27=0b00100 & imm_21_22=0 & S5_pair & S5_pairi  & imm_13=0 & T5_pair & T5_pairi & imm_7=0 & U2_5_6 & D5_pair {
-        D5_pair = valignb(T5_pairi, S5_pairi, U2_5_6);
+        #TODO: This is wrong due to PTRUE
+        D5_pair = S5_pairi >> (zext(U2_5_6) & 0x7)*8 | (T5_pairi << (8 - (zext(U2_5_6) & 0x7))*8);
     }
 }
 
