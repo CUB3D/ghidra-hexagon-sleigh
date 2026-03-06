@@ -1766,6 +1766,17 @@ slotX: slot    is slot & parse=0b11 [mode=0; pktid=pktid+1;]   { build slot; }
 slotX: duplex  is duplex & parse=0b00 [mode=0; pktid=pktid+1;] { build duplex; }
 
 macro endloop0() {
+    # Helps with the hardware warmup loops (spNloop0) that use the P3 predicate after N times. This is always doing 1 for now..
+    P3 = PTRUE;
+
+    # TODO: Fix up to do after N times (1-3) through the loop like below, but it's really ugly in decompiled view!
+    # if(USR_LPCFGE == 0) goto <decrement>;
+    # if(USR_LPCFGE != 1) goto <warmup>;
+    # P3=PTRUE;
+    # <warmup>
+    # USR_LPCFGE = USR_LPCFGE - 1;
+    # <decrement>
+ 
     if(LC0 <= 1) goto <endl0>;
     LC0 = LC0 - 1;
     goto [SA0];
