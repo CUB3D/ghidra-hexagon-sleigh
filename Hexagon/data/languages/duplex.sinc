@@ -692,7 +692,9 @@ duplex:"{{"S2R", "S2L"}}" is imm_29_31=0b111 & imm_13=0 & S2R & S2L {
     build S2R;
 }
 define pcodeop duplex_0f_reserved;
-duplex:"duplex_0xf_reserved" is imm_29_31=0b111 & imm_13=1 {duplex_0f_reserved();}
+duplex:"duplex_0xf_reserved" is imm_29_31=0b111 & imm_13=1 & mode=0 {duplex_0f_reserved();}
+duplex:"duplex_0xf_reserved" is imm_29_31=0b111 & imm_13=1 & mode=200 {}
+duplex:"duplex_0xf_reserved" is imm_29_31=0b111 & imm_13=1 & mode=1100 {}
 
 duplex: "duplex_branch_filler" is mode=1100 {}
 duplex: "duplex_nvh_filler" is mode=200 {}

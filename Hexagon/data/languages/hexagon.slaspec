@@ -169,11 +169,11 @@ define token instr (32)
     imm_16_24         = (16,24) signed
     imm_16_24u        = (16,24)
     imm_16_23         = (16,23)
-    imm_16_22         = (16,22)
+    imm_16_22         = (16,22) signed
     imm_16_21         = (16,21)
     imm_16_20         = (16,20)
     imm_16_20u        = (16,20)
-    imm_16_19         = (16,19)
+    imm_16_19         = (16,19) signed
     imm_16_18         = (16,18)
     imm_16_17         = (16,17)
     imm_16_17u        = (16,17)
@@ -201,9 +201,9 @@ define token instr (32)
 
     imm_8_13          = ( 8,13)
     imm_8_13u         = ( 8,13)
-    imm_8_12          = ( 8,12)
+    imm_8_12          = ( 8,12) signed
     imm_8_12u         = ( 8,12)
-    imm_8_11          = ( 8,11)
+    imm_8_11          = ( 8,11) signed
     imm_8_11u         = ( 8,11)
     imm_8_10          = ( 8,10)
     imm_8_9           = ( 8, 9)
@@ -266,6 +266,7 @@ define token instr (32)
     imm_1_13          = ( 1,13) signed
     imm_1_13u         = ( 1,13)
     imm_1_11          = ( 1,11) signed
+    imm_1_11u         = ( 1,11)
     imm_1_7           = ( 1, 7)
     imm_1_7u          = ( 1, 7)
     imm_1_6u          = ( 1, 6)
@@ -1349,7 +1350,7 @@ attach names [or1test_overlap or2test_overlap or3test_overlap] [
 ];
 
 #TODO: ghidra decompiler wont actually show these, make an issue?
-#TODO:actuallly check we set these, we probably missed a lot 
+#TODO:actually check we set these, we probably missed a lot 
 
 define bitrange USR_OVF=USR[0,1]
                 USR_FPINVF=USR[1,1]
@@ -1358,7 +1359,7 @@ define bitrange USR_OVF=USR[0,1]
                 USR_FPUNFF=USR[4,1]
                 USR_FPINPF=USR[5,1]
                 USR_RESERVED0=USR[6,2]
-                USR_LPCFGE=USR[8,2]
+                USR_LPCFG=USR[8,2]
                 USR_PCUME=USR[10,1]
                 USR_PCGME=USR[11,1]
                 USR_PCMME=USR[12,1]
@@ -1794,7 +1795,7 @@ macro endloop1() {
 
     build terminator;
 }
-   :{ slot0 slotX }                      is slot0 & parse=0b01 & build_branches_1 & build_nv_input_1; slotX & build_branches_2 & build_nv_input_2 & terminator [mode=0;pktid=0;] {
+:{ slot0 slotX }                      is slot0 & parse=0b01 & build_branches_1 & build_nv_input_1; slotX & build_branches_2 & build_nv_input_2 & terminator [mode=0;pktid=0;] {
 
     prelude();
     build slot0;

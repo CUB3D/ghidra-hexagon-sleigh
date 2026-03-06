@@ -5,13 +5,13 @@ with slot: iclass=0b0011  {
         local EA:4 = (S5i + T5i) << u2;
         *[ram]:1 EA = D5i:1;
     }
-    :"memb("S5"+"EXT_MEMOP_7_12u_0")=#"S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b00 & S5 & S5i & imm_13 & EXT_MEMOP_7_12u_0 & imm_0_6 [ S8 = (imm_0_6) | (imm_13 << 7);]{
+    :"memb("S5"+"EXT_MEMOP_7_12u_0")=#"S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b00 & S5 & S5i & imm_13 & EXT_MEMOP_7_12u_0 & imm_0_6u [ S8 = (imm_0_6u) | (imm_13 << 7);]{
         local EA:4 = S5i + EXT_MEMOP_7_12u_0;
         *[ram]:1 EA = S8;
     }
 }
 
-MEMB_GP_ADD:"GP+"v is imm_0_7u & imm_13u & imm_16_20u & imm_25_26u & IS_NOT_EXT [v = imm_0_7u | imm_13u << 8 | imm_16_20u<<9 | imm_25_26u <<14;] { local tmp:4 = GP + v; export *[const]:4 tmp; }
+MEMB_GP_ADD:"GP+"v is imm_0_7u & imm_13u & imm_16_20u & imm_25_26u & IS_NOT_EXT [v = imm_0_7u | (imm_13u << 8) | (imm_16_20u<<9) | (imm_25_26u <<14);] { local tmp:4 = GP + v; export *[const]:4 tmp; }
 MEMB_GP_ADD:v is IS_EXT0 & immext0 & imm_0_5u [v = imm_0_5u | immext0; ] { export *[const]:4 v; }
 MEMB_GP_ADD:v is IS_EXT1 & immext1 & imm_0_5u [v = imm_0_5u | immext1; ] { export *[const]:4 v; }
 
@@ -145,8 +145,8 @@ with slotNV: iclass=0b0011 {
     }
 }
 
-NR_ST_B_COND_0_u6: s6 is imm_3_7u & imm_13u & IS_NOT_EXT [s6 = (imm_3_7u | (imm_13u << 5)) << 0;] { export *[const]:4 s6; }
-BR_ST_B_COND_0_u6: s6 is imm_3_7u & imm_13u [s6 = (imm_3_7u | (imm_13u << 5)) << 0;] { export *[const]:4 s6; }
+NR_ST_B_COND_0_u6: s6 is imm_3_7u & imm_13u & IS_NOT_EXT [s6 = imm_3_7u | (imm_13u << 5);] { export *[const]:4 s6; }
+BR_ST_B_COND_0_u6: s6 is imm_3_7u & imm_13u [s6 = imm_3_7u | (imm_13u << 5);] { export *[const]:4 s6; }
 NR_ST_B_COND_0_u6: s6 is imm_3_7u & imm_13u & IS_EXT0 & immext0 [s6 = (imm_3_7u | (imm_13u << 5)) | immext0; immext0pos=pktid;] { export *[const]:4 s6; }
 BR_ST_B_COND_0_u6: s6 is imm_3_7u & imm_13u & immext0pos=pktid & immext0 [s6 = (imm_3_7u | (imm_13u << 5)) | immext0; ] { export *[const]:4 s6; }
 NR_ST_B_COND_0_u6: s6 is imm_3_7u & imm_13u & IS_EXT1 & immext1 [s6 = (imm_3_7u | (imm_13u << 5)) | immext1; immext1pos=pktid;] { export *[const]:4 s6; }

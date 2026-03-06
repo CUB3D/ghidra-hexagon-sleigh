@@ -6,7 +6,7 @@ with slot: iclass=0b0011  {
     }
 }
 
-LD_MEMD_GP_ADD:"GP+"v is imm_5_13u & imm_16_20u & imm_25_26 & IS_NOT_EXT [v = (imm_5_13u | imm_16_20u << 8 | imm_16_20u<<9 | imm_25_26 <<14)<<3;] { local tmp:4 = GP + v; export *[const]:4 tmp; }
+LD_MEMD_GP_ADD:"GP+"v is imm_5_13u & imm_16_20u & imm_25_26 & IS_NOT_EXT [v = (imm_5_13u | (imm_16_20u<<9) | (imm_25_26 <<14))<<3;] { local tmp:4 = GP + v; export *[const]:4 tmp; }
 LD_MEMD_GP_ADD:v is IS_EXT0 & immext0 & imm_5_10u [v = imm_5_10u | immext0; ] { export *[const]:4 v; }
 LD_MEMD_GP_ADD:v is IS_EXT1 & immext1 & imm_5_10u [v = imm_5_10u | immext1; ] { export *[const]:4 v; }
 

@@ -92,7 +92,7 @@ with slot: iclass=0b0111  {
         D5 = S5i;
     <end>
     }
-    :D5"=mux("U1_23_24_pred",#"NR_EXT_imm_5_12u",#"S8")" is Rs=1 & imm_25_26=0b01 & U1_23_24_pred & U1_23_24_predi & imm_16_22 & imm_13 & NR_EXT_imm_5_12u & D5 & OUTPUT_D5 [ S8 = imm_13 | (imm_16_22 << 1);]{
+    :D5"=mux("U1_23_24_pred",#"NR_EXT_imm_5_12u",#"S8")" is Rs=1 & imm_25_26=0b01 & U1_23_24_pred & U1_23_24_predi & imm_16_22 & imm_13u & NR_EXT_imm_5_12u & D5 & OUTPUT_D5 [ S8 = imm_13u | (imm_16_22 << 1);]{
         if(U1_23_24_predi != 0) goto <good>;
         D5 = S8;
     goto <end>;

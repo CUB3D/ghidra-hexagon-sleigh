@@ -1058,7 +1058,7 @@ with slotB: iclass=0b0101 {
 j_cond_r_hint:"jump:nt" is imm_12=0 {}
 j_cond_r_hint:"jump:t" is imm_12=1 {}
 
-Jmp_R13: v is imm_21 & imm_13 & imm_1_11 [v = inst_start + (((imm_21 << 12)| (imm_13 << 11) | (imm_1_11)) << 2); ] { export *[ram]:4 v; }
+Jmp_R13: v is imm_21 & imm_13u & imm_1_11u [v = inst_start + (((imm_21 << 12)| (imm_13u << 11) | (imm_1_11u)) << 2); ] { export *[ram]:4 v; }
 
 with slot: iclass=0b0110  {
      :"if("S5"!=#0)" j_cond_r_hint Jmp_R13 is imm_22_27=0b000100 & Jmp_R13 & S5 & S5i & imm_0=0 & j_cond_r_hint  {}

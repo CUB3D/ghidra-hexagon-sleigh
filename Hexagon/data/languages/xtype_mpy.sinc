@@ -17,7 +17,7 @@ with slot: iclass=0b1101  {
 
 
 
-    :T5"=add("D5",mpyi("u6","S5")" is imm_23_27=0b11110 & imm_21_22 & S5 & S5i & imm_13 & T5 & T5i & imm_5_7 & D5 & D5i & OUTPUT_T5 [ u6 = (imm_5_7 | (imm_13 << 3) | (imm_21_22 << 4)) << 2; ] {
+    :T5"=add("D5",mpyi("u6","S5")" is imm_23_27=0b11110 & imm_21_22u & S5 & S5i & imm_13u & T5 & T5i & imm_5_7u & D5 & D5i & OUTPUT_T5 [ u6 = (imm_5_7u | (imm_13u << 3) | (imm_21_22u << 4)) << 2; ] {
         local tmp:8 = u6;
         local tmp1:8 = sext(S5i) * tmp;
         T5 = D5i + tmp1:4;
