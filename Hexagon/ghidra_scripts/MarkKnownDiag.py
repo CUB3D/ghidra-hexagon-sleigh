@@ -40,7 +40,6 @@ known_diags = [
     
     ("(\\x00\\x00){2}.{4}(\\x01\\x00){2}.{4}(\\x08\\x00){2}.{4}", 15, "DIAG_tdscdma"),
 ]
-known_diags = known_diags[-1:]
 
 transaction = dtm.startTransaction("Adding qcom_diag_ent struct")
 dtm.addDataType(diag_ent, None)
