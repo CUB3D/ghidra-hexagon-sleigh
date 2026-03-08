@@ -71,34 +71,34 @@ with slot: iclass=0b1000  {
         D5_pair = D5_pairi + out;
     }
 
-    :alu_X5"-=asr("S5","imm_8_12u")" is imm_22_27=0b111000 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b000 & alu_X5 & alu_X5i & OUTPUT_S5 {
-        alu_X5 = alu_X5i - (S5i s>> imm_8_12u);
+    :D5"-=asr("S5","imm_8_12u")" is imm_22_27=0b111000 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b000 & D5 & D5i & OUTPUT_S5 {
+        D5 = D5i - (S5i s>> imm_8_12u);
     }
-    :alu_X5"-=lsr("S5","imm_8_12u")" is imm_22_27=0b111000 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b001 & alu_X5 & alu_X5i & OUTPUT_S5 {
-        alu_X5 = alu_X5i - (S5i >> imm_8_12u);
+    :D5"-=lsr("S5","imm_8_12u")" is imm_22_27=0b111000 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b001 & D5 & D5i & OUTPUT_S5 {
+        D5 = D5i - (S5i >> imm_8_12u);
     }
-    :alu_X5"-=asl("S5","imm_8_12u")" is imm_22_27=0b111000 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b010 & alu_X5 & alu_X5i & OUTPUT_S5 {
-        alu_X5 = alu_X5i - (S5i << imm_8_12u);
+    :D5"-=asl("S5","imm_8_12u")" is imm_22_27=0b111000 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b010 & D5 & D5i & OUTPUT_S5 {
+        D5 = D5i - (S5i << imm_8_12u);
     }
-    :alu_X5"-=rol("S5","imm_8_12u")" is imm_22_27=0b111000 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b011 & alu_X5 & alu_X5i & OUTPUT_S5 {
+    :D5"-=rol("S5","imm_8_12u")" is imm_22_27=0b111000 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b011 & D5 & D5i & OUTPUT_S5 {
         local out:4 = 0;
         rotl32(out, S5i, imm_8_12u);
-        alu_X5 = alu_X5i - out;
+        D5 = D5i - out;
     }
 
-    :alu_X5"+=asr("S5","imm_8_12u")" is imm_22_27=0b111000 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b100 & alu_X5 & alu_X5i & OUTPUT_S5 {
-        alu_X5 = alu_X5i + (S5i s>> imm_8_12u);
+    :D5"+=asr("S5","imm_8_12u")" is imm_22_27=0b111000 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b100 & D5 & D5i & OUTPUT_S5 {
+        D5 = D5i + (S5i s>> imm_8_12u);
     }
-    :alu_X5"+=lsr("S5","imm_8_12u")" is imm_22_27=0b111000 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b101 & alu_X5 & alu_X5i & OUTPUT_S5 {
-        alu_X5 = alu_X5i + (S5i >> imm_8_12u);
+    :D5"+=lsr("S5","imm_8_12u")" is imm_22_27=0b111000 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b101 & D5 & D5i & OUTPUT_S5 {
+        D5 = D5i + (S5i >> imm_8_12u);
     }
-    :alu_X5"+=asl("S5","imm_8_12u")" is imm_22_27=0b111000 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b110 & alu_X5 & alu_X5i & OUTPUT_S5 {
-        alu_X5 = alu_X5i + (S5i << imm_8_12u);
+    :D5"+=asl("S5","imm_8_12u")" is imm_22_27=0b111000 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b110 & D5 & D5i & OUTPUT_S5 {
+        D5 = D5i + (S5i << imm_8_12u);
     }
-    :alu_X5"+=rol(" S5 "," imm_8_12u ")" is imm_22_27=0b111000 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b111 & alu_X5 & alu_X5i & OUTPUT_S5 {
+    :D5"+=rol(" S5 "," imm_8_12u ")" is imm_22_27=0b111000 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b111 & D5 & D5i & OUTPUT_S5 {
         local out:4 = 0;
         rotl32(out, S5i, imm_8_12u);
-        alu_X5 = alu_X5i + out;
+        D5 = D5i + out;
     }
 }
 
