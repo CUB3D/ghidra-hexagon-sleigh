@@ -493,53 +493,53 @@ EXT_ALU32_PRED_CMP_s10:s10  is imm_5_10u & IS_EXT1 & immext1 [ s10 = (immext1 | 
 # ALU32/PRED:Compare
  with slot: iclass=0b0111  {
     :D2_pred_new "=cmp.eq("S5", "EXT_ALU32_PRED_CMP_s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b00 & S5 & S5i & imm_2_4=0b000 & D2_pred_new & EXT_ALU32_PRED_CMP_s10 {
-        D2_pred_new = PTRUE * (S5i == EXT_ALU32_PRED_CMP_s10);
+        D2_pred_new = $(PTRUE) * (S5i == EXT_ALU32_PRED_CMP_s10);
     }  
     :D2_pred_new "=!cmp.eq("S5", "EXT_ALU32_PRED_CMP_s10")"is Rs = 0 & MajOp=0b101 & imm_22_23=0b00 & S5 & S5i & imm_2_4=0b100 & D2_pred_new & EXT_ALU32_PRED_CMP_s10 {
-        D2_pred_new = PTRUE * (S5i != EXT_ALU32_PRED_CMP_s10);
+        D2_pred_new = $(PTRUE) * (S5i != EXT_ALU32_PRED_CMP_s10);
     }  
     :D2_pred_new "=cmp.gt("S5", "EXT_ALU32_PRED_CMP_s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b01 & S5 & S5i & imm_2_4=0b000 & D2_pred_new & EXT_ALU32_PRED_CMP_s10{
-        D2_pred_new = PTRUE * (S5i s> EXT_ALU32_PRED_CMP_s10);
+        D2_pred_new = $(PTRUE) * (S5i s> EXT_ALU32_PRED_CMP_s10);
     }  
     :D2_pred_new "=!cmp.gt("S5", "EXT_ALU32_PRED_CMP_s10")" is Rs = 0 & MajOp=0b101 & imm_22_23=0b01 & S5 & S5i & imm_2_4=0b100 & D2_pred_new & EXT_ALU32_PRED_CMP_s10 {
-        D2_pred_new = PTRUE * (S5i s<= EXT_ALU32_PRED_CMP_s10);
+        D2_pred_new = $(PTRUE) * (S5i s<= EXT_ALU32_PRED_CMP_s10);
     }
     :D2_pred_new "=cmp.gtu(" S5 "," EXT_ALU32_PRED_CMP_s10 ")" is Rs = 0 & MajOp=0b101 & imm_21_23=0b100 & S5 & S5i & imm_2_4=0b000 & D2_pred_new & EXT_ALU32_PRED_CMP_s10 {
-        D2_pred_new = PTRUE * (S5i > EXT_ALU32_PRED_CMP_s10);
+        D2_pred_new = $(PTRUE) * (S5i > EXT_ALU32_PRED_CMP_s10);
     }
     :D2_pred_new "=!cmp.gtu("S5", "EXT_ALU32_PRED_CMP_s10")" is Rs = 0 & MajOp=0b101 & imm_21_23=0b100 & S5 & S5i & imm_2_4=0b100 & D2_pred_new & EXT_ALU32_PRED_CMP_s10 {
-        D2_pred_new = PTRUE * (S5i <= EXT_ALU32_PRED_CMP_s10);
+        D2_pred_new = $(PTRUE) * (S5i <= EXT_ALU32_PRED_CMP_s10);
     }
 }
 with slot: iclass=0b1111  {
 
     :D2_pred_new "=cmp.eq("S5","T5")" is Rs = 0 & MajOp=0b010 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & imm_2_4=0b000 & D2_pred_new {
-        D2_pred_new = PTRUE * (S5i == T5i);
+        D2_pred_new = $(PTRUE) * (S5i == T5i);
     }  
     :D2_pred_new "=!cmp.eq("S5","T5")" is Rs = 0 & MajOp=0b010 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & imm_2_4=0b100 & D2_pred_new {
-        D2_pred_new = PTRUE * (S5i != T5i);
+        D2_pred_new = $(PTRUE) * (S5i != T5i);
     }  
     :D2_pred_new "=cmp.gt("S5","T5")" is Rs = 0 & MajOp=0b010 & imm_23=0 & imm_21_22=0b10 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & imm_2_4=0b000 & D2_pred_new {
-        D2_pred_new = PTRUE * (S5i s> T5i);
+        D2_pred_new = $(PTRUE) * (S5i s> T5i);
     }  
     :D2_pred_new "=!cmp.gt("S5","T5")" is Rs = 0 & MajOp=0b010 & imm_23=0 & imm_21_22=0b10 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & imm_2_4=0b100 & D2_pred_new {
-        D2_pred_new = PTRUE * (S5i s<= T5i);
+        D2_pred_new = $(PTRUE) * (S5i s<= T5i);
     }  
 
     :D2_pred_new "=cmp.gtu("S5","T5")" is Rs = 0 & MajOp=0b010 & imm_23=0 & imm_21_22=0b11 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & imm_2_4=0b000 & D2_pred_new {
-        D2_pred_new = PTRUE * (S5i > T5i);
+        D2_pred_new = $(PTRUE) * (S5i > T5i);
     }  
 
     :D2_pred_new "=!cmp.gtu("S5","T5")" is Rs = 0 & MajOp=0b010 & imm_23=0 & imm_21_22=0b11 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & imm_2_4=0b100 & D2_pred_new {        
-        D2_pred_new = PTRUE * (S5i <= T5i);
+        D2_pred_new = $(PTRUE) * (S5i <= T5i);
     }
    
     :D2_pred_new "=cmp.gtu("S5","imm_5_13u")" is Rs=0 & MajOp=0b101 & imm_23=1 & imm_21_22=0b00 & S5 & S5i & imm_5_13u & imm_2_4=0b000 & D2_pred_new {
-        D2_pred_new = PTRUE * (S5i > imm_5_13u);
+        D2_pred_new = $(PTRUE) * (S5i > imm_5_13u);
     }
     
     :D2_pred_new "=!cmp.gtu("S5","imm_5_13u")" is Rs=0 & MajOp=0b101 & imm_23=1 & imm_21_22=0b00 & S5 & S5i & imm_5_13u & imm_2_4=0b100 & D2_pred_new {        
-        D2_pred_new = PTRUE * (S5i <= imm_5_13u);
+        D2_pred_new = $(PTRUE) * (S5i <= imm_5_13u);
     }
 }
 #TODO: u9, 1100

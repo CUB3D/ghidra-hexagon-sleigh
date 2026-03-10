@@ -114,7 +114,6 @@
 
 
             <unaffected>
-                <register name="PTRUE"/>
                 <register name="r16"/>
                 <register name="r17"/>
                 <register name="r18"/>
@@ -170,7 +169,6 @@
             </pentry>
         </output>
         <unaffected>
-            <register name="PTRUE"/>
             <register name="r16"/>
             <register name="r17"/>
             <register name="r18"/>
@@ -228,7 +226,6 @@
             </pentry>
         </output>
         <unaffected>
-            <register name="PTRUE"/>
             <register name="r16"/>
             <register name="r17"/>
             <register name="r18"/>
@@ -289,7 +286,6 @@
             </pentry>
         </output>
         <unaffected>
-            <register name="PTRUE"/>
             <register name="r16"/>
             <register name="r17"/>
             <register name="r18"/>
@@ -353,7 +349,6 @@
             </pentry>
         </output>
         <unaffected>
-            <register name="PTRUE"/>
             <register name="r16"/>
             <register name="r17"/>
             <register name="r18"/>
@@ -420,7 +415,6 @@
             </pentry>
         </output>
         <unaffected>
-            <register name="PTRUE"/>
             <register name="r16"/>
             <register name="r17"/>
             <register name="r18"/>

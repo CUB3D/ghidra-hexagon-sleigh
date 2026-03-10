@@ -290,8 +290,6 @@ with : mode=0 {
     
     S2L:"memd("SP"+" a ") =" immdup0_D3_pair is immdup0_9_12=0b0101 & immdup0_3_8 & immdup0_D3_pair & immdup0_D3_pairi & SP [a = immdup0_3_8 << 3;]{
         local EA:4 = SPc + a;
-#        *[ram]:8 EA = immdup0_D3_pairi;
-
         local r:4 = &immdup0_D3_pairi;
         *[ram]:4 EA = *[register]:4 r;
         r = r + 4;
@@ -300,8 +298,6 @@ with : mode=0 {
     }
     S2R:"memd("SP"+" a ") =" immdup1_D3_pair is immdup1_9_12=0b0101 & immdup1_3_8 & immdup1_D3_pair & immdup1_D3_pairi & SP [a = immdup1_3_8 << 3;]{
         local EA:4 = SPc + a;
-#        *[ram]:8 EA = immdup1_D3_pairi;
-
         local r:4 = &immdup1_D3_pairi;
         *[ram]:4 EA = *[register]:4 r;
         r = r + 4;
@@ -464,7 +460,7 @@ EXT_immdup1_4_10: v is immext1 & immdup1_4_9 & IS_EXT1 [ v = immdup1_4_9 | immex
     
     A1L:"p0 = cmp.eq(" immdup0_S4 "," immdup0_0_1 ")" is immdup0_8_12=0b11001 & immdup0_S4 & immdup0_S4i & immdup0_2_3=0 & immdup0_0_1 {
         if(immdup0_S4i != immdup0_0_1) goto <bad>;
-        P0 = PTRUE;
+        P0 = $(PTRUE);
         goto <end>;
         <bad>
         P0 = 0;
@@ -472,7 +468,7 @@ EXT_immdup1_4_10: v is immext1 & immdup1_4_9 & IS_EXT1 [ v = immdup1_4_9 | immex
     }
     A1R:"p0 = cmp.eq(" immdup1_S4 "," immdup1_0_1 ")" is immdup1_8_12=0b11001 & immdup1_S4 & immdup1_S4i & immdup1_2_3=0 & immdup1_0_1 {
         if(immdup1_S4i != immdup1_0_1) goto <bad>;
-        P0 = PTRUE;
+        P0 = $(PTRUE);
         goto <end>;
         <bad>
         P0 = 0;
@@ -543,16 +539,12 @@ with : mode=0 {
     }
 
 A1L:immdup0_D4_pair "= combine("const_zero"," immdup0_5_6 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=0 & immdup0_7=0 & immdup0_5_6 & immdup0_3_4=0b00 & immdup0_D4_pair & const_zero {
-#        immdup0_D4_pair = immdup0_5_6;
-        
         local tmp:4 = &immdup0_D4_pair;
         *[register]:4 tmp = immdup0_5_6;
         tmp = tmp + 4;
         *[register]:4 tmp = 0;
 }
 A1R:immdup1_D4_pair  "= combine("const_zero"," immdup1_5_6 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=0 & immdup1_7=0 & immdup1_5_6 & immdup1_3_4=0b00 & immdup1_D4_pair & const_zero {
-#        immdup1_D4_pair = immdup1_5_6;
-        
         local tmp:4 = &immdup1_D4_pair;
         *[register]:4 tmp = immdup1_5_6;
         tmp = tmp + 4;
@@ -597,6 +589,48 @@ A1R:immdup1_D3_pair "=combine(" immdup1_S4 ", "const_zero")" is immdup1_10_12=0b
 }
 
 }
+
+
+## Duplex Vendor Ops (group 0xf)
+
+
+with : mode=0 {
+	define pcodeop vendor_duplex_1;
+	V1L:"vendor_duplex_1 " immdup0_D4 is immdup0_4_12=0b001100011 & immdup0_D4 { vendor_duplex_1(immdup0_D4); }
+	V1R:"vendor_duplex_1 " immdup1_D4 is immdup1_4_12=0b001100011 & immdup1_D4 { vendor_duplex_1(immdup1_D4); }
+	
+	define pcodeop vendor_duplex_2;
+	V1L:"vendor_duplex_2" is immdup0_0_12=0b1100001010110 { vendor_duplex_2(); }
+	V1R:"vendor_duplex_2" is immdup1_0_12=0b1100001010110 { vendor_duplex_2(); }
+	
+	define pcodeop vendor_duplex_4;
+	V1L:"vendor_duplex_4" immdup0_D4 is immdup0_4_12=0b110000000 & immdup0_D4 { vendor_duplex_4(immdup0_D4); }
+	V1R:"vendor_duplex_4" immdup1_D4 is immdup1_4_12=0b110000000 & immdup1_D4 { vendor_duplex_4(immdup1_D4); }
+
+	
+	define pcodeop vendor_duplex_6;
+	V1L:"vendor_duplex_6" immdup0_D4 is immdup0_4_12=0b110000100 & immdup0_D4 { vendor_duplex_6(immdup0_D4); }
+	V1R:"vendor_duplex_6" immdup1_D4 is immdup1_4_12=0b110000100 & immdup1_D4 { vendor_duplex_6(immdup1_D4); }
+	
+	define pcodeop vendor_duplex_8;
+	V1L:"vendor_duplex_8" is immdup0_0_12=0b1110101011000 { vendor_duplex_8(); }
+	V1R:"vendor_duplex_8" is immdup1_0_12=0b1110101011000 { vendor_duplex_8(); }
+	
+	
+	
+	V1L:"Unknown 0xf duplex: " immdup0_0_12 is immdup0_0_12 {} 
+	V1R:"Unknown 0xf duplex: " immdup1_0_12 is immdup1_0_12 {} 
+}
+
+
+
+V1R:"" is mode=1100 {}
+V1L:"" is mode=1100 {}
+
+V1R:"" is mode=200 {}
+V1L:"" is mode=200 {}
+
+## --------------
 
 
 L1R:"" is mode=1100 {}
@@ -691,10 +725,11 @@ duplex:"{{"S2R", "S2L"}}" is imm_29_31=0b111 & imm_13=0 & S2R & S2L {
     build S2L;
     build S2R;
 }
-define pcodeop duplex_0f_reserved;
-duplex:"duplex_0xf_reserved" is imm_29_31=0b111 & imm_13=1 & mode=0 {duplex_0f_reserved();}
-duplex:"duplex_0xf_reserved" is imm_29_31=0b111 & imm_13=1 & mode=200 {}
-duplex:"duplex_0xf_reserved" is imm_29_31=0b111 & imm_13=1 & mode=1100 {}
+# Officially this is a reserved part of the opcode space, but some vendors like to put ops here
+duplex:"{{"V1R", "V1L"}}" is imm_29_31=0b111 & imm_13=1 & V1L & V1R {
+	build V1L;
+    build V1R;
+}
 
 duplex: "duplex_branch_filler" is mode=1100 {}
 duplex: "duplex_nvh_filler" is mode=200 {}

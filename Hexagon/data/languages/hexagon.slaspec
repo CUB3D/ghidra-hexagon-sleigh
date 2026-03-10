@@ -105,6 +105,22 @@
 #  if the full width version of the register is explicitly referenced in pcode. Also it would allow correct pair syntax
 #  and might help fix the overlapping varnode problem somewhat
 
+
+###########
+# DEFINES #
+###########
+
+#TODO: this is a HORRIFIC hack
+# when a predicate is set to true it should be = 0xFF but Ghidra can't recognise that a condition is constant if the true condition isn't either 1 or a power of 2?????
+# When Ghidra works, remove this and replace with constant FF everywhere
+# TODO: this might be fixed in 12.0.3
+@define PTRUE 0xFF
+
+# Uncomment this to allow invalid NV references for debugging
+# Leave this off to prevent creating some invalid instruction packets 
+#@define NV_DBG 1
+
+
 #############
 # REGISTERS #
 #############
@@ -408,6 +424,8 @@ define token instr (32)
     immdup0_4_7       = ( 4, 7)
     immdup0_4_6       = ( 4, 6)
     immdup0_4_5       = ( 4, 5)
+    immdup0_4_12      = ( 4, 12)
+    immdup0_3_12      = ( 3, 12)
     immdup0_3_8       = ( 3, 8) signed
     immdup0_3_7       = ( 3, 7)
     immdup0_3_5       = ( 3, 5)
@@ -417,6 +435,7 @@ define token instr (32)
     immdup0_2_3       = ( 2, 3)
     immdup0_2         = ( 2, 2)
     immdup0_1_2       = ( 1, 2)
+    immdup0_0_12      = ( 0, 12)
     immdup0_0_9       = ( 0, 9)
     immdup0_0_4       = ( 0, 4)
     immdup0_0_3       = ( 0, 3)
@@ -450,6 +469,8 @@ define token instr (32)
     immdup1_4_7       = (20,23)
     immdup1_4_9       = (20,25)
     immdup1_4_8       = (20,24)
+    immdup1_4_12      = (20,28)
+    immdup1_3_12      = (19,28)
     immdup1_3_8       = (19,24) signed
     immdup1_3_7       = (19,23)
     immdup1_3_4       = (19,20)
@@ -466,6 +487,7 @@ define token instr (32)
     immdup1_0_2       = (16,18)
     immdup1_1_2       = (17,18)
     immdup1_6         = (22,22)
+    immdup1_0_12      = (16,28)
     immdup1_0_1       = (16,17)
 
     immdup1_S4        = (20,23)
@@ -968,7 +990,6 @@ define register offset=0x104 size=1 [
     P1
     P2
     P3
-    PTRUE
 ];
 
 define register offset=0x2000 size=1 [
@@ -1448,9 +1469,8 @@ define bitrange CCR_L1ICP=CCR[0, 2]
                 CCR_VV3=CCR[31, 1];
 
 # This is special handling for output register referencing in .new instructions
-# We use an analyser to find the outputs of each sub inst and store in context
-# then map (offset, subins numb) to the correct one
-# TODO: consider doing this with a xbuild down the line
+# We tag instructions with OUTPUT_XX which will set a context var to store the output for that sub-instruction
+# This is consumed by NV_XX tables to generate a reference to the correct register 
 OR1: or1test_overlap  is or1test & or1test_overlap {
     local tmp:4 = or1test;
     export *[register]:4 tmp;
@@ -1497,7 +1517,9 @@ OUTPUT_D4_8_11: is pktid=4 {}
 
 NV_S3_new_16_18: "NOT ANALYSED YET"  is OR1 & analysed=0 { _unimpl_nv(); export OR1; }
 
+@if defined(NV_DBG)
 NV_S3_new_16_18: "ILLEGAL 1618 pkt:" pktid ", S3:" S3_new_16_18  is OR1 & pktid & S3_new_16_18 & analysed=1 { _unimpl_nv(); export OR1; }
+@endif
 
 NV_S3_new_16_18: OR1 ".new"  is (S3_new_16_18=0b010 | S3_new_16_18=0b011) & OR1 & pktid=2 & analysed=1 { export OR1; } # p2
 
@@ -1508,7 +1530,9 @@ NV_S3_new_16_18: OR3 ".new"  is (S3_new_16_18=0b010 | S3_new_16_18=0b011) & OR3 
 NV_S3_new_16_18: OR2 ".new"  is (S3_new_16_18=0b100 | S3_new_16_18=0b101) & OR2 & pktid=4 & analysed=1 { export OR2; } # p4
 NV_S3_new_16_18: OR1 ".new"  is (S3_new_16_18=0b110 | S3_new_16_18=0b111) & OR1 & pktid=4 & analysed=1 { export OR1; } # p4
 
+@if defined(NV_DBG)
 NV_T3_new_8_10: "ILLEGAL 810 pkt:" pktid ", S3:" T3_new_8_10  is OR1 & pktid & T3_new_8_10 { _unimpl_nv(); export OR1; }
+@endif
 
 NV_T3_new_8_10: OR1 ".new"  is (T3_new_8_10=0b010 | T3_new_8_10=0b011) & OR1 & pktid=2 & analysed=1 { export OR1; } # p2
 
@@ -1519,7 +1543,9 @@ NV_T3_new_8_10: OR3 ".new"  is (T3_new_8_10=0b010 | T3_new_8_10=0b011) & OR3 & p
 NV_T3_new_8_10: OR2 ".new"  is (T3_new_8_10=0b100 | T3_new_8_10=0b101) & OR2 & pktid=4 & analysed=1 { export OR2; } # p4
 NV_T3_new_8_10: OR1 ".new"  is (T3_new_8_10=0b110 | T3_new_8_10=0b111) & OR1 & pktid=4 & analysed=1 { export OR1; } # p4
 
+@if defined(NV_DBG)
 NV_T3_0_2_new: "ILLEGAL 302 pkt:" pktid ", S3:" T3_0_2_new  is OR1 & pktid & T3_0_2_new { _unimpl_nv(); export OR1; }
+@endif
 
 NV_T3_0_2_new: OR1 ".new"  is (T3_0_2_new=0b010 | T3_0_2_new=0b011) & OR1 & pktid=2 & analysed=1 { export OR1; } # p2
 
@@ -1575,13 +1601,13 @@ EXT_imm_7_12:u6  is imm_7_12 & IS_EXT0 & immext0 [ u6 = (immext0 | imm_7_12); ] 
 EXT_imm_7_12:u6  is imm_7_12 & IS_EXT1 & immext1 [ u6 = (immext1 | imm_7_12); ] { export *[const]:4 u6; }
 
 NR_EXT_imm_5_12u:imm_5_12u  is imm_5_12u & IS_NOT_EXT { export *[const]:4 imm_5_12u; }
-BR_EXT_imm_5_12u:imm_5_12u  is imm_5_12u { export *[const]:4 imm_5_12u; }
+#BR_EXT_imm_5_12u:imm_5_12u  is imm_5_12u { export *[const]:4 imm_5_12u; }
 
 NR_EXT_imm_5_12u:val       is imm_5_10u & IS_EXT0 & immext0 [ val = immext0 | imm_5_10u; immext0pos=pktid;  ] { export *[const]:4 val; }
-BR_EXT_imm_5_12u:v is immext0pos=pktid & immext0 & imm_5_10u [v = imm_5_10u | immext0; ]  { export *[const]:4 v; }
+#BR_EXT_imm_5_12u:v is immext0pos=pktid & immext0 & imm_5_10u [v = imm_5_10u | immext0; ]  { export *[const]:4 v; }
 
 NR_EXT_imm_5_12u:val       is imm_5_10u & IS_EXT1 & immext1 [ val = immext1 | imm_5_10u; immext1pos=pktid;  ] { export *[const]:4 val; }
-BR_EXT_imm_5_12u:v is immext1pos=pktid & immext1 & imm_5_10u [v = imm_5_10u | immext1; ]  { export *[const]:4 v; }
+#BR_EXT_imm_5_12u:v is immext1pos=pktid & immext1 & imm_5_10u [v = imm_5_10u | immext1; ]  { export *[const]:4 v; }
 
 # imm_5_12
 EXT_imm_5_12:imm_5_12 is imm_5_12 & IS_NOT_EXT { export *[const]:4 imm_5_12; }
@@ -1633,6 +1659,7 @@ EXT_LD_U6:val  is (hasext0=0 | immext0used=1) & imm_8_11u & imm_5_6u [ val = imm
 EXT_LD_U6:val  is hasext0=1 & immext0used=0 & immext0 & imm_5_6u & imm_8_11u [val = (imm_5_6u | (imm_8_11u << 2)) | immext0; immext0used=1;immext0everused=1;] { export *[const]:4 val; }
 EXT_LD_U6:val  is imm_8_11u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & imm_5_6u [val = (imm_5_6u | (imm_8_11u << 2)) | immext1; immext1used=1;] { export *[const]:4 val; }
 
+
 @include "alu32_alu.sinc"
 @include "alu32_perm.sinc"
 @include "alu32_pred.sinc"
@@ -1668,10 +1695,14 @@ define pcodeop brev;
 
 
 # Not documented in any manual I know of, but found in real binaries
-# If you know what this is, please get in touch
+# If you know what these are, please get in touch
 define pcodeop unknown_vendor_01;
 slot:"unknown_vendor_01" is iclass=0b1111 & imm_21_27=0b1000000 {
 	unknown_vendor_01();
+}
+define pcodeop unknown_vendor_02;
+slot:"unknown_vendor_02" is iclass=0b1111 & imm_21_27=0b1000010 {
+	unknown_vendor_02();
 }
 
 
@@ -1680,10 +1711,6 @@ macro prelude() {
     # TODO: this is a readonly value
     PC = inst_start;
 
-    #TODO: this is a HORRIFIC hack
-    # when a predicate is set to true it should be = 0xFF but ghidra can't recognise that a condition is constant if the true condition isn't either 1 or a power of 2?????
-    # When ghidra works, remove this and replace with constant FF everywhere
-    PTRUE = 1;
 
     # Copy all gprs to cached registers
     # No, we can't collapse this down to a single large register covering the space, or Ghidra will try and use that register in places
@@ -1780,7 +1807,7 @@ macro endloop1() {
 }
 
 # 2 ins packets
-:{ slot0 slotX "}:endloop0"           is slot0 & parse=0b10 & build_branches_1 & build_nv_input_1; slotX & build_branches_2 & build_nv_input_2 & terminator [mode=0; pktid=0;] {
+:{ slot0; slotX "}:endloop0"           is slot0 & parse=0b10 & build_branches_1 & build_nv_input_1; slotX & build_branches_2 & build_nv_input_2 & terminator [mode=0; pktid=0;] {
     prelude();
     build slot0;
     build slotX;
@@ -1795,7 +1822,7 @@ macro endloop1() {
 
     build terminator;
 }
-:{ slot0 slotX }                      is slot0 & parse=0b01 & build_branches_1 & build_nv_input_1; slotX & build_branches_2 & build_nv_input_2 & terminator [mode=0;pktid=0;] {
+:{ slot0; slotX }                      is slot0 & parse=0b01 & build_branches_1 & build_nv_input_1; slotX & build_branches_2 & build_nv_input_2 & terminator [mode=0;pktid=0;] {
 
     prelude();
     build slot0;
@@ -1814,7 +1841,7 @@ macro endloop1() {
 # 3 ins packet
 
 
-   :{ slot0 slot1 slotX }                is slot0 & build_branches_1 & build_nv_input_1 & parse=0b01;slot1 & build_branches_2 & build_nv_input_2 & (parse=0b00 | parse=0b01 | parse=0b11);slotX & build_branches_3 & build_nv_input_3 & terminator[mode=0;pktid=0;] {
+:{ slot0; slot1; slotX }                is slot0 & build_branches_1 & build_nv_input_1 & parse=0b01;slot1 & build_branches_2 & build_nv_input_2 & (parse=0b00 | parse=0b01 | parse=0b11);slotX & build_branches_3 & build_nv_input_3 & terminator[mode=0;pktid=0;] {
     prelude();
     build slot0;
     build slot1;
@@ -1834,7 +1861,7 @@ macro endloop1() {
 
 
 
-   :{ slot0 slot1 slotX "}:endloop0"     is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b01 ; slotX & build_branches_3 & build_nv_input_3 & terminator[mode=0;pktid=0;] {
+:{ slot0; slot1; slotX "}:endloop0"     is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b01 ; slotX & build_branches_3 & build_nv_input_3 & terminator[mode=0;pktid=0;] {
     prelude();
     build slot0;
     build slot1;
@@ -1855,7 +1882,7 @@ macro endloop1() {
 
 
 
-   :{ slot0 slot1 slotX "}:endloop1"     is slot0 & build_branches_1 & build_nv_input_1 & parse=0b01 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b10 ; slotX & build_branches_3 & build_nv_input_3 & terminator[mode=0;pktid=0;] {
+:{ slot0; slot1; slotX "}:endloop1"     is slot0 & build_branches_1 & build_nv_input_1 & parse=0b01 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b10 ; slotX & build_branches_3 & build_nv_input_3 & terminator[mode=0;pktid=0;] {
     prelude();
     build slot0;
     build slot1;
@@ -1873,7 +1900,7 @@ macro endloop1() {
 
     build terminator;
 }
-   :{ slot0 slot1 slotX "}:endloop0:endloop1"  is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b10 ; slotX & build_branches_3 & build_nv_input_3 & terminator[mode=0;pktid=0;] {
+:{ slot0; slot1; slotX "}:endloop0:endloop1"  is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b10 ; slotX & build_branches_3 & build_nv_input_3 & terminator[mode=0;pktid=0;] {
     prelude();
     build slot0;
     build slot1;
@@ -1895,7 +1922,7 @@ macro endloop1() {
    # 4 ins packets
 
 
-   :{ slot0 slot1 slot2 slotX }          is slot0 & build_branches_1 & build_nv_input_1 & parse=0b01;slot1 & build_branches_2 & build_nv_input_2 & (parse=0b00 | parse=0b01 | parse=0b11);slot2 & build_branches_3 & build_nv_input_3 ; slotX &  build_branches_4 & build_nv_input_4 & terminator [mode=0;pktid=0;] {
+:{ slot0; slot1; slot2; slotX }          is slot0 & build_branches_1 & build_nv_input_1 & parse=0b01;slot1 & build_branches_2 & build_nv_input_2 & (parse=0b00 | parse=0b01 | parse=0b11);slot2 & build_branches_3 & build_nv_input_3 ; slotX &  build_branches_4 & build_nv_input_4 & terminator [mode=0;pktid=0;] {
     prelude();
     build slot0;
     build slot1;
@@ -1915,7 +1942,7 @@ macro endloop1() {
     build terminator;
 }
 
-   :{ slot0 slot1 slot2 slotX "}:endloop0"  is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b01 ; slot2 & build_branches_3 & build_nv_input_3 ; slotX &  build_branches_4 & build_nv_input_4 & terminator[mode=0;pktid=0;] {
+:{ slot0; slot1; slot2; slotX "}:endloop0"  is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b01 ; slot2 & build_branches_3 & build_nv_input_3 ; slotX &  build_branches_4 & build_nv_input_4 & terminator[mode=0;pktid=0;] {
     prelude();
     build slot0;
     build slot1;
@@ -1936,7 +1963,7 @@ macro endloop1() {
 
     build terminator;
 }
-   :{ slot0 slot1 slot2 slotX "}:endloop1"  is slot0 & build_branches_1 & build_nv_input_1 & parse=0b01 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b10;slot2 & build_branches_3 & build_nv_input_3 ; slotX &  build_branches_4 & build_nv_input_4 & terminator [mode=0;pktid=0;] {
+:{ slot0; slot1; slot2; slotX "}:endloop1"  is slot0 & build_branches_1 & build_nv_input_1 & parse=0b01 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b10;slot2 & build_branches_3 & build_nv_input_3 ; slotX &  build_branches_4 & build_nv_input_4 & terminator [mode=0;pktid=0;] {
     prelude();
     build slot0;
     build slot1;
@@ -1957,7 +1984,7 @@ macro endloop1() {
 
     build terminator;
 }
-   :{ slot0 slot1 slot2 slotX "}:endloop0:endloop1"  is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b10;slot2 & build_branches_3 & build_nv_input_3 ; slotX &  build_branches_4 & build_nv_input_4 & terminator [mode=0;pktid=0;] {
+:{ slot0; slot1; slot2; slotX "}:endloop0:endloop1"  is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b10;slot2 & build_branches_3 & build_nv_input_3 ; slotX &  build_branches_4 & build_nv_input_4 & terminator [mode=0;pktid=0;] {
     prelude();
     build slot0;
     build slot1;
@@ -1981,7 +2008,7 @@ macro endloop1() {
 }
 
     # 1 instruction packet
-   :{ slotX }                            is slotX & mode=0 & build_branches & build_nv_input_1 & terminator [mode=0;pktid=0;] {
+:{ slotX }                            is slotX & mode=0 & build_branches & build_nv_input_1 & terminator [mode=0;pktid=0;] {
     prelude();
     build slotX;
 
