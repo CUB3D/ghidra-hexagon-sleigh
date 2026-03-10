@@ -1765,17 +1765,11 @@ slot2: slot                   is slot &  (parse=0b01 | parse=0b10) & iclass [mod
 slotX: slot    is slot & parse=0b11 [mode=0; pktid=pktid+1;]   { build slot; }
 slotX: duplex  is duplex & parse=0b00 [mode=0; pktid=pktid+1;] { build duplex; }
 
+define pcodeop is_warmup_complete;
 macro endloop0() {
-    # Helps with the hardware warmup loops (spNloop0) that use the P3 predicate after N times. This is always doing 1 for now..
-    P3 = PTRUE;
-
-    # TODO: Fix up to do after N times (1-3) through the loop like below, but it's really ugly in decompiled view!
-    # if(USR_LPCFGE == 0) goto <decrement>;
-    # if(USR_LPCFGE != 1) goto <warmup>;
-    # P3=PTRUE;
-    # <warmup>
-    # USR_LPCFGE = USR_LPCFGE - 1;
-    # <decrement>
+    # Helps with the hardware warmup loops (spNloop0) that use the P3 predicate after N times. Note that this is
+    # technically only set if USR.LPCFG == 1, and USR.LPCFG is also decremented if not 0
+    P3 = is_warmup_complete();
  
     if(LC0 <= 1) goto <endl0>;
     LC0 = LC0 - 1;
