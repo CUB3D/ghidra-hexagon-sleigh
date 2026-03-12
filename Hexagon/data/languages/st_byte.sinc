@@ -7,7 +7,7 @@ with slot: iclass=0b0011  {
     }
     :"memb("S5"+"EXT_MEMOP_7_12u_0")=#"S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b00 & S5 & S5i & imm_13 & EXT_MEMOP_7_12u_0 & imm_0_6u [ S8 = (imm_0_6u) | (imm_13 << 7);]{
         local EA:4 = S5i + EXT_MEMOP_7_12u_0;
-        *[ram]:1 EA = S8;
+        *[ram]:1 EA = S8:1;
     }
 }
 
@@ -114,13 +114,13 @@ with slot: iclass=0b0011 {
     :"if(" U2_5_6 ") memb(" S5 "+" u6 ")=" NR_ST_COND_1_s6 is imm_21_27=0b1000000 & S5 & S5i & imm_13 & imm_7_12u & U2_5_6 & U2_5_6i  & imm_0_4u & NR_ST_COND_1_s6  [u6 = imm_7_12u << 0;] {
         if (U2_5_6i == 0) goto <end>;
         local EA:4 = S5i + u6;
-        *[ram]:1 EA = NR_ST_COND_1_s6;
+        *[ram]:1 EA = NR_ST_COND_1_s6:1;
     <end>
     }
     :"if(!" U2_5_6 ") memb(" S5 "+" u6 ")=" NR_ST_COND_1_s6 is imm_21_27=0b1000100 & S5 & S5i & imm_13 & imm_7_12u & U2_5_6 & U2_5_6i  & imm_0_4u & NR_ST_COND_1_s6  [u6 = imm_7_12u << 0;] {
         if (U2_5_6i != 0) goto <end>;
         local EA:4 = S5i + u6;
-        *[ram]:1 EA = NR_ST_COND_1_s6;
+        *[ram]:1 EA = NR_ST_COND_1_s6:1;
     <end>
     }
     :"if(" U2_5_6_pred_new ".new) memb(" S5 "+" u6 ")=" NR_ST_COND_1_s6 is imm_21_27=0b1001000 & S5 & S5i & imm_13 & imm_7_12u & U2_5_6_pred_new & imm_0_4u & NR_ST_COND_1_s6  [u6 = imm_7_12u << 0;] {}
@@ -129,7 +129,7 @@ with slotNV: iclass=0b0011 {
     :"if(" U2_5_6_pred_new ".new) memb(" S5 "+" u6 ")=" BR_ST_COND_1_s6 is imm_21_27=0b1001000 & S5 & S5i & imm_13 & imm_7_12u & U2_5_6_pred_new & imm_0_4u & BR_ST_COND_1_s6 [u6 = imm_7_12u << 0;] {
         if (U2_5_6_pred_new == 0) goto <end>;
         local EA:4 = S5i + u6;
-        *[ram]:1 EA = BR_ST_COND_1_s6;
+        *[ram]:1 EA = BR_ST_COND_1_s6:1;
     <end>
     }
 }
@@ -140,7 +140,7 @@ with slotNV: iclass=0b0011 {
     :"if(!" U2_5_6_pred_new ".new) memb(" S5 "+" u6 ")=" BR_ST_COND_1_s6 is imm_21_27=0b1001100 & S5 & S5i & imm_13 & imm_7_12u & U2_5_6_pred_new & imm_0_4u & BR_ST_COND_1_s6 [u6 = imm_7_12u << 0;] {
         if (U2_5_6_pred_new != 0) goto <end>;
         local EA:4 = S5i + u6;
-        *[ram]:1 EA = BR_ST_COND_1_s6;
+        *[ram]:1 EA = BR_ST_COND_1_s6:1;
     <end>
     }
 }

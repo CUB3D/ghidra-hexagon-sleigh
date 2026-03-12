@@ -20,7 +20,7 @@ with slot: iclass=0b0011  {
     }
     :"memh(" S5 "+" ST_u6_1 ")=" s8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b01 & S5 & S5i & imm_13 & imm_7_12u & imm_0_6u & ST_u6_1 [ s8 = imm_0_6u | (imm_13 << 7);] {
         local EA:4 = S5i + ST_u6_1;
-        *[ram]:2 EA = s8;
+        *[ram]:2 EA = s8:2;
     }
 }
 
@@ -209,13 +209,13 @@ with slot: iclass=0b0011 {
     :"if(" U2_5_6 ") memh(" S5 "+" u6 ")=" NR_ST_COND_1_s6 is imm_21_27=0b1000001 & S5 & S5i & imm_13 & imm_7_12u & U2_5_6 & U2_5_6i & imm_0_4u & NR_ST_COND_1_s6  [u6 = imm_7_12u << 1;] {
         if (U2_5_6i == 0) goto <end>;
         local EA:4 = S5i + u6;
-        *[ram]:2 EA = NR_ST_COND_1_s6;
+        *[ram]:2 EA = NR_ST_COND_1_s6:2;
     <end>
     }
     :"if(!" U2_5_6 ") memh(" S5 "+" u6 ")=" NR_ST_COND_1_s6 is imm_21_27=0b1000101 & S5 & S5i & imm_13 & imm_7_12u & U2_5_6 & U2_5_6i & imm_0_4u & NR_ST_COND_1_s6  [u6 = imm_7_12u << 1;] {
         if (U2_5_6i != 0) goto <end>;
         local EA:4 = S5i + u6;
-        *[ram]:2 EA = NR_ST_COND_1_s6;
+        *[ram]:2 EA = NR_ST_COND_1_s6:2;
     <end>
     }
     
@@ -225,7 +225,7 @@ with slotNV: iclass=0b0011 {
     :"if(" U2_5_6_pred_new ".new) memh(" S5 "+" u6 ")=" BR_ST_COND_1_s6 is imm_21_27=0b1001001 & S5 & S5i & imm_13 & imm_7_12u & U2_5_6_pred_new & imm_0_4u & BR_ST_COND_1_s6 [u6 = imm_7_12u << 1;] {
         if (U2_5_6_pred_new == 0) goto <end>;
         local EA:4 = S5i + u6;
-        *[ram]:2 EA = BR_ST_COND_1_s6;
+        *[ram]:2 EA = BR_ST_COND_1_s6:2;
     <end>
     }
 }
@@ -236,7 +236,7 @@ with slotNV: iclass=0b0011 {
     :"if(!" U2_5_6_pred_new ".new) memh(" S5 "+" u6 ")=" BR_ST_COND_1_s6 is imm_21_27=0b1001101 & S5 & S5i & imm_13 & imm_7_12u & U2_5_6_pred_new & imm_0_4u & BR_ST_COND_1_s6 [u6 = imm_7_12u << 1;] {
         if (U2_5_6_pred_new != 0) goto <end>;
         local EA:4 = S5i + u6;
-        *[ram]:2 EA = BR_ST_COND_1_s6;
+        *[ram]:2 EA = BR_ST_COND_1_s6:2;
     <end>
     }
 }
