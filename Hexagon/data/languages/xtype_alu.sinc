@@ -24,7 +24,7 @@ with slot: iclass=0b1000  {
 
     :D5 "=abs(" S5 "):sat" is imm_21_27=0b1100100 & S5 & S5i & imm_8_13=0 & imm_5_7=0b101 & D5 & OUTPUT_D5 {
         local tmp:4 = abs(S5i);
-        if(tmp == 0x80000000) goto <end>;
+        if(tmp != 0x80000000) goto <end>;
         tmp = 0x7fffffff;
         <end>
         D5 = tmp;
