@@ -52,6 +52,10 @@ int test_s3_new() {
    return 0;
 }
 
+int test_ext_store() {
+    asm("{ memb(r0+#0x0)=##0xAABBCC}");
+}
+
 int test_decomp() {
 	int x = rand() * 100000;
 	int y = 0;

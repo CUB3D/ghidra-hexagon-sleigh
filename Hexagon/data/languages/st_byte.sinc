@@ -1,13 +1,17 @@
 
+EXT_ST_S8:S8  is imm_0_6u & imm_13 & IS_NOT_EXT [ S8 = (imm_0_6u) | (imm_13 << 8);] { export *[const]:4 S8; }
+EXT_ST_S8:S8  is imm_0_5u & IS_EXT0 & immext0 [ S8 = (immext0 | imm_0_5u); ] { export *[const]:4 S8; }
+EXT_ST_S8:S8  is imm_0_5u & IS_EXT1 & immext1 [ S8 = (immext1 | imm_0_5u); ] { export *[const]:4 S8; }
+
 # ST:Store by
 with slot: iclass=0b0011  {
     :"memb(" S5 "+" T5 "<<" u2 ")=" D5 is imm_21_27=0b1011000 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & imm_5_6=0 & D5 & D5i [u2 = imm_7u | (imm_13u << 1); ]  {
         local EA:4 = (S5i + T5i) << u2;
         *[ram]:1 EA = D5i:1;
     }
-    :"memb("S5"+"EXT_MEMOP_7_12u_0")=#"S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b00 & S5 & S5i & imm_13 & EXT_MEMOP_7_12u_0 & imm_0_6u [ S8 = (imm_0_6u) | (imm_13 << 7);]{
-        local EA:4 = S5i + EXT_MEMOP_7_12u_0;
-        *[ram]:1 EA = S8:1;
+    :"memb("S5"+"imm_7_12u")=#"EXT_ST_S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b00 & S5 & S5i & imm_7_12u & EXT_ST_S8 {
+        local EA:4 = S5i + imm_7_12u;
+        *[ram]:1 EA = EXT_ST_S8:1;
     }
 }
 
