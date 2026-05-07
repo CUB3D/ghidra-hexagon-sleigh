@@ -4,8 +4,7 @@ This is an implementation of the Qualcomm Hexagon "QDSP6" architecture in Ghidra
 
 
 Features:
-- Dissassembly of v66/v67/v68/v73/v75/v79, all instructions supported
-- Supports HVX up to v79
+- Disassembly of v66 through v81 (scalar + HVX); pcode semantics complete through v73, with the v79/v81 HVX FP8 / qf16 / qf32 / vcmp.eq families and the v81 Y2_tlbpp decoded as stubs
 - Most commonly used constant extenders supported
 - No broken java plugins needed
 - Support for hardware loops (The first implementation to do so)
