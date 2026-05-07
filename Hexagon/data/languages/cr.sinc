@@ -99,7 +99,6 @@ with slot: iclass=0b0110  {
     }
 }
 
-
 #CR: Logical predicates 
 with slot: iclass=0b0110  {
     :D2_pred_new"=and("T2_pred", "S2_pred")" is imm_20_27=0b10110000 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & imm_2_7=0 & D2_pred_new {
@@ -123,10 +122,10 @@ with slot: iclass=0b0110  {
     }
 
     :D2_pred_new"=or("S2_pred", and("T2_pred","U2_pred"))" is imm_20_27=0b10110101 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & U2_pred & U2_predi & imm_2_5=0 & D2_pred_new {
-        D2_pred_new = S2_predi & (T2_predi | U2_predi);
+        D2_pred_new = S2_predi | (T2_predi & U2_predi);
     }
 
-    :D2_pred"=and("T2_pred", !"S2_pred")" is imm_20_27=0b10110110 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & imm_2_7=0 & D2_pred & D2_pred_new {
+    :D2_pred_new"=and("T2_pred", !"S2_pred")" is imm_20_27=0b10110110 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & imm_2_7=0 & D2_pred_new {
         D2_pred_new = T2_predi & (~S2_predi);
     }
 
