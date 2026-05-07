@@ -20,12 +20,14 @@ with slotB: iclass=0b0101 {
 
     :"if ("U2_pred") callr" S5 is imm_21_27=0b0001000 & S5 & S5i & imm_10_13=0 & U2_pred & U2_predi & imm_0_7=0 {
         if(U2_predi == 0) goto <end>;
+        LR=inst_next;
         call [S5i];
         <end>
     }
-    
+
     :"if (!"U2_pred") callr" S5 is imm_21_27=0b0001001 & S5 & S5i & imm_10_13=0 & U2_pred & U2_predi & imm_0_7=0 {
         if(U2_predi != 0) goto <end>;
+        LR=inst_next;
         call [S5i];
         <end>
     }
@@ -40,7 +42,6 @@ with slot: iclass=0b0101  {
         hintjr(S5i);
     }
 }
-
 
 # JR:Jump to addr from reg
  with slot: iclass=0b0101  {
