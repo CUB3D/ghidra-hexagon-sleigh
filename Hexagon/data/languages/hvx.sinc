@@ -79,14 +79,14 @@ with slot: iclass=0b0001 {
    }
 
    :Qd4 "= and(" Qs4 ",!" Qt4 ")" is imm_24_27=0b1110 & Qt4 & imm_21=0 & imm_18_20=0 & imm_16_17=0b11 & imm_13=0 & imm_10_12=0 & Qs4 & imm_2_7=0b000101 & Qd4 {
-    Qd4 = Qs4 | (~Qt4);
+    Qd4 = Qs4 & (~Qt4);
    }
 
-   :Qd4 ".b = vshuffle(" Qs4 ".h, " Qt4 ".h)" is imm_24_27=0b1110 & Qt4 & imm_21=0 & imm_18_20=0 & imm_16_17=0b11 & imm_13=0 & imm_10_12=0 & Qs4 & imm_2_7=0b000110 & Qd4 {
+   :Qd4 ".b = vshuffe(" Qs4 ".h, " Qt4 ".h)" is imm_24_27=0b1110 & Qt4 & imm_21=0 & imm_18_20=0 & imm_16_17=0b11 & imm_13=0 & imm_10_12=0 & Qs4 & imm_2_7=0b000110 & Qd4 {
     _vstub();
    }
 
-   :Qd4 ".w = vshuffle(" Qs4 ".w, " Qt4 ".w)" is imm_24_27=0b1110 & Qt4 & imm_21=0 & imm_18_20=0 & imm_16_17=0b11 & imm_13=0 & imm_10_12=0 & Qs4 & imm_2_7=0b000111 & Qd4 {
+   :Qd4 ".w = vshuffe(" Qs4 ".w, " Qt4 ".w)" is imm_24_27=0b1110 & Qt4 & imm_21=0 & imm_18_20=0 & imm_16_17=0b11 & imm_13=0 & imm_10_12=0 & Qs4 & imm_2_7=0b000111 & Qd4 {
     _vstub();
    }
 }
@@ -377,7 +377,7 @@ with slot: iclass=0b0001 {
     :VD5 ".w,"Qs4" = vadd(" VT5 ".w," VS5".w):carry" is imm_21_27=0b1101101 & VS5 & imm_13=1 & VT5 & imm_7=0 & Qs4 & VD5 {
         _vstub();
     }       
-    :VD5 ".w,"Qs4" = vusb(" VT5 ".w," VS5".w):carry" is imm_21_27=0b1101101 & VS5 & imm_13=1 & VT5 & imm_7=1 & Qs4 & VD5 {
+    :VD5 ".w,"Qs4" = vsub(" VT5 ".w," VS5".w):carry" is imm_21_27=0b1101101 & VS5 & imm_13=1 & VT5 & imm_7=1 & Qs4 & VD5 {
         _vstub();
     }       
 }
@@ -954,8 +954,6 @@ with slot: iclass=0b0010 {
 	}
 }
 
-
-
 # HVX/MPY DOUBLE RESOURCE
 # 3x3 multiply for 2x2 tile
 with slot: iclass=0b0001 {
@@ -1053,14 +1051,13 @@ with slot: iclass=0b0001 {
     :VD5_pair".h = vmpa("VD5_pair_dup".h,"VT5_pair".h,"VS5_pair".h):sat" is imm_21_27=0b1001100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b100 & VD5_pair & VD5_pair_dup {
         _vstub();
     }
-    :VD5_pair".h = vmpa("VD5_pair_dup".uh,"VT5_pair".uh,"VS5_pair".uh):sat" is imm_21_27=0b1001100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b101 & VD5_pair & VD5_pair_dup {
+    :VD5_pair".h = vmpa("VD5_pair_dup".h,"VT5_pair".uh,"VS5_pair".uh):sat" is imm_21_27=0b1001100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b101 & VD5_pair & VD5_pair_dup {
         _vstub();
     }
-    :VD5_pair".h = vmpa("VD5_pair_dup".h,"VT5_pair".uh,"VS5_pair".uh):sat" is imm_21_27=0b1001100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b110 & VD5_pair & VD5_pair_dup {
+    :VD5_pair".h = vmps("VD5_pair_dup".h,"VT5_pair".uh,"VS5_pair".uh):sat" is imm_21_27=0b1001100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b110 & VD5_pair & VD5_pair_dup {
         _vstub();
     }
 }
-
 
 # Multiply - add
 with slot: iclass=0b0001 {
@@ -1226,9 +1223,9 @@ with slot: iclass=0b0001 {
     :VD5_pair".qf16 = vmpy("VT5_pair".qf16,"S5".hf)" is imm_21_27=0b1010000 & S5 & imm_13=1 & VT5_pair & imm_5_7=0b010 & VD5_pair {
         _vstub();
     }           
-    :VD5_pair".qf16 = vmpy("VT5_pair".qf16,"S5".hf)" is imm_21_27=0b1010000 & S5 & imm_13=1 & VT5_pair & imm_5_7=0b011 & VD5_pair {
+    :VD5_pair".qf16 = vmpy("VT5_pair".hf,"S5".hf)" is imm_21_27=0b1010000 & S5 & imm_13=1 & VT5_pair & imm_5_7=0b011 & VD5_pair {
         _vstub();
-    }           
+    }
 }
 
 # Floating point multiply - single precision
@@ -1427,7 +1424,6 @@ with slot: iclass=0b0001 {
         _vstub();
     }   
 }
-
 
 # Multiply half of the elements
 with slot: iclass=0b0001 {
@@ -1650,11 +1646,10 @@ with slot: iclass=0b0001 {
     :Qd4" = vsetq("S5")" is imm_21_27=0b1001101 & S5 & imm_13=0 & imm_8_12=0 & imm_5_7=0b010 & imm_4=0 & imm_2_3=0b01 & Qd4 {
         _vstub();
     }   
-    :Qd4" = vsetq1("S5")" is imm_21_27=0b1001101 & S5 & imm_13=0 & imm_8_12=0 & imm_5_7=0b010 & imm_4=0 & imm_2_3=0b11 & Qd4 {
+    :Qd4" = vsetq2("S5")" is imm_21_27=0b1001101 & S5 & imm_13=0 & imm_8_12=0 & imm_5_7=0b010 & imm_4=0 & imm_2_3=0b11 & Qd4 {
         _vstub();
     }
 }
-
 
 # Vector in-lane lookup table
 with slot: iclass=0b0001 {
@@ -1938,7 +1933,6 @@ with slot: iclass=0b0001 {
 
 	# Rest overlaps with narrowing shift
 }
-
 
 # Narrowing shift by vector
 with slot: iclass=0b0001 {
