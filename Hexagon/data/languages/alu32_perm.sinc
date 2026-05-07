@@ -11,7 +11,6 @@ with slot: iclass=0b0111  {
         *[register]:4 tmp = S5i;
     }
 
-
 #TODO: check ext sign
     :D5_pair"=combine("NR_EXT_imm_5_12u","S5")" is Rs=0 & MajOp=0b011 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=1 & NR_EXT_imm_5_12u & D5_pair {
         local tmp:4 = &D5_pair;
@@ -35,28 +34,28 @@ with slot: iclass=0b0111  {
     }
 }
 with slot: iclass=0b1111  {
-    :D5 "=combine(" T5".H" S5".H)" is Rs=0 & MajOp=0b011 & MinOp=0b100 & S5 & S5i & imm_13 & T5 & T5i & imm_5_7=0 & D5 & OUTPUT_D5 {
+    :D5 "=combine(" T5".H," S5".H)" is Rs=0 & MajOp=0b011 & MinOp=0b100 & S5 & S5i & imm_13 & T5 & T5i & imm_5_7=0 & D5 & OUTPUT_D5 {
         local al:2 = T5i(2);
         local bl:2 = S5i(2);
         local al4:4 = zext(al);
         local bl4:4 = zext(bl);
         D5 = (al4 << 16) | bl4;
     }
-    :D5 "=combine(" T5".H" S5".L)" is Rs=0 & MajOp=0b011 & MinOp=0b101 & S5 & S5i & imm_13 & T5 & T5i & imm_5_7=0 & D5 & OUTPUT_D5 {
+    :D5 "=combine(" T5".H," S5".L)" is Rs=0 & MajOp=0b011 & MinOp=0b101 & S5 & S5i & imm_13 & T5 & T5i & imm_5_7=0 & D5 & OUTPUT_D5 {
         local al:2 = T5i(2);
         local bl:2 = S5i:2;
         local al4:4 = zext(al);
         local bl4:4 = zext(bl);
         D5 = (al4 << 16) | bl4;
     }
-    :D5 "=combine(" T5".L" S5".H)" is Rs=0 & MajOp=0b011 & MinOp=0b110 & S5 & S5i & imm_13 & T5 & T5i & imm_5_7=0 & D5 & OUTPUT_D5 {
+    :D5 "=combine(" T5".L," S5".H)" is Rs=0 & MajOp=0b011 & MinOp=0b110 & S5 & S5i & imm_13 & T5 & T5i & imm_5_7=0 & D5 & OUTPUT_D5 {
         local al:2 = T5i:2;
         local bl:2 = S5i(2);
         local al4:4 = zext(al);
         local bl4:4 = zext(bl);
         D5 = (al4 << 16) | bl4;
     }
-    :D5 "=combine(" T5".L" S5".L)" is Rs=0 & MajOp=0b011 & MinOp=0b111 & S5 & S5i & imm_13 & T5 & T5i & imm_5_7=0 & D5 & OUTPUT_D5 {
+    :D5 "=combine(" T5".L," S5".L)" is Rs=0 & MajOp=0b011 & MinOp=0b111 & S5 & S5i & imm_13 & T5 & T5i & imm_5_7=0 & D5 & OUTPUT_D5 {
         local al:2 = T5i:2;
         local bl:2 = S5i:2;
         local al4:4 = zext(al);
