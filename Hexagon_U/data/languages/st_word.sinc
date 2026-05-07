@@ -1,9 +1,9 @@
 
 # ST:Store word
 with slot: iclass=0b0011  {
-    :"memw("S5"+"T5"<<"u2")=" D5 is imm_21_27=0b1011100 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & imm_5_6=0 & D5 [ u2 = imm_7u | (imm_13u << 1);] { 
+    :"memw("S5"+"T5"<<"u2")=" D5 is imm_21_27=0b1011100 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & imm_5_6=0 & D5 & D5i [ u2 = imm_7u | (imm_13u << 1);] {
         local EA:4 = S5i + (T5i << u2);
-        *[ram]:4 EA = D5;
+        *[ram]:4 EA = D5i;
     }
     :"memw("S5"+"U6")=#"EXT_ST_S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b10 & S5 & S5i & imm_7_12u & EXT_ST_S8 [ U6 = imm_7_12u << 2; ] {
         local EA:4 = S5i + U6;
@@ -16,7 +16,7 @@ MEMW_GP_ADD:v is IS_EXT0 & immext0 & imm_0_5u [v = imm_0_5u | immext0; ] { expor
 MEMW_GP_ADD:v is IS_EXT1 & immext1 & imm_0_5u [v = imm_0_5u | immext1; ] { export *[const]:4 v; }
 
 with slot: iclass=0b0100 {
-    :"memw("MEMW_GP_ADD")="T5 is imm_27=1 & imm_21_24=0b0100 & T5 & T5i & immext0 & MEMW_GP_ADD {
+    :"memw("MEMW_GP_ADD")="T5 is imm_27=1 & imm_21_24=0b0100 & T5 & T5i & MEMW_GP_ADD {
         *[ram]:4 MEMW_GP_ADD = T5i;
     }
 }
@@ -66,9 +66,9 @@ with slot: iclass=0b1010  {
         S5 = S5i + M1_13;
         *[ram]:4 EA = T5i;
      }
-    :"memb(" S5 "++" M1_13 ":brev)=" T5 is imm_21_27=0b1111100 & S5 & S5i & M1_13 & T5 & T5i & imm_7=0 & imm_0_6=0 {
-        local rx_h:2 = S5i(2);
-        local EA:4 = zext(rx_h | brev(S5i:2));
+    :"memw(" S5 "++" M1_13 ":brev)=" T5 is imm_21_27=0b1111100 & S5 & S5i & M1_13 & T5 & T5i & imm_7=0 & imm_0_6=0 {
+        local EA:4 = 0;
+        brev_ea(EA, S5i);
         S5 = S5i+M1_13;
         *[ram]:4 EA = T5i;
      }
@@ -154,7 +154,6 @@ BR_ST_W_COND_0_u6: s6 is imm_3_7u & imm_13u & immext0pos=pktid & immext0 [s6 = (
 NR_ST_W_COND_0_u6: s6 is imm_3_7u & imm_13u & IS_EXT1 & immext1 [s6 = (imm_3_7u | (imm_13u << 5)) | immext1; immext1pos=pktid;] { export *[const]:4 s6; }
 BR_ST_W_COND_0_u6: s6 is imm_3_7u & imm_13u & immext1pos=pktid & immext1 [s6 = (imm_3_7u | (imm_13u << 5)) | immext1; ] { export *[const]:4 s6; }
 
-
 with slot: iclass=0b0100 {
     :"if(" D2_pred ") memw(" S5 "+" NR_ST_W_COND_0_u6 ")=" T5 is imm_21_27=0b0000100 & S5 & S5i & imm_13u & T5 & T5i & imm_3_7u & imm_2=0 & D2_pred & D2_predi & NR_ST_W_COND_0_u6  {
         if (D2_predi == 0) goto <end>;
@@ -195,7 +194,7 @@ with slot: iclass=0b1010 {
         if (D2_predi == 0) goto <end>;
         local EA:4 = S5i;
         S5 = S5i + s4;
-        *[ram]:4 EA = T5;
+        *[ram]:4 EA = T5i;
     <end>
     }
     :"if(" D2_pred_new ".new) memw(" S5 "++" s4 ")=" T5 is imm_21_27=0b1011100 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & imm_3_6 & imm_2=1 & D2_pred_new  [ s4 = imm_3_6 << 2;] {}
@@ -279,7 +278,7 @@ with slot: iclass=0b1010 {
         if (D2_predi == 0) goto <end>;
         local EA:4 = S5i;
         S5 = S5i + s4;
-        *[ram]:4 EA = T5;
+        *[ram]:4 EA = T5i;
     <end>
     }
 

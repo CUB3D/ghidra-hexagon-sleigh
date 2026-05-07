@@ -1,12 +1,12 @@
 
-EXT_ST_S8:S8  is imm_0_6u & imm_13 & IS_NOT_EXT [ S8 = (imm_0_6u) | (imm_13 << 8);] { export *[const]:4 S8; }
+EXT_ST_S8:S8  is imm_0_6u & imm_13 & IS_NOT_EXT [ S8 = imm_0_6u | (imm_13 << 7) | (imm_13 * 0xFFFFFF80);] { export *[const]:4 S8; }
 EXT_ST_S8:S8  is imm_0_5u & IS_EXT0 & immext0 [ S8 = (immext0 | imm_0_5u); ] { export *[const]:4 S8; }
 EXT_ST_S8:S8  is imm_0_5u & IS_EXT1 & immext1 [ S8 = (immext1 | imm_0_5u); ] { export *[const]:4 S8; }
 
 # ST:Store by
 with slot: iclass=0b0011  {
     :"memb(" S5 "+" T5 "<<" u2 ")=" D5 is imm_21_27=0b1011000 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & imm_5_6=0 & D5 & D5i [u2 = imm_7u | (imm_13u << 1); ]  {
-        local EA:4 = (S5i + T5i) << u2;
+        local EA:4 = S5i + (T5i << u2);
         *[ram]:1 EA = D5i:1;
     }
     :"memb("S5"+"imm_7_12u")=#"EXT_ST_S8 is imm_25_27=0b110 & imm_23_24=0 & imm_21_22=0b00 & S5 & S5i & imm_7_12u & EXT_ST_S8 {
@@ -28,7 +28,6 @@ with slot: iclass=0b0100  {
 ST_s11_0: s11 is imm_25_26 & imm_13u & imm_0_7u & IS_NOT_EXT [s11 = (imm_0_7u | (imm_13u << 8) | (imm_25_26 << 9)) << 0;] { export *[const]:4 s11; }
 ST_s11_0: s11 is IS_EXT0 & immext0 & imm_0_5u [s11 = immext0 | imm_0_5u; ] { export *[const]:4 s11; }
 ST_s11_0: s11 is IS_EXT1 & immext1 & imm_0_5u [s11 = immext1 | imm_0_5u; ] { export *[const]:4 s11; }
-
 
 with slot: iclass=0b1010  {
     :"memb("S5"+"ST_s11_0")="T5 is imm_27=0 & imm_25_26 & imm_21_24=0b1000 & S5 & S5i & imm_13u & T5 & T5i & imm_0_7u & ST_s11_0 {
@@ -71,8 +70,8 @@ with slot: iclass=0b1010  {
         *[ram]:1 EA = T5i:1;
      }
      :"memb(" S5 "++" M1_13 ":brev)=" T5 is imm_21_27=0b1111000 & S5 & S5i & M1_13 & T5 & T5i & imm_7=0 & imm_0_6=0 {
-        local rx_h:2 = S5i(2);
-        local EA:4 = zext(rx_h | brev(S5i:2));
+        local EA:4 = 0;
+        brev_ea(EA, S5i);
         S5 = S5i+M1_13;
         *[ram]:1 EA = T5i:1;
      }
