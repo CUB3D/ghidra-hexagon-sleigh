@@ -329,7 +329,7 @@ with slot: iclass=0b1101  {
         <end>
     }
     :D5 "=minu(" T5 "," S5 ")" is imm_21_27=0b0101101 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=1 & imm_5_6=0 & D5 & OUTPUT_D5 {
-        if (T5i s< S5i) goto <p2>;
+        if (T5i < S5i) goto <p2>;
         D5 = S5i;
         goto <end>;
         <p2>
@@ -342,10 +342,7 @@ with slot: iclass=0b1101  {
 define pcodeop min;
 with slot: iclass=0b1101  {
     :D5_pair "=min(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b110 & D5_pair {
-        D5_pair = min(T5_pairi, S5_pairi);
-        
-        
-        if (D5_pair s< S5_pairi) goto <p2>;
+        if (T5_pairi s< S5_pairi) goto <p2>;
         D5_pair = S5_pairi;
         goto <end>;
         <p2>
@@ -365,7 +362,16 @@ with slot: iclass=0b1101  {
 # XTYPE/ALU:Modulo wrap
 with slot: iclass=0b1101  {
     :D5 "=modwrap(" S5 "," T5 ")" is imm_21_27=0b0011111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 & OUTPUT_D5 {
-        D5 = S5i % T5i;
+        if(S5i s< 0) goto <neg>;
+        if(S5i >= T5i) goto <hi>;
+        D5 = S5i;
+        goto <end>;
+        <neg>
+        D5 = S5i + T5i;
+        goto <end>;
+        <hi>
+        D5 = S5i - T5i;
+        <end>
     }
 }
 
@@ -384,6 +390,7 @@ with slot: iclass=0b1000  {
 define pcodeop round_sat;
 define pcodeop cround;
 define pcodeop round_;
+define pcodeop round_imm_sat;
 
 with slot: iclass=0b1000  {
     :D5 "=round(" S5_pair "):sat" is imm_21_27=0b1000110 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b001 & D5 & OUTPUT_D5 {
@@ -396,7 +403,7 @@ with slot: iclass=0b1000  {
         D5 = round_(S5i, imm_8_12u:1);
     }
     :D5 "=round(" S5 "," imm_8_12u "):sat" is imm_21_27=0b1100111 & S5 & S5i & imm_13=0 & imm_8_12u & imm_6_7=0b11 & imm_5=0 & D5 & OUTPUT_D5 {
-        D5 = round_(S5i, imm_8_12u:1);
+        D5 = round_imm_sat(S5i, imm_8_12u:1);
     }
     :D5_pair "=cround(" S5_pair "," imm_8_13u ")"  is imm_21_27=0b1100111 & S5_pair & S5_pairi & imm_8_13u & imm_6_7=0b01 & imm_5=0 & D5_pair {
         D5_pair = cround(S5_pairi, imm_8_13u:1);
@@ -565,7 +572,7 @@ with slot: iclass=0b1110  {
 # XTYPE/ALU:vector add cmp and sel max hw
 define pcodeop vacsh;
 with slot: iclass=0b1110  {
-    :D5_pair "," U2_5_6 "=vacsh(" S5_pair "," T5_pair ")" is imm_21_27=0b1010101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_7=0 & U2_5_6 & D5_pair {
+    :D5_pair "," U2_5_6 "=vacsh(" S5_pair "," T5_pair ")" is imm_21_27=0b1010101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_7=0 & U2_5_6 & D5_pair & D5_pairi {
         local tmp:8 = vacsh(S5_pairi, T5_pairi);
         D5_pair = zext(tmp:4);
         U2_5_6 = tmp(1);
@@ -600,8 +607,8 @@ with slot: iclass=0b1110  {
     :D5_pair "=vraddub(" S5_pair "," T5_pair ")" is imm_21_27=0b1000010 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5_pair {
         D5_pair = vraddub(S5_pairi, T5_pairi);
     }
-    :D5_pair "+=vraddub(" S5_pair "," T5_pair ")" is imm_21_27=0b1010010 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5_pair {
-        D5_pair = D5_pair + vraddub(S5_pairi, T5_pairi);
+    :D5_pair "+=vraddub(" S5_pair "," T5_pair ")" is imm_21_27=0b1010010 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5_pair & D5_pairi {
+        D5_pair = D5_pairi + vraddub(S5_pairi, T5_pairi);
     }
 }
 
@@ -700,6 +707,8 @@ define pcodeop vavguw_rnd;
 
 define pcodeop vnavgw;
 define pcodeop vnavgw_rnd;
+define pcodeop vnavgw_rnd_sat;
+define pcodeop vnavgw_crnd_sat;
 
 define pcodeop vavgw_rnd_sat;
 define pcodeop vavgw_crnd_sat;
@@ -723,11 +732,11 @@ with slot: iclass=0b1101  {
     :D5_pair "=vnavgw(" S5_pair "," T5_pair ")" is imm_21_27=0b0011100 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & D5_pair {
         D5_pair = vnavgw(S5_pairi, T5_pairi);
     }
-    :D5_pair "=vavgw(" S5_pair "," T5_pair "):rnd:sat" is imm_21_27=0b0011100 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_6_7=0b10 & imm_5=0 & D5_pair {
-        D5_pair = vavgw_rnd_sat(S5_pairi, T5_pairi);
+    :D5_pair "=vnavgw(" S5_pair "," T5_pair "):rnd:sat" is imm_21_27=0b0011100 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_6_7=0b10 & imm_5=0 & D5_pair {
+        D5_pair = vnavgw_rnd_sat(S5_pairi, T5_pairi);
     }
-    :D5_pair "=vavgw(" S5_pair "," T5_pair "):crnd:sat" is imm_21_27=0b0011100 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_6_7=0b11 & imm_5=0 & D5_pair {
-        D5_pair = vavgw_crnd_sat(S5_pairi, T5_pairi);
+    :D5_pair "=vnavgw(" S5_pair "," T5_pair "):crnd:sat" is imm_21_27=0b0011100 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_6_7=0b11 & imm_5=0 & D5_pair {
+        D5_pair = vnavgw_crnd_sat(S5_pairi, T5_pairi);
     }
 }
 
@@ -746,7 +755,7 @@ with slot: iclass=0b1100  {
     :D5_pair "=vcnegh(" S5_pair "," T5 ")" is imm_22_27=0b001111 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_6_7=0b01 & imm_5=0 & D5_pair {
         D5_pair = vcnegh(S5_pairi, T5i);
     }
-    :D5_pair "=vrcnegh(" S5_pair "," T5 ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=1 & T5 & T5i & imm_5_7=0b111 & D5_pair & D5_pairi {
+    :D5_pair "+=vrcnegh(" S5_pair "," T5 ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=1 & T5 & T5i & imm_5_7=0b111 & D5_pair & D5_pairi {
         D5_pair = D5_pairi + vrcnegh(S5_pairi, T5i);
     }
 }
@@ -767,10 +776,10 @@ with slot: iclass=0b1101  {
 define pcodeop vmaxhw;
 define pcodeop vmaxuhw;
 with slot: iclass=0b1101  {
-    :D5_pair "=vmaxhw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5_pair {
+    :D5_pair "=vmaxh(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5_pair {
         D5_pair = vmaxhw(T5_pairi, S5_pairi);
     }
-    :D5_pair "=vmaxuhw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {
+    :D5_pair "=vmaxuh(" T5_pair "," S5_pair ")" is imm_21_27=0b0011110 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {
         D5_pair = vmaxuhw(T5_pairi, S5_pairi);
     }
 }
@@ -779,10 +788,10 @@ with slot: iclass=0b1101  {
 define pcodeop vrmaxhw;
 define pcodeop vrmaxuhw;
 with slot: iclass=0b1100  {
-    :T5_pair "=vrmaxhw(" S5_pair "," D5 ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5 & D5i {
+    :T5_pair "=vrmaxh(" S5_pair "," D5 ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5 & D5i {
         T5_pair = vrmaxhw(S5_pairi, D5i);
     }
-    :T5_pair "=vrmaxuhw(" S5_pair "," D5 ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=1 & T5_pair & T5_pairi & imm_5_7=0b001 & D5 & D5i {
+    :T5_pair "=vrmaxuh(" S5_pair "," D5 ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=1 & T5_pair & T5_pairi & imm_5_7=0b001 & D5 & D5i {
         T5_pair = vrmaxuhw(S5_pairi, D5i);
     }
 }
@@ -834,10 +843,10 @@ with slot: iclass=0b1110  {
 define pcodeop vminhw;
 define pcodeop vminuhw;
 with slot: iclass=0b1101  {
-    :D5_pair "=vminhw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5_pair {
+    :D5_pair "=vminh(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5_pair {
         D5_pair = vminhw(T5_pairi, S5_pairi);
     }
-    :D5_pair "=vminuhw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {
+    :D5_pair "=vminuh(" T5_pair "," S5_pair ")" is imm_21_27=0b0011101 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {
         D5_pair = vminuhw(T5_pairi, S5_pairi);
     }
 }
@@ -846,10 +855,10 @@ with slot: iclass=0b1101  {
 define pcodeop vrminhw;
 define pcodeop vrminuhw;
 with slot: iclass=0b1100  {
-    :D5_pair "=vrminhw(" T5_pair "," S5_pair ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair {
+    :D5_pair "=vrminh(" T5_pair "," S5_pair ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair {
         D5_pair = vrminhw(T5_pairi, S5_pairi);
     }
-    :D5_pair "=vrminuhw(" T5_pair "," S5_pair ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=1 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair {
+    :D5_pair "=vrminuh(" T5_pair "," S5_pair ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=1 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair {
         D5_pair = vrminuhw(T5_pairi, S5_pairi);
     }
 }
@@ -884,8 +893,8 @@ with slot: iclass=0b1110  {
     :D5_pair "=vrsadub(" S5_pair "," T5_pair ")" is imm_21_27=0b1000010 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {
         D5_pair = vrsadub(S5_pairi, T5_pairi);
     }
-    :D5_pair "+=vrsadub(" S5_pair "," T5_pair ")" is imm_21_27=0b1010010 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {
-        D5_pair = D5_pair + vrsadub(S5_pairi, T5_pairi);
+    :D5_pair "+=vrsadub(" S5_pair "," T5_pair ")" is imm_21_27=0b1010010 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair & D5_pairi {
+        D5_pair = D5_pairi + vrsadub(S5_pairi, T5_pairi);
     }
 }
 
@@ -916,7 +925,6 @@ with slot: iclass=0b1101  {
         D5_pair = vsubub_sat(T5_pairi, S5_pairi);
     }
 }
-
 
 # XTYPE/ALU:vector sub words
 define pcodeop vsubw;
