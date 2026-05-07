@@ -1,14 +1,14 @@
 
 #ld:load ub
 with slot: iclass=0b0011  {
-    :D5"=memub("S5"+"T5" << #"u2")" is imm_21_27=0b1010001 & S5 & S5i & imm_13 & T5 & T5i & imm_7u & imm_5_6=0 & D5 & OUTPUT_D5 [ u2 = (imm_7u) | (imm_13 << 1);]  {
+    :D5"=memub("S5"+"T5" << #"u2")" is imm_21_27=0b1010001 & S5 & S5i & imm_13u & T5 & T5i & imm_7u & imm_5_6=0 & D5 & OUTPUT_D5 [ u2 = (imm_7u) | (imm_13u << 1);]  {
         local tmp2:4 = S5i + (T5i << u2);
         local tmp3:1 = *[ram]:1 tmp2;
         D5=zext(tmp3);
     }
 }
 
-LD_MEMUB_GP_ADD:"GP+"v is imm_5_13u & imm_16_20u & imm_25_26 & IS_NOT_EXT [v = (imm_5_13u | (imm_16_20u<<9) | (imm_25_26 <<14));] { local tmp:4 = GP + v; export *[const]:4 tmp; }
+LD_MEMUB_GP_ADD:"GP+"v is imm_5_13u & imm_16_20u & imm_25_26u & IS_NOT_EXT [v = (imm_5_13u | (imm_16_20u<<9) | (imm_25_26u <<14));] { local tmp:4 = GP + v; export *[const]:4 tmp; }
 LD_MEMUB_GP_ADD:v is IS_EXT0 & immext0 & imm_5_10u [v = imm_5_10u | immext0; ] { export *[const]:4 v; }
 LD_MEMUB_GP_ADD:v is IS_EXT1 & immext1 & imm_5_10u [v = imm_5_10u | immext1; ] { export *[const]:4 v; }
 
@@ -62,20 +62,18 @@ with slot: iclass=0b1001  {
         D5 = zext(*[ram]:1 EA);
     }
 
-    :D5 "=memb(" S5 "++" M1_13 ")" is imm_21_27=0b1101001 & S5 & S5i & M1_13 & imm_12=0 & imm_8_12=0 & imm_7=0 & imm_5_6=0 & D5 & OUTPUT_D5 {
+    :D5 "=memub(" S5 "++" M1_13 ")" is imm_21_27=0b1101001 & S5 & S5i & M1_13 & imm_12=0 & imm_8_12=0 & imm_7=0 & imm_5_6=0 & D5 & OUTPUT_D5 {
         local EA:4 = S5i;
         S5 = S5i+M1_13;
         D5 = zext(*[ram]:1 EA);
     }
-    :D5 "=memb(" S5 "++" M1_13 ":brev)" is imm_21_27=0b1111001 & S5 & S5i & M1_13 & imm_12=0 & imm_8_12=0 & imm_7=0 & imm_5_6=0 & D5 & OUTPUT_D5 {
-        local rx_h:2 = S5i(2);
-    local rx_l:2 = brev(S5i:2);
-        local EA:4 = zext(rx_h | rx_l);
+    :D5 "=memub(" S5 "++" M1_13 ":brev)" is imm_21_27=0b1111001 & S5 & S5i & M1_13 & imm_12=0 & imm_8_12=0 & imm_7=0 & imm_5_6=0 & D5 & OUTPUT_D5 {
+        local EA:4 = 0;
+        brev_ea(EA, S5i);
         S5 = S5i+M1_13;
         D5 = zext(*[ram]:1 EA);
     }
 }
-
 
 #ld:load ub cond
 with slot: iclass=0b0011 {
@@ -142,7 +140,7 @@ with slotNV: iclass=0b0100 {
 with slot: iclass=0b0100 {
     :"if (!" T2_11_12_pred ") " D5 "=memub(" S5 "+" NR_ld_uby_cond_u6_1 ")" is imm_21_27=0b0101001 & S5 & S5i & imm_13=0 & T2_11_12_pred & T2_11_12_predi & imm_5_10u & D5 & NR_ld_uby_cond_u6_1 & OUTPUT_D5 {
         if(T2_11_12_predi != 0) goto <end>;
-        local EA:4 = S5i + imm_5_10u;
+        local EA:4 = S5i + NR_ld_uby_cond_u6_1;
         D5 = zext(*[ram]:1 EA);
     <end>
     }
