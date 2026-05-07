@@ -1670,6 +1670,84 @@ EXT_LD_U6:val  is imm_8_11u & hasext0=1 & hasext1=1 & immext0used=1 & immext1 & 
 define pcodeop circ_add;
 define pcodeop brev;
 
+macro brev_ea(ea, base) {
+    local lo16:2 = brev(base:2);
+    ea = (base & 0xFFFF0000) | zext(lo16);
+}
+
+macro fifo_shift_in_b(dst_pair, prev_pair, new_byte) {
+    dst_pair = (prev_pair >> 8) | (zext(new_byte) << 56);
+}
+
+macro fifo_shift_in_h(dst_pair, prev_pair, new_halfword) {
+    dst_pair = (prev_pair >> 16) | (zext(new_halfword) << 48);
+}
+
+macro asr_by_reg_w(out, src, t) {
+    local shamt:4 = (t << 25) s>> 25;
+    local sval:4 = src s>> shamt;
+    if (shamt s>= 0) goto <s_done>;
+    sval = src << (-shamt);
+    <s_done>
+    out = sval;
+}
+macro lsr_by_reg_w(out, src, t) {
+    local shamt:4 = (t << 25) s>> 25;
+    local sval:4 = src >> shamt;
+    if (shamt s>= 0) goto <s_done>;
+    sval = src << (-shamt);
+    <s_done>
+    out = sval;
+}
+macro asl_by_reg_w(out, src, t) {
+    local shamt:4 = (t << 25) s>> 25;
+    local sval:4 = src << shamt;
+    if (shamt s>= 0) goto <s_done>;
+    sval = src s>> (-shamt);
+    <s_done>
+    out = sval;
+}
+macro lsl_by_reg_w(out, src, t) {
+    local shamt:4 = (t << 25) s>> 25;
+    local sval:4 = src << shamt;
+    if (shamt s>= 0) goto <s_done>;
+    sval = src >> (-shamt);
+    <s_done>
+    out = sval;
+}
+macro asr_by_reg_d(out, src, t) {
+    local shamt:4 = (t << 25) s>> 25;
+    local sval:8 = src s>> shamt;
+    if (shamt s>= 0) goto <s_done>;
+    sval = src << (-shamt);
+    <s_done>
+    out = sval;
+}
+macro lsr_by_reg_d(out, src, t) {
+    local shamt:4 = (t << 25) s>> 25;
+    local sval:8 = src >> shamt;
+    if (shamt s>= 0) goto <s_done>;
+    sval = src << (-shamt);
+    <s_done>
+    out = sval;
+}
+macro asl_by_reg_d(out, src, t) {
+    local shamt:4 = (t << 25) s>> 25;
+    local sval:8 = src << shamt;
+    if (shamt s>= 0) goto <s_done>;
+    sval = src s>> (-shamt);
+    <s_done>
+    out = sval;
+}
+macro lsl_by_reg_d(out, src, t) {
+    local shamt:4 = (t << 25) s>> 25;
+    local sval:8 = src << shamt;
+    if (shamt s>= 0) goto <s_done>;
+    sval = src >> (-shamt);
+    <s_done>
+    out = sval;
+}
+
 @include "ld.sinc"
 @include "memop.sinc"
 @include "nv.sinc"
