@@ -41,7 +41,7 @@ with slot: iclass=0b1000  {
 
 # XTYPE/BIT:Count pop
 with slot: iclass=0b1000  {
-    :D5 "=popcnt(" S5_pair ")" is imm_21_27=0b1000011 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b011 & D5 & OUTPUT_D5 {
+    :D5 "=popcount(" S5_pair ")" is imm_21_27=0b1000011 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b011 & D5 & OUTPUT_D5 {
         D5 = popcount(S5_pairi);
     }
 }
@@ -77,15 +77,15 @@ with slot: iclass=0b1000  {
         local tmp3:8 = tmp2 ^ (1 << (imm_8_13u - 1));
         D5_pair = tmp3 - (1 << (imm_8_13u - 1));
     }
-    :D5"=extractu("S5","imm_8_12","U5")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22u & S5 & S5i & imm_13=0 & imm_8_12 & imm_5_7u & D5 & OUTPUT_D5 [ U5 = imm_5_7u | (imm_21_22u << 3);]{
+    :D5"=extractu("S5","imm_8_12u","U5")" is imm_24_27=0b1101 & imm_23=0 & imm_21_22u & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7u & D5 & OUTPUT_D5 [ U5 = imm_5_7u | (imm_21_22u << 3);]{
         local tmp:4 = S5i >> U5;
-        D5 = tmp & ((1 << imm_8_12) - 1);
+        D5 = tmp & ((1 << imm_8_12u) - 1);
     }
-    :D5"=extract("S5","imm_8_12","U5")" is imm_24_27=0b1101 & imm_23=1 & imm_21_22u & S5 & S5i & imm_13=0 & imm_8_12 & imm_5_7u & D5 & OUTPUT_D5 [ U5 = imm_5_7u | (imm_21_22u << 3);]{
+    :D5"=extract("S5","imm_8_12u","U5")" is imm_24_27=0b1101 & imm_23=1 & imm_21_22u & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7u & D5 & OUTPUT_D5 [ U5 = imm_5_7u | (imm_21_22u << 3);]{
         local tmp:4 = S5i >> U5;
-        local tmp2:4 = tmp & (1 << imm_8_12) - 1;
-        local tmp3:4 = tmp2 ^ (1 << (imm_8_12 - 1));
-        D5 = tmp3 - (1 << (imm_8_12 - 1));
+        local tmp2:4 = tmp & (1 << imm_8_12u) - 1;
+        local tmp3:4 = tmp2 ^ (1 << (imm_8_12u - 1));
+        D5 = tmp3 - (1 << (imm_8_12u - 1));
     }
 }
 define pcodeop extract;
@@ -120,10 +120,10 @@ with slot: iclass=0b1000  {
 
 define pcodeop insert;
 with slot: iclass=0b1100  {
-    :D5 "=insert(" S5 "," T5_pair ")" is imm_24_27=0b1000 & imm_21_23=0 & S5 & S5i & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0 & D5 & OUTPUT_D5 {
+    :D5 "=insert(" S5 "," T5_pair ")" is imm_24_27=0b1000 & imm_21_23=0 & S5 & S5i & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0 & D5 & D5i & OUTPUT_D5 {
         D5 = insert(S5i, T5_pairi);
     }
-    :D5_pair "=insert(" S5_pair "," T5_pair ")" is imm_23_27=0b10100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0 & D5_pair {
+    :D5_pair "=insert(" S5_pair "," T5_pair ")" is imm_23_27=0b10100 & imm_21_22=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0 & D5_pair & D5_pairi {
         D5_pair = insert(S5_pairi, T5_pairi);
     }
 }
@@ -132,11 +132,11 @@ with slot: iclass=0b1100  {
 define pcodeop interleave;
 define pcodeop deinterleave;
 with slot: iclass=0b1000  {
-    :D5_pair "=interleave(" S5_pair ".w[1], " S5_pair_dup ".w[0])" is imm_21_27=0b0000110 & S5_pair_dup & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b100 & D5_pair {
-        D5_pair = interleave(S5_pairi);
-    }
-    :D5_pair "=deinterleave(" S5_pair ")" is imm_21_27=0b0000110 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b101 & D5_pair {
+    :D5_pair "=deinterleave(" S5_pair ")" is imm_21_27=0b0000110 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b100 & D5_pair {
         D5_pair = deinterleave(S5_pairi);
+    }
+    :D5_pair "=interleave(" S5_pair ".w[1], " S5_pair_dup ".w[0])" is imm_21_27=0b0000110 & S5_pair_dup & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b101 & D5_pair {
+        D5_pair = interleave(S5_pairi);
     }
 }
 
@@ -197,14 +197,16 @@ with slot: iclass=0b1100  {
 # XTYPE/BIT:Split bit field
 with slot: iclass=0b1000  {
     :D5_pair "=bitsplit(" S5 "," imm_8_12u ")" is imm_21_27=0b1000110 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b100 & D5_pair  {
-        local lo:8 = ((zext(S5i) >> imm_8_12u) << 31);
-        D5_pair = zext(S5i) | lo;
+        local hi:8 = (zext(S5i) >> imm_8_12u) << 32;
+        local lo:8 = zext(S5i & ((1 << imm_8_12u) - 1));
+        D5_pair = hi | lo;
     }
 }
-with slot: iclass=0b1001  {
+with slot: iclass=0b1101  {
     :D5_pair "=bitsplit(" S5 "," T5 ")" is imm_24_27=0b0100 & imm_22_23=0 & imm_21=1 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & D5_pair {
-        local lo:8 = ((zext(S5i) >> T5i) << 31);
-        D5_pair = zext(S5i) | lo;
+        local hi:8 = (zext(S5i) >> T5i) << 32;
+        local lo:8 = zext(S5i & ((1 << T5i) - 1));
+        D5_pair = hi | lo;
     }
 }
 

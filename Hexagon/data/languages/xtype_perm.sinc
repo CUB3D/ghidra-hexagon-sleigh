@@ -14,22 +14,22 @@ define pcodeop satuh;
 define pcodeop satub;
 define pcodeop satb;
 with slot: iclass=0b1000  {
-    :D5 "=sat(" S5_pair ")" is imm_21_27=0b1000110 & S5_pair & S5_pairi & imm_8_13 & imm_5_7=0b000 & D5 & OUTPUT_D5 {
+    :D5 "=sat(" S5_pair ")" is imm_21_27=0b1000110 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b000 & D5 & OUTPUT_D5 {
     	local res:4 = S5_pairi:4;
-    	if(S5_pairi s>= 0) goto <notlow>;
-    	res = 0;
+    	if(S5_pairi s>= 0xFFFFFFFF80000000:8) goto <notlow>;
+    	res = 0x80000000;
     	USR_OVF = 1;
     	<notlow>
-    	if(S5_pairi s<= 0x7FFFFFFF) goto <nothigh>;
+    	if(S5_pairi s<= 0x000000007FFFFFFF:8) goto <nothigh>;
     	res = 0x7FFFFFFF;
     	USR_OVF = 1;
     	<nothigh>
     	D5 = res;
     }
-    :D5 "=sath(" S5 ")" is imm_21_27=0b1100110 & S5 & S5i & imm_8_13 & imm_5_7=0b100 & D5 & OUTPUT_D5 {
+    :D5 "=sath(" S5 ")" is imm_21_27=0b1100110 & S5 & S5i & imm_8_13=0 & imm_5_7=0b100 & D5 & OUTPUT_D5 {
         local res:4 = S5i:4;
-    	if(S5i s>= 0) goto <notlow>;
-    	res = 0;
+    	if(S5i s>= 0xFFFF8000) goto <notlow>;
+    	res = 0xFFFF8000;
     	USR_OVF = 1;
     	<notlow>
     	if(S5i s<= 0x7FFF) goto <nothigh>;
@@ -38,26 +38,36 @@ with slot: iclass=0b1000  {
     	<nothigh>
     	D5 = res;
     }
-    :D5 "=satuh(" S5 ")" is imm_21_27=0b1100110 & S5 & S5i & imm_8_13 & imm_5_7=0b101 & D5 & OUTPUT_D5 {
+    :D5 "=satuh(" S5 ")" is imm_21_27=0b1100110 & S5 & S5i & imm_8_13=0 & imm_5_7=0b101 & D5 & OUTPUT_D5 {
         local res:4 = S5i:4;
-    	if(S5i <= 0xFFFF) goto <nothigh>;
-    	res = 0xFFFF;
-    	USR_OVF = 1;
-    	<nothigh>
-    	D5 = res;
+        if(S5i s< 0) goto <low>;
+        if(S5i s<= 0xFFFF) goto <nothigh>;
+        res = 0xFFFF;
+        USR_OVF = 1;
+        goto <nothigh>;
+        <low>
+        res = 0;
+        USR_OVF = 1;
+        <nothigh>
+        D5 = res;
     }
-    :D5 "=satub(" S5 ")" is imm_21_27=0b1100110 & S5 & S5i & imm_8_13 & imm_5_7=0b110 & D5 & OUTPUT_D5 {
-       local res:4 = S5i:4;
-    	if(S5i <= 0xFF) goto <nothigh>;
-    	res = 0xFF;
-    	USR_OVF = 1;
-    	<nothigh>
-    	D5 = res;
-    }
-    :D5 "=satb(" S5 ")" is imm_21_27=0b1100110 & S5 & S5i & imm_8_13 & imm_5_7=0b111 & D5 & OUTPUT_D5 {
+    :D5 "=satub(" S5 ")" is imm_21_27=0b1100110 & S5 & S5i & imm_8_13=0 & imm_5_7=0b110 & D5 & OUTPUT_D5 {
         local res:4 = S5i:4;
-    	if(S5i s>= 0) goto <notlow>;
-    	res = 0;
+        if(S5i s< 0) goto <low>;
+        if(S5i s<= 0xFF) goto <nothigh>;
+        res = 0xFF;
+        USR_OVF = 1;
+        goto <nothigh>;
+        <low>
+        res = 0;
+        USR_OVF = 1;
+        <nothigh>
+        D5 = res;
+    }
+    :D5 "=satb(" S5 ")" is imm_21_27=0b1100110 & S5 & S5i & imm_8_13=0 & imm_5_7=0b111 & D5 & OUTPUT_D5 {
+        local res:4 = S5i:4;
+    	if(S5i s>= 0xFFFFFF80) goto <notlow>;
+    	res = 0xFFFFFF80;
     	USR_OVF = 1;
     	<notlow>
     	if(S5i s<= 0x7F) goto <nothigh>;
@@ -70,7 +80,7 @@ with slot: iclass=0b1000  {
 
 # XTYPE/PERM:swizzle
 with slot: iclass=0b1000  {
-    :D5 "=swiz(" S5 ")" is imm_21_27=0b1100100 & S5 & S5i & imm_8_13 & imm_5_7=0b111 & D5 & OUTPUT_D5 {
+    :D5 "=swiz(" S5 ")" is imm_21_27=0b1100100 & S5 & S5i & imm_8_13=0 & imm_5_7=0b111 & D5 & OUTPUT_D5 {
     	local tmpo:4 = &D5;
     	local tmpa:4 = &S5i;
     	tmpa = tmpa + 3;
@@ -195,10 +205,10 @@ with slot: iclass=0b1000  {
 # XTYPE/PERM:vector splice
 define pcodeop vspliceb;
 with slot: iclass=0b1100  {
-    :D5_pair "=vsplice(" S5_pair "," T5_pair "," imm_5_7u ")" is imm_23_27=0b00001 & imm_21_22=0 & S5_pair & S5_pairi  & imm_13=0 & T5_pair & T5_pairi & imm_5_7u & D5_pair {
+    :D5_pair "=vspliceb(" S5_pair "," T5_pair "," imm_5_7u ")" is imm_23_27=0b00001 & imm_21_22=0 & S5_pair & S5_pairi  & imm_13=0 & T5_pair & T5_pairi & imm_5_7u & D5_pair {
        D5_pair = vspliceb(S5_pairi, T5_pairi, imm_5_7u:4);
     }
-    :D5_pair "=vsplice(" S5_pair "," T5_pair "," U2_5_6 ")" is imm_21_27=0b0010100 & S5_pair & S5_pairi  & imm_13=0 & T5_pair & T5_pairi & imm_7=0 & U2_5_6 & D5_pair {
+    :D5_pair "=vspliceb(" S5_pair "," T5_pair "," U2_5_6 ")" is imm_21_27=0b0010100 & S5_pair & S5_pairi  & imm_13=0 & T5_pair & T5_pairi & imm_7=0 & U2_5_6 & D5_pair {
        D5_pair = vspliceb(S5_pairi, T5_pairi, U2_5_6);
     }
 }
@@ -207,10 +217,10 @@ with slot: iclass=0b1100  {
 define pcodeop vsextbh;
 define pcodeop vsexthw;
 with slot: iclass=0b1000  {
-    :D5_pair "=vsextbh(" S5 ")" is imm_22_27=0b010000 & imm_21=0 & S5 & S5i & imm_8_13=0 & imm_6_7=0b00 & imm_5=0 & D5_pair {
+    :D5_pair "=vsxtbh(" S5 ")" is imm_22_27=0b010000 & imm_21=0 & S5 & S5i & imm_8_13=0 & imm_6_7=0b00 & imm_5=0 & D5_pair {
        D5_pair = vsextbh(S5i);
     }
-    :D5_pair "=vsexthw(" S5 ")" is imm_22_27=0b010000 & imm_21=0 & S5 & S5i & imm_8_13=0 & imm_6_7=0b10 & imm_5=0 & D5_pair {
+    :D5_pair "=vsxthw(" S5 ")" is imm_22_27=0b010000 & imm_21=0 & S5 & S5i & imm_8_13=0 & imm_6_7=0b10 & imm_5=0 & D5_pair {
        D5_pair = vsexthw(S5i);
     }
 }

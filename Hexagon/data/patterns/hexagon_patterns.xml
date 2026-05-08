@@ -2,7 +2,6 @@
     <!-- NOTE: These are matching on raw bytes, not on 32bit LE instructions, so
     the bytes are endian-swapped here -->
 
-
     <patternpairs totalbits="26" postbits="24">
         <prepatterns>
             <!-- Any sub-instruction with end of packet marker -->
@@ -50,7 +49,7 @@
             <data>........ 11000... 100..... 10100000</data> <!-- { allocframe(N)
             } -->
             <codeboundary />
-            <possiblefuncstart thunk="true" />
+            <possiblefuncstart />
         </postpatterns>
     </patternpairs>
     <patternpairs totalbits="20" postbits="18">
@@ -64,11 +63,11 @@
             <data>........ 10...... ........ ........ ........ 11000... 100.....
                 10100000</data> <!-- { <any> allocframe(N) } -->
             <codeboundary />
-            <possiblefuncstart thunk="true" />
+            <possiblefuncstart />
         </postpatterns>
     </patternpairs>
 
-    <!-- Duplex allocframe: 
+    <!-- Duplex allocframe:
   60 3c 00 79   0b 01111001000000000011110001100000
   10 1c 4f eb   0b 11101011010011110001110000010000
   10 1c f4 eb   0b 11101011111101000001110000010000
@@ -149,7 +148,7 @@
         <data>0xf0 0x7f 0xde 0x97 0x1e 0xc0 0x1e 0x96 </data>
     </postpatterns>
   </patternpairs>
-  
+
   TODO: tailcall
   -->
 
