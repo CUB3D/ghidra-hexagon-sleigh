@@ -12,7 +12,7 @@
 # Run in Ghidra: Script Manager -> Run
 
 # @category Hexagon
-# @author ghidra-hexagon-sleigh contributors
+# @author neryaz
 
 from ghidra.program.model.symbol import SourceType
 from ghidra.program.model.data import (
