@@ -60,7 +60,7 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: Extension_Ghidra_${{ matrix.ghidra }}
-          path: "Hexagon/dist/*"
+          path: "Hexagon_U/dist/*"
           if-no-files-found: "error"
         if: ${{ !cancelled() }}
 
