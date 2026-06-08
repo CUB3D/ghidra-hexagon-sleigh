@@ -54,7 +54,7 @@ jobs:
           version: ${{ matrix.ghidra }}
       -
         name: "Build extension"
-        run: cd Hexagon && gradle buildExtension
+        run: cd Hexagon_U && gradle buildExtension
       -
         name: "Upload artifacts"
         uses: actions/upload-artifact@v5
