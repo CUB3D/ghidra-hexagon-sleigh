@@ -36,19 +36,19 @@ jobs:
     steps:
       -
         name: "Checkout"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           fetch-tags: true
       -
         name: "Setup JDK"
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: "21"
           distribution: "temurin"
       -
         name: Install Ghidra ${{ matrix.ghidra }}
-        uses: antoniovazquezblanco/setup-ghidra@v2.0.14
+        uses: antoniovazquezblanco/setup-ghidra@v2.1.2
         with:
           auth_token: ${{ secrets.GITHUB_TOKEN }}
           version: ${{ matrix.ghidra }}
@@ -57,7 +57,7 @@ jobs:
         run: cd Hexagon_U && gradle buildExtension
       -
         name: "Upload artifacts"
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: Extension_Ghidra_${{ matrix.ghidra }}
           path: "Hexagon_U/dist/*"
@@ -74,13 +74,13 @@ jobs:
     steps:
       -
         name: "Checkout"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           fetch-tags: true
       -
         name: "Setup JDK"
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: "21"
           distribution: "temurin"
