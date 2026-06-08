@@ -2,7 +2,6 @@
 
 This is an implementation of the Qualcomm Hexagon "QDSP6" architecture in Ghidra SLEIGH
 
-
 Features:
 - Dissassembly of v66/v67/v68/v73/v75/v79, all instructions supported
 - Supports HVX up to v79
@@ -15,6 +14,8 @@ Features:
 - Builtin scripts: 
 - - Q6ZIP and DELTA/DLPAGER decompression via emulation
 - - Annotation of hashed log messages
+
+Modern (12.1+) versions of Ghidra support Hexagon nativly, this plugin predates that. However, it has some advantages and some disadvantages compared to that plugin: see [this comment](https://github.com/CUB3D/ghidra-hexagon-sleigh/issues/49#issuecomment-4652321293) for details.
 
 Currently broken / unimplemented:
 - Some immediate extensions are missing for less common ops and duplexes
