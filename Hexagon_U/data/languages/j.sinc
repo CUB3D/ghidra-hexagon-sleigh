@@ -58,65 +58,28 @@ BR_CJ_R9:r9 is  imm_20_21 & imm_1_7u & immext1pos=pktid & immext1 & imm_1_6u [ r
  with slot: iclass=0b0001  {
 
      :P0"=cmp.eq("S4",#-1); if (p0.new) jump:nt "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P0 {
-        if(S4i != -1) goto <bad>;
-            P0 = $(PTRUE);
-            goto <end>;
-        <bad>
-            P0 = 0x0;
-        <end>
+        P0 = (S4i == -1) * $(PTRUE);
      }
      :P0"=cmp.gt("S4",#-1); if (p0.new) jump:nt "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P0 {
-        if(S4i s<= -1) goto <bad>;
-            P0 = $(PTRUE);
-            goto <end>;
-        <bad>
-            P0 = 0x0;
-        <end>
+        P0 = (S4i s> -1) * $(PTRUE);
      }
      :P0"=cmp.tstbit("S4",#0); if (p0.new) jump:nt "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P0 {
-        local tmp:4 = S4i & 1;
-        if(tmp == 0) goto <bad>;
-            P0 = $(PTRUE);
-            goto <end>;
-        <bad>
-            P0 = 0x0;
-        <end>
+        P0 = ((S4i & 1) != 0) * $(PTRUE);
      }
 
      :P0"=cmp.eq("S4",#-1); if (p0.new) jump:t "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P0 {
-        if(S4i != -1) goto <bad>;
-            P0 = $(PTRUE);
-            goto <end>;
-        <bad>
-            P0 = 0x0;
-        <end>
+        P0 = (S4i == -1) * $(PTRUE);
      }
      :P0"=cmp.gt("S4",#-1); if (p0.new) jump:t "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P0 {
-        if(S4i s<= -1) goto <bad>;
-            P0 = $(PTRUE);
-            goto <end>;
-        <bad>
-            P0 = 0x0;
-        <end>
+        P0 = (S4i s> -1) * $(PTRUE);
      }
 
      :P0"=cmp.tstbit("S4",#0); if (p0.new) jump:t "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P0 {
-        local tmp:4 = S4i & 1;
-        if(tmp == 0) goto <bad>;
-            P0 = $(PTRUE);
-            goto <end>;
-        <bad>
-            P0 = 0x0;
-        <end>
+        P0 = ((S4i & 1) != 0) * $(PTRUE);
      }
 
      :P0"=cmp.eq("S4",#-1); if (!p0.new) jump:nt "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P0 {
-        if(S4i != -1) goto <bad>;
-            P0 = $(PTRUE);
-            goto <end>;
-        <bad>
-            P0 = 0x0;
-        <end>
+        P0 = (S4i == -1) * $(PTRUE);
      }
      :P0"=cmp.gt("S4",#-1); if (!p0.new) jump:nt "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P0 {
         if(S4i s<= -1) goto <bad>;
