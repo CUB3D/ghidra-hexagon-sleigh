@@ -5,7 +5,7 @@
             endian="little"
             size="32"
             variant="default"
-            version="1.2"
+            version="1.3"
             slafile="hexagon.sla"
             processorspec="hexagon.pspec"
             id="QDSP6:LE:32:default">
