@@ -1,5 +1,5 @@
 
-EXT_ST_S8:S8  is imm_0_6u & imm_13 & IS_NOT_EXT [ S8 = imm_0_6u | (imm_13 << 7);] { local tmp:4 = sext(S8:1); export *[const]:1 tmp; }
+EXT_ST_S8:S8  is imm_0_6u & imm_13 & IS_NOT_EXT [ S8 = imm_0_6u | (imm_13 << 7);] { local tmp:4 = sext(S8:1); export *[const]:4 tmp; }
 EXT_ST_S8:S8  is imm_0_5u & IS_EXT0 & immext0 [ S8 = (immext0 | imm_0_5u); ] { export *[const]:4 S8; }
 EXT_ST_S8:S8  is imm_0_5u & IS_EXT1 & immext1 [ S8 = (immext1 | imm_0_5u); ] { export *[const]:4 S8; }
 
