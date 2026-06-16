@@ -541,6 +541,14 @@ with slot: iclass=0b1000  {
 define pcodeop vmux;
 with slot: iclass=0b1101  {
     :D5_pair "=vmux(" U2_5_6 "," S5_pair "," T5_pair ")" is imm_24_27=0b0001 & imm_21_23=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_7=0 & U2_5_6 & U2_5_6i & D5_pair {
-        D5_pair = vmux(U2_5_6i, S5_pairi, T5_pairi);
+        local p:8 = zext(U2_5_6);
+        D5_pair =             zext((p & 0b00000001) != 0) * (S5_pairi & 0xFF)         + zext((p & 0b00000001) == 0) * (T5_pairi & 0xFF);
+        D5_pair = D5_pair | ((zext((p & 0b00000010) != 0) * ((S5_pairi >> 8) & 0xFF)  + zext((p & 0b00000010) == 0) * ((T5_pairi >> 8) & 0xFF)) << 8);
+        D5_pair = D5_pair | ((zext((p & 0b00000100) != 0) * ((S5_pairi >> 16) & 0xFF) + zext((p & 0b00000100) == 0) * ((T5_pairi >> 16) & 0xFF)) << 16);
+        D5_pair = D5_pair | ((zext((p & 0b00001000) != 0) * ((S5_pairi >> 24) & 0xFF) + zext((p & 0b00001000) == 0) * ((T5_pairi >> 24) & 0xFF)) << 24);
+        D5_pair = D5_pair | ((zext((p & 0b00010000) != 0) * ((S5_pairi >> 32) & 0xFF) + zext((p & 0b00010000) == 0) * ((T5_pairi >> 32) & 0xFF)) << 32);
+        D5_pair = D5_pair | ((zext((p & 0b00100000) != 0) * ((S5_pairi >> 40) & 0xFF) + zext((p & 0b00100000) == 0) * ((T5_pairi >> 40) & 0xFF)) << 40);
+        D5_pair = D5_pair | ((zext((p & 0b01000000) != 0) * ((S5_pairi >> 48) & 0xFF) + zext((p & 0b01000000) == 0) * ((T5_pairi >> 48) & 0xFF)) << 48);
+        D5_pair = D5_pair | ((zext((p & 0b10000000) != 0) * ((S5_pairi >> 56) & 0xFF) + zext((p & 0b10000000) == 0) * ((T5_pairi >> 56) & 0xFF)) << 56);
     }
 }

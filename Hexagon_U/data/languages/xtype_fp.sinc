@@ -230,15 +230,16 @@ with slot: iclass=0b1110  {
     }
 }
 
-# XTYPE/FP: xtype fp fma
-define pcodeop dfmpylh;
-define pcodeop dfmpyhh;
+# XTYPE/FP: Floating point fused multiply-add
 with slot: iclass=0b1110  {
     :D5_pair "+=dfmpylh(" S5_pair "," T5_pair ")" is imm_21_27=0b1010000 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & D5_pair & D5_pairi {
-        D5_pair = D5_pairi + dfmpylh(S5_pairi, T5_pairi);
+    	local a0:4 = S5_pairi:4;
+    	local b1_:8 = T5_pairi>>32; local b1:4 = b1_:4;
+    	
+    	D5_pair = D5_pair f+ ((zext(a0) f* (0x00100000 | zext(b1))) << 1);
     }
     :D5_pair "+=dfmpyhh(" S5_pair "," T5_pair ")" is imm_21_27=0b1010100 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & D5_pair & D5_pairi {
-        D5_pair = D5_pairi + dfmpyhh(S5_pairi, T5_pairi);
+    	D5_pair = D5_pair f+ (S5_pairi f* T5_pairi);
     }
     :D5 "+=sfmpy(" S5 "," T5 ")" is imm_21_27=0b1111000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 & D5i & OUTPUT_D5 {
         local tmp:4 = S5i f* T5i;

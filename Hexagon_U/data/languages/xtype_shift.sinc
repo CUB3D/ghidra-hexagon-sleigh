@@ -631,7 +631,6 @@ with slot: iclass=0b1000  {
 
 # XTYPE/SHIFT:Vector shift words by register
 
-define pcodeop vlslw;
 define pcodeop vasrw;
 define pcodeop vlsrw;
 define pcodeop vaslw;
@@ -647,7 +646,10 @@ with slot: iclass=0b1100  {
         D5_pair = vaslw(S5_pairi, T5i);
     }
     :D5_pair "=vlslw(" S5_pair "," T5 ")" is imm_22_27=0b001100 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_6_7=0b11 & imm_5=0 & D5_pair {
-        D5_pair = vlslw(S5_pairi, T5i);
+    	local a0:4 = S5_pairi:4;
+    	local a1_:8 = (S5_pairi >> 32); local a1:4 = a1_:4;
+    	
+    	D5_pair = zext(a0 << T5i) + (zext(a1<<T5i) << 32);
     }
 }
 

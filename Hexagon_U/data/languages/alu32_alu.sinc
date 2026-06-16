@@ -178,7 +178,13 @@ define pcodeop vnavgh;
 
 with slot: iclass=0b1111  {
     :D5 "=vavgh(" S5 "," T5 ")" is imm_24_27=0b0111 & imm_23=0 & imm_21_22=0b00 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & D5 & OUTPUT_D5 {
-       D5 = vavgh(S5i, T5i);
+    	local a0:2 = S5i:2;
+    	local b0:2 = T5i:2;
+    	
+    	local a1_:4 = (S5i >> 16); local a1:2 = a1_:2;
+    	local b1_:4 = (T5i >> 16); local b1:2 = b1_:2;
+    	
+    	D5= zext((a0+b0) >> 1) + (zext((a1+b1)>>1) << 16);
     }
     :D5 "=vavgh(" S5 "," T5 "):rnd" is imm_24_27=0b0111 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & D5 & OUTPUT_D5 {
         D5 = vavgh_rnd(S5i, T5i);

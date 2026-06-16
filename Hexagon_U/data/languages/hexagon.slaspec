@@ -1511,8 +1511,8 @@ OUTPUT_D4_8_11: is pktid=4 {}
 
 # As per the spec, the (16,18) bits should  be a 2-bit packet reference with a reserved lower bit that should be 0
 # In practise "MPSS.DI.4.0.1.C1.3-86154" has values with a lsb of 1. Lets assume this is an ignored bit
-
-NV_S3_new_16_18: "NOT ANALYSED YET"  is OR1 & analysed=0 { _unimpl_nv(); export OR1; }
+# Also we only allow NV to exist on slots >1 as there's nothing to reference otherwise
+NV_S3_new_16_18: "NOT ANALYSED YET"  is (pktid=2|pktid=3|pktid=4) & OR1 & analysed=0 { _unimpl_nv(); export OR1; }
 
 @if defined(NV_DBG)
 NV_S3_new_16_18: "ILLEGAL 1618 pkt:" pktid ", S3:" S3_new_16_18  is OR1 & pktid & S3_new_16_18 & analysed=1 { _unimpl_nv(); export OR1; }
