@@ -585,26 +585,26 @@ A1R:immdup1_D3_pair "=combine(" immdup1_S4 ", "const_zero")" is immdup1_10_12=0b
 ## Duplex Vendor Ops (group 0xf)
 
 with : mode=0 {
-	define pcodeop vendor_duplex_1;
-	V1L:"vendor_duplex_1 " immdup0_D4 is immdup0_4_12=0b001100011 & immdup0_D4 { vendor_duplex_1(immdup0_D4); }
-	V1R:"vendor_duplex_1 " immdup1_D4 is immdup1_4_12=0b001100011 & immdup1_D4 { vendor_duplex_1(immdup1_D4); }
+	#define pcodeop vendor_duplex_1;
+	#V1L:"vendor_duplex_1 " immdup0_D4 is immdup0_4_12=0b001100011 & immdup0_D4 { vendor_duplex_1(immdup0_D4); }
+	#V1R:"vendor_duplex_1 " immdup1_D4 is immdup1_4_12=0b001100011 & immdup1_D4 { vendor_duplex_1(immdup1_D4); }
 	
-	define pcodeop vendor_duplex_2;
-	V1L:"vendor_duplex_2" is immdup0_0_12=0b1100001010110 { vendor_duplex_2(); }
-	V1R:"vendor_duplex_2" is immdup1_0_12=0b1100001010110 { vendor_duplex_2(); }
+	#define pcodeop vendor_duplex_2;
+	#V1L:"vendor_duplex_2" is immdup0_0_12=0b1100001010110 { vendor_duplex_2(); }
+	#V1R:"vendor_duplex_2" is immdup1_0_12=0b1100001010110 { vendor_duplex_2(); }
 	
-	define pcodeop vendor_duplex_4;
-	V1L:"vendor_duplex_4" immdup0_D4 is immdup0_4_12=0b110000000 & immdup0_D4 { vendor_duplex_4(immdup0_D4); }
-	V1R:"vendor_duplex_4" immdup1_D4 is immdup1_4_12=0b110000000 & immdup1_D4 { vendor_duplex_4(immdup1_D4); }
+	#define pcodeop vendor_duplex_4;
+	#V1L:"vendor_duplex_4" immdup0_D4 is immdup0_4_12=0b110000000 & immdup0_D4 { vendor_duplex_4(immdup0_D4); }
+	#V1R:"vendor_duplex_4" immdup1_D4 is immdup1_4_12=0b110000000 & immdup1_D4 { vendor_duplex_4(immdup1_D4); }
 
 	
-	define pcodeop vendor_duplex_6;
-	V1L:"vendor_duplex_6" immdup0_D4 is immdup0_4_12=0b110000100 & immdup0_D4 { vendor_duplex_6(immdup0_D4); }
-	V1R:"vendor_duplex_6" immdup1_D4 is immdup1_4_12=0b110000100 & immdup1_D4 { vendor_duplex_6(immdup1_D4); }
+	#define pcodeop vendor_duplex_6;
+	#V1L:"vendor_duplex_6" immdup0_D4 is immdup0_4_12=0b110000100 & immdup0_D4 { vendor_duplex_6(immdup0_D4); }
+	#V1R:"vendor_duplex_6" immdup1_D4 is immdup1_4_12=0b110000100 & immdup1_D4 { vendor_duplex_6(immdup1_D4); }
 	
-	define pcodeop vendor_duplex_8;
-	V1L:"vendor_duplex_8" is immdup0_0_12=0b1110101011000 { vendor_duplex_8(); }
-	V1R:"vendor_duplex_8" is immdup1_0_12=0b1110101011000 { vendor_duplex_8(); }
+	#define pcodeop vendor_duplex_8;
+	#V1L:"vendor_duplex_8" is immdup0_0_12=0b1110101011000 { vendor_duplex_8(); }
+	#V1R:"vendor_duplex_8" is immdup1_0_12=0b1110101011000 { vendor_duplex_8(); }
 	
 	
 	

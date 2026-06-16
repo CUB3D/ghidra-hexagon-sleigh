@@ -638,11 +638,16 @@ with slot: iclass=0b1101  {
 }
 
 # XTYPE/ALU:vector  add w
-define pcodeop vaddw;
 define pcodeop vaddw_sat;
 with slot: iclass=0b1101  {
     :D5_pair "=vaddw(" S5_pair "," T5_pair ")" is imm_21_27=0b0011000 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair {
-        D5_pair = vaddw(S5_pairi, T5_pairi);
+    	local a0:4 = S5_pairi & 0xFFFFFFFF;
+    	local b0:4 = T5_pairi & 0xFFFFFFFF;
+    	
+    	local a1:4 = (S5_pairi >> 32) & 0xFFFFFFFF;
+    	local b1:4 = (T5_pairi >> 32) & 0xFFFFFFFF;
+    	
+    	D5_pair = zext(a0+b0) + (zext(a1+b1) << 32);
     }
     :D5_pair "=vaddw(" S5_pair "," T5_pair "):sat" is imm_21_27=0b0011000 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b110 & D5_pair {
         D5_pair = vaddw_sat(S5_pairi, T5_pairi);

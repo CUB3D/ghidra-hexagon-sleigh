@@ -303,10 +303,16 @@ with slot: iclass=0b1101  {
 define pcodeop fmax;
 with slot: iclass=0b1110  {
     :D5_pair "=dfmax(" S5_pair "," T5_pair ")" is imm_21_27=0b1000001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & D5_pair {
-        D5_pair = fmax(S5_pairi, T5_pairi);
+    	D5_pair = S5_pairi;
+    	if(S5_pairi >= T5_pairi) goto <end>;
+    		D5_pair = T5_pairi;
+    	<end>
     }
     :D5 "=sfmax(" S5 "," T5 ")" is imm_21_27=0b1011100 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 & OUTPUT_D5 {
-        D5 = fmax(S5i, T5i);
+        D5 = S5i;
+    	if(S5i >= T5i) goto <end>;
+    		D5 = T5i;
+    	<end>
     }
 }
 
