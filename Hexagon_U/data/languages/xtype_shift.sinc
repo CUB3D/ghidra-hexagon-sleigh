@@ -247,7 +247,6 @@ with slot: iclass=0b1000  {
 }
 
 # XTYPE/SHIFT:Shift r by imm with sat
-define pcodeop asl_sat;
 with slot: iclass=0b1000  {
     :D5"=asl("S5",imm_8_12u):sat" is imm_21_27=0b1100010 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7=0b010 & D5 & OUTPUT_D5 {
         local result:4 = S5i << imm_8_12u;
@@ -492,13 +491,33 @@ with slot: iclass=0b1100  {
 }
 
 # XTYPE/SHIFT:Shift by register with saturation
-define pcodeop asr_sat;
 with slot: iclass=0b1100  {
     :D5 "=asr(" S5 "," T5 "):sat" is imm_22_27=0b011000 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b00 & imm_5=0 & D5 & OUTPUT_D5 {
-        D5 = asr_sat(S5i, T5i);
+        local result:4 = S5i s>> T5i;
+        if (result == S5i) goto <noOverflow>;
+        if (S5i s>= 0) goto <pos>;
+        result = 0x80000000;
+        goto <set_ovf>;
+        <pos>
+        result = 0x7FFFFFFF;
+        <set_ovf>
+        USR_OVF = 1;
+        <noOverflow>
+        D5 = result;
     }
     :D5 "=asl(" S5 "," T5 "):sat" is imm_22_27=0b011000 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b10 & imm_5=0 & D5 & OUTPUT_D5 {
-        D5 = asl_sat(S5i, T5i);
+        local result:4 = S5i << T5i;
+        local check:4 = result s>> T5i;
+        if (check == S5i) goto <noOverflow>;
+        if (S5i s>= 0) goto <pos>;
+        result = 0x80000000;
+        goto <set_ovf>;
+        <pos>
+        result = 0x7FFFFFFF;
+        <set_ovf>
+        USR_OVF = 1;
+        <noOverflow>
+        D5 = result;
     }
 }
 

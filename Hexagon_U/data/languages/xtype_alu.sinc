@@ -68,14 +68,25 @@ with slot: iclass=0b1110  {
     }
 }
 # XTYPE/ALU:Add dword
-define pcodeop add_sat;
 define pcodeop add_sat_deprecated;
 with slot: iclass=0b1101  {
     :D5_pair "=add(" S5_pair "," T5_pair ")" is imm_21_27=0b0011000 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b111 & D5_pair {
         D5_pair = S5_pairi + T5_pairi;
     }
     :D5_pair "=add(" S5_pair "," T5_pair "):sat" is imm_21_27=0b0011011 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair {
-        D5_pair = add_sat(S5_pairi, T5_pairi);
+        local result:8 = S5_pairi + T5_pairi;
+        if ((S5_pairi ^ T5_pairi) s< 0) goto <ok>;
+        if ((S5_pairi ^ result) s>= 0) goto <ok>;
+        if (S5_pairi s< 0) goto <neg_ovf>;
+        result = 0x7FFFFFFFFFFFFFFF;
+        goto <set_ovf>;
+        <neg_ovf>
+        result = 0x8000000000000000;
+        <set_ovf>
+        USR_OVF = 1;
+        <ok>
+        D5_pair = result;
+        
     }
     :D5_pair "=add(" S5_pair "," T5_pair "):raw:lo" is imm_21_27=0b0011011 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b110 & D5_pair {
         D5_pair = T5_pairi + sext(S5_pairi:4);
@@ -101,13 +112,36 @@ with slot: iclass=0b1101  {
         D5 = sext(E);
     }
     :D5 "=add(" T5".L" "," S5".L" "):sat" is imm_21_27=0b0101000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b10 & imm_5=0 & D5 & OUTPUT_D5 {
-           local E:2 = add_sat(T5i:2, S5i:2);
-        D5 = sext(E);
+        local a:2 = T5i:2;
+        local b:2 = S5i:2;
+        local result:2 = a + b;
+        if ((a ^ b) s< 0) goto <ok>;
+        if ((a ^ result) s>= 0) goto <ok>;
+        if (a s< 0) goto <neg_ovf>;
+        result = 0x7FFF;
+        goto <set_ovf>;
+        <neg_ovf>
+        result = 0x8000;
+        <set_ovf>
+        USR_OVF = 1;
+        <ok>
+        D5 = sext(result);
     }
-    :D5 "=add(" T5".L" "," S5".H" "):sat" is imm_21_27=0b0101000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b11 & imm_5=0 & D5 & OUTPUT_D5 {
-        local tmp:2 = S5i(2);
-           local E:2 = add_sat(T5i:2, tmp);
-        D5 = sext(E);
+    :D5 "=add(" T5".L" "," S5".H" "):sat" is imm_21_27=0b0101000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b11 & imm_5=0 & D5 & OUTPUT_D5 {      
+        local a:2 = T5i:2;
+        local b:2 = S5i(2);
+        local result:2 = a + b;
+        if ((a ^ b) s< 0) goto <ok>;
+        if ((a ^ result) s>= 0) goto <ok>;
+        if (a s< 0) goto <neg_ovf>;
+        result = 0x7FFF;
+        goto <set_ovf>;
+        <neg_ovf>
+        result = 0x8000;
+        <set_ovf>
+        USR_OVF = 1;
+        <ok>
+        D5 = sext(result);
     }
     :D5 "=add(" T5".L" "," S5".L" "):<<16" is imm_21_27=0b0101010 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 & OUTPUT_D5 {
            local E:2 = T5i:2 + S5i:2;
@@ -127,27 +161,68 @@ with slot: iclass=0b1101  {
     }
 
     :D5 "=add(" T5".L" "," S5".L" "):sat:<<16" is imm_21_27=0b0101010 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 & OUTPUT_D5 {
-           local E:2 = add_sat(T5i:2, S5i:2);
-        D5 = sext(E) << 16;
+        local a:2 = T5i:2;
+        local b:2 = S5i:2;
+        local result:2 = a + b;
+        if ((a ^ b) s< 0) goto <ok>;
+        if ((a ^ result) s>= 0) goto <ok>;
+        if (a s< 0) goto <neg_ovf>;
+        result = 0x7FFF;
+        goto <set_ovf>;
+        <neg_ovf>
+        result = 0x8000;
+        <set_ovf>
+        USR_OVF = 1;
+        <ok>
+        D5 = sext(result) << 16;
     }
     :D5 "=add(" T5".L" "," S5".H" "):sat:<<16" is imm_21_27=0b0101010 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b101 & D5 & OUTPUT_D5 {
-        local tmp:2 = S5i(2);
-           local E:2 = add_sat(T5i:2, tmp);
-        local tmp2:4 = sext(E);
-        D5 = tmp2 << 16;
+        local a:2 = T5i:2;
+        local b:2 = S5i(2);
+        local result:2 = a + b;
+        if ((a ^ b) s< 0) goto <ok>;
+        if ((a ^ result) s>= 0) goto <ok>;
+        if (a s< 0) goto <neg_ovf>;
+        result = 0x7FFF;
+        goto <set_ovf>;
+        <neg_ovf>
+        result = 0x8000;
+        <set_ovf>
+        USR_OVF = 1;
+        <ok>
+        D5 = sext(result) << 16;
     }
     :D5 "=add(" T5".H" "," S5".L" "):sat:<<16" is imm_21_27=0b0101010 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 & OUTPUT_D5 {
-        local tmp:2 = T5i(2);
-           local E:2 = add_sat(tmp, S5i:2);
-        local tmp2:4 = sext(E);
-        D5 = tmp2 << 16;
+        local a:2 = T5i(2);
+        local b:2 = S5i:2;
+        local result:2 = a + b;
+        if ((a ^ b) s< 0) goto <ok>;
+        if ((a ^ result) s>= 0) goto <ok>;
+        if (a s< 0) goto <neg_ovf>;
+        result = 0x7FFF;
+        goto <set_ovf>;
+        <neg_ovf>
+        result = 0x8000;
+        <set_ovf>
+        USR_OVF = 1;
+        <ok>
+        D5 = sext(result) << 16;
     }
-    :D5 "=add(" T5".H" "," S5".H" "):sat:<<16" is imm_21_27=0b0101010 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 & OUTPUT_D5 {
-        local tmpa:2 = S5i(2);
-        local tmpb:2 = T5i(2);
-           local E:2 = add_sat(tmpb, tmpa);
-        local tmp2:4 = sext(E);
-        D5 = tmp2 << 16;
+    :D5 "=add(" T5".H" "," S5".H" "):sat:<<16" is imm_21_27=0b0101010 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 & OUTPUT_D5 {       
+        local a:2 = T5i(2);
+        local b:2 = S5i(2);
+        local result:2 = a + b;
+        if ((a ^ b) s< 0) goto <ok>;
+        if ((a ^ result) s>= 0) goto <ok>;
+        if (a s< 0) goto <neg_ovf>;
+        result = 0x7FFF;
+        goto <set_ovf>;
+        <neg_ovf>
+        result = 0x8000;
+        <set_ovf>
+        USR_OVF = 1;
+        <ok>
+        D5 = sext(result) << 16;
     }
 }
 
@@ -443,7 +518,6 @@ with slot: iclass=0b1110  {
 }
 
 # XTYPE/ALU:sub hword
-define pcodeop sub_sat;
 with slot: iclass=0b1101  {
     :D5 "=sub(" T5".L, ", S5".L)"  is imm_21_27=0b0101001 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b00 & imm_5=0 & D5 & OUTPUT_D5 {
         local tmp:2 = T5i:2 - S5i:2;
@@ -454,13 +528,36 @@ with slot: iclass=0b1101  {
         D5 = sext(tmp);
     }
     :D5 "=sub(" T5".L, ", S5".L):sat" is imm_21_27=0b0101001 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b10 & imm_5=0 & D5 & OUTPUT_D5 {
-        local tmp:2 = sub_sat(T5i:2, S5i:2);
-        D5 = sext(tmp);
+        local a:2 = T5i:2;
+        local b:2 = S5i:2;
+        local result:2 = a - b;
+        if ((a ^ b) s>= 0) goto <ok>;
+        if ((a ^ result) s>= 0) goto <ok>;
+        if (a s< 0) goto <neg_ovf>;
+        result = 0x7FFF;
+        goto <set_ovf>;
+        <neg_ovf>
+        result = 0x8000;
+        <set_ovf>
+        USR_OVF = 1;
+        <ok>
+        D5 = sext(result);
     }
     :D5 "=sub(" T5".L, ", S5".H):sat" is imm_21_27=0b0101001 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b11 & imm_5=0 & D5 & OUTPUT_D5 {
-        local tmpa:2 = S5i(2);
-        local tmp:2 = sub_sat(T5i:2, tmpa);
-        D5 = sext(tmp);
+        local a:2 = T5i:2;
+        local b:2 = S5i(2);
+        local result:2 = a - b;
+        if ((a ^ b) s>= 0) goto <ok>;
+        if ((a ^ result) s>= 0) goto <ok>;
+        if (a s< 0) goto <neg_ovf>;
+        result = 0x7FFF;
+        goto <set_ovf>;
+        <neg_ovf>
+        result = 0x8000;
+        <set_ovf>
+        USR_OVF = 1;
+        <ok>
+        D5 = sext(result);
     }
     :D5 "=sub(" T5".L, ", S5".L):<<16" is imm_21_27=0b0101011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 & OUTPUT_D5 {
         local tmp:2 = T5i:2 - S5i:2;
@@ -483,28 +580,68 @@ with slot: iclass=0b1101  {
         D5 = tmp2 << 16;
     }
     :D5 "=sub(" T5".L, ", S5".L):sat:<<16" is imm_21_27=0b0101011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 & OUTPUT_D5 {
-        local tmp:2 = sub_sat(T5i:2, S5i:2);
-        local tmp2:4 = sext(tmp);
-        D5 = tmp2 << 16;
+        local a:2 = T5i:2;
+        local b:2 = S5i:2;
+        local result:2 = a - b;
+        if ((a ^ b) s>= 0) goto <ok>;
+        if ((a ^ result) s>= 0) goto <ok>;
+        if (a s< 0) goto <neg_ovf>;
+        result = 0x7FFF;
+        goto <set_ovf>;
+        <neg_ovf>
+        result = 0x8000;
+        <set_ovf>
+        USR_OVF = 1;
+        <ok>
+        D5 = sext(result) << 16;
     }
     :D5 "=sub(" T5".L, ", S5".H):sat:<<16" is imm_21_27=0b0101011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b101 & D5 & OUTPUT_D5 {
-        local tmpa:2 = S5i(2);
-        local tmp:2 = sub_sat(T5i:2, tmpa);
-        local tmp2:4 = sext(tmp);
-        D5 = tmp2 << 16;
+        local a:2 = T5i:2;
+        local b:2 = S5i(2);
+        local result:2 = a - b;
+        if ((a ^ b) s>= 0) goto <ok>;
+        if ((a ^ result) s>= 0) goto <ok>;
+        if (a s< 0) goto <neg_ovf>;
+        result = 0x7FFF;
+        goto <set_ovf>;
+        <neg_ovf>
+        result = 0x8000;
+        <set_ovf>
+        USR_OVF = 1;
+        <ok>
+        D5 = sext(result) << 16;
     }
     :D5 "=sub(" T5".H, ", S5".L):sat:<<16" is imm_21_27=0b0101011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 & OUTPUT_D5 {
-        local tmpa:2 = T5i(2);
-        local tmp:2 = sub_sat(tmpa, S5i:2);
-        local tmp2:4 = sext(tmp);
-        D5 = tmp2 << 16;
+        local a:2 = T5i(2);
+        local b:2 = S5i:2;
+        local result:2 = a - b;
+        if ((a ^ b) s>= 0) goto <ok>;
+        if ((a ^ result) s>= 0) goto <ok>;
+        if (a s< 0) goto <neg_ovf>;
+        result = 0x7FFF;
+        goto <set_ovf>;
+        <neg_ovf>
+        result = 0x8000;
+        <set_ovf>
+        USR_OVF = 1;
+        <ok>
+        D5 = sext(result) << 16;
     }
     :D5 "=sub(" T5".H, ", S5".H):sat:<<16" is imm_21_27=0b0101011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & D5 & OUTPUT_D5 {
-        local tmpa:2 = S5i(2);
-        local tmpb:2 = T5i(2);
-        local tmp:2 = sub_sat(tmpb, tmpa);
-        local tmp2:4 = sext(tmp);
-        D5 = tmp2 << 16;
+        local a:2 = T5i(2);
+        local b:2 = S5i(2);
+        local result:2 = a - b;
+        if ((a ^ b) s>= 0) goto <ok>;
+        if ((a ^ result) s>= 0) goto <ok>;
+        if (a s< 0) goto <neg_ovf>;
+        result = 0x7FFF;
+        goto <set_ovf>;
+        <neg_ovf>
+        result = 0x8000;
+        <set_ovf>
+        USR_OVF = 1;
+        <ok>
+        D5 = sext(result) << 16;
     }
 }
 
