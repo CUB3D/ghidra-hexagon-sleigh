@@ -3,18 +3,11 @@ package pw.cub3d.hexagon;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Label;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Pattern;
-import java.util.zip.InflaterInputStream;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -40,8 +33,15 @@ import ghidra.app.services.ProgramManager;
 import ghidra.framework.plugintool.ComponentProviderAdapter;
 import ghidra.framework.plugintool.PluginTool;
 import ghidra.program.model.address.Address;
+import ghidra.program.model.address.AddressRange;
+import ghidra.program.model.address.AddressRangeIterator;
+import ghidra.program.model.address.AddressSet;
+import ghidra.program.model.listing.Instruction;
+import ghidra.program.model.listing.InstructionIterator;
+import ghidra.program.model.listing.Listing;
 import ghidra.program.model.listing.Program;
 import ghidra.program.model.mem.Memory;
+import ghidra.program.model.scalar.Scalar;
 import ghidra.util.task.TaskMonitor;
 
 public class QdbViewerProvider extends ComponentProviderAdapter {
@@ -60,116 +60,98 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
 		public QdbViewerProvider(PluginTool tool, String owner) {
 			super(tool, "QDB", owner);
 			buildMainPanel();
-			setIcon(new GIcon("icon.sample.provider"));
+			setIcon(new GIcon("icon.plugin.datatypes.util.closed.folder.locked"));
 			setDefaultWindowPosition(WindowPosition.WINDOW);
 			setTitle("QDB Viewer");
 			setVisible(true);
-			createActions();
-		}
-		
-		class QDBFile {
-			class Entry {
-				private int hash;
-				private String msg;
-			}
 			
-			private List<Entry> hashesToLogs;
-			
-			public QDBFile(byte[] data) throws IOException {
-				// Skip 64 byte header
-				byte[] compressedData = Arrays.copyOfRange(data, 64, data.length);
-				
-				// Decompress zlib stream
-				 byte[] decompressedBytes;
-	            try (ByteArrayInputStream bais = new ByteArrayInputStream(compressedData);
-	                 InflaterInputStream iis = new InflaterInputStream(bais);
-	                 ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
-
-	                byte[] buffer = new byte[8192];
-	                int len;
-	                while ((len = iis.read(buffer)) != -1) {
-	                    bos.write(buffer, 0, len);
-	                }
-	                decompressedBytes = bos.toByteArray();
-	            }
-
-	            
-	            this.hashesToLogs = new ArrayList<>();
-	            
-	            // Convert to string
-	            String decompressed = new String(decompressedBytes, StandardCharsets.UTF_8);
-
-	            for (String line : decompressed.split("\n", -1)) {
-	            	// Comment
-	            	if(line.startsWith("#")) {
-	            		continue;
-	            	}
-	            	String[] parts = line.split(":", -1);
-	            	// Not enough elements
-	            	if (parts.length < 5) {
-	            		continue;
-	            	}
-	            	// End of hashes
-	            	if (line.startsWith("<\\Contents>")) {
-	            		break;
-	            	}
-	            	
-	            	Entry ent = new Entry();
-	            	ent.hash = Integer.decode(parts[0]);
-	            	ent.msg = String.join(":", Arrays.copyOfRange(parts, 5, parts.length));
-            		this.hashesToLogs.add(ent);
-	            }
-			}
-		}
-
-		private void createActions() {
 			action = new DockingAction("Load QDB", getOwner()) {
 				@Override
 				public void actionPerformed(ActionContext context) {
-					JFileChooser fileChooser = new JFileChooser();
-	                
-	                FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files (*.qdb)", "qdb");
-	                fileChooser.setFileFilter(filter);
-
-	                int result = fileChooser.showOpenDialog(mainPanel);
-
-	                if (result == JFileChooser.APPROVE_OPTION) {
-	                    File selectedFile = fileChooser.getSelectedFile();
-	                    
-	                    try {
-	            			byte[] data = Files.readAllBytes(selectedFile.toPath());
-	                    	loadedQdb = new QDBFile(data);
-	                    	searchFor.setEnabled(false);
-	                    	decodeBtn.setEnabled(false);
-	                    	selection = null;
-	                    	
-	                    	Object[][] tblData = new Object[loadedQdb.hashesToLogs.size()][3];
-	                    	for(int i = 0; i < loadedQdb.hashesToLogs.size(); i++) {
-	                    		tblData[i][0] = i;
-	                    		tblData[i][1] = loadedQdb.hashesToLogs.get(i).hash;
-	                    		tblData[i][2] = loadedQdb.hashesToLogs.get(i).msg;
-	                    	}
-	                    	String[] columnNames = {"#", "Hash", "Message"};
-	                    	model.setDataVector(tblData, columnNames);
-	                    }catch(Exception e) {
-	                    	e.printStackTrace();
-	                    }
-	                    
-	                    
-	                }
+					onLoadFile();
 				}
 			};
 
 			action.setEnabled(true);
-			javax.swing.Icon icon = new GIcon("icon.sample.action.hello.world");
+			javax.swing.Icon icon = new GIcon("icon.drive");
 			action.setToolBarData(new ToolBarData(icon));
 			action.setDescription("Load QDB file");
 			addLocalAction(action);
 		}
+		
+		public void onLoadFile() {
+			JFileChooser fileChooser = new JFileChooser();
+            
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files (*.qdb)", "qdb");
+            fileChooser.setFileFilter(filter);
 
-		@Override
-		public JComponent getComponent() {
-			return mainPanel;
+            int result = fileChooser.showOpenDialog(mainPanel);
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                
+                try {
+        			byte[] data = Files.readAllBytes(selectedFile.toPath());
+                	loadedQdb = new QDBFile(data);
+                	searchFor.setEnabled(false);
+                	decodeBtn.setEnabled(true);
+                	selection = null;
+                	
+                	Object[][] tblData = new Object[loadedQdb.getEntries().size()][3];
+                	for(int i = 0; i < loadedQdb.getEntries().size(); i++) {
+                		tblData[i][0] = i;
+                		tblData[i][1] = loadedQdb.getEntries().get(i).getHash();
+                		tblData[i][2] = loadedQdb.getEntries().get(i).getMessage();
+                	}
+                	String[] columnNames = {"#", "Hash", "Message"};
+                	model.setDataVector(tblData, columnNames);
+                }catch(Exception e) {
+                	e.printStackTrace();
+                }
+            }
+		}
+		
+		private Address findInCode(Memory mem, long tgt) {
+			Listing l = getProgram().getListing();
+        	
+        	
+        	AddressRangeIterator itr = mem.getAddressRanges();
+        	for(AddressRange range : itr) {
+        		AddressSet as = new AddressSet(range.getMinAddress(), range.getMaxAddress());
+        		InstructionIterator it = l.getInstructions(as, true);
+        		
+        		
+        		for(Instruction i : it) {
+        			int num_ops = i.getNumOperands();
+        			for(int op = 0; op < num_ops; op++) {
+        				Object[] ops = i.getOpObjects(op);
+        				ghidra.program.model.symbol.Reference[] opRefs = i.getOperandReferences(op);
+        				
+        				if(opRefs.length == 0) {
+        					for(Object opO : ops) {
+        						if(opO instanceof Scalar) {
+        							Scalar s = (Scalar) opO;
+        							if(s.getUnsignedValue() == tgt) {
+        								return i.getAddress();
+        							}
+        						}
+        					}
+        				}
+        				
+        			}
+        		}
+        		
+        	}
+        	return null;
+		}
+		
+		private void setResult(String result, boolean success) {
+    		resultTxt.setText(result);
+    		
+    		if(success) {
+    			StringSelection ss1 = new StringSelection(result);
+            	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss1, ss1);
+    		}
 		}
 
 		private void buildMainPanel() {
@@ -195,22 +177,30 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
 			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			
 			table.getSelectionModel().addListSelectionListener(e -> {
-				int row = table.getSelectedRow();
-				int idx = Integer.decode(table.getValueAt(row, 0).toString());
-				selection = loadedQdb.hashesToLogs.get(idx);
-				searchFor.setEnabled(true);
-				decodeBtn.setEnabled(true);
+				selection = null;
+				searchFor.setEnabled(false);
+				
+				try {
+					int row = table.getSelectedRow();
+					int idx = Integer.decode(table.getValueAt(row, 0).toString());
+					selection = loadedQdb.getEntries().get(idx);
+					searchFor.setEnabled(true);
+				} catch (Exception ee) {
+					ee.printStackTrace();
+				}
 			});
             JScrollPane scrollPane = new JScrollPane(table);
             c.gridx = 0;
             c.gridy = 0;
-            c.fill = GridBagConstraints.HORIZONTAL;
-            c.gridwidth = 3;
+            c.weightx = 1;
+            c.weighty = 2;
+            c.fill = GridBagConstraints.BOTH;
+            c.gridwidth = GridBagConstraints.REMAINDER;
             mainPanel.add(scrollPane, c);
             
             searchFor = new JButton("Search Selected");
             searchFor.addActionListener(e -> {
-            	long targetValue = (0x1f000000 + selection.hash) << 3;
+            	long targetValue = (0x1f000000 + selection.getHash()) << 3;
             	Memory mem = getProgram().getMemory();
             	
             	byte[] nedl = new byte[4];
@@ -219,19 +209,33 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
             	nedl[2] = (byte) ((targetValue >> 16) & 0xFF);
             	nedl[3] = (byte) ((targetValue >> 24) & 0xFF);
             	
+        		setResult("Searching", false);
+            	
             	Address results = mem.findBytes(mem.getMinAddress(), nedl, null, true, TaskMonitor.DUMMY);
             	            	
             	if(results != null) {           	
-            		resultTxt.setText(results.toString());
+            		setResult(results.toString(), true);
             	} else {
-            		resultTxt.setText("Log not found");
+            		setResult("Log not found for " + String.format("%x", targetValue), false);
+            		
+            		results = findInCode(mem, targetValue);
+            		
+            		if(results != null) {           	
+                		setResult(results.toString(), true);
+                	} else {
+                		setResult("Log not found for " + String.format("%x", targetValue), false);
+                	}
             	}
+            	
+            	
             });
             searchFor.setEnabled(false);
             c.gridx = 0;
             c.gridy = 3;
+            c.weightx = 1;
+            c.weighty = 0;
             c.fill = GridBagConstraints.HORIZONTAL;
-            c.gridwidth = 3;
+            c.gridwidth = GridBagConstraints.REMAINDER;
             mainPanel.add(searchFor, c);
             
             JTextField search = new JTextField();
@@ -256,60 +260,69 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
             c.gridx = 0;
             c.gridy = 4;
             c.gridwidth = 1;
+            c.weightx = 0;
+            c.weighty = 0;
             c.fill = GridBagConstraints.HORIZONTAL;
-            mainPanel.add(new Label("Fitler:"), c);
+            mainPanel.add(new Label("Filter:"), c);
             
             c.gridx = 1;
             c.gridy = 4;
-            c.gridwidth = 2;
+            c.weightx = 1;
+            c.weighty = 0;
+            c.gridwidth = GridBagConstraints.REMAINDER;
             c.fill = GridBagConstraints.HORIZONTAL;
             mainPanel.add(search, c);
             
             c.gridx = 0;
             c.gridy = 5;
             c.gridwidth = 1;
+            c.weightx = 0;
+            c.weighty = 0;
             c.fill = GridBagConstraints.HORIZONTAL;
             mainPanel.add(new Label("Decode:"), c);
             
             JTextField decode = new JTextField();
             c.gridx = 1;
             c.gridy = 5;
-            c.gridwidth = 2;
+            c.weightx = 1;
+            c.weighty = 0;
+            c.gridwidth = GridBagConstraints.REMAINDER;
             c.fill = GridBagConstraints.HORIZONTAL;
             mainPanel.add(decode, c);
             
             decodeBtn = new JButton("Decode");
             decodeBtn.setEnabled(false);
             decodeBtn.addActionListener(e -> {
-            	long msg_id = Long.decode(decode.getText());
-            	
-            	long kind = (msg_id >> 24) & 0xFF;
-            	long msg_idx = msg_id & 0xFFFFF;
-    			if (kind == 0xf3) {
-    				msg_idx = (msg_idx >>4);
-    			}else if (kind == 0xf2) {
-    				msg_idx = (msg_idx >>4) | (1<<14);
-    			} else if (kind == 0xf8) {
-    				msg_idx = (msg_id & 0xFFFFFF) >> 3;
-    			}
-    			
-    			QDBFile.Entry ent = null;
-    			for(QDBFile.Entry ee : loadedQdb.hashesToLogs) {
-    				if(ee.hash == msg_idx) {
-    					ent = ee;
-    					break;
-    				}
-    			}
-            	
-            	if(ent != null) {           	
-            		resultTxt.setText(ent.msg);
-            	} else {
-            		resultTxt.setText("Hash not found in QDB");
+            	try {
+	            	long msg_id = Long.decode(decode.getText());
+	            	
+	            	long kind = (msg_id >> 24) & 0xFF;
+	            	long msg_idx = msg_id & 0xFFFFF;
+	    			if (kind == 0xf3) {
+	    				msg_idx = (msg_idx >>4);
+	    			}else if (kind == 0xf2) {
+	    				msg_idx = (msg_idx >>4) | (1<<14);
+	    			} else if (kind == 0xf8) {
+	    				msg_idx = (msg_id & 0xFFFFFF) >> 3;
+	    			}
+	    			
+	    			QDBFile.Entry ent = loadedQdb.getByHash(msg_idx);
+	    			
+	            	if(ent != null) {
+	            		setResult(ent.getMessage(), true);
+	            	} else {
+	            		setResult("Hash not found in QDB", false);
+	            	}
+            	} catch (Exception ee) {
+            		ee.printStackTrace();
+            		resultTxt.setText("Failed!");
             	}
             });
             c.gridx = 0;
             c.gridy = 6;
-            c.gridwidth = 3;
+            c.weightx = 1;
+            c.weighty = 0;
+            c.gridwidth = GridBagConstraints.REMAINDER;
             c.fill = GridBagConstraints.HORIZONTAL;
             mainPanel.add(decodeBtn, c);
             
@@ -317,16 +330,25 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
             c.gridx = 0;
             c.gridy = 7;
             c.gridwidth = 1;
+            c.weightx = 0;
+            c.weighty = 0;
             c.fill = GridBagConstraints.HORIZONTAL;
             mainPanel.add(new Label("Result:"), c);
             
             c.gridx = 1;
             c.gridy = 7;
-            c.gridwidth = 2;
+            c.weightx = 1;
+            c.weighty = 0;
+            c.gridwidth = GridBagConstraints.REMAINDER;
             c.fill = GridBagConstraints.HORIZONTAL;
             resultTxt = new JTextField();
             resultTxt.setEditable(false);
             mainPanel.add(resultTxt, c);
+		}
+		
+		@Override
+		public JComponent getComponent() {
+			return mainPanel;
 		}
 
 		private Program getProgram() {
