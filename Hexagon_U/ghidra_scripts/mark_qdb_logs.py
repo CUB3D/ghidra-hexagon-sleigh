@@ -4,10 +4,13 @@
 #@runtime Jython
 
 # There are two forms of log message seen so far
-# 1 - Logs are a hash starting 0xf2 / 0xf3 and are passed in a reg / constant into the log function
-# 2 - Logs are in the program text, with a call to a log func, that func reads the log id from LR and returns to LR+4, this seems to be 0xf8 hashes
+# 1 - Logs are a hash starting 0xf2 / 0xf3 / 0xf8 and are passed in a reg / constant into the log function
+# 2 - Logs are in the program text, with a call to a log func, that func reads the log id from LR and returns to LR+4, this seems to be 0xf8 hashes in some firmwares
 # 
-# Before using this you will need to find the inline log function and rename it to `inline_log` and find the classic log function and rename it to `hashed_log`
+# Before using this you will need to:
+# - find the inline log function and rename it to `inline_log`
+# - find the classic log function and rename it to `msg_v4_send_.*`, there will be multiple versions that take a different number of args
+# * These will likely be some of the most referenced functions in the binary
 # For the logs that take a struct argument with a pointer to the file and log msg / hash, you need to use the other qcom_logs script
 
 import ghidra.app.decompiler.DecompInterface as DecompInterface
@@ -29,6 +32,9 @@ QUIET = True
 # Write out a file with the logs that have none-number args e.g. registers
 SAVE_NON_NUMBER = False
 
+# For debugging
+SAVE_DECOMPRESSED_QDB = False
+
 # Timeout for function decompilation, in seconds
 TIMEOUT = 1
 
@@ -39,11 +45,21 @@ def parse_qdb(path):
 	with open(path, "rb") as f:
 		data = f.read()
 	compressed = data[64:]
-	decompressed = zlib.decompress(compressed).decode("utf-8")
+	decompressed = zlib.decompress(compressed)
+	
+	if SAVE_DECOMPRESSED_QDB:
+		with open("/tmp/decomp.qdb", "wb") as f:
+			f.write(decompressed)
+	decompressed = decompressed.decode("utf-8")
+			
 
 	lines = decompressed.split("\n")
 	hashes = {}
 	for idx,line in enumerate(lines):
+		# end of hashes, start of MTraceContent and QtraceStrContent
+		if line.strip() == "<\Content>":
+			break
+			
 		if line.count(":") < 5 or line[0] == '#':
 			continue
 		parts = line.split(":")
@@ -125,7 +141,7 @@ def process_code(di, func):
 		if p["address"] in DONE:
 			continue
 		DONE.add(p["address"])
-		if p["name"] == "hashed_log" or p["name"] == "inline_log":
+		if "msg_v4_send_" in p["name"] or p["name"] == "inline_log":
 			TOTAL += 1
 			# Address of the call instruction
 			address_addr = toAddr(p["address"])

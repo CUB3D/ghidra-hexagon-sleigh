@@ -109,6 +109,10 @@ while True:
 		createFunction(entry_p, "task_" + name + "_entry")
 	except:
 		pass
+	try:
+		disassemble(entry_p)
+	except:
+		pass
 		
 	task = task.add(8)
 	safe_limit += 1
