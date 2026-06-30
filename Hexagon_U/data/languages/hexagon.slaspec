@@ -287,6 +287,7 @@ define token instr (32)
     imm_1_2           = ( 1, 2)
     imm_1             = ( 1, 1)
 
+    imm_0_31          = ( 0,31)
     imm_0_13          = ( 0,13)
     imm_0_13u         = ( 0,13)
     imm_0_12          = ( 0,12)
@@ -549,6 +550,9 @@ define context testctx
 
     or3test         = (256,262) noflow
     or3test_overlap = (256,262) noflow
+    
+    # Flag that this address contains inline data
+    inline_data = (263,263) noflow
 ;
 
 # high dword: Left
@@ -1769,10 +1773,13 @@ macro lsl_by_reg_d(out, src, t) {
 @include "hvx.sinc"
 
 
-# This is a placeholder for inline 0xf8xxxxxx log messages
+# This is a placeholder for inline data, commonly used for 0xf8xxxxxx log messages
+# As a space saving optimisation, the compiler will create a thunk that reads a 32-bit value from LR and returns to LR+4 to call a function with a single 32-bit argument
+#  this takes less space than using an immext but confuses the Ghidra flow control
 # These appear directly in the instruction stream, so if they aren't picked up by the disassembler we will stop mid-function, see the `mark_qdb_logs` script for more info
 # Not a member of a slot, because that would cause DOTNEW to be offset
-:"inline_log_message" is topbyte=0xf8 {}
+:"inline_data" imm_0_31 is imm_0_31 & inline_data=1 {}
+:"inline_log_message" imm_0_31 is imm_0_31 & topbyte=0xf8 {}
 
 
 macro prelude() {
