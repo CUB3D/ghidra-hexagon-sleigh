@@ -115,17 +115,22 @@ def clear_and_set_lbl(addr, lbl, primary=True):
 
 
 def is_addr_mapped(x):
-        try:
-                getLong(x)
-                return True
-        except:
-                return False
+	try:
+		getLong(x)
+		return True
+	except:
+		return False
 
 
 def demangle(name):
     x = subprocess.check_output(['c++filt', "_Z" + name])
-    print(x)
+    # print(x)
     return x.strip()
+
+def is_invalid_name(name):
+	if name is None or len(name) == 0 or "\n" in name:
+		return True
+	return False
 
 def mark_vtable(x, name):
 	print "VT @ ", x 
@@ -174,14 +179,14 @@ def mark_typeinfo(x, name, indent=1):
 	typeinfo_base = x.add(-8)
 	
 	str_addr = toAddr(getLong(typeinfo_base.add(4)) & 0xFFFFFFFF)
-        if not is_addr_mapped(str_addr):
-                return
-        name = create_or_read_string(str_addr)
-        if name is None or len(name) == 0:
-                return
+	if not is_addr_mapped(str_addr):
+		return
+	name = create_or_read_string(str_addr)
+	if is_invalid_name(name):
+		return
 
-        demangled_name = demangle(name)
-        clear_and_set_lbl(typeinfo_base, demangled_name, True)
+	demangled_name = demangle(name)
+	clear_and_set_lbl(typeinfo_base, demangled_name, True)
 	
 	print("- " * indent, x, "=", name)
 	
@@ -212,17 +217,17 @@ def mark_typeinfo_vtbl_ref(x, name):
 	v5 = getLong(x.add(16)) & 0xFFFFFFFF 
 	
 	str_addr = toAddr(getLong(x.add(4)) & 0xFFFFFFFF)
-        if not is_addr_mapped(str_addr):
-                return
-        name = create_or_read_string(str_addr)
-        if name is None or len(name) == 0:
-                return
-        demangled_name = demangle(name)
-        clear_and_set_lbl(x, demangled_name, True)
+	if not is_addr_mapped(str_addr):
+			return
+	name = create_or_read_string(str_addr)
+	if is_invalid_name(name):
+			return
+	demangled_name = demangle(name)
+	clear_and_set_lbl(x, demangled_name + "_typeinfo", True)
 
 
-        if (v1 == 0) or (v2 == 0) or (not is_addr_mapped(toAddr(v1))) or (not is_addr_mapped(toAddr(v2))):
-                return
+	if (v1 == 0) or (v2 == 0) or (not is_addr_mapped(toAddr(v1))) or (not is_addr_mapped(toAddr(v2))):
+		return
 	
 	if (v5 == 0) or (v4 == 0) or (not is_addr_mapped(toAddr(v5))) or (not is_addr_mapped(toAddr(v4))):
 		 kind = cxx_type_info_vtbl_ref_short
