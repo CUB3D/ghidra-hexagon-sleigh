@@ -80,6 +80,13 @@ class MemwPhysCallback(BreakCallBack):
     def pcodeCallback(self, _state):
         return True
 
+class IsWarmupCompleteCallback(BreakCallBack):
+    def __init__(self):
+        pass
+
+    def pcodeCallback(self, _state):
+        return True
+
 class HaltMemoryFaultHandler(MemoryFaultHandler):
     def uninitializedRead(self, a, s, b, bo):
         print("Uninit read(", a, s, ")")
@@ -102,6 +109,7 @@ def main():
     emuHelper.registerCallOtherCallback("cswi", CswiCallback())
     emuHelper.registerCallOtherCallback("ciad", CiadCallback())
     emuHelper.registerCallOtherCallback("memw_phys", MemwPhysCallback())
+    emuHelper.registerCallOtherCallback("is_warmup_complete", IsWarmupCompleteCallback())
     emuHelper.setMemoryFaultHandler(HaltMemoryFaultHandler())
 
     STACK_START = 0xF8000000

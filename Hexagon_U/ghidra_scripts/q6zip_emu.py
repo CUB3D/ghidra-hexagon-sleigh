@@ -71,6 +71,12 @@ class HaltMemoryFaultHandler(MemoryFaultHandler):
         print("Unk addr")
         exit()
 
+class IsWarmupCompleteCallback(BreakCallBack):
+    def __init__(self):
+        pass
+
+    def pcodeCallback(self, _state):
+        return True
 
 # Pixel 2, June 2020
 # OUT_BUF = 0xD0000000
@@ -107,6 +113,7 @@ def main():
     emuHelper.registerCallOtherCallback("dcache_fetch", DCacheFetchCallback())
     emuHelper.registerCallOtherCallback("isync", IsyncCallback())
     emuHelper.setMemoryFaultHandler(HaltMemoryFaultHandler())
+    emuHelper.registerCallOtherCallback("is_warmup_complete", IsWarmupCompleteCallback())
 
     out_size_addr = 0xF0000000
     STACK_START = 0xF8000000

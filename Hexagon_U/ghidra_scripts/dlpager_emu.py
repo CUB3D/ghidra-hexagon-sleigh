@@ -38,6 +38,13 @@ class DCacheZeroAddrCallback(BreakCallBack):
         #print("dcache_zero_addr()")
         return True
 
+class IsWarmupCompleteCallback(BreakCallBack):
+    def __init__(self):
+        pass
+
+    def pcodeCallback(self, _state):
+        return True
+
 
 # Pixel 2, June 2020
 #OUT_BUF = 0xd11ca000
@@ -64,6 +71,7 @@ END_OF_FUNCTION_MAGIC = 0xDEADBEEF
 def main():
     emuHelper = EmulatorHelper(currentProgram)
     emuHelper.registerCallOtherCallback("dcache_zero_addr", DCacheZeroAddrCallback())
+    emuHelper.registerCallOtherCallback("is_warmup_complete", IsWarmupCompleteCallback())
 
     init_emu(emuHelper)
 
