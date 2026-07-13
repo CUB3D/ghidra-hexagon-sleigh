@@ -1,3 +1,4 @@
+# Decompress Q6ZIP compressed code sections
 #@author CUB3D
 #@category Qualcomm
 #@runtime Jython

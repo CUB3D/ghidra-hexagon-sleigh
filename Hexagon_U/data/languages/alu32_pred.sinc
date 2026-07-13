@@ -3,7 +3,7 @@
 with slot: iclass=0b0111 {
     :"if ("U2_pred_21_22") "D5"=add("S5","EXT_imm_5_12")" is Rs=0 & MajOp=0b100 & imm_23=0 & U2_pred_21_22 & U2_pred_21_22i & S5 & S5i & imm_13=0 & EXT_imm_5_12 & D5 & OUTPUT_D5 {
         if(U2_pred_21_22i == 0) goto <end>;
-        D5 = S5i + EXT_imm_5_12;
+        	D5 = S5i + EXT_imm_5_12;
         <end>
         }
         
@@ -11,7 +11,7 @@ with slot: iclass=0b0111 {
     
      :"if (!"U2_pred_21_22") "D5"=add("S5","EXT_imm_5_12")" is Rs=0 & MajOp=0b100 & imm_23=1 & U2_pred_21_22 & U2_pred_21_22i & S5 & S5i & imm_13=0 & EXT_imm_5_12 & D5 & OUTPUT_D5 {
         if(U2_pred_21_22i != 0) goto <end>;
-        D5 = S5i + EXT_imm_5_12;
+        	D5 = S5i + EXT_imm_5_12;
         <end>
      }
         
@@ -22,26 +22,26 @@ with slotNV: iclass=0b0111 {
 
         :"if ("U2_pred_new_21_22".new) "D5"=add("S5","BR_EXT_imm_5_12")" is Rs=0 & MajOp=0b100 & imm_23=0 & U2_pred_new_21_22 & S5 & S5i & imm_13=1 & BR_EXT_imm_5_12 & D5 {
             if(U2_pred_new_21_22 == 0) goto <end>;
-            D5 = S5i + BR_EXT_imm_5_12;
+            	D5 = S5i + BR_EXT_imm_5_12;
             <end>
         }
 
         :"if (!"U2_pred_new_21_22".new) "D5"=add("S5","BR_EXT_imm_5_12")" is Rs=0 & MajOp=0b100 & imm_23=1 & U2_pred_new_21_22 & S5 & S5i & imm_13=1 & BR_EXT_imm_5_12 & D5 {
-        if(U2_pred_new_21_22 != 0) goto <end>;
-        D5 = S5i + BR_EXT_imm_5_12;
-        <end>
+	        if(U2_pred_new_21_22 != 0) goto <end>;
+	        	D5 = S5i + BR_EXT_imm_5_12;
+        	<end>
         }
 }
 
 with slot: iclass=0b1111 {
     :"if(" U2_5_6 ") " D5 "=add(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_21=0 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & U2_5_6 & U2_5_6i & D5 & OUTPUT_D5 {
         if(U2_5_6i == 0) goto <end>;
-        D5 = S5i + T5i;
+        	D5 = S5i + T5i;
         <end>
     }
     :"if(!" U2_5_6 ") " D5 "=add(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_21=0 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=1 & U2_5_6 & U2_5_6i & D5 & OUTPUT_D5 {
         if(U2_5_6i != 0) goto <end>;
-        D5 = S5i + T5i;
+        	D5 = S5i + T5i;
         <end>
     }
     
@@ -50,7 +50,7 @@ with slot: iclass=0b1111 {
 with slotNV: iclass=0b1111 {
     :"if(" U2_5_6_pred_new ".new) " D5 "=add(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_21=0 & imm_21=0 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=0 & U2_5_6_pred_new & D5 {
         if(U2_5_6_pred_new == 0) goto <end>;
-        D5 = S5i + T5i;
+        	D5 = S5i + T5i;
         <end>
     }
 }
@@ -60,7 +60,7 @@ with slot: iclass=0b1111 {
 with slotNV: iclass=0b1111 {
     :"if(!" U2_5_6_pred_new ".new) " D5 "=add(" S5 "," T5 ")" is Rs=1 & MajOp=0b011 & imm_23=0 & imm_21=0 & imm_21=0 & S5 & S5i & imm_13=1 & T5 & T5i & imm_7=1 & U2_5_6_pred_new & D5 {
         if(U2_5_6_pred_new != 0) goto <end>;
-        D5 = S5i + T5i;
+        	D5 = S5i + T5i;
         <end>
     }
 }
@@ -69,16 +69,16 @@ with slotNV: iclass=0b1111 {
 with slot: iclass=0b0111 {
     :"if(" U2 ") " D5 "=aslh(" S5 ")" is Rs=0 & MajOp=0b000 & MinOp=0b000 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b00 & U2 & U2i & imm_5_7=0 & D5 & OUTPUT_D5 {
         if(U2i == 0) goto <end>;
-        D5 = S5i << 16;
-    <end>
+        	D5 = S5i << 16;
+    	<end>
     }
     :"if(" U2_pred_new ".new) " D5 "=aslh(" S5 ")"  is Rs=0 & MajOp=0b000 & MinOp=0b000 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5 & OUTPUT_D5 {}
 }
 with slotNV: iclass=0b0111 {
     :"if(" U2_pred_new ".new) " D5 "=aslh(" S5 ")"  is Rs=0 & MajOp=0b000 & MinOp=0b000 & S5 & S5i & imm_13=1 & imm_0_12 & imm_10_11=0b01 & U2_pred_new & imm_5_7=0 & D5 {
         if(U2_pred_new == 0) goto <end>;
-        D5 = S5i << 16;
-    <end>
+        	D5 = S5i << 16;
+    	<end>
     }
 }
 with slot: iclass=0b0111 {

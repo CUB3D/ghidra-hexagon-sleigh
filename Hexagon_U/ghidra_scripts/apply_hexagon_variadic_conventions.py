@@ -11,8 +11,9 @@
 #
 # Run in Ghidra: Script Manager -> Run
 
-# @category Hexagon
-# @author neryaz
+#@author neryaz
+#@category Qualcomm
+#@runtime Jython
 
 from ghidra.program.model.symbol import SourceType
 from ghidra.program.model.data import (

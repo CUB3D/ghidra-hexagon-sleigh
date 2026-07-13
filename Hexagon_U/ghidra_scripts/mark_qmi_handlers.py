@@ -1,8 +1,7 @@
+# Find and markup all QMI handler functions
 #@author CUB3D
 #@category Qualcomm
 #@runtime Jython
-
-# Find and markup all QMI handler functions
 
 from ghidra.app.util.cparser.C import CParser
 from ghidra.program.model.data import DataTypeConflictHandler, ArrayDataType

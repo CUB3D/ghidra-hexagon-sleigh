@@ -1,3 +1,4 @@
+# Create structs for structure-based log entries
 #@author CUB3D
 #@category Qualcomm
 #@runtime Jython

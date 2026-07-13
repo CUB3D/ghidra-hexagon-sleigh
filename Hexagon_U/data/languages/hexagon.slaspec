@@ -1873,6 +1873,7 @@ define pcodeop is_warmup_complete;
 macro endloop0() {
     # Helps with the hardware warmup loops (spNloop0) that use the P3 predicate after N times. Note that this is
     # technically only set if USR.LPCFG == 1, and USR.LPCFG is also decremented if not 0
+    #TODO: consider USR_LPCFG
     P3 = is_warmup_complete();
  
     if(LC0 <= 1) goto <endl0>;

@@ -1,3 +1,4 @@
+#Decompress Delta/DLPager compressed data
 #@author CUB3D
 #@category Qualcomm
 #@runtime Jython

@@ -1,8 +1,7 @@
+# Create structs for known diag handler tables
 #@author CUB3D
 #@category Qualcomm
 #@runtime Jython
-
-# Create structs for known diag handler tables
 
 from ghidra.app.util.cparser.C import CParser
 from ghidra.program.model.data import DataTypeConflictHandler, ArrayDataType

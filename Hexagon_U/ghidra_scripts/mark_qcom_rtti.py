@@ -1,4 +1,4 @@
-# Annotate Qualcomm classes by RTTI
+# Annotate c++ classes by RTTI
 #@author CUB3D
 #@category Qualcomm
 #@runtime Jython
