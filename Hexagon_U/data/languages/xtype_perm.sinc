@@ -86,11 +86,11 @@ with slot: iclass=0b1000  {
     	tmpa = tmpa + 3;
     	
     	*[register]:1 tmpo = *[register]:1 tmpa;
-    	tmpa = tmpa - 1;
+    	tmpa = tmpa - 1; tmpo = tmpo + 1;
     	*[register]:1 tmpo = *[register]:1 tmpa;
-    	tmpa = tmpa - 1;
+    	tmpa = tmpa - 1; tmpo = tmpo + 1;
     	*[register]:1 tmpo = *[register]:1 tmpa;
-    	tmpa = tmpa - 1;
+    	tmpa = tmpa - 1; tmpo = tmpo + 1;
     	*[register]:1 tmpo = *[register]:1 tmpa;
     }
 }
