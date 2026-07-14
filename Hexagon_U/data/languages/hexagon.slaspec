@@ -122,7 +122,7 @@
 #@define NV_DBG 1
 
 # Enable support for auto-and predicates
-# This ia a rarely used feature that causes multiple writes to the same predicate register to be combined with binary AND.
+# This is a rarely used feature that causes multiple writes to the same predicate register to be combined with binary AND.
 # We partially support this but some things may be broken, use this to turn it off.
 @define AUTO_AND_PREDICATE 1
 
