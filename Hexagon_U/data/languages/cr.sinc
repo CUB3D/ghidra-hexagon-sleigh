@@ -3,12 +3,13 @@
 # CR: Corner detection
 define pcodeop fastcorner9;
 with slot: iclass=0b0110  {
-    :D2 "=fastcorner9(" S2 "," T2 ")" is imm_20_27=0b10110000 & imm_18_19=0b00 & S2 & S2i & imm_13=1 & imm_10_12=0b000 & T2 & T2i & imm_7=1 & imm_5_6=0b00 & imm_4=1 & imm_2_3=0b00 & D2 {
-        D2 = fastcorner9(S2i, T2i);
+    :D2 "=fastcorner9(" S2 "," T2 ")" is imm_20_27=0b10110000 & imm_18_19=0b00 & S2 & S2i & imm_13=1 & imm_10_12=0b000 & T2 & T2i & imm_7=1 & imm_5_6=0b00 & imm_4=1 & imm_2_3=0b00 & D2 & D2_pred_new_raw {
+        set_pred(D2, D2_pred_new_raw, fastcorner9(S2i, T2i));
+        
     }
-    :D2 "=!fastcorner9(" S2 "," T2 ")" is imm_20_27=0b10110001 & imm_18_19=0b00 & S2 & S2i & imm_13=1 & imm_10_12=0b000 & T2 & T2i & imm_7=1 & imm_5_6=0b00 & imm_4=1 & imm_2_3=0b00 & D2 {
+    :D2 "=!fastcorner9(" S2 "," T2 ")" is imm_20_27=0b10110001 & imm_18_19=0b00 & S2 & S2i & imm_13=1 & imm_10_12=0b000 & T2 & T2i & imm_7=1 & imm_5_6=0b00 & imm_4=1 & imm_2_3=0b00 & D2 & D2_pred_new_raw {
         local tmp:1 = fastcorner9(S2i, T2i); 
-        D2 = !tmp;
+        set_pred(D2, D2_pred_new_raw, !tmp);
     }
 }
 # CR: Logical reduction
@@ -16,11 +17,11 @@ define pcodeop any8;
 define pcodeop all8;
 
 with slot: iclass=0b0110  {
-    :D2 "=any8(" S2 ")" is imm_20_27=0b10111000 & imm_18_19=0b00 & S2 & imm_13=0 & imm_2_12=0 & D2 & S2i{
-        D2 = any8(S2i);
+    :D2 "=any8(" S2 ")" is imm_20_27=0b10111000 & imm_18_19=0b00 & S2 & imm_13=0 & imm_2_12=0 & D2 & S2i & D2_pred_new_raw {
+        set_pred(D2, D2_pred_new_raw, any8(S2i));
     }
-    :D2 "=all8(" S2 ")" is imm_20_27=0b10111010 & imm_18_19=0b00 & S2 & imm_13=0 & imm_2_12=0 & D2 & S2i {
-        D2 = all8(S2i);
+    :D2 "=all8(" S2 ")" is imm_20_27=0b10111010 & imm_18_19=0b00 & S2 & imm_13=0 & imm_2_12=0 & D2 & S2i & D2_pred_new_raw {
+        set_pred(D2, D2_pred_new_raw, all8(S2i));
     }
 }
 
@@ -100,60 +101,60 @@ with slot: iclass=0b0110  {
 
 #CR: Logical predicates 
 with slot: iclass=0b0110  {
-    :D2_pred_new"=and("T2_pred", "S2_pred")" is imm_20_27=0b10110000 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & imm_2_7=0 & D2_pred_new {
-        D2_pred_new = T2_predi & S2_predi;
+    :D2_pred_new"=and("T2_pred", "S2_pred")" is imm_20_27=0b10110000 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & imm_2_7=0 & D2_pred_new & D2_pred_new_raw {
+        set_pred(D2_pred_new, D2_pred_new_raw, T2_predi & S2_predi);
     }
 
-    :D2_pred_new"=and("S2_pred", and("T2_pred","U2_pred"))" is imm_20_27=0b10110001 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & U2_pred & U2_predi & imm_2_5=0 & D2_pred_new {
-        D2_pred_new = S2_predi & T2_predi & U2_predi;
+    :D2_pred_new"=and("S2_pred", and("T2_pred","U2_pred"))" is imm_20_27=0b10110001 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & U2_pred & U2_predi & imm_2_5=0 & D2_pred_new & D2_pred_new_raw {
+        set_pred(D2_pred_new, D2_pred_new_raw, S2_predi & T2_predi & U2_predi);
     }
 
-    :D2_pred_new"=or("T2_pred", "S2_pred")" is imm_20_27=0b10110010 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & imm_2_7=0 & D2_pred_new {
-        D2_pred_new = T2_predi | S2_predi;
+    :D2_pred_new"=or("T2_pred", "S2_pred")" is imm_20_27=0b10110010 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & imm_2_7=0 & D2_pred_new & D2_pred_new_raw {
+        set_pred(D2_pred_new, D2_pred_new_raw, T2_predi | S2_predi);
     }
 
-    :D2_pred_new"=and("S2_pred", or("T2_pred","U2_pred"))" is imm_20_27=0b10110011 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & U2_pred & U2_predi & imm_2_5=0 & D2_pred_new {
-        D2_pred_new = S2_predi & (T2_predi | U2_predi);
+    :D2_pred_new"=and("S2_pred", or("T2_pred","U2_pred"))" is imm_20_27=0b10110011 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & U2_pred & U2_predi & imm_2_5=0 & D2_pred_new & D2_pred_new_raw {
+        set_pred(D2_pred_new, D2_pred_new_raw, S2_predi & (T2_predi | U2_predi));
     }
 
-    :D2_pred_new"=xor("T2_pred", "S2_pred")" is imm_20_27=0b10110100 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & imm_2_7=0 & D2_pred_new {
-        D2_pred_new = T2_predi ^ S2_predi;
+    :D2_pred_new"=xor("T2_pred", "S2_pred")" is imm_20_27=0b10110100 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & imm_2_7=0 & D2_pred_new & D2_pred_new_raw {
+        set_pred(D2_pred_new, D2_pred_new_raw, T2_predi ^ S2_predi);
     }
 
-    :D2_pred_new"=or("S2_pred", and("T2_pred","U2_pred"))" is imm_20_27=0b10110101 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & U2_pred & U2_predi & imm_2_5=0 & D2_pred_new {
-        D2_pred_new = S2_predi | (T2_predi & U2_predi);
+    :D2_pred_new"=or("S2_pred", and("T2_pred","U2_pred"))" is imm_20_27=0b10110101 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & U2_pred & U2_predi & imm_2_5=0 & D2_pred_new & D2_pred_new_raw {
+        set_pred(D2_pred_new, D2_pred_new_raw, S2_predi | (T2_predi & U2_predi));
     }
 
-    :D2_pred_new"=and("T2_pred", !"S2_pred")" is imm_20_27=0b10110110 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & imm_2_7=0 & D2_pred_new {
-        D2_pred_new = T2_predi & (~S2_predi);
+    :D2_pred_new"=and("T2_pred", !"S2_pred")" is imm_20_27=0b10110110 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & imm_2_7=0 & D2_pred_new & D2_pred_new_raw {
+        set_pred(D2_pred_new, D2_pred_new_raw, T2_predi & (~S2_predi));
     }
 
-    :D2_pred_new"=or("S2_pred", or("T2_pred","U2_pred"))" is imm_20_27=0b10110111 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & U2_pred & U2_predi & imm_2_5=0 & D2_pred_new {
-        D2_pred_new = S2_predi | (T2_predi | U2_predi);
+    :D2_pred_new"=or("S2_pred", or("T2_pred","U2_pred"))" is imm_20_27=0b10110111 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & U2_pred & U2_predi & imm_2_5=0 & D2_pred_new & D2_pred_new_raw {
+        set_pred(D2_pred_new, D2_pred_new_raw, S2_predi | (T2_predi | U2_predi));
     }
 
-    :D2_pred_new"=and("S2_pred", and("T2_pred", !"U2_pred"))" is imm_20_27=0b10111001 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & U2_pred & U2_predi & imm_2_5=0 & D2_pred_new {
-        D2_pred_new = S2_predi & (T2_predi & ~U2_predi);
+    :D2_pred_new"=and("S2_pred", and("T2_pred", !"U2_pred"))" is imm_20_27=0b10111001 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & U2_pred & U2_predi & imm_2_5=0 & D2_pred_new & D2_pred_new_raw {
+        set_pred(D2_pred_new, D2_pred_new_raw, S2_predi & (T2_predi & ~U2_predi));
     }
 
-    :D2_pred_new"=and("S2_pred", or("T2_pred", !"U2_pred"))" is imm_20_27=0b10111011 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & U2_pred & U2_predi & imm_2_5=0 & D2_pred_new {
-        D2_pred_new = S2_predi & (T2_predi | ~U2_predi);
+    :D2_pred_new"=and("S2_pred", or("T2_pred", !"U2_pred"))" is imm_20_27=0b10111011 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & U2_pred & U2_predi & imm_2_5=0 & D2_pred_new & D2_pred_new_raw {
+        set_pred(D2_pred_new, D2_pred_new_raw, S2_predi & (T2_predi | ~U2_predi));
     }
 
-    :D2_pred_new"=not("S2_pred")" is imm_20_27=0b10111100 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_2_12=0 & D2_pred_new {
-        D2_pred_new = ~S2_predi;
+    :D2_pred_new"=not("S2_pred")" is imm_20_27=0b10111100 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_2_12=0 & D2_pred_new & D2_pred_new_raw {
+       set_pred(D2_pred_new, D2_pred_new_raw, ~S2_predi);
     }
 
-    :D2_pred_new"=or("S2_pred", and("T2_pred", !"U2_pred"))" is imm_20_27=0b10111101 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & U2_pred & U2_predi & imm_2_5=0 & D2_pred_new {
-        D2_pred_new = S2_predi | (T2_predi & ~U2_predi);
+    :D2_pred_new"=or("S2_pred", and("T2_pred", !"U2_pred"))" is imm_20_27=0b10111101 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & U2_pred & U2_predi & imm_2_5=0 & D2_pred_new & D2_pred_new_raw {
+        set_pred(D2_pred_new, D2_pred_new_raw, S2_predi | (T2_predi & ~U2_predi));
     }
 
-    :D2_pred_new"=or("T2_pred", !"S2_pred")" is imm_20_27=0b10111110 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & imm_2_7=0 & D2_pred_new {
-        D2_pred_new = T2_predi | ~S2_predi;
+    :D2_pred_new"=or("T2_pred", !"S2_pred")" is imm_20_27=0b10111110 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & imm_2_7=0 & D2_pred_new & D2_pred_new_raw {
+        set_pred(D2_pred_new, D2_pred_new_raw, T2_predi | ~S2_predi);
     }
 
-    :D2_pred_new"=or("S2_pred", or("T2_pred", !"U2_pred"))" is imm_20_27=0b10111111 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & U2_pred & U2_predi & imm_2_5=0 & D2_pred_new {
-        D2_pred_new = S2_predi | (T2_predi | ~U2_predi);
+    :D2_pred_new"=or("S2_pred", or("T2_pred", !"U2_pred"))" is imm_20_27=0b10111111 & imm_18_19=0 & S2_pred & S2_predi & imm_13=0 & imm_10_12=0 & T2_pred & T2_predi & U2_pred & U2_predi & imm_2_5=0 & D2_pred_new & D2_pred_new_raw {
+        set_pred(D2_pred_new, D2_pred_new_raw, S2_predi | (T2_predi | ~U2_predi));
     }
 }
 

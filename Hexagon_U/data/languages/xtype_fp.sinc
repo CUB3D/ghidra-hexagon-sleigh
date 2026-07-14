@@ -13,25 +13,15 @@ with slot: iclass=0b1110  {
 define pcodeop sfclass;
 define pcodeop dfclass;
 with slot: iclass=0b1000  {
-    :D2 "=sfclass(" S5 "," imm_8_12u ")" is imm_21_27=0b0101111 & S5 & S5i & imm_13=0 & imm_8_12u & imm_1_7=0 & D2 {
+    :D2_pred_new "=sfclass(" S5 "," imm_8_12u ")" is imm_21_27=0b0101111 & S5 & S5i & imm_13=0 & imm_8_12u & imm_1_7=0 & D2_pred_new & D2_pred_new_raw {
         local matched:1 = sfclass(S5i, imm_8_12u:1);
-        if (matched != 0) goto <true>;
-        D2 = 0;
-        goto <end>;
-        <true>
-        D2 = $(PTRUE);
-        <end>
+        set_pred(D2_pred_new, D2_pred_new_raw, matched * $(PTRUE));
     }
 }
 with slot: iclass=0b1101  {
-    :D2 "=dfclass(" S5_pair "," imm_5_9u ")" is imm_21_27=0b1100100 & S5_pair & S5_pairi & imm_13=0 & imm_10_12=0 & imm_5_9u & imm_3_4=0b10 & imm_2=0 & D2 {
+    :D2_pred_new "=dfclass(" S5_pair "," imm_5_9u ")" is imm_21_27=0b1100100 & S5_pair & S5_pairi & imm_13=0 & imm_10_12=0 & imm_5_9u & imm_3_4=0b10 & imm_2=0 & D2_pred_new & D2_pred_new_raw {
         local matched:1 = dfclass(S5_pairi, imm_5_9u:1);
-        if (matched != 0) goto <true>;
-        D2 = 0;
-        goto <end>;
-        <true>
-        D2 = $(PTRUE);
-        <end>
+        set_pred(D2_pred_new, D2_pred_new_raw, matched * $(PTRUE));
     }
 }
 
@@ -39,61 +29,31 @@ with slot: iclass=0b1101  {
 define pcodeop dfcmp_uo;
 define pcodeop sfcmp_uo;
 with slot: iclass=0b1100  {
-    :D2_pred_new "=sfcmp.ge(" S5 "," T5 ")" is imm_21_27=0b0111111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & imm_2_4=0 & D2_pred_new {
-        if( S5i f>= T5i) goto <good>;
-        D2_pred_new = 0;
-        goto <end>;
-        <good>
-        D2_pred_new = $(PTRUE);
-        <end>
+    :D2_pred_new "=sfcmp.ge(" S5 "," T5 ")" is imm_21_27=0b0111111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & imm_2_4=0 & D2_pred_new & D2_pred_new_raw {
+        set_pred(D2_pred_new, D2_pred_new_raw, (S5i f>= T5i) * $(PTRUE));
     }
-    :D2_pred_new "=sfcmp.uo(" S5 "," T5 ")" is imm_21_27=0b0111111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & imm_2_4=0 & D2_pred_new {
-        D2_pred_new = sfcmp_uo(S5i, T5i);
+    :D2_pred_new "=sfcmp.uo(" S5 "," T5 ")" is imm_21_27=0b0111111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & imm_2_4=0 & D2_pred_new & D2_pred_new_raw {
+        set_pred(D2_pred_new, D2_pred_new_raw, sfcmp_uo(S5i, T5i));
     }
-    :D2_pred_new "=sfcmp.eq(" S5 "," T5 ")" is imm_21_27=0b0111111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & imm_2_4=0 & D2_pred_new {
-        if( S5i f== T5i) goto <good>;
-        D2_pred_new = 0;
-        goto <end>;
-        <good>
-        D2_pred_new = $(PTRUE);
-        <end>
+    :D2_pred_new "=sfcmp.eq(" S5 "," T5 ")" is imm_21_27=0b0111111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & imm_2_4=0 & D2_pred_new & D2_pred_new_raw {
+        set_pred(D2_pred_new, D2_pred_new_raw, (S5i f== T5i) * $(PTRUE));
     }
-    :D2_pred_new "=sfcmp.gt(" S5 "," T5 ")" is imm_21_27=0b0111111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & imm_2_4=0 & D2_pred_new {
-        if( S5i f> T5i) goto <good>;
-        D2_pred_new = 0;
-        goto <end>;
-        <good>
-        D2_pred_new = $(PTRUE);
-        <end>
+    :D2_pred_new "=sfcmp.gt(" S5 "," T5 ")" is imm_21_27=0b0111111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & imm_2_4=0 & D2_pred_new & D2_pred_new_raw {
+        set_pred(D2_pred_new, D2_pred_new_raw, (S5i f> T5i) * $(PTRUE));
     }
 }
 with slot: iclass=0b1101  {
-    :D2_pred_new "=dfcmp.eq(" S5_pair "," T5_pair ")" is imm_21_27=0b0010111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & imm_2_4=0 & D2_pred_new {
-        if( S5_pairi f== T5_pairi) goto <good>;
-        D2_pred_new = 0;
-        goto <end>;
-        <good>
-        D2_pred_new = $(PTRUE);
-        <end>
+    :D2_pred_new "=dfcmp.eq(" S5_pair "," T5_pair ")" is imm_21_27=0b0010111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & imm_2_4=0 & D2_pred_new & D2_pred_new_raw {
+        set_pred(D2_pred_new, D2_pred_new_raw, (S5_pairi f== T5_pairi) * $(PTRUE));
     }
-    :D2_pred_new "=dfcmp.gt(" S5_pair "," T5_pair ")" is imm_21_27=0b0010111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & imm_2_4=0 & D2_pred_new {
-        if( S5_pairi f> T5_pairi) goto <good>;
-        D2_pred_new = 0;
-        goto <end>;
-        <good>
-        D2_pred_new = $(PTRUE);
-        <end>
+    :D2_pred_new "=dfcmp.gt(" S5_pair "," T5_pair ")" is imm_21_27=0b0010111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & imm_2_4=0 & D2_pred_new & D2_pred_new_raw {       
+        set_pred(D2_pred_new, D2_pred_new_raw, (S5_pairi f> T5_pairi) * $(PTRUE));
     }
-    :D2_pred_new "=dfcmp.ge(" S5_pair "," T5_pair ")" is imm_21_27=0b0010111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & imm_2_4=0 & D2_pred_new {
-        if( S5_pairi f>= T5_pairi) goto <good>;
-        D2_pred_new = 0;
-        goto <end>;
-        <good>
-        D2_pred_new = $(PTRUE);
-        <end>
+    :D2_pred_new "=dfcmp.ge(" S5_pair "," T5_pair ")" is imm_21_27=0b0010111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & imm_2_4=0 & D2_pred_new & D2_pred_new_raw {
+        set_pred(D2_pred_new, D2_pred_new_raw, (S5_pairi f>= T5_pairi) * $(PTRUE));
     }
-    :D2_pred_new "=dfcmp.uo(" S5_pair "," T5_pair ")" is imm_21_27=0b0010111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & imm_2_4=0 & D2_pred_new {
-        D2_pred_new = dfcmp_uo(S5_pairi, T5_pairi);
+    :D2_pred_new "=dfcmp.uo(" S5_pair "," T5_pair ")" is imm_21_27=0b0010111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & imm_2_4=0 & D2_pred_new & D2_pred_new_raw {
+        set_pred(D2_pred_new, D2_pred_new_raw, dfcmp_uo(S5_pairi, T5_pairi));
     }
 }
 
@@ -265,6 +225,7 @@ with slot: iclass=0b1000  {
     :D5 "," U2_5_6 "=sfinvsqrta(" S5 ")" is imm_21_27=0b1011111 & S5 & S5i & imm_8_13=0 & imm_7=0 & U2_5_6 & D5 & OUTPUT_D5 {
         local tmp:8 = sfinvsqrta(S5i);
         D5 = tmp:4;
+        #TODO: predicate?
         U2_5_6 = tmp(1);
     }
 }
