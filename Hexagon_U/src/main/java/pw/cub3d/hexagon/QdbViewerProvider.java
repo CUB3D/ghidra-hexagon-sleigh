@@ -7,6 +7,8 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -28,7 +30,11 @@ import docking.ActionContext;
 import docking.WindowPosition;
 import docking.action.DockingAction;
 import docking.action.ToolBarData;
+import docking.action.builder.ActionBuilder;
 import generic.theme.GIcon;
+import ghidra.app.context.ListingActionContext;
+import ghidra.app.decompiler.ClangToken;
+import ghidra.app.plugin.core.decompile.DecompilerActionContext;
 import ghidra.app.services.ProgramManager;
 import ghidra.framework.plugintool.ComponentProviderAdapter;
 import ghidra.framework.plugintool.PluginTool;
@@ -36,12 +42,16 @@ import ghidra.program.model.address.Address;
 import ghidra.program.model.address.AddressRange;
 import ghidra.program.model.address.AddressRangeIterator;
 import ghidra.program.model.address.AddressSet;
+import ghidra.program.model.listing.CommentType;
 import ghidra.program.model.listing.Instruction;
 import ghidra.program.model.listing.InstructionIterator;
 import ghidra.program.model.listing.Listing;
 import ghidra.program.model.listing.Program;
 import ghidra.program.model.mem.Memory;
+import ghidra.program.model.pcode.Varnode;
 import ghidra.program.model.scalar.Scalar;
+import ghidra.program.util.OperandFieldLocation;
+import ghidra.program.util.ProgramLocation;
 import ghidra.util.task.TaskMonitor;
 
 public class QdbViewerProvider extends ComponentProviderAdapter {
@@ -79,6 +89,108 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
 			addLocalAction(action);
 		}
 		
+		public void addRightClickAction() {
+			ActionBuilder builder = new ActionBuilder("Label QDB Hash", this.getOwner());
+			builder.popupMenuPath("Label QDB Hash");
+			builder.popupMenuGroup("Comments");
+			builder.enabledWhen(ctx -> {
+				Program p = getProgram();
+				Listing listing = p.getListing();
+				
+				if(ctx instanceof DecompilerActionContext) {
+					DecompilerActionContext decCtx = (DecompilerActionContext)ctx;
+					ClangToken clangTok = decCtx.getTokenAtCursor();
+					Varnode clangVarnode = clangTok.getVarnode();
+					return (clangVarnode != null && clangVarnode.isConstant());
+				}
+				
+				if(ctx instanceof ListingActionContext) {
+					ListingActionContext listingCtx = (ListingActionContext)ctx;
+					ProgramLocation loc = listingCtx.getLocation();
+					if(loc instanceof OperandFieldLocation) {
+						OperandFieldLocation operandLoc = (OperandFieldLocation)loc;
+						Instruction inst = listing.getInstructionContaining(operandLoc.getAddress());
+						
+						Object[] ops = inst.getOpObjects(operandLoc.getOperandIndex());
+						
+						List<Scalar> potentials = new ArrayList<>();
+						for(Object o : ops) {
+							if(o instanceof Scalar) {
+								Scalar s = (Scalar) o;
+								if(loadedQdb.getByHash(s.getUnsignedValue()) != null) {
+									potentials.add(s);
+								}
+							}
+						}
+						
+						return !potentials.isEmpty();
+					}
+				}
+				
+				return false;
+			});
+			builder.description("Search for the selected QDB hash and label it");
+			builder.onAction(ctx -> {
+				Program p = getProgram();
+				Listing listing = p.getListing();
+				
+				// Have you selected something in the decompiler
+				if(ctx instanceof DecompilerActionContext) {
+					DecompilerActionContext decCtx = (DecompilerActionContext)ctx;
+					ClangToken clangTok = decCtx.getTokenAtCursor();
+					Varnode clangVarnode = clangTok.getVarnode();
+					if (clangVarnode != null && clangVarnode.isConstant()) {
+						System.out.println("Looking up hash 0x" + Long.toHexString(clangVarnode.getOffset())  + " in decompiler output");
+						QDBFile.Entry e = loadedQdb.getByHash(clangVarnode.getOffset());
+						
+						if(e != null) {
+							Address selected = clangTok.getMinAddress();
+						
+							int tid = p.startTransaction("Add QDB hash comment");
+							listing.setComment(selected, CommentType.PRE, e.getMessage());
+							p.endTransaction(tid, true);
+						}
+					}
+				}
+				
+				// What about a scalar in the listings view
+				if(ctx instanceof ListingActionContext) {
+					ListingActionContext listingCtx = (ListingActionContext)ctx;
+					ProgramLocation loc = listingCtx.getLocation();
+					if(loc instanceof OperandFieldLocation) {
+						OperandFieldLocation operandLoc = (OperandFieldLocation)loc;
+						Instruction inst = listing.getInstructionContaining(loc.getAddress());
+						
+						Object[] ops = inst.getOpObjects(operandLoc.getOperandIndex());
+						
+						List<Scalar> potentials = new ArrayList<>();
+						for(Object o : ops) {
+							if(o instanceof Scalar) {
+								Scalar s = (Scalar) o;
+								if(loadedQdb.getByHash(s.getUnsignedValue()) != null) {
+									potentials.add(s);
+								}
+							}
+						}
+						
+						if(potentials.size() == 1) {
+							long value = potentials.getFirst().getUnsignedValue();
+							System.out.println("Looking up hash 0x" + Long.toHexString(value)  + " in decompiler output");
+							QDBFile.Entry e = loadedQdb.getByHash(value);
+							
+							if(e != null) {							
+								int tid = p.startTransaction("Add QDB hash comment");
+								listing.setComment(loc.getAddress(), CommentType.PRE, e.getMessage());
+								p.endTransaction(tid, true);
+							}
+						}
+					}
+				}
+			});
+			DockingAction rightClickAction = builder.buildAndInstall(tool);
+			rightClickAction.markHelpUnnecessary();
+		}
+		
 		public void onLoadFile() {
 			JFileChooser fileChooser = new JFileChooser();
             
@@ -96,6 +208,7 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
                 	searchFor.setEnabled(false);
                 	decodeBtn.setEnabled(true);
                 	selection = null;
+                	addRightClickAction();
                 	
                 	Object[][] tblData = new Object[loadedQdb.getEntries().size()][3];
                 	for(int i = 0; i < loadedQdb.getEntries().size(); i++) {
