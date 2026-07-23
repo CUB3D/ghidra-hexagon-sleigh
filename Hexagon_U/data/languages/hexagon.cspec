@@ -87,11 +87,17 @@
                 <pentry minsize="1" maxsize="4">
                     <register name="r1"/>
                 </pentry>
+                <pentry minsize="5" maxsize="8">
+                    <register name="r1r0"/>
+                </pentry>
                 <pentry minsize="1" maxsize="4">
                     <register name="r2"/>
                 </pentry>
                 <pentry minsize="1" maxsize="4">
                     <register name="r3"/>
+                </pentry>
+                <pentry minsize="5" maxsize="8">
+                    <register name="r3r2"/>
                 </pentry>
                 <pentry minsize="1" maxsize="4">
                     <register name="r4"/>
@@ -99,16 +105,16 @@
                 <pentry minsize="1" maxsize="4">
                     <register name="r5"/>
                 </pentry>
-                <pentry minsize="1" maxsize="500" align="4">
+                <pentry minsize="5" maxsize="8">
+                    <register name="r5r4"/>
+                </pentry>
+                <pentry minsize="1" maxsize="500" align="1">
                     <addr offset="0" space="stack"/>
                 </pentry>
             </input>
             <output>
-                <pentry minsize="1" maxsize="4" extension="zero">
-                    <register name="r0"/>
-                </pentry>
-                <pentry minsize="1" maxsize="4">
-                    <register name="r1" />
+                <pentry minsize="1" maxsize="8">
+                    <register name="r1r0"/>
                 </pentry>
             </output>
 
@@ -129,8 +135,13 @@
                 <register name="SP"/>
                 <register name="FP"/>
                 <register name="LC0"/>
+                <register name="LC1"/>
                 <register name="SA0"/>
                 <register name="SA1"/>
+                <register name="M0"/>
+                <register name="M1"/>
+                <register name="GP"/>
+                <register name="UGP"/>
             </unaffected>
             <killedbycall>
                 <register name="r6" />
