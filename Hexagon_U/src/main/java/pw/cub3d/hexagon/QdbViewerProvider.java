@@ -35,6 +35,7 @@ import generic.theme.GIcon;
 import ghidra.app.context.ListingActionContext;
 import ghidra.app.decompiler.ClangToken;
 import ghidra.app.plugin.core.decompile.DecompilerActionContext;
+import ghidra.app.services.GoToService;
 import ghidra.app.services.ProgramManager;
 import ghidra.framework.plugintool.ComponentProviderAdapter;
 import ghidra.framework.plugintool.PluginTool;
@@ -313,6 +314,8 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
             
             searchFor = new JButton("Search Selected");
             searchFor.addActionListener(e -> {
+            	setResult("Searching", false);
+            	
             	long targetValue = (0x1f000000 + selection.getHash()) << 3;
             	Memory mem = getProgram().getMemory();
             	
@@ -322,12 +325,11 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
             	nedl[2] = (byte) ((targetValue >> 16) & 0xFF);
             	nedl[3] = (byte) ((targetValue >> 24) & 0xFF);
             	
-        		setResult("Searching", false);
-            	
             	Address results = mem.findBytes(mem.getMinAddress(), nedl, null, true, TaskMonitor.DUMMY);
             	            	
             	if(results != null) {           	
             		setResult(results.toString(), true);
+            		this.tool.getService(GoToService.class).goTo(results);
             	} else {
             		setResult("Log not found for " + String.format("%x", targetValue), false);
             		
@@ -335,6 +337,7 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
             		
             		if(results != null) {           	
                 		setResult(results.toString(), true);
+                		this.tool.getService(GoToService.class).goTo(results);
                 	} else {
                 		setResult("Log not found for " + String.format("%x", targetValue), false);
                 	}
