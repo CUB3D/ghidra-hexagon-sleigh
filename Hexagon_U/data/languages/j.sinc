@@ -57,571 +57,241 @@ BR_CJ_R9:r9 is  imm_20_21 & imm_1_7u & immext1pos=pktid & immext1 & imm_1_6u [ r
 #J:Compare and jump
  with slot: iclass=0b0001  {
 
-     :P0"=cmp.eq("S4",#-1); if (p0.new) jump:nt "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P0 {
-        P0 = (S4i == -1) * $(PTRUE);
+     :P0"=cmp.eq("S4", "const_negone"); if (p0.new) jump:nt "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P0 & const_negone {
+        set_pred(P0, 0, (S4i == -1) * $(PTRUE));
      }
-     :P0"=cmp.gt("S4",#-1); if (p0.new) jump:nt "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P0 {
-        P0 = (S4i s> -1) * $(PTRUE);
+     :P0"=cmp.gt("S4", "const_negone"); if (p0.new) jump:nt "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P0 & const_negone {
+        set_pred(P0, 0, (S4i s> -1) * $(PTRUE));
      }
-     :P0"=cmp.tstbit("S4",#0); if (p0.new) jump:nt "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P0 {
-        P0 = ((S4i & 1) != 0) * $(PTRUE);
-     }
-
-     :P0"=cmp.eq("S4",#-1); if (p0.new) jump:t "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P0 {
-        P0 = (S4i == -1) * $(PTRUE);
-     }
-     :P0"=cmp.gt("S4",#-1); if (p0.new) jump:t "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P0 {
-        P0 = (S4i s> -1) * $(PTRUE);
+     :P0"=cmp.tstbit("S4", "const_zero"); if (p0.new) jump:nt "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P0 & const_zero {
+        set_pred(P0, 0, ((S4i & 1) != 0) * $(PTRUE));
      }
 
-     :P0"=cmp.tstbit("S4",#0); if (p0.new) jump:t "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P0 {
-        P0 = ((S4i & 1) != 0) * $(PTRUE);
+     :P0"=cmp.eq("S4", "const_negone"); if (p0.new) jump:t "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P0 & const_negone {
+        set_pred(P0, 0, (S4i == -1) * $(PTRUE));
+     }
+     :P0"=cmp.gt("S4", "const_negone"); if (p0.new) jump:t "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P0 & const_negone {
+        set_pred(P0, 0, (S4i s> -1) * $(PTRUE));
      }
 
-     :P0"=cmp.eq("S4",#-1); if (!p0.new) jump:nt "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P0 {
-        P0 = (S4i == -1) * $(PTRUE);
+     :P0"=cmp.tstbit("S4", "const_zero"); if (p0.new) jump:t "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00110 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P0 & const_zero {
+        set_pred(P0, 0, ((S4i & 1) != 0) * $(PTRUE));
      }
-     :P0"=cmp.gt("S4",#-1); if (!p0.new) jump:nt "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P0 {
-        if(S4i s<= -1) goto <bad>;
-            P0 = $(PTRUE);
-            goto <end>;
-        <bad>
-            P0 = 0x0;
-        <end>
+
+     :P0"=cmp.eq("S4", "const_negone"); if (!p0.new) jump:nt "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P0 & const_negone {
+        set_pred(P0, 0, (S4i == -1) * $(PTRUE));
      }
-     :P0"=cmp.tstbit("S4",#0); if (!p0.new) jump:nt "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P0 {
-        local tmp:4 = S4i & 1;
-        if(tmp != 0) goto <bad>;
-            P0 = $(PTRUE);
-            goto <end>;
-        <bad>
-            P0 = 0x0;
-        <end>
+     :P0"=cmp.gt("S4", "const_negone"); if (!p0.new) jump:nt "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P0 & const_negone {
+        set_pred(P0, 0, (S4i s> -1) * $(PTRUE));
+     }
+     :P0"=cmp.tstbit("S4", "const_zero"); if (!p0.new) jump:nt "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P0 & const_zero {
+        set_pred(P0, 0, ((S4i & 1) != 0) * $(PTRUE));
      }
 
 #np
-     :P0"=cmp.eq("S4",#-1); if (!p0.new) jump:t "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P0 {
-        if(S4i != -1) goto <bad>;
-            P0 = $(PTRUE);
-            goto <end>;
-        <bad>
-            P0 = 0x0;
-        <end>
+     :P0"=cmp.eq("S4", "const_negone"); if (!p0.new) jump:t "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P0 & const_negone {
+        set_pred(P0, 0, (S4i == -1) * $(PTRUE));
      }
-     :P0"=cmp.gt("S4",#-1); if (!p0.new) jump:t "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P0 {
-        if(S4i s<= -1) goto <bad>;
-            P0 = $(PTRUE);
-            goto <end>;
-        <bad>
-            P0 = 0x0;
-        <end>
+     :P0"=cmp.gt("S4", "const_negone"); if (!p0.new) jump:t "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P0 & const_negone {
+        set_pred(P0, 0, (S4i s> -1) * $(PTRUE));
      }
-     :P0"=cmp.tstbit("S4",#0); if (!p0.new) jump:t "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P0 {
-        local tmp:4 = S4i & 1;
-        if(tmp != 0) goto <bad>;
-            P0 = $(PTRUE);
-            goto <end>;
-        <bad>
-            P0 = 0x0;
-        <end>
+     :P0"=cmp.tstbit("S4", "const_zero"); if (!p0.new) jump:t "NR_CJ_R9 is NR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P0 & const_zero {
+        set_pred(P0, 0, ((S4i & 1) != 0) * $(PTRUE));
      }
       
       :P0"=cmp.eq("S4"," imm_8_12u"); if (P0.new) jump:nt "NR_CJ_R9 is imm_27=0 & imm_22_26=0b00000 & S4 & S4i & imm_13=0 & imm_8_12u & imm_0=0 & NR_CJ_R9 & P0 {
-        if(S4i != imm_8_12u) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0x0;
-        <end>
+        set_pred(P0, 0, (S4i == imm_8_12u) * $(PTRUE));
      }
       :P0"=cmp.eq("S4", "imm_8_12u"); if (P0.new) jump:t "NR_CJ_R9 is imm_27=0 & imm_22_26=0b00000 & S4 & S4i & imm_13=1 & imm_8_12u & imm_0=0 & NR_CJ_R9 & P0 {
-        if(S4i != imm_8_12u) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0x0;
-        <end>
+        set_pred(P0, 0, (S4i == imm_8_12u) * $(PTRUE));
      }
 
      :P0"= cmp.eq(" S4 "," imm_8_12u "); if (!p0.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b00001 & imm_20_21 & S4 & S4i & imm_13=0 & imm_8_12u & imm_1_7 & imm_0=0 & P0 {
-        if(S4i != imm_8_12u) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0x0;
-        <end>
+        set_pred(P0, 0, (S4i == imm_8_12u) * $(PTRUE));
      }
 
      :P0"= cmp.eq(" S4 "," imm_8_12u "); if (!p0.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b00001 & imm_20_21 & S4 & S4i & imm_13=1 & imm_8_12u & imm_1_7 & imm_0=0 & P0 {
-        if(S4i != imm_8_12u) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0x0;
-        <end>
+        set_pred(P0, 0, (S4i == imm_8_12u) * $(PTRUE));
      }
 
      #NP
      :P0"= cmp.gt(" S4 "," imm_8_12u "); if (p0.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b00010 & imm_20_21 & S4 & S4i & imm_13=0 & imm_8_12u & imm_1_7 & imm_0=0 & P0 {
-        if(S4i s<= imm_8_12u) goto <bad>;
-            P0 = $(PTRUE);
-            goto <end>;
-        <bad>
-            P0 = 0x0;
-        <end>
+        set_pred(P0, 0, (S4i s> imm_8_12u) * $(PTRUE));
      }
      :P0"= cmp.gt(" S4 "," imm_8_12u "); if (p0.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b00010 & imm_20_21 & S4 & S4i & imm_13=1 & imm_8_12u & imm_1_7 & imm_0=0 & P0 {
-        if(S4i s<= imm_8_12u) goto <bad>;
-            P0 = $(PTRUE);
-            goto <end>;
-        <bad>
-            P0 = 0x0;
-        <end>
+        set_pred(P0, 0, (S4i s> imm_8_12u) * $(PTRUE));
      }
      :P0"= cmp.gt(" S4 "," imm_8_12u "); if (!p0.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b00011 & imm_20_21 & S4 & S4i & imm_13=0 & imm_8_12u & imm_1_7 & imm_0=0 & P0 {
-        if(S4i s<= imm_8_12u) goto <bad>;
-            P0 = $(PTRUE);
-            goto <end>;
-        <bad>
-            P0 = 0x0;
-        <end>
+        set_pred(P0, 0, (S4i s> imm_8_12u) * $(PTRUE));
      }
      :P0"= cmp.gt(" S4 "," imm_8_12u "); if (!p0.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b00011 & imm_20_21 & S4 & S4i & imm_13=1 & imm_8_12u & imm_1_7 & imm_0=0 & P0 {
-        if(S4i s<= imm_8_12u) goto <bad>;
-            P0 = $(PTRUE);
-            goto <end>;
-        <bad>
-            P0 = 0x0;
-        <end>
+        set_pred(P0, 0, (S4i s> imm_8_12u) * $(PTRUE));
      }
      :P0"= cmp.gtu(" S4 "," imm_8_12u "); if (p0.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b00100 & imm_20_21 & S4 & S4i & imm_13=0 & imm_8_12u & imm_1_7 & imm_0=0 & P0 {
-        if(S4i <= imm_8_12u) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0x0;
-    <end>
+    	set_pred(P0, 0, (S4i > imm_8_12u) * $(PTRUE));
      }
      :P0"= cmp.gtu(" S4 "," imm_8_12u "); if (p0.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b00100 & imm_20_21 & S4 & S4i & imm_13=1 & imm_8_12u & imm_1_7 & imm_0=0 & P0 {
-        if(S4i <= imm_8_12u) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0x0;
-    <end>
+    	set_pred(P0, 0, (S4i > imm_8_12u) * $(PTRUE));
      }
      :P0"= cmp.gtu(" S4 "," imm_8_12u "); if (!p0.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b00101 & imm_20_21 & S4 & S4i & imm_13=0 & imm_8_12u & imm_1_7 & imm_0=0 & P0 {
-        if(S4i <= imm_8_12u) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0x0;
-    <end>
+    	set_pred(P0, 0, (S4i > imm_8_12u) * $(PTRUE));
      }
      :P0"= cmp.gtu(" S4 "," imm_8_12u "); if (!p0.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b00101 & imm_20_21 & S4 & S4i & imm_13=1 & imm_8_12u & imm_1_7 & imm_0=0 & P0 {
-        if(S4i <= imm_8_12u) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0x0;
-    <end>
+    	set_pred(P0, 0, (S4i > imm_8_12u) * $(PTRUE));
      }
 
-     :P1"= cmp.eq(" S4 ",-1); if (p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01110 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12=0 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P1 {
-        if(S4i != -1) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+     :P1"= cmp.eq(" S4 ", "const_negone"); if (p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01110 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12=0 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P1 & const_negone {
+    	set_pred(P1, 1, (S4i == -1) * $(PTRUE));
      }
-     :P1"= cmp.gt(" S4 ",-1); if (p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01110 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12=0 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P1 {
-        if(S4i s<= -1) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+     :P1"= cmp.gt(" S4 ", "const_negone"); if (p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01110 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12=0 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P1 & const_negone {
+    	set_pred(P1, 1, (S4i s> -1) * $(PTRUE));
      }
-     :P1"= cmp.tstbit(" S4 ",0); if (p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01110 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12=0 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P1 {
-         local tmp:1 = (S4i & 1) != 0;
-        if(tmp == 0) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+     :P1"= cmp.tstbit(" S4 ", "const_zero"); if (p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01110 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12=0 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P1 & const_zero {
+    	set_pred(P1, 1, ((S4i & 1) != 0) * $(PTRUE));
      }
-     :P1"= cmp.eq(" S4 ",-1); if (p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01110 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12=0 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P1 {
-        if(S4i != -1) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+     :P1"= cmp.eq(" S4 ", "const_negone"); if (p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01110 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12=0 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P1 & const_negone {
+    	set_pred(P1, 1, (S4i == -1) * $(PTRUE));
      }
-     :P1"= cmp.gt(" S4 ",-1); if (p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01110 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12=0 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P1 {
-        if(S4i s<= -1) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+     :P1"= cmp.gt(" S4 ", "const_negone"); if (p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01110 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12=0 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P1 & const_negone {
+    	set_pred(P1, 1, (S4i s> -1) * $(PTRUE));
      }
-     :P1"= cmp.tstbit(" S4 ",0); if (!p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01110 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12=0 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P1 {
-         local tmp:1 = (S4i & 1) != 0;
-        if(tmp == 0) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+     :P1"= cmp.tstbit(" S4 ", "const_zero"); if (!p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01110 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12=0 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P1 & const_zero {
+    	set_pred(P1, 1, ((S4i & 1) != 0) * $(PTRUE));
      }
 
-     :P1"= cmp.eq(" S4 ",-1); if (!p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01111 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12=0 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P1 {
-        if(S4i != -1) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+     :P1"= cmp.eq(" S4 ", "const_negone"); if (!p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01111 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12=0 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P1 & const_negone {
+    	set_pred(P1, 1, (S4i == -1) * $(PTRUE));
      }
-     :P1"= cmp.gt(" S4 ",-1); if (!p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01111 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12=0 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P1 {
-        if(S4i s<= -1) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+     :P1"= cmp.gt(" S4 ", "const_negone"); if (!p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01111 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12=0 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P1 & const_negone {
+    	set_pred(P1, 1, (S4i s> -1) * $(PTRUE));
      }
-     :P1"= cmp.tstbit(" S4 ",0); if (!p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01111 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12=0 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P1 {
-         local tmp:1 = (S4i & 1) != 0;
-        if(tmp == 0) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+     :P1"= cmp.tstbit(" S4 ", "const_zero"); if (!p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01111 & imm_20_21 & S4 & S4i & imm_13=0 & imm_10_12=0 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P1 & const_zero {
+    	set_pred(P1, 1, ((S4i & 1) != 0) * $(PTRUE));
      }
-     :P1"= cmp.eq(" S4 ",-1); if (!p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01111 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12=0 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P1 {
-        if(S4i != -1) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+     :P1"= cmp.eq(" S4 ", "const_negone"); if (!p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01111 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12=0 & imm_8_9=0b00 & imm_1_7 & imm_0=0 & P1 & const_negone {
+    	set_pred(P1, 1, (S4i == -1) * $(PTRUE));
      }
-     :P1"= cmp.gt(" S4 ",-1); if (!p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01111 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12=0 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P1 {
-        if(S4i s<= -1) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+     :P1"= cmp.gt(" S4 ", "const_negone"); if (!p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01111 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12=0 & imm_8_9=0b01 & imm_1_7 & imm_0=0 & P1 & const_negone {
+    	set_pred(P1, 1, (S4i s> -1) * $(PTRUE));
      }
-     :P1"= cmp.tstbit(" S4 ",0); if (!p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01111 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12=0 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P1 {
-         local tmp:1 = (S4i & 1) != 0;
-        if(tmp == 0) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+     :P1"= cmp.tstbit(" S4 ", "const_zero"); if (!p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01111 & imm_20_21 & S4 & S4i & imm_13=1 & imm_10_12=0 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P1 & const_zero {
+    	set_pred(P1, 1, ((S4i & 1) != 0) * $(PTRUE));
      }
      :P1"= cmp.eq(" S4 "," imm_8_12u "); if (p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01000 & imm_20_21 & S4 & S4i & imm_13=0 & imm_8_12u & imm_1_7 & imm_0=0 & P1 {
-        if(S4i != imm_8_12u) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+    	set_pred(P1, 1, (S4i == imm_8_12u) * $(PTRUE));
      }
      :P1"= cmp.eq(" S4 "," imm_8_12u "); if (p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01000 & imm_20_21 & S4 & S4i & imm_13=1 & imm_8_12u & imm_1_7 & imm_0=0 & P1 {
-        if(S4i != imm_8_12u) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+    	set_pred(P1, 1, (S4i == imm_8_12u) * $(PTRUE));
      }
      :P1"= cmp.eq(" S4 "," imm_8_12u "); if (!p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01001 & imm_20_21 & S4 & S4i & imm_13=0 & imm_8_12u & imm_1_7 & imm_0=0 & P1 {
-        if(S4i != imm_8_12u) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+    	set_pred(P1, 1, (S4i == imm_8_12u) * $(PTRUE));
      }
      :P1"= cmp.eq(" S4 "," imm_8_12u "); if (!p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01001 & imm_20_21 & S4 & S4i & imm_13=1 & imm_8_12u & imm_1_7 & imm_0=0 & P1 {
-        if(S4i != imm_8_12u) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+    	set_pred(P1, 1, (S4i == imm_8_12u) * $(PTRUE));
      }
 
      :P1"= cmp.gt(" S4 "," imm_8_12u "); if (p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01010 & imm_20_21 & S4 & S4i & imm_13=0 & imm_8_12u & imm_1_7 & imm_0=0 & P1 {
-        if(S4i s<= imm_8_12u) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+        set_pred(P1, 1, (S4i s> imm_8_12u) * $(PTRUE));
      }
      :P1"= cmp.gt(" S4 "," imm_8_12u "); if (p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01010 & imm_20_21 & S4 & S4i & imm_13=1 & imm_8_12u & imm_1_7 & imm_0=0 & P1 {
-        if(S4i s<= imm_8_12u) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+        set_pred(P1, 1, (S4i s> imm_8_12u) * $(PTRUE));
      }
      :P1"= cmp.gt(" S4 "," imm_8_12u "); if (!p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01011 & imm_20_21 & S4 & S4i & imm_13=0 & imm_8_12u & imm_1_7 & imm_0=0 & P1 {
-        if(S4i s<= imm_8_12u) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+        set_pred(P1, 1, (S4i s> imm_8_12u) * $(PTRUE));
      }
      :P1"= cmp.gt(" S4 "," imm_8_12u "); if (!p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01011 & imm_20_21 & S4 & S4i & imm_13=1 & imm_8_12u & imm_1_7 & imm_0=0 & P1 {
-        if(S4i s<= imm_8_12u) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+    	set_pred(P1, 1, (S4i s> imm_8_12u) * $(PTRUE));
      }
      :P1"= cmp.gtu(" S4 "," imm_8_12u "); if (p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01100 & imm_20_21 & S4 & S4i & imm_13=0 & imm_8_12u & imm_1_7 & imm_0=0 & P1 {
-        if(S4i <= imm_8_12u) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+    	set_pred(P1, 1, (S4i > imm_8_12u) * $(PTRUE));
      }
      :P1"= cmp.gtu(" S4 "," imm_8_12u "); if (p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01100 & imm_20_21 & S4 & S4i & imm_13=1 & imm_8_12u & imm_1_7 & imm_0=0 & P1 {
-        if(S4i <= imm_8_12u) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+    	set_pred(P1, 1, (S4i > imm_8_12u) * $(PTRUE));
      }
      :P1"= cmp.gtu(" S4 "," imm_8_12u "); if (!p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01101 & imm_20_21 & S4 & S4i & imm_13=0 & imm_8_12u & imm_1_7 & imm_0=0 & P1 {
-        if(S4i <= imm_8_12u) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+    	set_pred(P1, 1, (S4i > imm_8_12u) * $(PTRUE));
      }
      :P1"= cmp.gtu(" S4 "," imm_8_12u "); if (!p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &     imm_27=0 & imm_22_26=0b01101 & imm_20_21 & S4 & S4i & imm_13=1 & imm_8_12u & imm_1_7 & imm_0=0 & P1 {
-        if(S4i <= imm_8_12u) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-    <end>
+    	set_pred(P1, 1, (S4i > imm_8_12u) * $(PTRUE));
      }
 
 # second chunk
      :"p0=cmp.eq(" S4 "," T4_8_11 "); if (p0.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010000 & imm_20_21 & S4 & S4i & imm_12_13=0b00 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i != T4_8_11i) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0x0;
-        <end>
+        set_pred(P0, 0, (S4i == T4_8_11i) * $(PTRUE));
      }
      :"p1=cmp.eq(" S4 "," T4_8_11 "); if (p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010000 & imm_20_21 & S4 & S4i & imm_12_13=0b01 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i != T4_8_11i) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-        <end>
+        set_pred(P1, 1, (S4i == T4_8_11i) * $(PTRUE));
      }
      :"p0=cmp.eq(" S4 "," T4_8_11 "); if (p0.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010000 & imm_20_21 & S4 & S4i & imm_12_13=0b10 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i != T4_8_11i) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0x0;
-        <end>
+        set_pred(P0, 0, (S4i == T4_8_11i) * $(PTRUE));
      }
      :"p1=cmp.eq(" S4 "," T4_8_11 "); if (p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010000 & imm_20_21 & S4 & S4i & imm_12_13=0b11 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i != T4_8_11i) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-        <end>
+        set_pred(P1, 1, (S4i == T4_8_11i) * $(PTRUE));
      }
 
      :"p0=cmp.eq(" S4 "," T4_8_11 "); if (!p0.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010001 & imm_20_21 & S4 & S4i & imm_12_13=0b00 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i != T4_8_11i) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0x0;
-        <end>
+        set_pred(P0, 0, (S4i == T4_8_11i) * $(PTRUE));
      }
      :"p1=cmp.eq(" S4 "," T4_8_11 "); if (!p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010001 & imm_20_21 & S4 & S4i & imm_12_13=0b01 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i != T4_8_11i) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-        <end>
+        set_pred(P1, 1, (S4i == T4_8_11i) * $(PTRUE));
      }
      :"p0=cmp.eq(" S4 "," T4_8_11 "); if (!p0.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010001 & imm_20_21 & S4 & S4i & imm_12_13=0b10 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i != T4_8_11i) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0x0;
-        <end>
+        set_pred(P0, 0, (S4i == T4_8_11i) * $(PTRUE));
      }
      :"p1=cmp.eq(" S4 "," T4_8_11 "); if (!p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010001 & imm_20_21 & S4 & S4i & imm_12_13=0b11 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i != T4_8_11i) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-        <end>
+        set_pred(P1, 1, (S4i == T4_8_11i) * $(PTRUE));
      }
+     
      :"p0=cmp.gt(" S4 "," T4_8_11 "); if (p0.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010010 & imm_20_21 & S4 & S4i & imm_12_13=0b00 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i s<= T4_8_11i) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0x0;
-        <end>
+        set_pred(P0, 0, (S4i s> T4_8_11i) * $(PTRUE));
      }
      :"p1=cmp.gt(" S4 "," T4_8_11 "); if (p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010010 & imm_20_21 & S4 & S4i & imm_12_13=0b01 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i s<= T4_8_11i) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-        <end>
+        set_pred(P1, 1, (S4i s> T4_8_11i) * $(PTRUE));
      }
      :"p0=cmp.gt(" S4 "," T4_8_11 "); if (p0.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010010 & imm_20_21 & S4 & S4i & imm_12_13=0b10 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i s<= T4_8_11i) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0x0;
-        <end>
+        set_pred(P0, 0, (S4i s> T4_8_11i) * $(PTRUE));
      }
      :"p1=cmp.gt(" S4 "," T4_8_11 "); if (p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010010 & imm_20_21 & S4 & S4i & imm_12_13=0b11 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i s<= T4_8_11i) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-        <end>
+        set_pred(P1, 1, (S4i s> T4_8_11i) * $(PTRUE));
      }
 
      :"p0=cmp.gt(" S4 "," T4_8_11 "); if (!p0.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010011 & imm_20_21 & S4 & S4i & imm_12_13=0b00 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i s<= T4_8_11i) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0x0;
-        <end>
+        set_pred(P0, 0, (S4i s> T4_8_11i) * $(PTRUE));
      }
      :"p1=cmp.gt(" S4 "," T4_8_11 "); if (!p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010011 & imm_20_21 & S4 & S4i & imm_12_13=0b01 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i s<= T4_8_11i) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-        <end>
+        set_pred(P1, 1, (S4i s> T4_8_11i) * $(PTRUE));
      }
      :"p0=cmp.gt(" S4 "," T4_8_11 "); if (!p0.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010011 & imm_20_21 & S4 & S4i & imm_12_13=0b10 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i s<= T4_8_11i) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0x0;
-        <end>
+        set_pred(P0, 0, (S4i s> T4_8_11i) * $(PTRUE));
      }
      :"p1=cmp.gt(" S4 "," T4_8_11 "); if (!p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010011 & imm_20_21 & S4 & S4i & imm_12_13=0b11 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i s<= T4_8_11i) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-        <end>
+        set_pred(P1, 1, (S4i s> T4_8_11i) * $(PTRUE));
      }
 
      :"p0=cmp.gtu(" S4 "," T4_8_11 "); if (p0.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010100 & imm_20_21 & S4 & S4i & imm_12_13=0b00 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i <= T4_8_11i) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0x0;
-        <end>
+        set_pred(P0, 0, (S4i > T4_8_11i) * $(PTRUE));
      }
      :"p1=cmp.gtu(" S4 "," T4_8_11 "); if (p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010100 & imm_20_21 & S4 & S4i & imm_12_13=0b01 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i <= T4_8_11i) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-        <end>
+        set_pred(P1, 1, (S4i > T4_8_11i) * $(PTRUE));
      }
      :"p0=cmp.gtu(" S4 "," T4_8_11 "); if (p0.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010100 & imm_20_21 & S4 & S4i & imm_12_13=0b10 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i <= T4_8_11i) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0x0;
-        <end>
+        set_pred(P0, 0, (S4i > T4_8_11i) * $(PTRUE));
      }
      :"p1=cmp.gtu(" S4 "," T4_8_11 "); if (p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010100 & imm_20_21 & S4 & S4i & imm_12_13=0b11 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i <= T4_8_11i) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-        <end>
+        set_pred(P1, 1, (S4i > T4_8_11i) * $(PTRUE));
      }
 
      :"p0=cmp.gtu(" S4 "," T4_8_11 "); if (!p0.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010101 & imm_20_21 & S4 & S4i & imm_12_13=0b00 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i <= T4_8_11i) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0x0;
-        <end>
+        set_pred(P0, 0, (S4i > T4_8_11i) * $(PTRUE));
      }
      :"p1=cmp.gtu(" S4 "," T4_8_11 "); if (!p1.new) jump:nt" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010101 & imm_20_21 & S4 & S4i & imm_12_13=0b01 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i <= T4_8_11i) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-        <end>
+        set_pred(P1, 1, (S4i > T4_8_11i) * $(PTRUE));
      }
      :"p0=cmp.gtu(" S4 "," T4_8_11 "); if (!p0.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010101 & imm_20_21 & S4 & S4i & imm_12_13=0b10 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i <= T4_8_11i) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0x0;
-        <end>
+        set_pred(P0, 0, (S4i > T4_8_11i) * $(PTRUE));
      }
-     :"p1=cmp.gtu(" S4 "," T4_8_11 "); if (!p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010101 & imm_20_21 & S4 & S4i & imm_12_13=0b11 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {
-        if(S4i <= T4_8_11i) goto <bad>;
-        P1 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P1 = 0x0;
-        <end>
+     :"p1=cmp.gtu(" S4 "," T4_8_11 "); if (!p1.new) jump:t" NR_CJ_R9 is NR_CJ_R9 &   imm_27=0 & imm_22_26=0b010101 & imm_20_21 & S4 & S4i & imm_12_13=0b11 & T4_8_11 & T4_8_11i & imm_1_7 & imm_0=0 {      
+        set_pred(P1, 1, (S4i > T4_8_11i) * $(PTRUE));
      }
  }
 
@@ -664,7 +334,7 @@ BR_CJ_R9:r9 is  imm_20_21 & imm_1_7u & immext1pos=pktid & immext1 & imm_1_6u [ r
      }
      :P0 "=cmp.tstbit("S4",#0); if (!p0.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26=0b00111 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P0 & j_hint {
         local tmp:4 = S4i & 1;
-        if(tmp != 0) goto <bad>;
+        if(tmp == 0) goto <bad>;
             goto BR_CJ_R9;
         <bad>
      }   
@@ -735,7 +405,7 @@ BR_CJ_R9:r9 is  imm_20_21 & imm_1_7u & immext1pos=pktid & immext1 & imm_1_6u [ r
      }
      :P1 "=cmp.tstbit("S4",#0); if (!p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26= 0b01111 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P1 & j_hint {
         local tmp:4 = S4i & 1;
-        if(tmp != 0) goto <bad>;
+        if(tmp == 0) goto <bad>;
             goto BR_CJ_R9;
         <bad>
      }   

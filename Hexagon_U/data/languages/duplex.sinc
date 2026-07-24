@@ -2,9 +2,6 @@ EXT_immdup1_8_11w: v is immdup1_8_11 & IS_NOT_EXT [ v = immdup1_8_11 << 2;] { ex
 EXT_immdup1_8_11w: v is immdup1_8_11 & IS_EXT0 & immext0 [ v = immdup1_8_11 | immext0; ] { export *[const]:4 v; }
 EXT_immdup1_8_11w: v is immdup1_8_11 & IS_EXT1 & immext1 [ v = immdup1_8_11 | immext1; ] { export *[const]:4 v; }
 
-const_zero:v is epsilon [v=0;] { export *[const]:4 v; }
-const_one:v is epsilon [v=1;] { export *[const]:4 v; }
-
 L1L:immdup0_D4 "=memw(" immdup0_S4 "+" v ")" is immdup0_12=0 & immdup0_8_11 & immdup0_S4 & immdup0_S4i & immdup0_D4 & mode=0  [v = immdup0_8_11 << 2;]{
     local EA:4 = immdup0_S4i + v;
     immdup0_D4 = *[ram]:4 EA;
@@ -453,53 +450,43 @@ EXT_immdup1_4_10: v is immext1 & immdup1_4_9 & IS_EXT1 [ v = immdup1_4_9 | immex
     
     
     A1L:"p0 = cmp.eq(" immdup0_S4 "," immdup0_0_1 ")" is immdup0_8_12=0b11001 & immdup0_S4 & immdup0_S4i & immdup0_2_3=0 & immdup0_0_1 {
-        if(immdup0_S4i != immdup0_0_1) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0;
-        <end>
+    	set_pred(P0, 0, (immdup0_S4i == immdup0_0_1) * $(PTRUE));
     }
     A1R:"p0 = cmp.eq(" immdup1_S4 "," immdup1_0_1 ")" is immdup1_8_12=0b11001 & immdup1_S4 & immdup1_S4i & immdup1_2_3=0 & immdup1_0_1 {
-        if(immdup1_S4i != immdup1_0_1) goto <bad>;
-        P0 = $(PTRUE);
-        goto <end>;
-        <bad>
-        P0 = 0;
-        <end>
+    	set_pred(P0, 0, (immdup1_S4i == immdup1_0_1) * $(PTRUE));
     }
     
-    A1L:immdup0_D4 "= -1" is immdup0_9_12=0b1101 & immdup0_7_8=0 & immdup0_6=0 & immdup0_4_5=0 & immdup0_D4 {
+    A1L:immdup0_D4 "=" const_negone is immdup0_9_12=0b1101 & immdup0_7_8=0 & immdup0_6=0 & immdup0_4_5=0 & immdup0_D4 & const_negone {
         immdup0_D4 = -1;
     }
-    A1R:immdup1_D4 "= -1" is immdup1_9_12=0b1101 & immdup1_7_8=0 & immdup1_6=0 & immdup1_4_5=0 & immdup1_D4 {
+    A1R:immdup1_D4 "=" const_negone is immdup1_9_12=0b1101 & immdup1_7_8=0 & immdup1_6=0 & immdup1_4_5=0 & immdup1_D4 & const_negone {
         immdup1_D4 = -1;
     }
 }
 
-    A1L:"if(P0.new) " immdup0_D4 "= 0" is immdup0_9_12=0b1101 & immdup0_7_8=0 & immdup0_4_6=0b100 & immdup0_D4 & mode=0 {}
-    A1L:"if(P0.new) " immdup0_D4 "= 0" is immdup0_9_12=0b1101 & immdup0_7_8=0 & immdup0_4_6=0b100 & immdup0_D4 & mode=200 {
+    A1L:"if("P0".new) " immdup0_D4 "=" const_zero is immdup0_9_12=0b1101 & immdup0_7_8=0 & immdup0_4_6=0b100 & immdup0_D4 & mode=0 & const_zero & P0 {}
+    A1L:"if("P0".new) " immdup0_D4 "=" const_zero is immdup0_9_12=0b1101 & immdup0_7_8=0 & immdup0_4_6=0b100 & immdup0_D4 & mode=200 & const_zero & P0 {
         if(P0 == 0) goto <end>;
             immdup0_D4 = 0;
         <end>
     }
     
-    A1R:"if(P0.new) " immdup1_D4 "= 0" is immdup1_9_12=0b1101 & immdup1_7_8=0 & immdup1_4_6=0b100 & immdup1_D4 & mode=0 {}
-    A1R:"if(P0.new) " immdup1_D4 "= 0" is immdup1_9_12=0b1101 & immdup1_7_8=0 & immdup1_4_6=0b100 & immdup1_D4 & mode=200 {
+    A1R:"if("P0".new) " immdup1_D4 "=" const_zero is immdup1_9_12=0b1101 & immdup1_7_8=0 & immdup1_4_6=0b100 & immdup1_D4 & mode=0 & const_zero & P0 {}
+    A1R:"if("P0".new) " immdup1_D4 "=" const_zero is immdup1_9_12=0b1101 & immdup1_7_8=0 & immdup1_4_6=0b100 & immdup1_D4 & mode=200 & const_zero & P0 {
         if(P0 == 0) goto <end>;
             immdup1_D4 = 0;
         <end>
     }
     
-    A1L:"if(!P0.new) " immdup0_D4 "= 0" is immdup0_9_12=0b1101 & immdup0_7_8=0 & immdup0_4_6=0b101 & immdup0_D4 & mode=0 {}
-    A1L:"if(!P0.new) " immdup0_D4 "= 0" is immdup0_9_12=0b1101 & immdup0_7_8=0 & immdup0_4_6=0b101 & immdup0_D4 & mode=200 {
+    A1L:"if(!"P0".new) " immdup0_D4 "=" const_zero is immdup0_9_12=0b1101 & immdup0_7_8=0 & immdup0_4_6=0b101 & immdup0_D4 & mode=0 & const_zero & P0 {}
+    A1L:"if(!"P0".new) " immdup0_D4 "=" const_zero is immdup0_9_12=0b1101 & immdup0_7_8=0 & immdup0_4_6=0b101 & immdup0_D4 & mode=200 & const_zero & P0 {
         if(P0 != 0) goto <end>;
             immdup0_D4 = 0;
         <end>
     }
     
-    A1R:"if(!P0.new) " immdup1_D4 "= 0" is immdup1_9_12=0b1101 & immdup1_7_8=0 & immdup1_4_6=0b101 & immdup1_D4 & mode=0 {}
-    A1R:"if(!P0.new) " immdup1_D4 "= 0" is immdup1_9_12=0b1101 & immdup1_7_8=0 & immdup1_4_6=0b101 & immdup1_D4 & mode=200 {
+    A1R:"if(!"P0".new) " immdup1_D4 "=" const_zero is immdup1_9_12=0b1101 & immdup1_7_8=0 & immdup1_4_6=0b101 & immdup1_D4 & mode=0 & const_zero & P0 {}
+    A1R:"if(!"P0".new) " immdup1_D4 "=" const_zero is immdup1_9_12=0b1101 & immdup1_7_8=0 & immdup1_4_6=0b101 & immdup1_D4 & mode=200 & const_zero & P0 {
         if(P0 != 0) goto <end>;
             immdup1_D4 = 0;
         <end>
@@ -508,23 +495,23 @@ EXT_immdup1_4_10: v is immext1 & immdup1_4_9 & IS_EXT1 [ v = immdup1_4_9 | immex
 
 with : mode=0 {
     
-    A1L:"if(P0) " immdup0_D4 "= 0" is immdup0_9_12=0b1101 & immdup0_7_8=0 & immdup0_4_6=0b110 & immdup0_D4 {
+    A1L:"if("P0") " immdup0_D4 "=" const_zero is immdup0_9_12=0b1101 & immdup0_7_8=0 & immdup0_4_6=0b110 & immdup0_D4 & const_zero & P0 {
         if(P0c == 0) goto <end>;
             immdup0_D4 = 0;
         <end>
     }
-    A1R:"if(P0) " immdup1_D4 "= 0" is immdup1_9_12=0b1101 & immdup1_7_8=0 & immdup1_4_6=0b110 & immdup1_D4 {
+    A1R:"if("P0") " immdup1_D4 "=" const_zero is immdup1_9_12=0b1101 & immdup1_7_8=0 & immdup1_4_6=0b110 & immdup1_D4 & const_zero & P0 {
         if(P0c == 0) goto <end>;
             immdup1_D4 = 0;
         <end>
     }
     
-    A1L:"if(!P0) " immdup0_D4 "= 0" is immdup0_9_12=0b1101 & immdup0_7_8=0 & immdup0_4_6=0b111 & immdup0_D4 {
+    A1L:"if(!"P0") " immdup0_D4 "=" const_zero is immdup0_9_12=0b1101 & immdup0_7_8=0 & immdup0_4_6=0b111 & immdup0_D4 & const_zero & P0 {
         if(P0c != 0) goto <end>;
             immdup0_D4 = 0;
         <end>
     }
-    A1R:"if(!P0) " immdup1_D4 "= 0" is immdup1_9_12=0b1101 & immdup1_7_8=0 & immdup1_4_6=0b111 & immdup1_D4 {
+    A1R:"if(!"P0") " immdup1_D4 "=" const_zero is immdup1_9_12=0b1101 & immdup1_7_8=0 & immdup1_4_6=0b111 & immdup1_D4 & const_zero & P0 {
         if(P0c != 0) goto <end>;
             immdup1_D4 = 0;
         <end>
@@ -536,32 +523,50 @@ A1L:immdup0_D4_pair "= combine("const_zero"," immdup0_5_6 ")" is immdup0_10_12=0
         tmp = tmp + 4;
         *[register]:4 tmp = 0;
 }
-A1R:immdup1_D4_pair  "= combine("const_zero"," immdup1_5_6 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=0 & immdup1_7=0 & immdup1_5_6 & immdup1_3_4=0b00 & immdup1_D4_pair & const_zero {
+A1R:immdup1_D4_pair "= combine("const_zero"," immdup1_5_6 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=0 & immdup1_7=0 & immdup1_5_6 & immdup1_3_4=0b00 & immdup1_D4_pair & const_zero {
         local tmp:4 = &immdup1_D4_pair;
         *[register]:4 tmp = immdup1_5_6;
         tmp = tmp + 4;
         *[register]:4 tmp = 0;
 }
 
-A1L:immdup0_D3_pair "=combine(1," immdup0_5_6 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=0 & immdup0_7=0 & immdup0_5_6 & immdup0_3_4=0b01 & immdup0_D3_pair {
-    immdup0_D3_pair = (1<<32) | immdup0_5_6;
+A1L:immdup0_D3_pair "=combine("const_one"," immdup0_5_6 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=0 & immdup0_7=0 & immdup0_5_6 & immdup0_3_4=0b01 & immdup0_D3_pair & const_one {
+    local tmp:4 = &immdup0_D3_pair;
+    *[register]:4 tmp = immdup0_5_6;
+    tmp = tmp + 4;
+    *[register]:4 tmp = 1;
 }
-A1R:immdup1_D3_pair "=combine(1," immdup1_5_6 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=0 & immdup1_7=0 & immdup1_5_6 & immdup1_3_4=0b01 & immdup1_D3_pair {
-    immdup1_D3_pair = (1<<32) | immdup1_5_6;
+A1R:immdup1_D3_pair "=combine("const_one"," immdup1_5_6 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=0 & immdup1_7=0 & immdup1_5_6 & immdup1_3_4=0b01 & immdup1_D3_pair & const_one {
+    local tmp:4 = &immdup1_D3_pair;
+    *[register]:4 tmp = immdup1_5_6;
+    tmp = tmp + 4;
+    *[register]:4 tmp = 1;
 }
 
-A1L:immdup0_D3_pair "=combine(2," immdup0_5_6 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=0 & immdup0_7=0 & immdup0_5_6 & immdup0_3_4=0b10 & immdup0_D3_pair {
-    immdup0_D3_pair = (2<<32) | immdup0_5_6;
+A1L:immdup0_D3_pair "=combine("const_two"," immdup0_5_6 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=0 & immdup0_7=0 & immdup0_5_6 & immdup0_3_4=0b10 & immdup0_D3_pair & const_two {
+    local tmp:4 = &immdup0_D3_pair;
+    *[register]:4 tmp = immdup0_5_6;
+    tmp = tmp + 4;
+    *[register]:4 tmp = 2;
 }
-A1R:immdup1_D3_pair "=combine(2," immdup1_5_6 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=0 & immdup1_7=0 & immdup1_5_6 & immdup1_3_4=0b10 & immdup1_D3_pair {
-    immdup1_D3_pair = (2<<32) | immdup1_5_6;
+A1R:immdup1_D3_pair "=combine("const_two"," immdup1_5_6 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=0 & immdup1_7=0 & immdup1_5_6 & immdup1_3_4=0b10 & immdup1_D3_pair & const_two {
+    local tmp:4 = &immdup1_D3_pair;
+    *[register]:4 tmp = immdup1_5_6;
+    tmp = tmp + 4;
+    *[register]:4 tmp = 2;
 }
 
-A1L:immdup0_D3_pair "=combine(3," immdup0_5_6 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=0 & immdup0_7=0 & immdup0_5_6 & immdup0_3_4=0b11 & immdup0_D3_pair {
-    immdup0_D3_pair = (3<<32) | immdup0_5_6;
+A1L:immdup0_D3_pair "=combine("const_three"," immdup0_5_6 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=0 & immdup0_7=0 & immdup0_5_6 & immdup0_3_4=0b11 & immdup0_D3_pair & const_three {
+    local tmp:4 = &immdup0_D3_pair;
+    *[register]:4 tmp = immdup0_5_6;
+    tmp = tmp + 4;
+    *[register]:4 tmp = 3;
 }
-A1R:immdup1_D3_pair "=combine(3," immdup1_5_6 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=0 & immdup1_7=0 & immdup1_5_6 & immdup1_3_4=0b11 & immdup1_D3_pair {
-    immdup1_D3_pair = (3<<32) | immdup1_5_6;
+A1R:immdup1_D3_pair "=combine("const_three"," immdup1_5_6 ")" is immdup1_10_12=0b111 & immdup1_9=0 & immdup1_8=0 & immdup1_7=0 & immdup1_5_6 & immdup1_3_4=0b11 & immdup1_D3_pair & const_three {
+    local tmp:4 = &immdup1_D3_pair;
+    *[register]:4 tmp = immdup1_5_6;
+    tmp = tmp + 4;
+    *[register]:4 tmp = 3;
 }
 
 A1L:immdup0_D3_pair "=combine("const_zero"," immdup0_S4 ")" is immdup0_10_12=0b111 & immdup0_9=0 & immdup0_8=1 & immdup0_S4 & immdup0_S4i & immdup0_3=0 & immdup0_D3_pair & immdup0_D3_pairi & const_zero {
