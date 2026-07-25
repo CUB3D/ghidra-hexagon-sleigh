@@ -57,7 +57,9 @@ import ghidra.util.task.TaskMonitor;
 
 public class QdbViewerProvider extends ComponentProviderAdapter {
 		private JPanel mainPanel;
-		private DockingAction action;
+		private DockingAction loadQdbFileAction;
+		private DockingAction clearQdbAction;
+		private DockingAction rightClickAction;
 		
 		private DefaultTableModel model;
 		private JButton searchFor;
@@ -67,6 +69,10 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
 		
 		private QDBFile loadedQdb;
 		
+		private int COLUMN_IDX = 0;
+		private int COLUMN_HASH = 1;
+		private int COLUMN_SECTION = 2;
+		private int COLUMN_MSG = 3;
 
 		public QdbViewerProvider(PluginTool tool, String owner) {
 			super(tool, "QDB", owner);
@@ -76,18 +82,29 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
 			setTitle("QDB Viewer");
 			setVisible(true);
 			
-			action = new DockingAction("Load QDB", getOwner()) {
+			// Load file action
+			loadQdbFileAction = new DockingAction("Load QDB", getOwner()) {
 				@Override
 				public void actionPerformed(ActionContext context) {
 					onLoadFile();
 				}
 			};
-
-			action.setEnabled(true);
-			javax.swing.Icon icon = new GIcon("icon.drive");
-			action.setToolBarData(new ToolBarData(icon));
-			action.setDescription("Load QDB file");
-			addLocalAction(action);
+			loadQdbFileAction.setEnabled(true);
+			loadQdbFileAction.setToolBarData(new ToolBarData(new GIcon("icon.drive")));
+			loadQdbFileAction.setDescription("Load QDB file");
+			addLocalAction(loadQdbFileAction);
+			
+			// Clear action
+			clearQdbAction = new DockingAction("Load QDB", getOwner()) {
+				@Override
+				public void actionPerformed(ActionContext context) {
+					onClear();
+				}
+			};
+			clearQdbAction.setEnabled(true);
+			clearQdbAction.setToolBarData(new ToolBarData(new GIcon("icon.clear")));
+			clearQdbAction.setDescription("Clear");
+			addLocalAction(clearQdbAction);
 		}
 		
 		public void addRightClickAction() {
@@ -118,7 +135,8 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
 						for(Object o : ops) {
 							if(o instanceof Scalar) {
 								Scalar s = (Scalar) o;
-								if(loadedQdb.getByHash(s.getUnsignedValue()) != null) {
+								QDBFile.Entry ent = tryLookupHash(s.getUnsignedValue());
+								if(ent != null) {
 									potentials.add(s);
 								}
 							}
@@ -142,7 +160,7 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
 					Varnode clangVarnode = clangTok.getVarnode();
 					if (clangVarnode != null && clangVarnode.isConstant()) {
 						System.out.println("Looking up hash 0x" + Long.toHexString(clangVarnode.getOffset())  + " in decompiler output");
-						QDBFile.Entry e = loadedQdb.getByHash(clangVarnode.getOffset());
+						QDBFile.Entry e = tryLookupHash(clangVarnode.getOffset());
 						
 						if(e != null) {
 							Address selected = clangTok.getMinAddress();
@@ -168,7 +186,8 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
 						for(Object o : ops) {
 							if(o instanceof Scalar) {
 								Scalar s = (Scalar) o;
-								if(loadedQdb.getByHash(s.getUnsignedValue()) != null) {
+								QDBFile.Entry ent = tryLookupHash(s.getUnsignedValue());
+								if(ent != null) {
 									potentials.add(s);
 								}
 							}
@@ -176,9 +195,8 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
 						
 						if(potentials.size() == 1) {
 							long value = potentials.getFirst().getUnsignedValue();
+							QDBFile.Entry e = tryLookupHash(value);
 							System.out.println("Looking up hash 0x" + Long.toHexString(value)  + " in decompiler output");
-							QDBFile.Entry e = loadedQdb.getByHash(value);
-							
 							if(e != null) {							
 								int tid = p.startTransaction("Add QDB hash comment");
 								listing.setComment(loc.getAddress(), CommentType.PRE, e.getMessage());
@@ -188,8 +206,24 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
 					}
 				}
 			});
-			DockingAction rightClickAction = builder.buildAndInstall(tool);
+			rightClickAction = builder.buildAndInstall(tool);
 			rightClickAction.markHelpUnnecessary();
+		}
+		
+		public void onClear() {
+			loadedQdb = null;
+			searchFor.setEnabled(false);
+			decodeBtn.setEnabled(false);
+        	selection = null;
+        	Object[][] tblData = new Object[0][4];
+        	String[] columnNames = {"#", "Hash", "Section", "Message"};
+        	model.setDataVector(tblData, columnNames);
+        	
+        	if(rightClickAction == null) {
+        		rightClickAction.setEnabled(false);
+        		rightClickAction.enabledWhen(arg0 -> false);
+        		rightClickAction = null;
+        	}
 		}
 		
 		public void onLoadFile() {
@@ -205,19 +239,28 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
                 
                 try {
         			byte[] data = Files.readAllBytes(selectedFile.toPath());
+        			QDBFile oldQdb = loadedQdb;
+        			
                 	loadedQdb = new QDBFile(data);
                 	searchFor.setEnabled(false);
                 	decodeBtn.setEnabled(true);
                 	selection = null;
                 	addRightClickAction();
                 	
-                	Object[][] tblData = new Object[loadedQdb.getEntries().size()][3];
-                	for(int i = 0; i < loadedQdb.getEntries().size(); i++) {
-                		tblData[i][0] = i;
-                		tblData[i][1] = loadedQdb.getEntries().get(i).getHash();
-                		tblData[i][2] = loadedQdb.getEntries().get(i).getMessage();
+                	// Add old file if existing
+                	if(oldQdb != null) {
+                		System.out.println("Merging new QDB file with existing one");
+                		loadedQdb.merge(oldQdb);
                 	}
-                	String[] columnNames = {"#", "Hash", "Message"};
+                	
+                	Object[][] tblData = new Object[loadedQdb.getEntries().size()][4];
+                	for(int i = 0; i < loadedQdb.getEntries().size(); i++) {
+                		tblData[i][COLUMN_IDX] = i;
+                		tblData[i][COLUMN_HASH] = loadedQdb.getEntries().get(i).getHash();
+                		tblData[i][COLUMN_SECTION] = loadedQdb.getEntries().get(i).getSection().getName();
+                		tblData[i][COLUMN_MSG] = loadedQdb.getEntries().get(i).getMessage();
+                	}
+                	String[] columnNames = {"#", "Hash", "Section", "Message"};
                 	model.setDataVector(tblData, columnNames);
                 }catch(Exception e) {
                 	e.printStackTrace();
@@ -296,7 +339,11 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
 				
 				try {
 					int row = table.getSelectedRow();
-					int idx = Integer.decode(table.getValueAt(row, 0).toString());
+					/// row == -1 when nothing is selected (we updated the table)
+					if(row == -1) {
+						return;
+					}
+					int idx = Integer.decode(table.getValueAt(row, COLUMN_IDX).toString());
 					selection = loadedQdb.getEntries().get(idx);
 					searchFor.setEnabled(true);
 				} catch (Exception ee) {
@@ -316,7 +363,14 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
             searchFor.addActionListener(e -> {
             	setResult("Searching", false);
             	
-            	long targetValue = (0x1f000000 + selection.getHash()) << 3;
+            	long targetValue;
+            	
+            	if(selection.getHash() < 0x0f000000) {
+            		targetValue = (0x1f000000 + selection.getHash()) << 3;
+            	} else {
+            		targetValue = selection.getHash();
+            	}
+            	
             	Memory mem = getProgram().getMemory();
             	
             	byte[] nedl = new byte[4];
@@ -368,7 +422,7 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
                     if (text.trim().isEmpty()) {
                         sorter.setRowFilter(null);
                     } else {
-                        sorter.setRowFilter(RowFilter.regexFilter("(?i)" + Pattern.quote(text), 2));
+                        sorter.setRowFilter(RowFilter.regexFilter("(?i)" + Pattern.quote(text), COLUMN_MSG));
                     }
                 }
 			});
@@ -411,18 +465,7 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
             decodeBtn.addActionListener(e -> {
             	try {
 	            	long msg_id = Long.decode(decode.getText());
-	            	
-	            	long kind = (msg_id >> 24) & 0xFF;
-	            	long msg_idx = msg_id & 0xFFFFF;
-	    			if (kind == 0xf3) {
-	    				msg_idx = (msg_idx >>4);
-	    			}else if (kind == 0xf2) {
-	    				msg_idx = (msg_idx >>4) | (1<<14);
-	    			} else if (kind == 0xf8) {
-	    				msg_idx = (msg_id & 0xFFFFFF) >> 3;
-	    			}
-	    			
-	    			QDBFile.Entry ent = loadedQdb.getByHash(msg_idx);
+	    			QDBFile.Entry ent = tryLookupHash(msg_id);
 	    			
 	            	if(ent != null) {
 	            		setResult(ent.getMessage(), true);
@@ -475,5 +518,36 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
 			}
 			return null;
 	    }
+		
+		private QDBFile.Entry tryLookupHash(long msg_id) {
+			// This could be a encoded hash that needs decoding first
+			long msg_idx = decodeHashValue(msg_id);
+			QDBFile.Entry ent = loadedQdb.getByHash(msg_idx);
+			if (ent != null) {
+				return ent;
+			}
+			
+			// This could be stored unencoded in a Mtrace / Qtrace entry
+			ent = loadedQdb.getByHash(msg_id);
+			if (ent != null) {
+				return ent;
+			}
+			
+			// No clue
+			return null;
+		}
+		
+		private long decodeHashValue(long msg_id) {
+			long kind = (msg_id >> 24) & 0xFF;
+        	long msg_idx = msg_id & 0xFFFFF;
+			if (kind == 0xf3) {
+				msg_idx = (msg_idx >>4);
+			}else if (kind == 0xf2) {
+				msg_idx = (msg_idx >>4) | (1<<14);
+			} else if (kind == 0xf8) {
+				msg_idx = (msg_id & 0xFFFFFF) >> 3;
+			}
+			return msg_idx;
+		}
 		
 }
