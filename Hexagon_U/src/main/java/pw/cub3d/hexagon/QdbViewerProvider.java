@@ -59,12 +59,14 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
 		private JPanel mainPanel;
 		private DockingAction loadQdbFileAction;
 		private DockingAction clearQdbAction;
+		private DockingAction labelAllAction;
 		private DockingAction rightClickAction;
 		
 		private DefaultTableModel model;
 		private JButton searchFor;
 		private JButton decodeBtn;
 		private JTextField resultTxt;
+		private JTable table;
 		private QDBFile.Entry selection;
 		
 		private QDBFile loadedQdb;
@@ -105,6 +107,41 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
 			clearQdbAction.setToolBarData(new ToolBarData(new GIcon("icon.clear")));
 			clearQdbAction.setDescription("Clear");
 			addLocalAction(clearQdbAction);
+			
+			// Label action
+			labelAllAction = new DockingAction("Label All Visible", getOwner()) {
+				@Override
+				public void actionPerformed(ActionContext context) {
+					onLabelAll();
+				}
+			};
+			labelAllAction.setEnabled(true);
+			labelAllAction.setToolBarData(new ToolBarData(new GIcon("icon.checkmark.green")));
+			labelAllAction.setDescription("Find and label all visible");
+			addLocalAction(labelAllAction);
+		}
+		
+		public void onLabelAll() {
+			Program p = getProgram();
+			Listing l = p.getListing();
+			int tid = p.startTransaction("Label all QDB hashes");
+			
+			// For all of the rows in the table
+			for(int i = 0; i < table.getRowCount(); i++) {
+				int idx = Integer.decode(table.getValueAt(i, COLUMN_IDX).toString());
+				// Find and search for an entry
+				QDBFile.Entry e = loadedQdb.getEntries().get(idx);
+				
+				HashSearchResults res = searchForHash(e);
+				// If we find the hash
+				if(res.results != null) {
+					// Add a label, but don't clobber anything
+					if(l.getComment(CommentType.PRE, res.results) == null) {
+						l.setComment(res.results, CommentType.PRE, e.getMessage());
+					}
+				}
+			}
+			p.endTransaction(tid, true);
 		}
 		
 		public void addRightClickAction() {
@@ -310,6 +347,43 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
             	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss1, ss1);
     		}
 		}
+		
+		private class HashSearchResults {
+			Address results;
+			long target;
+		}
+		
+		private HashSearchResults searchForHash(QDBFile.Entry e) {
+			long targetValue;
+        	
+        	if(e.getHash() < 0x0f000000) {
+        		targetValue = (0x1f000000 + e.getHash()) << 3;
+        	} else {
+        		targetValue = e.getHash();
+        	}
+        	
+        	Memory mem = getProgram().getMemory();
+        	
+        	byte[] nedl = new byte[4];
+        	nedl[0] = (byte) (targetValue & 0xFF);
+        	nedl[1] = (byte) ((targetValue >> 8) & 0xFF);
+        	nedl[2] = (byte) ((targetValue >> 16) & 0xFF);
+        	nedl[3] = (byte) ((targetValue >> 24) & 0xFF);
+        	
+        	Address results = mem.findBytes(mem.getMinAddress(), nedl, null, true, TaskMonitor.DUMMY);
+        	
+        	HashSearchResults res = new HashSearchResults();
+        	res.target = targetValue;
+        	
+        	if(results != null) {
+        		res.results = results;
+        		return res;
+        	}
+        	
+        	// Not in mem, check for scalar in asm
+        	res.results = findInCode(mem, targetValue);
+    		return res;
+		}
 
 		private void buildMainPanel() {
 			mainPanel = new JPanel(new GridBagLayout());
@@ -323,7 +397,7 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
 					return false;
 				}
 			};
-			JTable table = new JTable(model);
+			table = new JTable(model);
 			table.setRowSelectionAllowed(true);
 			table.setColumnSelectionAllowed(false);
 			table.setCellSelectionEnabled(false);
@@ -363,41 +437,14 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
             searchFor.addActionListener(e -> {
             	setResult("Searching", false);
             	
-            	long targetValue;
-            	
-            	if(selection.getHash() < 0x0f000000) {
-            		targetValue = (0x1f000000 + selection.getHash()) << 3;
-            	} else {
-            		targetValue = selection.getHash();
-            	}
-            	
-            	Memory mem = getProgram().getMemory();
-            	
-            	byte[] nedl = new byte[4];
-            	nedl[0] = (byte) (targetValue & 0xFF);
-            	nedl[1] = (byte) ((targetValue >> 8) & 0xFF);
-            	nedl[2] = (byte) ((targetValue >> 16) & 0xFF);
-            	nedl[3] = (byte) ((targetValue >> 24) & 0xFF);
-            	
-            	Address results = mem.findBytes(mem.getMinAddress(), nedl, null, true, TaskMonitor.DUMMY);
+            	HashSearchResults results = searchForHash(selection);
             	            	
-            	if(results != null) {           	
+            	if(results.results != null) {           	
             		setResult(results.toString(), true);
-            		this.tool.getService(GoToService.class).goTo(results);
+            		this.tool.getService(GoToService.class).goTo(results.results);
             	} else {
-            		setResult("Log not found for " + String.format("%x", targetValue), false);
-            		
-            		results = findInCode(mem, targetValue);
-            		
-            		if(results != null) {           	
-                		setResult(results.toString(), true);
-                		this.tool.getService(GoToService.class).goTo(results);
-                	} else {
-                		setResult("Log not found for " + String.format("%x", targetValue), false);
-                	}
+            		setResult("Log not found for " + String.format("%x", results.target), false);
             	}
-            	
-            	
             });
             searchFor.setEnabled(false);
             c.gridx = 0;
