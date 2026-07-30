@@ -53,6 +53,8 @@ import ghidra.program.model.pcode.Varnode;
 import ghidra.program.model.scalar.Scalar;
 import ghidra.program.util.OperandFieldLocation;
 import ghidra.program.util.ProgramLocation;
+import ghidra.util.task.Task;
+import ghidra.util.task.TaskLauncher;
 import ghidra.util.task.TaskMonitor;
 
 public class QdbViewerProvider extends ComponentProviderAdapter {
@@ -122,26 +124,42 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
 		}
 		
 		public void onLabelAll() {
-			Program p = getProgram();
-			Listing l = p.getListing();
-			int tid = p.startTransaction("Label all QDB hashes");
-			
-			// For all of the rows in the table
-			for(int i = 0; i < table.getRowCount(); i++) {
-				int idx = Integer.decode(table.getValueAt(i, COLUMN_IDX).toString());
-				// Find and search for an entry
-				QDBFile.Entry e = loadedQdb.getEntries().get(idx);
-				
-				HashSearchResults res = searchForHash(e);
-				// If we find the hash
-				if(res.results != null) {
-					// Add a label, but don't clobber anything
-					if(l.getComment(CommentType.PRE, res.results) == null) {
-						l.setComment(res.results, CommentType.PRE, e.getMessage());
+			Task task = new Task("Label All QDB Hashes", true, true, true) {
+				@Override
+				public void run(TaskMonitor monitor) {
+					Program p = getProgram();
+					Listing l = p.getListing();
+					int tid = p.startTransaction("Label all QDB hashes");
+					
+					int total = table.getRowCount();
+					monitor.initialize(total);
+					
+					// For all of the rows in the table
+					for(int i = 0; i < total; i++) {
+						if (monitor.isCancelled()) {
+							break;
+						}
+						
+						monitor.setProgress(i);
+						monitor.setMessage("Labeling (" + i + "/" + total + ")");
+						
+						int idx = Integer.decode(table.getValueAt(i, COLUMN_IDX).toString());
+						// Find and search for an entry
+						QDBFile.Entry e = loadedQdb.getEntries().get(idx);
+						
+						HashSearchResults res = searchForHash(e);
+						// If we find the hash
+						if(res.results != null) {
+							// Add a label, but don't clobber anything
+							if(l.getComment(CommentType.PRE, res.results) == null) {
+								l.setComment(res.results, CommentType.PRE, e.getMessage());
+							}
+						}
 					}
+					p.endTransaction(tid, true);
 				}
-			}
-			p.endTransaction(tid, true);
+			};
+			TaskLauncher.launch(task);
 		}
 		
 		public void addRightClickAction() {
