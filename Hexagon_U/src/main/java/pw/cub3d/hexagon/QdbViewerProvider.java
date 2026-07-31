@@ -458,7 +458,7 @@ public class QdbViewerProvider extends ComponentProviderAdapter {
             	HashSearchResults results = searchForHash(selection);
             	            	
             	if(results.results != null) {           	
-            		setResult(results.toString(), true);
+            		setResult(results.results.toString(), true);
             		this.tool.getService(GoToService.class).goTo(results.results);
             	} else {
             		setResult("Log not found for " + String.format("%x", results.target), false);
