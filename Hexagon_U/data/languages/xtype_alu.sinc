@@ -26,6 +26,7 @@ with slot: iclass=0b1000  {
         local tmp:4 = abs(S5i);
         if(tmp != 0x80000000) goto <end>;
         tmp = 0x7fffffff;
+        USR_OVF = 1;
         <end>
         D5 = tmp;
     }
@@ -648,7 +649,7 @@ with slot: iclass=0b1101  {
 # XTYPE/ALU:sext w->dw
 with slot: iclass=0b1000  {
     :D5_pair "=sxtw(" S5 ")" is imm_22_27=0b010001 & imm_21=0 & S5 & S5i & imm_8_13=0 & imm_6_7=0b00 & imm_5=0 & D5_pair {
-        D5_pair = sext(S5i:2);
+        D5_pair = sext(S5i);
     }
 }
 

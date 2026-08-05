@@ -26,13 +26,13 @@ with slot: iclass=0b1101  {
 # XTYPE/PRED:cmp byte
 with slot: iclass=0b1100  {
     :D2_pred_new "=cmpb.gt(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & imm_2_4=0 & D2_pred_new & D2_pred_new_raw {
-        set_pred(D2_pred_new, D2_pred_new_raw, S5i:1 s> T5i:1);
+        set_pred(D2_pred_new, D2_pred_new_raw, (S5i:1 s> T5i:1) * $(PTRUE));
     }
     :D2_pred_new "=cmpb.eq(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & imm_2_4=0 & D2_pred_new & D2_pred_new_raw {
-        set_pred(D2_pred_new, D2_pred_new_raw, S5i:1 == T5i:1);
+        set_pred(D2_pred_new, D2_pred_new_raw, (S5i:1 == T5i:1) * $(PTRUE));
     }
     :D2_pred_new "=cmpb.gtu(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b111 & imm_2_4=0 & D2_pred_new & D2_pred_new_raw {
-        set_pred(D2_pred_new, D2_pred_new_raw, S5i:1 > T5i:1);
+        set_pred(D2_pred_new, D2_pred_new_raw, (S5i:1 > T5i:1) * $(PTRUE));
     }
 }
 with slot: iclass=0b1101  {
@@ -55,13 +55,13 @@ with slot: iclass=0b1101  {
 with slot: iclass=0b1100  {
     #TODO PRED
     :D2_pred_new "=cmph.eq(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b011 & imm_2_4=0 & D2_pred_new & D2_pred_new_raw {
-        set_pred(D2_pred_new, D2_pred_new_raw, S5i:2 == T5i:2);
+        set_pred(D2_pred_new, D2_pred_new_raw, (S5i:2 == T5i:2) * $(PTRUE));
     }
     :D2_pred_new "=cmph.gt(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & imm_2_4=0 & D2_pred_new & D2_pred_new_raw {
-        set_pred(D2_pred_new, D2_pred_new_raw, S5i:2 s> T5i:2);
+        set_pred(D2_pred_new, D2_pred_new_raw, (S5i:2 s> T5i:2) * $(PTRUE));
     }
     :D2_pred_new "=cmph.gtu(" S5 "," T5 ")" is imm_21_27=0b0111110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b101 & imm_2_4=0 & D2_pred_new & D2_pred_new_raw {
-        set_pred(D2_pred_new, D2_pred_new_raw, S5i:2 > T5i:2);
+        set_pred(D2_pred_new, D2_pred_new_raw, (S5i:2 > T5i:2) * $(PTRUE));
     }
 }
 with slot: iclass=0b1101 {
@@ -421,7 +421,7 @@ with slot: iclass=0b1000  {
 define pcodeop vmux;
 with slot: iclass=0b1101  {
     :D5_pair "=vmux(" U2_5_6 "," S5_pair "," T5_pair ")" is imm_24_27=0b0001 & imm_21_23=0 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_7=0 & U2_5_6 & U2_5_6i & D5_pair {
-        local p:8 = zext(U2_5_6);
+        local p:8 = zext(U2_5_6i);
         D5_pair =             zext((p & 0b00000001) != 0) * (S5_pairi & 0xFF)         + zext((p & 0b00000001) == 0) * (T5_pairi & 0xFF);
         D5_pair = D5_pair | ((zext((p & 0b00000010) != 0) * ((S5_pairi >> 8) & 0xFF)  + zext((p & 0b00000010) == 0) * ((T5_pairi >> 8) & 0xFF)) << 8);
         D5_pair = D5_pair | ((zext((p & 0b00000100) != 0) * ((S5_pairi >> 16) & 0xFF) + zext((p & 0b00000100) == 0) * ((T5_pairi >> 16) & 0xFF)) << 16);
