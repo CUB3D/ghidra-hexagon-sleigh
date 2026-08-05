@@ -279,7 +279,7 @@ with slot: iclass=0b1100  {
     }
 }
 
-XTYPE_ALU_LOG_S10:"GP+"v is imm_5_13u & imm_21 & IS_NOT_EXT [v = imm_5_13u | (imm_21 << 9);] { export *[const]:4 v; }
+XTYPE_ALU_LOG_S10:v is imm_5_13u & imm_21 & IS_NOT_EXT [v = imm_5_13u | (imm_21 << 9);] { export *[const]:4 v; }
 XTYPE_ALU_LOG_S10:v is IS_EXT0 & immext0 & imm_0_5u [v = imm_0_5u | immext0; ] { export *[const]:4 v; }
 XTYPE_ALU_LOG_S10:v is IS_EXT1 & immext1 & imm_0_5u [v = imm_0_5u | immext1; ] { export *[const]:4 v; }
 

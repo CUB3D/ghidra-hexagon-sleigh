@@ -11,7 +11,7 @@ with slot: iclass=0b1101  {
     }
 
     :T5 "=add(" NR_EXT_u6 ",mpyi(" S5 "," U6 "))" is imm_24_27=0b1000 & imm_23u & S5 & S5i & T5 & T5i & imm_0_4u & NR_EXT_u6 & OUTPUT_T5 [ U6 = imm_0_4u | (imm_23u << 5); ] {
-        local EA:4 = U6 * T5i;
+        local EA:4 = U6 * S5i;
     	T5 = NR_EXT_u6 + EA;
     }
 
@@ -566,32 +566,40 @@ with slot: iclass=0b1110  {
         D5 = tmp1(4);
     }
     :D5 = "mpy(" S5 "," T5 ".H):<<1:sat" is imm_21_27=0b1101101 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 & OUTPUT_D5 {
-        local t5l:2 = T5i(2);
+    	#TODO: wrong
+       local t5l:2 = T5i(2);
        local tmp:4 = mpy_sat(S5i, t5l);
        D5 = tmp << 1;
     }
     :D5 = "mpy(" S5 "," T5 ".L):<<1:sat" is imm_21_27=0b1101101 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 & OUTPUT_D5 {
+    	#TODO: wrong
        D5 = mpy_sat(S5i, T5i:2) << 1;
     }
     :D5 = "mpy(" S5 "," T5 ".H):<<1:rnd:sat" is imm_21_27=0b1101101 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 & OUTPUT_D5 {
+    	#TODO: wrong
        local t5l:2 = T5i(2);
        D5 = mpy_rnd_sat(S5i, t5l) << 1;
     }
     :D5 = "mpy(" S5 "," T5 "):<<1:sat" is imm_21_27=0b1101111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 & OUTPUT_D5 {
+    	#TODO: wrong
        D5 = mpy_sat(S5i, T5i) << 1;
     }
     :D5 = "mpy(" S5 "," T5 ".L):<<1:rnd:sat"  is imm_21_27=0b1101111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b100 & D5 & OUTPUT_D5 {
+    	#TODO: wrong
        D5 = mpy_rnd_sat(S5i, T5i:2) << 1;
     }
-    :D5 "=mpy(" S5 "," T5 "):<<" imm_5_6u is imm_24_27=0b1101 & imm_23 & imm_22=0 & imm_21 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6u & D5 & OUTPUT_D5 {
-       local tmp1:8 = zext(S5i) * zext(T5i);
-        D5 = tmp1(4) << imm_5_6u;
+    :D5 "=mpy(" S5 "," T5 "):<<" N is imm_24_27=0b1101 & imm_23u & imm_22=0 & imm_21u & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6u & D5 & OUTPUT_D5 [N = (imm_23u << 3) | (imm_21u << 2) | imm_5_6u; ] {
+       local tmp1:8 = sext(S5i) * sext(T5i);
+       local tmp2:8 = tmp1 >> (32-N);
+       D5 = tmp2:4; 
     }
 
     :D5 += "mpy(" S5 "," T5 "):<<1:sat" is imm_21_27=0b1111011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 & D5i & OUTPUT_D5 {
+    	#TODO: wrong
        D5 = D5i + (mpy_sat(S5i, T5i) << 1);
     }
     :D5 -= "mpy(" S5 "," T5 "):<<1:sat" is imm_21_27=0b1111011 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 & D5i & OUTPUT_D5 {
+    	#TODO: wrong
        D5 = D5i - (mpy_sat(S5i, T5i) << 1);
     }
 }

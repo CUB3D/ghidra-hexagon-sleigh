@@ -9,13 +9,16 @@ with slot: iclass=0b1001 {
 
     :D5_pair "=memh_fifo(" S5 "++" s4 ":circ(" M1_13 "))"  is imm_21_27=0b1000010 & S5 & S5i & M1_13 & imm_12=0 & imm_10_11=0 & imm_9=0 & imm_5_8 & D5_pair & D5_pairi [ s4 = imm_5_8 << 1;]  {
         local EA:4 = S5i;
-        S5 = circ_add(S5i, s4:1, M1_13);
+        local muv:4 = zext(M1_13 & 0x1FF);
+        S5 = circ_add(S5i, s4:1, muv);
         local tmp:2 = *[ram]:2 EA;
         fifo_shift_in_h(D5_pair, D5_pairi, tmp);
     }
     :D5_pair "=memh_fifo(" S5 "++I:circ(" M1_13 "))" is imm_21_27=0b1000010 & S5 & S5i & M1_13 & imm_12=0 & imm_10_11=0 & imm_9=1 & imm_8=0 & imm_7=0 & imm_5_6=0 & D5_pair & D5_pairi {
         local EA:4 = S5i;
-        S5 = circ_add(S5i, (M1_13:1) << 3, M1_13);
+        local muv:4 = zext(M1_13 & 0x1FF);
+        local i:4 = ((M1_13 >> 17) & 0b1111111) | (((M1_13 >> 28) & 0b1111) << 7);
+        S5 = circ_add(S5i, i << 1, muv);
         local tmp:2 = *[ram]:2 EA;
         fifo_shift_in_h(D5_pair, D5_pairi, tmp);
     }
@@ -33,8 +36,8 @@ with slot: iclass=0b1001 {
         local tmp:2 = *[ram]:2 EA;
         fifo_shift_in_h(D5_pair, D5_pairi, tmp);
     }
-    :D5_pair"=memh_fifo(" T5 "<<" u2 "+" U6 ")" is imm_21_27=0b1100010 & T5 & T5i & imm_13u & imm_12=1 & imm_8_11u & imm_7u & imm_5_6u & D5_pair & D5_pairi [ u2 = imm_7u | (imm_13u << 1); U6 = imm_5_6u | (imm_8_11u << 2);] {
-        local EA:4 = (T5i << u2) + U6;
+    :D5_pair"=memh_fifo(" S5 "<<" u2 "+" U6 ")" is imm_21_27=0b1100010 & S5 & S5i & imm_13u & imm_12=1 & imm_8_11u & imm_7u & imm_5_6u & D5_pair & D5_pairi [ u2 = imm_7u | (imm_13u << 1); U6 = imm_5_6u | (imm_8_11u << 2);] {
+        local EA:4 = (S5i << u2) + U6;
         local tmp:2 = *[ram]:2 EA;
         fifo_shift_in_h(D5_pair, D5_pairi, tmp);
     }
@@ -79,12 +82,15 @@ with slot: iclass=0b1001  {
     
     :D5 "=memh(" S5 "++" s4 ":circ(" M1_13 "))"  is imm_21_27=0b1001010 & S5 & S5i & M1_13 & imm_12=0 & imm_10_11=0 & imm_9=0 & imm_5_8 & D5 & OUTPUT_D5 [s4 = imm_5_8 << 1;] {
         local EA:4 = S5i;
-        S5 = circ_add(S5i, s4:1, M1_13);
+        local muv:4 = zext(M1_13 & 0x1FF);
+        S5 = circ_add(S5i, s4:1, muv);
         D5 = sext(*[ram]:2 EA);
     }
     :D5 "=memh(" S5 "++I:circ(" M1_13 "))" is imm_21_27=0b1001010 & S5 & S5i & M1_13 & imm_12=0 & imm_10_11=0 & imm_9=1 & imm_8=0 & imm_7=0 & imm_5_6=0 & D5 & OUTPUT_D5 {
         local EA:4 = S5i;
-        S5 = circ_add(S5i, (M1_13:1) << 3, M1_13);
+        local muv:4 = zext(M1_13 & 0x1FF);
+        local i:4 = ((M1_13 >> 17) & 0b1111111) | (((M1_13 >> 28) & 0b1111) << 7);
+        S5 = circ_add(S5i, i << 1, muv);
         D5 = sext(*[ram]:2 EA);
     }
 
@@ -197,24 +203,24 @@ with slotNV: iclass=0b0100 {
     }
 }
 with slot: iclass=0b1001 {
-    :"if("T2_9_10_pred") "D5"=memh("S5"++"s4")" is imm_21_27=0b1011010 & S5 & S5i & imm_11_13=0b100 & T2_9_10_pred & T2_9_10_predi & imm_5_8 & D5 & OUTPUT_D5 [s4 = imm_5_8 << 3;] {
+    :"if("T2_9_10_pred") "D5"=memh("S5"++"s4")" is imm_21_27=0b1011010 & S5 & S5i & imm_11_13=0b100 & T2_9_10_pred & T2_9_10_predi & imm_5_8 & D5 & OUTPUT_D5 [s4 = imm_5_8 << 1;] {
         if(T2_9_10_predi == 0) goto <end>;
         local EA:4 = S5i;
         S5 = S5i + s4;
         D5 = sext(*[ram]:2 EA);
         <end>
     }
-    :"if(!"T2_9_10_pred") "D5"=memh("S5"++"s4")" is imm_21_27=0b1011010 & S5 & S5i & imm_11_13=0b101 & T2_9_10_pred & T2_9_10_predi & imm_5_8 & D5 & OUTPUT_D5 [s4 = imm_5_8 << 3;] {
+    :"if(!"T2_9_10_pred") "D5"=memh("S5"++"s4")" is imm_21_27=0b1011010 & S5 & S5i & imm_11_13=0b101 & T2_9_10_pred & T2_9_10_predi & imm_5_8 & D5 & OUTPUT_D5 [s4 = imm_5_8 << 1;] {
         if(T2_9_10_predi != 0) goto <end>;
         local EA:4 = S5i;
         S5 = S5i + s4;
         D5 = sext(*[ram]:2 EA);
         <end>
     }
-    :"if("T2_9_10_pred".new) "D5"=memh("S5"++"s4")" is imm_21_27=0b1011010 & S5 & S5i & imm_11_13=0b110 & T2_9_10_pred & T2_9_10_predi & imm_5_8 & D5 & OUTPUT_D5 [s4 = imm_5_8 << 3;] {}
+    :"if("T2_9_10_pred".new) "D5"=memh("S5"++"s4")" is imm_21_27=0b1011010 & S5 & S5i & imm_11_13=0b110 & T2_9_10_pred & T2_9_10_predi & imm_5_8 & D5 & OUTPUT_D5 [s4 = imm_5_8 << 1;] {}
 }
 with slotNV: iclass=0b1001 {
-    :"if("T2_9_10_pred".new) "D5"=memh("S5"++"s4")" is imm_21_27=0b1011010 & S5 & S5i & imm_11_13=0b110 & T2_9_10_pred & T2_9_10_predi & imm_5_8 & D5 [s4 = imm_5_8 << 3;] {
+    :"if("T2_9_10_pred".new) "D5"=memh("S5"++"s4")" is imm_21_27=0b1011010 & S5 & S5i & imm_11_13=0b110 & T2_9_10_pred & T2_9_10_predi & imm_5_8 & D5 [s4 = imm_5_8 << 1;] {
         if(T2_9_10_pred == 0) goto <end>;
         local EA:4 = S5i;
         S5 = S5i + s4;
@@ -223,10 +229,10 @@ with slotNV: iclass=0b1001 {
     }
 }
 with slot: iclass=0b1001 {
-    :"if(!"T2_9_10_pred".new) "D5"=memh("S5"++"s4")" is imm_21_27=0b1011010 & S5 & S5i & imm_11_13=0b111 & T2_9_10_pred & T2_9_10_predi & imm_5_8 & D5 & OUTPUT_D5 [s4 = imm_5_8 << 3;] {}
+    :"if(!"T2_9_10_pred".new) "D5"=memh("S5"++"s4")" is imm_21_27=0b1011010 & S5 & S5i & imm_11_13=0b111 & T2_9_10_pred & T2_9_10_predi & imm_5_8 & D5 & OUTPUT_D5 [s4 = imm_5_8 << 1;] {}
 }
 with slotNV: iclass=0b1001 {
-    :"if(!"T2_9_10_pred".new) "D5"=memh("S5"++"s4")" is imm_21_27=0b1011010 & S5 & S5i & imm_11_13=0b111 & T2_9_10_pred & T2_9_10_predi & imm_5_8 & D5 [s4 = imm_5_8 << 3;] {
+    :"if(!"T2_9_10_pred".new) "D5"=memh("S5"++"s4")" is imm_21_27=0b1011010 & S5 & S5i & imm_11_13=0b111 & T2_9_10_pred & T2_9_10_predi & imm_5_8 & D5 [s4 = imm_5_8 << 1;] {
         if(T2_9_10_pred == 0) goto <end>;
         local EA:4 = S5i;
         S5 = S5i + s4;

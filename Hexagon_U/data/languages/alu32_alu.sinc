@@ -120,24 +120,24 @@ with slot: iclass=0b0111  {
     } 
 }
 
+ImmU16: v is  imm_22_23u & imm_0_13u & IS_NOT_EXT [ v = (imm_22_23u << 14) | (imm_0_13u); ] { export *[const]:4 v; }
+
 # ALU32/ALU:trans_imm
- with slot: iclass=0b0111  {
-      
-    ImmU16: v is    imm_22_23u & imm_0_13u  [ v = (imm_22_23u << 14) | (imm_0_13u); ] {
-         export *[const]:4 v;
-      }
-      
+ with slot: iclass=0b0111  {      
  
+ 	#Rx.L=#u16
     :alu_X5^".L" = ImmU16 is Rs = 0 & MajOp = 0b001 & imm_21=1 & alu_X5 & alu_X5i & ImmU16 & OUTPUT_S5 {
         local tmp:4 = alu_X5i & 0xFFFF0000;
         alu_X5 = tmp | ImmU16;
     }
     
+    #Rx.H=#u16
     :alu_X5^".H" = ImmU16 is Rs = 0 & MajOp = 0b010 & imm_21=1 & alu_X5 & alu_X5i & ImmU16 & OUTPUT_S5 {
         local tmp:4 = alu_X5i & 0x0000FFFF;
         alu_X5 = tmp | (ImmU16 << 16);
     }
     
+    #Rd=#s16
     :D5 "=" TI_S16 is  Rs=1 & MajOp=0b000 & imm_21=0 & TI_S16 & D5 & OUTPUT_D5 {
         D5 = TI_S16;
     }  

@@ -49,8 +49,10 @@ with slot: iclass=0b1010 {
 with slotNV: iclass=0b1010 {
     :"memb(" S5 "++" "I:circ(" M1_13 "))=" NV_T3_new_8_10 is imm_21_27=0b1001101 & S5 & S5i & M1_13 & imm_11_12=0b00 & NV_T3_new_8_10 & imm_7=0 & imm_2_6=0 & imm_1=1 & imm_0=0 {
         local EA:4 = S5i;
-        local m:4 = M1_13:4;
-        S5 = circ_add(S5i, m << 2, M1_13);
+        
+        local muv:4 = zext(M1_13 & 0x1FF);
+        local i:4 = ((M1_13 >> 17) & 0b1111111) | (((M1_13 >> 28) & 0b1111) << 7);
+        S5 = circ_add(S5i, i, muv);
         *[ram]:1 EA = NV_T3_new_8_10:1; 
     }
 }
@@ -60,7 +62,8 @@ with slot: iclass=0b1010 {
 with slotNV: iclass=0b1010 {
     :"memb(" S5 "++" s4 ":circ(" M1_13 "))=" NV_T3_new_8_10 is imm_21_27=0b1001101 & S5 & S5i & M1_13 & imm_11_12=0b00 & NV_T3_new_8_10 & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0 [s4 = imm_3_6 << 0;] {
         local EA:4 = S5i;
-        S5 = circ_add(S5i, s4:1, M1_13);
+        local muv:4 = zext(M1_13 & 0x1FF);
+        S5 = circ_add(S5i, s4:1, muv);
         *[ram]:1 EA = NV_T3_new_8_10:1;
     }
 }
