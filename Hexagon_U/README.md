@@ -2,21 +2,24 @@
 
 This is a WIP implementation of the Qualcomm Hexagon "QDSP6" architecture in Ghidra SLEIGH
 
-
-Supports:
-- Complete dissassembly up to v81 including HVX and  HMX
+Features:
+- Dissassembly of v66/v67/v68/v73/v75/v79/v81, including HVX and HMX up to v81
 - Most common extended immediates are supported
 - No broken java plugins needed
-- Support for hardware loops
+- Support for hardware loops (The first implementation to do so)
 - Includes support for redacted System/Monitor and System/Guest instructions
 - Pcode implemented for most ops, (Only a few never-seen MPY and NV instructions are missing)
 - Function start recovery
 - Support for auto-and predicates
 - Full undocumented HMX dissassembly
+- Builtin scripts:
+- - Q6ZIP and DELTA/DLPAGER decompression via emulation
+- - Annotation of hashed log messages
+
+Modern (12.1+) versions of Ghidra support Hexagon nativly, this plugin predates that. However, it has some advantages and some disadvantages compared to that plugin: see [this comment](https://github.com/CUB3D/ghidra-hexagon-sleigh/issues/49#issuecomment-4652321293) for details.
 
 Currently broken / unimplemented:
 - Some immediate extensions are missing for less common ops and some duplexes
-
 
 ### Includes scripts to help analysis of Qualcomm binaries:
 - apply_hexagon_variadic_conventions -> Applies Qualcomm specific vararg calling convention overrides
@@ -49,10 +52,12 @@ Some compiler flags cause the compiler to store immediate values directly in the
 - 0 (Default) -> do nothing
 - 1 -> This instruction should be a `inline data`
 
+Ghidra 12.0+ is recommended due to the fix for the "Overlapping Input Varnodes" error when functions take wide register inputs also affecting Hexagon 64-bit register pairs (GP-5863)
 
-(See notes at top of `Hexagon/data/languages/skel.slaspec`) for up to date details:
-
+See notes at top of `Hexagon/data/languages/hexagon.slaspec` for additional details
 
 ### How to install
-Grab the [latest release](https://github.com/CUB3D/ghidra-hexagon-sleigh/releases/latest) for your Ghidra version (11.4.1 -> latest)
-Install with File > Install Extensions, click the green plug and select the zip. Then restart Ghidra 
+Grab the latest release from [releases](https://github.com/CUB3D/ghidra-hexagon-sleigh/releases/latest) for your Ghidra version (11.4.1 -> latest)
+
+In Ghidra:
+File -> Install Extensions -> Green plus -> Downloaded Zip. Then restart Ghidra
