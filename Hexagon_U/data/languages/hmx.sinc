@@ -1,0 +1,505 @@
+# Support for Hexagon Matrix Extensions
+
+define pcodeop _hmx_stub;
+
+with slot: iclass=0b1010 {
+	:"acc=mxshl(acc, #16)" is imm_16_27=0b011011100000 & imm_0_13=0x17 {
+		_hmx_stub();
+	}
+	
+	:"mxclracc" is imm_16_27=0b011011100000 & imm_0_13=0x11 {
+		_hmx_stub();
+	}
+	
+	:"mxclracc.hf" is imm_16_27=0b011011100000 & imm_0_13=0x13 {
+		_hmx_stub();
+	}
+}
+
+
+with slot: iclass=0b1010 {
+	
+
+	:"mxmem(" S5 "," T5 "):after:sat.uh=acc:2x1" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xa {
+		_hmx_stub();
+	}
+	
+	:"mxmem(" S5 "," T5 "):after:retain:sat.uh=acc:2x1" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xe {
+		_hmx_stub();
+	}
+	
+	:"mxmem(" S5 "," T5 "):after.uh=acc:2x1" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xb {
+		_hmx_stub();
+	}
+	
+	:"mxmem(" S5 "," T5 "):after:retain.uh=acc:2x1" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xf {
+		_hmx_stub();
+	}
+	
+	
+	:"mxmem(" S5 "," T5 "):after:sat.uh=acc:2x1" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x2 {
+		_hmx_stub();
+	}
+	
+	:"mxmem(" S5 "," T5 "):after:retain:sat.uh=acc:2x1" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x6 {
+		_hmx_stub();
+	}
+	
+	:"mxmem(" S5 "," T5 "):after.uh=acc:2x1" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x3 {
+		_hmx_stub();
+	}
+	
+	:"mxmem(" S5 "," T5 "):after:retain.uh=acc:2x1" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x7 {
+		_hmx_stub();
+	}
+	
+	:"mxmem(" S5 "," T5 "):before:cm:sat.ub=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0x1 {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):before:retain:cm:sat.ub=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0x9 {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):before:cm.ub=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0x3 {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):before:retain:cm.ub=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xb {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):before.hf=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x0 {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):before:retain.hf=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x8 {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):before:pos.hf=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x1 {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):before:retain.pos.hf=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x5 {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):before:sat.ub=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0x0 {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):before:retain:sat.ub=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0x8 {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):before.uh=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0x2 {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):before:retain.ub=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xa {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):after:cm:sat.ub=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0x5 {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):after:retain:cm:sat.ub=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xd {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):after:cm.ub=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0x7 {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):after:retain:cm.ub=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xf {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):after.hf=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x4 {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):after:retain.hf=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xc {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):after:pos.hf=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x9 {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):after:retain:pos.hf=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xd {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):after:sat.ub=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0x4 {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):after:retain:sat.ub=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xc {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):after.ub=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0x6 {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):after:retain.ub=acc" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xe {
+		_hmx_stub();
+	}
+}
+
+with slot: iclass=0b1001 {
+	:"bias=mxmem2(" S5 ")" is imm_21_27=0b0010000 & S5 & S5i & imm_0_13=0x3fe {
+		_hmx_stub();
+	}
+}
+
+with slot: iclass=0b1010 {
+	:"mxmem(" S5 ")=bias" is imm_21_27=0b0110111 & S5 & S5i & imm_0_13=0x16 {
+		_hmx_stub();
+	}
+}
+
+with slot: iclass=0b1001 {
+	:"bias=mxmem(" S5 ")" is imm_21_27=0b0010000 & S5 & S5i & imm_0_13=0x3ff {
+		_hmx_stub();
+	}
+}
+	
+with slot: iclass=0b1001 {	
+	:"activation.ub=mxmem(" S5 "," T5 "):cm" is imm_21_27=0b0010000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xed {
+		_hmx_stub();
+	}
+	:"activation.hf=mxmem(" S5 "," T5 ")" is imm_21_27=0b0010000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xe4 {
+		_hmx_stub();
+	}
+	:"activation.ub=mxmem(" S5 "," T5 ")" is imm_21_27=0b0010000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xec {
+		_hmx_stub();
+	}
+	:"activation.ub=mxmem(" S5 "," T5 "):deep:cm" is imm_21_27=0b0010000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xe1 {
+		_hmx_stub();
+	}
+	:"activation.hf=mxmem(" S5 "," T5 "):deep" is imm_21_27=0b0010000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xe2 {
+		_hmx_stub();
+	}
+	:"activation.ub=mxmem(" S5 "," T5 "):deep" is imm_21_27=0b0010000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xe0 {
+		_hmx_stub();
+	}
+}
+
+with slot: iclass=0b1010 {
+	:"mxmem(" S5 ") = bias" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x10 {
+		_hmx_stub();
+	}
+}
+
+with slot: iclass=0b1001 {	
+	:"weight.b=mxmem(" S5 "," T5 ")" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xe0 {
+		_hmx_stub();
+	}
+	:"weight.ubit=mxmem(" S5 "," T5 ")" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xe3 {
+		_hmx_stub();
+	}
+	:"weight.c=mxmem(" S5 "," T5 ")" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xe2 {
+		_hmx_stub();
+	}
+	:"weight.hf=mxmem(" S5 "," T5 ")" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xef {
+		_hmx_stub();
+	}
+	:"weight.n=mxmem(" S5 "," T5 ")" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xe1 {
+		_hmx_stub();
+	}
+	:"weight.sbit=mxmem(" S5 "," T5 ")" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xe4 {
+		_hmx_stub();
+	}
+	:"weight.sc=mxmem(" S5 "," T5 ")" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xf0 {
+		_hmx_stub();
+	}
+	:"weight.sm=mxmem(" S5 "," T5 ")" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xf1 {
+		_hmx_stub();
+	}
+	:"weight.b=mxmem(" S5 "," T5 "):after" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xe9 {
+		_hmx_stub();
+	}
+	:"weight.ubit=mxmem(" S5 "," T5 "):after" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xc8 {
+		_hmx_stub();
+	}
+	:"weight.c=mxmem(" S5 "," T5 "):after" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xfc {
+		_hmx_stub();
+	}
+	:"weight.hf=mxmem(" S5 "," T5 "):after" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xf5 {
+		_hmx_stub();
+	}
+	:"weight.n=mxmem(" S5 "," T5 "):after" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xf7 {
+		_hmx_stub();
+	}
+	:"weight.sbit=mxmem(" S5 "," T5 "):after" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xcd {
+		_hmx_stub();
+	}
+	:"weight.sc=mxmem(" S5 "," T5 "):after" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xc3 {
+		_hmx_stub();
+	}
+	:"weight.sm=mxmem(" S5 "," T5 "):after" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xd2 {
+		_hmx_stub();
+	}
+	
+	
+	:"activation.ub=mxmem(" S5 "," T5 "):dilate:cm" is imm_21_27=0b0010000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xe9 {
+		_hmx_stub();
+	}
+	:"activation.hf=mxmem(" S5 "," T5 "):dilate" is imm_21_27=0b0010000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xfa {
+		_hmx_stub();
+	}
+	:"activation.ub=mxmem(" S5 "," T5 "):dilate" is imm_21_27=0b0010000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xe8 {
+		_hmx_stub();
+	}
+	
+	:"weight.b=mxmem(" S5 "," T5 "):dilate" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xeb {
+		_hmx_stub();
+	}
+	:"weight.ubit=mxmem(" S5 "," T5 "):dilate" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xc9 {
+		_hmx_stub();
+	}
+	:"weight.c=mxmem(" S5 "," T5 "):dilate" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xfd {
+		_hmx_stub();
+	}
+	:"weight.hf=mxmem(" S5 "," T5 "):dilate" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xf6 {
+		_hmx_stub();
+	}
+	:"weight.n=mxmem(" S5 "," T5 "):dilate" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xf8 {
+		_hmx_stub();
+	}
+	:"weight.sbit=mxmem(" S5 "," T5 "):dilate" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xce {
+		_hmx_stub();
+	}
+	:"weight.sc=mxmem(" S5 "," T5 "):dilate" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xc4 {
+		_hmx_stub();
+	}
+	:"weight.sm=mxmem(" S5 "," T5 "):dilate" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xd3 {
+		_hmx_stub();
+	}
+	
+	:"weight.b=mxmem(" S5 "," T5 "):deep" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xe8 {
+		_hmx_stub();
+	}
+	:"weight.ubit=mxmem(" S5 "," T5 "):deep" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xc7 {
+		_hmx_stub();
+	}
+	:"weight.c=mxmem(" S5 "," T5 "):deep" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xfb {
+		_hmx_stub();
+	}
+	:"weight.hf=mxmem(" S5 "," T5 "):deep" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xf4 {
+		_hmx_stub();
+	}
+	:"weight.n=mxmem(" S5 "," T5 "):deep" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xee {
+		_hmx_stub();
+	}
+	:"weight.sbit=mxmem(" S5 "," T5 "):deep" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xcc {
+		_hmx_stub();
+	}
+	:"weight.sc=mxmem(" S5 "," T5 "):deep" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xc2 {
+		_hmx_stub();
+	}
+	:"weight.sm=mxmem(" S5 "," T5 "):deep" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xd1 {
+		_hmx_stub();
+	}
+	
+	:"weight.b=mxmem(" S5 "," T5 "):drop" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xe7 {
+		_hmx_stub();
+	}
+	:"weight.ubit=mxmem(" S5 "," T5 "):drop" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xc6 {
+		_hmx_stub();
+	}
+	:"weight.c=mxmem(" S5 "," T5 "):drop" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xfa {
+		_hmx_stub();
+	}
+	:"weight.hf=mxmem(" S5 "," T5 "):drop" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xf3 {
+		_hmx_stub();
+	}
+	:"weight.n=mxmem(" S5 "," T5 "):drop" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xed {
+		_hmx_stub();
+	}
+	:"weight.sbit=mxmem(" S5 "," T5 "):drop" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xcb {
+		_hmx_stub();
+	}
+	:"weight.sc=mxmem(" S5 "," T5 "):drop" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xc1 {
+		_hmx_stub();
+	}
+	:"weight.sm=mxmem(" S5 "," T5 "):drop" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xd0 {
+		_hmx_stub();
+	}
+	
+	:"activation.ub=mxmem(" S5 "," T5 "):single:cm" is imm_21_27=0b0010000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xf1 {
+		_hmx_stub();
+	}
+	:"activation.hf=mxmem(" S5 "," T5 "):single" is imm_21_27=0b0010000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xf8 {
+		_hmx_stub();
+	}
+	:"activation.ub=mxmem(" S5 "," T5 "):single" is imm_21_27=0b0010000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xf0 {
+		_hmx_stub();
+	}
+	
+	:"weight.b=mxmem(" S5 "," T5 "):single" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xe6 {
+		_hmx_stub();
+	}
+	:"weight.ubit=mxmem(" S5 "," T5 "):single" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xc5 {
+		_hmx_stub();
+	}
+	:"weight.c=mxmem(" S5 "," T5 "):single" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xf9 {
+		_hmx_stub();
+	}
+	:"weight.hf=mxmem(" S5 "," T5 "):single" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xf2 {
+		_hmx_stub();
+	}
+	:"weight.n=mxmem(" S5 "," T5 "):single" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xec {
+		_hmx_stub();
+	}
+	:"weight.sbit=mxmem(" S5 "," T5 "):single" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xca {
+		_hmx_stub();
+	}
+	:"weight.sc=mxmem(" S5 "," T5 "):single" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xc0 {
+		_hmx_stub();
+	}
+	:"weight.sm=mxmem(" S5 "," T5 "):single" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0xcf {
+		_hmx_stub();
+	}
+	
+	:"activation.ub=mxmem(" S5 "," T5 "):above:cm" is imm_21_27=0b0010000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xef {
+		_hmx_stub();
+	}
+	:"activation.hf=mxmem(" S5 "," T5 "):above" is imm_21_27=0b0010000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xe6 {
+		_hmx_stub();
+	}
+	:"activation.ub=mxmem(" S5 "," T5 "):above" is imm_21_27=0b0010000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xee {
+		_hmx_stub();
+	}
+}
+
+
+with slot: iclass=0b1010 {
+	:"mxswapacc" is imm_16_27=0b011011100000 & imm_0_13=0x14 {
+		_hmx_stub();
+	}
+	:"mxswapacc.hf" is imm_16_27=0b011011100000 & imm_0_13=0x15 {
+		_hmx_stub();
+	}
+	
+	:"mxmem(" S5 "," T5 "):after:sat.uh=acc:2x2" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x1a {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):after:retain:sat.uh=acc:2x2" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x1e {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):after.uh=acc:2x2" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x1b {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):after:retain.uh=acc:2x2" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x1f {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):before:sat.uh=acc:2x2" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x12 {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):before:retain:sat.uh=acc:2x2" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x16 {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):before.uh=acc:2x2" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x13 {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):before:retain.uh=acc:2x2" is imm_21_27=0b0110111 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x17 {
+		_hmx_stub();
+	}
+	
+	:"cvt.hf=acc(" S5 ")" is imm_21_27=0b0110111 & S5 & S5i & imm_0_13=0x1a10 {
+		_hmx_stub();
+	}
+	:"cvt.ub=acc(" S5 ")" is imm_21_27=0b0110111 & S5 & S5i & imm_0_13=0x1710 {
+		_hmx_stub();
+	}
+	:"cvt.ub=acc(" S5 "):sc0" is imm_21_27=0b0110111 & S5 & S5i & imm_0_13=0x1c10 {
+		_hmx_stub();
+	}
+	:"cvt.ub=acc(" S5 "):sc1" is imm_21_27=0b0110111 & S5 & S5i & imm_0_13=0x1d10 {
+		_hmx_stub();
+	}
+	:"cvt.uh=acc(" S5 "):2x1" is imm_21_27=0b0110111 & S5 & S5i & imm_0_13=0x1810 {
+		_hmx_stub();
+	}
+	:"cvt.uh=acc(" S5 "):2x2" is imm_21_27=0b0110111 & S5 & S5i & imm_0_13=0x1910 {
+		_hmx_stub();
+	}
+	
+	:"mxmem(" S5 "," T5 ")=cvt" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0x18 {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):2x2=cvt" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0x1a {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):cm=cvt" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0x19 {
+		_hmx_stub();
+	}
+}
+	
+with slot: iclass=0b1001 {
+	:"weight.n=mxmem(" S5 "," T5 "):2x" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x46 {
+		_hmx_stub();
+	}
+	:"weight.n=mxmem(" S5 "," T5 "):2x:after" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x45 {
+		_hmx_stub();
+	}
+	:"weight.n=mxmem(" S5 "," T5 "):2x:dilate" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x44 {
+		_hmx_stub();
+	}
+	:"weight.n=mxmem(" S5 "," T5 "):2x:deep" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x43 {
+		_hmx_stub();
+	}
+	:"weight.n=mxmem(" S5 "," T5 "):2x:drop" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x42 {
+		_hmx_stub();
+	}
+	:"weight.n=mxmem(" S5 "," T5 "):2x:single" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x41 {
+		_hmx_stub();
+	}
+	
+	:"activation.f8=mxmem(" S5 "," T5 ")" is imm_21_27=0b0010000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xe5 {
+		_hmx_stub();
+	}
+}
+
+with slot: iclass=0b1010 {
+	:"mxmem(" S5 "," T5 "):cm:deep=cvt" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0x1c {
+		_hmx_stub();
+	}
+	:"mxmem(" S5 "," T5 "):deep=cvt" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0x1b {
+		_hmx_stub();
+	}
+}
+
+with slot: iclass=0b1001 {
+	:"activation.f8=mxmem(" S5 "," T5 "):deep" is imm_21_27=0b0010000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xe3 {
+		_hmx_stub();
+	}
+	
+	:"weight.f8=mxmem(" S5 "," T5 ")" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x47 {
+		_hmx_stub();
+	}
+	:"weight.f8=mxmem(" S5 "," T5 "):after" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x4b {
+		_hmx_stub();
+	}
+	
+	:"activation.f8=mxmem(" S5 "," T5 "):dilate" is imm_21_27=0b0010000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xfb {
+		_hmx_stub();
+	}
+	:"weight.f8=mxmem(" S5 "," T5 "):dilate" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x4c {
+		_hmx_stub();
+	}
+	:"weight.f8=mxmem(" S5 "," T5 "):deep" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x4a {
+		_hmx_stub();
+	}
+	:"weight.f8=mxmem(" S5 "," T5 "):drop" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x49 {
+		_hmx_stub();
+	}
+	
+	:"activation.f8=mxmem(" S5 "," T5 "):single" is imm_21_27=0b0010000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xf9 {
+		_hmx_stub();
+	}
+	:"weight.f8=mxmem(" S5 "," T5 "):single" is imm_21_27=0b0010000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_0_7=0x48 {
+		_hmx_stub();
+	}
+	
+	:"activation.f8=mxmem(" S5 "," T5 "):above" is imm_21_27=0b0010000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0xe7 {
+		_hmx_stub();
+	}
+}
+
+with slot: iclass=0b1010 {
+	:"cvt.f8=acc(" S5 ")" is imm_21_27=0b0110111 & S5 & S5i & imm_0_13=0x1b10 {
+		_hmx_stub();
+	}
+	
+	:"mxmem(" S5 "," T5 "):deep.f8=cvt" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0x1e {
+		_hmx_stub();
+	}
+	
+	:"mxmem(" S5 "," T5 ").f8=cvt" is imm_21_27=0b0110111 & S5 & S5i & imm_13=0 & T5 & T5i & imm_0_7=0x1d {
+		_hmx_stub();
+	}
+}
+

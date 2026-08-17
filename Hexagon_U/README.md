@@ -4,7 +4,7 @@ This is a WIP implementation of the Qualcomm Hexagon "QDSP6" architecture in Ghi
 
 
 Supports:
-- Dissassembly up to v81, with all instructions supported
+- Complete dissassembly up to v81 including HVX and  HMX
 - Most common extended immediates are supported
 - No broken java plugins needed
 - Support for hardware loops
@@ -12,6 +12,7 @@ Supports:
 - Pcode implemented for most ops, (Only a few never-seen MPY and NV instructions are missing)
 - Function start recovery
 - Support for auto-and predicates
+- Full undocumented HMX dissassembly
 
 Currently broken / unimplemented:
 - Some immediate extensions are missing for less common ops and some duplexes
@@ -53,4 +54,5 @@ Some compiler flags cause the compiler to store immediate values directly in the
 
 
 ### How to install
-Copy `Hexagon` into `./<ghidra_root>/Ghidra/Processors/` (Confirmed to work on 11.4)
+Grab the [latest release](https://github.com/CUB3D/ghidra-hexagon-sleigh/releases/latest) for your Ghidra version (11.4.1 -> latest)
+Install with File > Install Extensions, click the green plug and select the zip. Then restart Ghidra 
