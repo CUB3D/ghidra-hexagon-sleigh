@@ -1433,6 +1433,8 @@ define bitrange SYSCFG_MMUEN=SYSCFG[0,1]
                 SYSCFG_DMT=SYSCFG[15,1]
                 SYSCFG_L2CFG=SYSCFG[16,3]
                 SYSCFG_ITCM=SYSCFG[19,1]
+                # This is a guess
+                SYSCFG_CLADE_EN=SYSCFG[20,1]
                 SYSCFG_L2NWA=SYSCFG[21,1]
                 SYSCFG_L2NRA=SYSCFG[22,1]
                 SYSCFG_L2WB=SYSCFG[23,1]
