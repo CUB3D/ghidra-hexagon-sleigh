@@ -49,7 +49,7 @@ with slot: iclass=0b1010 {
 with slotNV: iclass=0b1010 {
     :"memw(" S5 "++" "I:circ(" M1_13 "))=" NV_T3_new_8_10 is imm_21_27=0b1001101 & S5 & S5i & M1_13 & imm_11_12=0b10 & NV_T3_new_8_10 & imm_7=0 & imm_2_6=0 & imm_1=1 & imm_0=0 {
         local EA:4 = S5i;
-        local muv:4 = zext(M1_13 & 0x1FF);
+        local muv:4 = zext(M1_13 & 0x1FFFF);
         local i:4 = ((M1_13 >> 17) & 0b1111111) | (((M1_13 >> 28) & 0b1111) << 7);
         S5 = circ_add(S5i, i<<2, muv);
         *[ram]:4 EA = NV_T3_new_8_10; 
@@ -61,7 +61,7 @@ with slot: iclass=0b1010 {
 with slotNV: iclass=0b1010 {
     :"memw(" S5 "++" s4 ":circ(" M1_13 "))=" NV_T3_new_8_10 is imm_21_27=0b1001101 & S5 & S5i & M1_13 & imm_11_12=0b10 & NV_T3_new_8_10 & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0 [s4 = imm_3_6 << 2;] {
         local EA:4 = S5i;
-        local muv:4 = zext(M1_13 & 0x1FF);
+        local muv:4 = zext(M1_13 & 0x1FFFF);
         S5 = circ_add(S5i, s4:1, muv);
         *[ram]:4 EA = NV_T3_new_8_10;
     }
@@ -177,12 +177,17 @@ with slot: iclass=0b0100 {
         *[ram]:4 EA = NV_T3_new_8_10;
     <end>
     }
-    :"if(" D2_pred_new ".new) memw(" S5 "+" NR_NVWC_1 ")=" NV_T3_new_8_10 is imm_21_27=0b0010101 & S5 & S5i & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_3_7u & imm_2=0 & D2_pred_new & NR_NVWC_1  {
+    :"if(" D2_pred_new ".new) memw(" S5 "+" NR_NVWC_1 ")=" NV_T3_new_8_10 is imm_21_27=0b0010101 & S5 & S5i & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_3_7u & imm_2=0 & D2_pred_new & NR_NVWC_1  {}
+}
+with slotNV: iclass=0b0100 {
+    :"if(" D2_pred_new ".new) memw(" S5 "+" BR_NVWC_1 ")=" NV_T3_new_8_10 is imm_21_27=0b0010101 & S5 & S5i & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_3_7u & imm_2=0 & D2_pred_new & BR_NVWC_1  {
         if(D2_pred_new == 0) goto <end>;
-        local EA:4 = S5i + NR_NVWC_1;
+        local EA:4 = S5i + BR_NVWC_1;
         *[ram]:4 EA = NV_T3_new_8_10;
     <end>
     }
+}
+with slot: iclass=0b0100 {
     :"if(!" D2_pred ") memw(" S5 "+" NR_NVWC_1 ")=" NV_T3_new_8_10 is imm_21_27=0b0100101 & S5 & S5i & imm_13u & imm_11_12=0b10 & NV_T3_new_8_10 & imm_3_7u & imm_2=0 & D2_pred & D2_predi & NR_NVWC_1  {}
 }
 with slotNV: iclass=0b0100 {    

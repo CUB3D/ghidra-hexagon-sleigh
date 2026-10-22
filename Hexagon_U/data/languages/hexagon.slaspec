@@ -266,7 +266,7 @@ define token instr (32)
     imm_3_12          = ( 3,12)
     imm_3_7           = ( 3, 7)
     imm_3_7u          = ( 3, 7)
-    imm_3_6           = ( 3, 6)
+    imm_3_6           = ( 3, 6) signed
     imm_3_6u          = ( 3, 6)
     imm_3_4           = ( 3, 4)
     imm_3_4u          = ( 3, 4)

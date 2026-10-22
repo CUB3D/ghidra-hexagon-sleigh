@@ -265,6 +265,8 @@ with slot: iclass=0b1000  {
 }
 
 # XTYPE/SHIFT:Shift by reg
+# TODO: a negative shift switches ASR <-> ASL, LSR <-> LSL, this will look horible in decomp so we don't handle this
+# TODO: shifts should be limited to lower 7 bits
 with slot: iclass=0b1100  {
     :D5_pair"=asr("S5_pair","T5")" is imm_22_27=0b001110 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_6_7=0b00 & imm_5=0 & D5_pair {
         asr_by_reg_d(D5_pair, S5_pairi, T5i);

@@ -27,14 +27,14 @@ with slot: iclass=0b1010  {
 
      :"memd(" S5 "++I:circ(" M1_13 "))=" T5_pair  is imm_21_27=0b1001110 & S5 & S5i & M1_13 & T5_pair & T5_pairi & imm_7=0 & imm_2_6=0 & imm_1=1 & imm_0=0 {
          local EA:4 = S5i;
-         local muv:4 = zext(M1_13 & 0x1FF);
+         local muv:4 = zext(M1_13 & 0x1FFFF);
          local i:4 = ((M1_13 >> 17) & 0b1111111) | (((M1_13 >> 28) & 0b1111) << 7);
          S5 = circ_add(S5i, i << 3, muv);
         *[ram]:8 EA = T5_pairi;
      }
      :"memd(" S5 "++" s4 ":circ(" M1_13 "))=" T5_pair is imm_21_27=0b1001110 & S5 & S5i & M1_13 & T5_pair & T5_pairi & imm_7=0 & imm_3_6 & imm_2=0 & imm_1=0 & imm_0=0 [s4 = imm_3_6 << 3;] {
         local EA:4 = S5i;
-        local muv:4 = zext(M1_13 & 0x1FF);
+        local muv:4 = zext(M1_13 & 0x1FFFF);
         S5 = circ_add(S5i, s4:1, muv);
         *[ram]:8 EA = T5_pairi;
      }
@@ -137,11 +137,17 @@ with slot: iclass=0b0100 {
         <end>
     }
     :"if("D2_pred_new".new) memd("S5"+#"NR_EXT_COND_ST_D_u6")="T5_pair is imm_21_27=0b0010110 & S5 & S5i & imm_13u & T5_pair & T5_pairi & imm_3_7u & imm_2=0 & D2_pred_new & NR_EXT_COND_ST_D_u6 {
+    }
+}
+with slotNV: iclass=0b0100 {
+    :"if("D2_pred_new".new) memd("S5"+#"BR_EXT_COND_ST_D_u6")="T5_pair is imm_21_27=0b0010110 & S5 & S5i & imm_13u & T5_pair & T5_pairi & imm_3_7u & imm_2=0 & D2_pred_new & BR_EXT_COND_ST_D_u6 {
         if(D2_pred_new == 0) goto <end>;
-        local EA:4 = S5i + NR_EXT_COND_ST_D_u6;
+        local EA:4 = S5i + BR_EXT_COND_ST_D_u6;
         *[ram]:8 EA = T5_pairi;
         <end>
     }
+}
+with slot: iclass=0b0100 {
     :"if(!"D2_pred") memd("S5"+#"NR_EXT_COND_ST_D_u6")="T5_pair is imm_21_27=0b0100110 & S5 & S5i & imm_13u & T5_pair & T5_pairi & imm_3_7u & imm_2=0 & D2_pred & D2_predi & NR_EXT_COND_ST_D_u6 {}
 }
 with slotNV: iclass=0b0100 {

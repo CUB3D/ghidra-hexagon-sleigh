@@ -70,25 +70,33 @@ with slot: iclass=0b1000  {
 # XTYPE/FP: convert integer to floating-point value
 with slot: iclass=0b1000  {
     :D5_pair "=convert_ud2df(" S5_pair ")" is imm_21_27=0b0000111 & S5_pair & S5_pairi & imm_13=0 & imm_8_12=0  & imm_5_7=0b010 & D5_pair {
-        D5_pair = int2float(S5_pairi);
+        # int2float is signed, need unsigned
+        local tmp:9 = zext(S5_pairi);
+        D5_pair = int2float(tmp);
     }
     :D5_pair "=convert_d2df(" S5_pair ")" is imm_21_27=0b0000111 & S5_pair & S5_pairi & imm_13=0 & imm_8_12=0  & imm_5_7=0b011 & D5_pair {
         D5_pair = int2float(S5_pairi);
     }
     :D5_pair "=convert_uw2df(" S5 ")" is imm_23_27=0b01001 & imm_21_22=0 & S5 & S5i & imm_13=0 & imm_8_12=0  & imm_5_7=0b001 & D5_pair {
-        D5_pair = int2float(S5i);
+        # int2float is signed, need unsigned
+        local tmp:5 = zext(S5i);
+        D5_pair = int2float(tmp);
     }
     :D5_pair "=convert_w2df(" S5 ")" is imm_23_27=0b01001 & imm_21_22=0 & S5 & S5i & imm_13=0 & imm_8_12=0  & imm_5_7=0b010 & D5_pair {
         D5_pair = int2float(S5i);
     }
     :D5 "=convert_ud2sf(" S5_pair ")" is imm_21_27=0b1000001 & S5_pair & S5_pairi & imm_13=0 & imm_8_12=0  & imm_5_7=0b001 & D5 & OUTPUT_D5 {
-        D5 = int2float(S5_pairi);
+        # int2float is signed, need unsigned
+        local tmp:9 = zext(S5_pairi);
+        D5 = int2float(tmp);
     }
     :D5 "=convert_d2sf(" S5_pair ")" is imm_21_27=0b1000010 & S5_pair & S5_pairi & imm_13=0 & imm_8_12=0  & imm_5_7=0b001 & D5 & OUTPUT_D5 {
         D5 = int2float(S5_pairi);
     }
     :D5 "=convert_uw2sf(" S5 ")" is imm_21_27=0b1011001 & S5 & S5i & imm_13=0 & imm_8_12=0  & imm_5_7=0b000 & D5 & OUTPUT_D5 {
-        D5 = int2float(S5i);
+        # int2float is signed, need unsigned
+        local tmp:5 = zext(S5i);
+        D5 = int2float(tmp);
     }
     :D5 "=convert_w2sf(" S5 ")" is imm_21_27=0b1011010 & S5 & S5i & imm_13=0 & imm_8_12=0  & imm_5_7=0b000 & D5 & OUTPUT_D5 {
         D5 = int2float(S5i);
