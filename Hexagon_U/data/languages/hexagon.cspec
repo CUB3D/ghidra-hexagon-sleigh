@@ -6,7 +6,7 @@
         <machine_alignment value="4"/>
         <default_alignment value="1"/>
         <default_pointer_alignment value="4"/>
-        <char_type signed="false"/>
+        <char_type signed="true"/>
         <char_size value="1"/>
         <wchar_size value="4"/>
         <short_size value="2"/>
@@ -533,7 +533,7 @@
               tmp = tmp - 4;
                *[ram]:4 tmp = r22;
               tmp = tmp - 4;
-               *[ram]:4 tmp = r13;
+               *[ram]:4 tmp = r23;
               tmp = tmp - 4;
             ]]></body>
           </pcode>

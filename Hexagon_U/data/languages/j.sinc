@@ -405,7 +405,7 @@ BR_CJ_R9:r9 is  imm_20_21 & imm_1_7u & immext1pos=pktid & immext1 & imm_1_6u [ r
      }
      :P1 "=cmp.tstbit("S4",#0); if (!p1.new)" j_hint BR_CJ_R9 is BR_CJ_R9 & imm_27=0 & imm_22_26= 0b01111 & imm_20_21 & S4 & S4i & imm_10_12 & imm_8_9=0b11 & imm_1_7 & imm_0=0 & P1 & j_hint {
         local tmp:4 = S4i & 1;
-        if(tmp == 0) goto <bad>;
+        if(tmp != 0) goto <bad>;
             goto BR_CJ_R9;
         <bad>
      }   

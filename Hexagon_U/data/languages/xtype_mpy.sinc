@@ -45,17 +45,17 @@ with slot: iclass=0b1110  {
         D5 = -tmp1:4; 
     }
 
-    :D5 "+=mpyi(" S5 "," NR_EXT_imm_5_12u ")" is imm_23_27=0b00010 & imm_21_22=0 & S5 & S5i & imm_13=0 & NR_EXT_imm_5_12u & D5 & OUTPUT_D5 {
+    :D5 "+=mpyi(" S5 "," NR_EXT_imm_5_12u ")" is imm_23_27=0b00010 & imm_21_22=0 & S5 & S5i & imm_13=0 & NR_EXT_imm_5_12u & D5 & D5i & OUTPUT_D5 {
         local tmp0:8 = sext(S5i);
         local tmp1:8 = sext(NR_EXT_imm_5_12u);
         local mul:8 = tmp0 * tmp1;
-        D5 = D5 + mul:4;
+        D5 = D5i + mul:4;
     }
-    :D5 "-=mpyi(" S5 "," NR_EXT_imm_5_12u ")" is imm_23_27=0b00011 & imm_21_22=0 & S5 & S5i & imm_13=0 & NR_EXT_imm_5_12u & D5 & OUTPUT_D5 {
+    :D5 "-=mpyi(" S5 "," NR_EXT_imm_5_12u ")" is imm_23_27=0b00011 & imm_21_22=0 & S5 & S5i & imm_13=0 & NR_EXT_imm_5_12u & D5 & D5i & OUTPUT_D5 {
         local tmp0:8 = sext(S5i);
         local tmp1:8 = sext(NR_EXT_imm_5_12u);
         local mul:8 = tmp0 * tmp1;
-        D5 = D5 - mul:4;
+        D5 = D5i - mul:4;
     }
     :D5"=mpyi("S5","T5")" is imm_21_27=0b1101000 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b000 & D5 & OUTPUT_D5 {
         local tmp:8 = sext(S5i)*sext(T5i);

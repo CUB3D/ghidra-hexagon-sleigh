@@ -3,6 +3,29 @@
 define register offset=0x9000 size=1 [ Q0 Q1 Q2 Q3 ];
 attach variables [ Qv4 Qt4 Qs4 Qd4 Qx4 ] [ Q0 Q1 Q2 Q3 ];
 
+define register offset=0xA000 size=16 [
+    V0 V1 V2 V3 V4 V5 V6 V7 V8 V9 V10
+    V11 V12 V13 V14 V15 V16 V17 V18 V19 V20
+    V21 V22 V23 V24 V25 V26 V27 V28 V29 V30 V31
+];
+
+define register offset=0xA000 size=32 [
+    V1V0 V3V2 V5V4 V7V6 V9V8 V11V10 V13V12 V15V14 V17V16 V19V18
+    V21V20 V23V22 V25V24 V27V26 V29V28 V31V30
+];
+
+#TODO: rest of these
+attach variables [ VT5 VS5 VD5 ] [
+    V0 V1 V2 V3 V4 V5 V6 V7 V8 V9 V10
+    V11 V12 V13 V14 V15 V16 V17 V18 V19 V20
+    V21 V22 V23 V24 V25 V26 V27 V28 V29 V30 V31
+];
+
+attach variables [ VT5_pair VS5_pair VS5_pair_19_23 VD5_pair VD5_pair_dup ] [
+    V1V0 V3V2 V5V4 V7V6 V9V8 V11V10 V13V12 V15V14 V17V16 V19V18
+    V21V20 V23V22 V25V24 V27V26 V29V28 V31V30
+];
+
 define pcodeop _vstub;
 
 # HVX/ALL-COMPUTE-RESOURCE

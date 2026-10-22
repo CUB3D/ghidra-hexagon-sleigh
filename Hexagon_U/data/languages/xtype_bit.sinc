@@ -20,9 +20,9 @@ with slot: iclass=0b1000  {
         if (S5_pairi == 0) goto <end>;
         local lz:4 = lzcount(S5_pairi);
         local lo:4 = lzcount(~S5_pairi);
-        D5 = lz;
+        D5 = lz-1;
         if (lz >= lo) goto <end>;
-            D5 = lo;
+            D5 = lo-1;
         <end>
     }
 
@@ -234,8 +234,9 @@ with slot: iclass=0b1000  {
 }
 with slot: iclass=0b1101  {
     :D5_pair "=bitsplit(" S5 "," T5 ")" is imm_24_27=0b0100 & imm_22_23=0 & imm_21=1 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & D5_pair {
-        local hi:8 = (zext(S5i) >> T5i) << 32;
-        local lo:8 = zext(S5i & ((1 << T5i) - 1));
+        local shmt:8 = zext(T5i & 0b11111);
+        local hi:8 = (zext(S5i) >> shmt) << 32;
+        local lo:8 = zext(S5i & ((1 << shmt) - 1));
         D5_pair = hi | lo;
     }
 }
