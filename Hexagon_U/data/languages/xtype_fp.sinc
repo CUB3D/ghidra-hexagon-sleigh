@@ -253,23 +253,23 @@ with slot: iclass=0b1110  {
 with slot: iclass=0b1101  {
     :D5 "=sfmake(" u10 "):pos" is imm_22_27=0b011000 & imm_21u & imm_16_20 & imm_5_13u & D5 & OUTPUT_D5 [ u10 = imm_5_13u | (imm_21u << 9); ] {
         local tmp:4 = (127 - 6) << 23;
-        tmp = tmp + (zext(u10) << 17);
+        tmp = tmp + (u10 << 17);
         D5 = tmp;
     }
     :D5 "=sfmake(" u10 "):neg" is imm_22_27=0b011001 & imm_21u & imm_16_20 & imm_5_13u & D5 & OUTPUT_D5 [ u10 = imm_5_13u | (imm_21u << 9); ] {
         local tmp:4 = (127 - 6) << 23;
-        tmp = tmp + (zext(u10) << 17);
+        tmp = tmp + (u10 << 17);
         tmp = tmp | (1 << 31);
         D5 = tmp;
     }
     :D5_pair "=dfmake(" u10 "):pos" is imm_22_27=0b100100 & imm_21u & imm_16_20 & imm_5_13u & D5_pair [ u10 = imm_5_13u | (imm_21u << 9); ] {
         local tmp:8 = (1023 - 6) << 52;
-        tmp = tmp + (zext(u10) << 46);
+        tmp = tmp + (u10 << 46);
         D5_pair = tmp;
     }
     :D5_pair "=dfmake(" u10 "):neg"is imm_22_27=0b100101 & imm_21u & imm_16_20 & imm_5_13u & D5_pair [ u10 = imm_5_13u | (imm_21u << 9); ] {
         local tmp:8 = (1023 - 6) << 52;
-        tmp = tmp + (zext(u10) << 46);
+        tmp = tmp + (u10 << 46);
         tmp = tmp | (1 << 63);
         D5_pair = tmp;
     }

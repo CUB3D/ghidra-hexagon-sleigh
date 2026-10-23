@@ -9,3 +9,4 @@ data/languages/*.sla
 /bin/
 .DS_Store
 build/
+**/*.lock
