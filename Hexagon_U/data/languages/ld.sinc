@@ -68,7 +68,7 @@ with slot: iclass=0b1001 {
         SP = EA+8;
     }
     :"dealloc_return" is imm_21_27=0b0110000 & S5_val=30 & imm_10_13=0 & imm_5_9=0 & D5_pair_val=15 & imm_0=0  {
-        local EA:4 = FP;
+        local EA:4 = FPc;
         local tmp:8 = *[ram]:8 EA;
         LRFP = tmp;
 
@@ -86,7 +86,7 @@ with slotB: iclass=0b1001 {
         return [tmp3];
     }
     :"dealloc_return" is imm_21_27=0b0110000 & S5_val=30 & imm_10_13=0 & imm_5_9=0 & D5_pair_val=15 & imm_0=0  {
-        local EA:4 = FP;
+        local EA:4 = FPc;
         local tmp:8 = *[ram]:8 EA;
         
         local tmp2:8 = tmp>>32;
@@ -108,7 +108,7 @@ with slot: iclass=0b1001 {
     }
     :"if("T2_pred") dealloc_return" is imm_21_27=0b0110000 & S5_val=30 & imm_10_13=0b0100 & T2_pred & T2_predi & imm_5_7=0 & D5_pair_val=15 {
         if(T2_predi == 0) goto <end>;
-            local EA:4 = FP;
+            local EA:4 = FPc;
             local tmp:8 = *[ram]:8 EA;
             LRFP = tmp;
             SP = EA+8;
@@ -129,7 +129,7 @@ with slotB: iclass=0b1001 {
     }
     :"if("T2_pred") dealloc_return" is imm_21_27=0b0110000 & S5_val=30 & imm_10_13=0b0100 & T2_pred & T2_predi & imm_5_7=0 & D5_pair_val=15 {
         if(T2_predi == 0) goto <end>;
-            local EA:4 = FP;
+            local EA:4 = FPc;
             local tmp:8 = *[ram]:8 EA;
             
             local tmp2:8 = tmp>>32;
@@ -152,7 +152,7 @@ with slot: iclass=0b1001 {
     }
     :"if(!"T2_pred") dealloc_return" is imm_21_27=0b0110000 & S5_val=30 & imm_10_13=0b1100 & T2_pred & T2_predi & imm_5_7=0 & D5_pair_val=15 {
         if(T2_predi != 0) goto <end>;
-            local EA:4 = FP;
+            local EA:4 = FPc;
             local tmp:8 = *[ram]:8 EA;
             LRFP = tmp;
             SP = EA+8;
@@ -173,7 +173,7 @@ with slotB: iclass=0b1001 {
     }
     :"if(!"T2_pred") dealloc_return" is imm_21_27=0b0110000 & S5_val=30 & imm_10_13=0b1100 & T2_pred & T2_predi & imm_5_7=0 & D5_pair_val=15 {
         if(T2_predi != 0) goto <end>;
-            local EA:4 = FP;
+            local EA:4 = FPc;
             local tmp:8 = *[ram]:8 EA;
             
             local tmp2:8 = tmp>>32;
@@ -203,7 +203,7 @@ with slotNV: iclass=0b1001 {
     }
     :"if("T2_pred".new) dealloc_return:"ld_deallocret_hint is imm_21_27=0b0110000 & S5_val=30 & imm_10_13=0b0110 & T2_pred & T2_predi & imm_5_7=0 & D5_pair_val=15 & ld_deallocret_hint {
         if(T2_pred == 0) goto <end>;
-            local EA:4 = FP;
+            local EA:4 = FPc;
             local tmp:8 = *[ram]:8 EA;
             LRFP = tmp;
             SP = EA+8;
@@ -224,7 +224,7 @@ with slotB: iclass=0b1001 {
     }
     :"if("T2_pred".new) dealloc_return:"ld_deallocret_hint is imm_21_27=0b0110000 & S5_val=30 & imm_10_13=0b0110 & T2_pred & T2_predi & imm_5_7=0 & D5_pair_val=15 & ld_deallocret_hint {
         if(T2_pred == 0) goto <end>;
-            local EA:4 = FP;
+            local EA:4 = FPc;
             local tmp:8 = *[ram]:8 EA;
             
             local tmp2:8 = tmp>>32;
@@ -251,7 +251,7 @@ with slotNV: iclass=0b1001 {
     }
     :"if(!"T2_pred".new) dealloc_return:"ld_deallocret_hint is imm_21_27=0b0110000 & S5_val=30 & imm_10_13=0b1110 & T2_pred & T2_predi & imm_5_7=0 & D5_pair_val=15 & ld_deallocret_hint {
         if(T2_pred != 0) goto <end>;
-            local EA:4 = FP;
+            local EA:4 = FPc;
             local tmp:8 = *[ram]:8 EA;
             LRFP = tmp;
             SP = EA+8;
@@ -272,7 +272,7 @@ with slotB: iclass=0b1001 {
     }
     :"if(!"T2_pred".new) dealloc_return:"ld_deallocret_hint is imm_21_27=0b0110000 & S5_val=30 & imm_10_13=0b1110 & T2_pred & T2_predi & imm_5_7=0 & D5_pair_val=15 & ld_deallocret_hint {
         if(T2_pred != 0) goto <end>;
-            local EA:4 = FP;
+            local EA:4 = FPc;
             local tmp:8 = *[ram]:8 EA;
             
             local tmp2:8 = tmp>>32;

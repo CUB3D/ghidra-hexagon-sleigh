@@ -364,6 +364,8 @@ define token instr (32)
     D6_svctrl_pair    = ( 1, 5)
 
     D5_pair           = ( 1, 4)
+    D5_pair_lo        = ( 1, 4)
+    D5_pair_hi        = ( 1, 4)
     D5_pair_val           = ( 1, 4)
     D5_pairi          = ( 1, 4)
     D5                = ( 0, 4)
@@ -653,6 +655,15 @@ define register offset=0x00 size=4 [
     FP
     LR
 ];
+
+attach variables [ D5_pair_hi ] [
+	r1 r3 r5 r7 r9 r11 r13 r15 r17 r19 r21 r23 r25 r27 SP LR
+];
+
+attach variables [ D5_pair_lo ] [
+	r0 r2 r4 r6 r8 r10 r12 r14 r16 r18 r20 r22 r24 r26 r28 FP
+];
+
 
 attach variables [ D5 D5_dup S5 S5_dup alu_X5 alu_X5_dup T5 T5_dup ] [
 r0
