@@ -537,18 +537,18 @@ define pcodeop vrmpywoh;
 define pcodeop vrmpywwh;
 define pcodeop vrmpyweh;
 with slot: iclass=0b1110  {
-    :D5_pair "=vrmpywoh(" S5_pair "," T5_pair "):<<" imm_21u is imm_24_27=0b1000 & imm_21u & imm_21_22=0b01 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {
-        D5_pair = vrmpywoh(S5_pairi, T5_pairi) << imm_21u;
+    :D5_pair "=vrmpywoh(" S5_pair "," T5_pair "):<<" imm_23u is imm_24_27=0b1000 & imm_23u & imm_21_22=0b01 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {
+        D5_pair = vrmpywoh(S5_pairi, T5_pairi) << imm_23u;
     }
-    :D5_pair "=vrmpyweh(" S5_pair "," T5_pair "):<<" imm_21u is imm_24_27=0b1000 & imm_21u & imm_21_22=0b10 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b100 & D5_pair {
-        D5_pair = vrmpyweh(S5_pairi, T5_pairi) << imm_21u;
+    :D5_pair "=vrmpyweh(" S5_pair "," T5_pair "):<<" imm_23u is imm_24_27=0b1000 & imm_23u & imm_21_22=0b10 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b100 & D5_pair {
+        D5_pair = vrmpyweh(S5_pairi, T5_pairi) << imm_23u;
     }
 
-    :D5_pair "+=vrmpywoh(" S5_pair "," T5_pair "):<<" imm_21u is imm_24_27=0b1010 & imm_21u & imm_21_22=0b01 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b110 & D5_pair & D5_pairi {
-        D5_pair = D5_pairi + (vrmpywoh(S5_pairi, T5_pairi) << imm_21u);
+    :D5_pair "+=vrmpyweh(" S5_pair "," T5_pair "):<<" imm_23u is imm_24_27=0b1010 & imm_23u & imm_21_22=0b01 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b110 & D5_pair & D5_pairi {
+        D5_pair = D5_pairi + (vrmpyweh(S5_pairi, T5_pairi) << imm_23u);
     }
-    :D5_pair "=vrmpyweh(" S5_pair "," T5_pair "):<<" imm_21u is imm_24_27=0b1010 & imm_21u & imm_21_22=0b11 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b110 & D5_pair & D5_pairi {
-        D5_pair = D5_pairi + (vrmpyweh(S5_pairi, T5_pairi) << imm_21u);
+    :D5_pair "+=vrmpywoh(" S5_pair "," T5_pair "):<<" imm_23u is imm_24_27=0b1010 & imm_23u & imm_21_22=0b11 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b110 & D5_pair & D5_pairi {
+        D5_pair = D5_pairi + (vrmpywoh(S5_pairi, T5_pairi) << imm_23u);
     }
 }
 

@@ -184,10 +184,16 @@ with slot: iclass=0b1111  {
     	local a1_:4 = (S5i >> 16); local a1:2 = a1_:2;
     	local b1_:4 = (T5i >> 16); local b1:2 = b1_:2;
     	
-    	local add1: 2 = a0+b0;
-    	local add2: 2 = a1+b1;
-    	
-    	D5= zext(add1 >> 1) + (zext(add2>>1) << 16);
+    	local add1:3 = zext(a0)+zext(b0);
+    	local add2:3 = zext(a1)+zext(b1);
+
+        add1 = add1 >> 1;
+        add2 = add2 >> 1;
+
+        local add1a:2 = add1:2;
+        local add2a:2 = add2:2;
+
+    	D5 = zext(add1a) + (zext(add2a) << 16);
     }
     :D5 "=vavgh(" S5 "," T5 "):rnd" is imm_24_27=0b0111 & imm_23=0 & imm_21_22=0b01 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0 & D5 & OUTPUT_D5 {
         D5 = vavgh_rnd(S5i, T5i);
