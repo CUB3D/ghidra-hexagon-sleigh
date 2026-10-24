@@ -463,3 +463,27 @@ with slot: iclass=0b1001  {
         D5_pair = membh(*[ram]:4 EA);
     }
 }
+
+# Vector allocate stack frame (v83)
+define pcodeop vallocframe;
+with slot: iclass=0b0110  {
+	:"vallocframe("imm_0_6")" is imm_21_27=0b0000100 & imm_16_20=0  & imm_11_13=0b001 & imm_7_10=0 & imm_0_6 {
+        vallocframe(imm_0_6:1);
+    }
+    
+    :"vallocframe("S5")" is imm_21_27=0b0000100 & S5 & S5i & imm_11_13=0b010 & imm_0_10=0 {
+        vallocframe(S5i);
+    }
+}
+
+# Vector deallocate stack frame (v83)
+define pcodeop vdeallocframe;
+with slot: iclass=0b0110  {
+	:"vdeallocframe("imm_0_6")" is imm_21_27=0b1010100 & imm_16_20=0  & imm_11_13=0b001 & imm_7_10=0 & imm_0_6 {
+        vallocframe(imm_0_6:1);
+    }
+    
+    :"vdeallocframe("S5")" is imm_21_27=0b1001010 & S5 & S5i & imm_11_13=0b010 & imm_0_10=0 {
+        vallocframe(S5i);
+    }
+}

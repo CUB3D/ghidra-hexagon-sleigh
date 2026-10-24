@@ -344,6 +344,20 @@ with : mode=0 {
             FP = EA;
             SP = EA - v;
     }
+    
+    # Restricted allocate stack frame (v83)
+    S2L:"allocframe_rb("v")" is immdup0_9_12=0b1111 & immdup0_4_8 & immdup0_0_3=0 [v = immdup0_4_8 << 3;] {
+            local EA:4 = SPc - 8;
+            *[ram]:8 EA = LRFPc;
+            FP = EA;
+            SP = EA - v;
+    }
+    S2R:"allocframe_rb("v")" is immdup1_9_12=0b1111 & immdup1_4_8 & immdup1_0_3=0 [v = immdup1_4_8 << 3;] {
+            local EA:4 = SPc - 8;
+            *[ram]:8 EA = LRFPc;
+            FP = EA;
+            SP = EA - v;
+    }
 
 EXT_immdup1_4_10: immdup1_4_10 is immdup1_4_10 & IS_NOT_EXT { export *[const]:4 immdup1_4_10; }
 EXT_immdup1_4_10: v is immext0 & immdup1_4_9 & IS_EXT0 [ v = immdup1_4_9 | immext0; ] { export *[const]:4 v; }

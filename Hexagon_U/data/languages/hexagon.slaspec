@@ -12,42 +12,42 @@
 # Status:
 # Disassembles everything up to v81, most ops have pcode
 
-# ALU32/ALU       Decode + pcode up to v81                                 regcache ever0 nvi
-# ALU32/PERM:     Decode + pcode up to v81                                 regcache ever0 nvi
-# ALU32/PRED:     Decode + pcode up to v81                                 regcache ever0 nvi
-# CR:             Decode + pcode up to v81                                 regcache ever0 nvi
-# JR:             Decode + pcode up to v81                                 regcache ever0 nvi
-# J:              Decode + pcode up to v81                                 regcache ever0 nvi
-# LD:             Decode + pcode up to v81                                 regcache ever0 nvi
-# LD/Dword:       Decode + pcode up to v81                                 regcache ever0 nvi
-# LD/Byte:        Decode + pcode up to v81                                 regcache ever0 nvi
-# LD/Halfword:    Decode + pcode up to v81                                 regcache ever0 nvi
-# LD/ubyte:       Decode + pcode up to v81                                 regcache ever0 nvi
-# LD/uHalfword:   Decode + pcode up to v81                                 regcache ever0 nvi
-# LD/word:        Decode + pcode up to v81                                 regcache ever0 nvi
-# MEMOP:          Decode + pcode up to v81                                 regcache ever0 nvi
-# NV:             Decode + pcode up to v81                                 regcache ever0 nvi
-# NV/HW:          Decode + pcode up to v81                                 regcache ever0 nvi nvst
-# NV/W:           Decode + pcode up to v81                                 regcache ever0 nvi nvst
-# NV/B:           Decode + pcode up to v81                                 regcache ever0 nvi nvst
-# ST:             Decode + pcode up to v81                                 regcache ever0 nvi
-# ST/byte:        Decode + pcode up to v81                                 regcache ever0 nvi
-# ST/Dword:       Decode + pcode up to v81                                 regcache ever0 nvi
-# ST/halfword:    Decode + pcode up to v81                                 regcache ever0 nvi
-# ST/word:        Decode + pcode up to v81                                 regcache ever0 nvi
-# SYSTEM/USER:    Decode + pcode up to v81                                 regcache ever0 nvi
-# SYSTEM/GUEST:   Decode + pcode up to v66 (latest for this section)       regcache ever0 nvi
-# SYSTEM/MONITOR: Decode + pcode up to v66 (latest for this section)       regcache ever0 nvi
-# XTYPE:          Decode + pcode up to v81                                 regcache ever0 nvi
-# XTYPE/ALU:      Decode + pcode up to v81                                 regcache ever0 nvi
-# XTYPE/BIT:      Decode + pcode up to v81                                 regcache ever0 nvi
-# XTYPE/COMPLEX:  Decode + pcode up to v81                                 regcache ever0 nvi
-# XTYPE/FP:       Decode + pcode up to v81                                 regcache ever0 nvi
-# XTYPE/MPY:      Decode + pcode up to v81                                 regcache ever0 nvi
-# XTYPE/PERM:     Decode + pcode up to v81                                 regcache ever0 nvi
-# XTYPE/PRED:     Decode + pcode up to v81                                 regcache ever0 nvi
-# XTYPE/SHIFT:    Decode + pcode up to v81                                 regcache ever0 nvi
-# duplex          Decode + pcode up to v81                                 regcache ever0 nvi
+# ALU32/ALU       Decode + pcode up to v83                                 regcache ever0 nvi
+# ALU32/PERM:     Decode + pcode up to v83                                 regcache ever0 nvi
+# ALU32/PRED:     Decode + pcode up to v83                                 regcache ever0 nvi
+# CR:             Decode + pcode up to v83                                 regcache ever0 nvi
+# JR:             Decode + pcode up to v83                                 regcache ever0 nvi
+# J:              Decode + pcode up to v83                                 regcache ever0 nvi
+# LD:             Decode + pcode up to v83                                 regcache ever0 nvi
+# LD/Dword:       Decode + pcode up to v83                                 regcache ever0 nvi
+# LD/Byte:        Decode + pcode up to v83                                 regcache ever0 nvi
+# LD/Halfword:    Decode + pcode up to v83                                 regcache ever0 nvi
+# LD/ubyte:       Decode + pcode up to v83                                 regcache ever0 nvi
+# LD/uHalfword:   Decode + pcode up to v83                                 regcache ever0 nvi
+# LD/word:        Decode + pcode up to v83                                 regcache ever0 nvi
+# MEMOP:          Decode + pcode up to v83                                 regcache ever0 nvi
+# NV:             Decode + pcode up to v83                                 regcache ever0 nvi
+# NV/HW:          Decode + pcode up to v83                                 regcache ever0 nvi nvst
+# NV/W:           Decode + pcode up to v83                                 regcache ever0 nvi nvst
+# NV/B:           Decode + pcode up to v83                                 regcache ever0 nvi nvst
+# ST:             Decode + pcode up to v83                                 regcache ever0 nvi
+# ST/byte:        Decode + pcode up to v83                                 regcache ever0 nvi
+# ST/Dword:       Decode + pcode up to v83                                 regcache ever0 nvi
+# ST/halfword:    Decode + pcode up to v83                                 regcache ever0 nvi
+# ST/word:        Decode + pcode up to v83                                 regcache ever0 nvi
+# SYSTEM/USER:    Decode + pcode up to v83                                 regcache ever0 nvi
+# SYSTEM/GUEST:   Decode + pcode up to v63 (latest for this section)       regcache ever0 nvi
+# SYSTEM/MONITOR: Decode + pcode up to v63 (latest for this section)       regcache ever0 nvi
+# XTYPE:          Decode + pcode up to v83                                 regcache ever0 nvi
+# XTYPE/ALU:      Decode + pcode up to v83                                 regcache ever0 nvi
+# XTYPE/BIT:      Decode + pcode up to v83                                 regcache ever0 nvi
+# XTYPE/COMPLEX:  Decode + pcode up to v83                                 regcache ever0 nvi
+# XTYPE/FP:       Decode + pcode up to v83                                 regcache ever0 nvi
+# XTYPE/MPY:      Decode + pcode up to v83                                 regcache ever0 nvi
+# XTYPE/PERM:     Decode + pcode up to v83                                 regcache ever0 nvi
+# XTYPE/PRED:     Decode + pcode up to v83                                 regcache ever0 nvi
+# XTYPE/SHIFT:    Decode + pcode up to v83                                 regcache ever0 nvi
+# duplex          Decode + pcode up to v83                                 regcache ever0 nvi
 # HVX             Decode up to v79
 # HMX             Decode up to v81
 
@@ -234,6 +234,7 @@ define token instr (32)
     imm_7_13          = ( 7,13)
     imm_7_12          = ( 7,12)
     imm_7_12u         = ( 7,12)
+    imm_7_10          = (7, 10)
     imm_7             = ( 7, 7)
     imm_7u            = ( 7, 7)
 
@@ -1802,6 +1803,7 @@ macro set_pred(p, pr, v) {
 @include "alu32_alu.sinc"
 @include "alu32_perm.sinc"
 @include "alu32_pred.sinc"
+@include "cfi.sinc"
 @include "cr.sinc"
 @include "jr.sinc"
 @include "j.sinc"

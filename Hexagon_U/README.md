@@ -3,7 +3,7 @@
 This is a WIP implementation of the Qualcomm Hexagon "QDSP6" architecture in Ghidra SLEIGH
 
 Features:
-- Dissassembly of v66/v67/v68/v73/v75/v79/v81, including HVX and HMX up to v81
+- Dissassembly of v66/v67/v68/v73/v75/v79/v81/v83, including HVX and HMX up to v81
 - Most common extended immediates are supported
 - No broken java plugins needed
 - Support for hardware loops (The first implementation to do so)

@@ -1,0 +1,156 @@
+# Note that CFI active bit setting and checking isn't handled. 
+
+# Call subroutine from register (v83)
+# Hinted call subroutine from register (v83)
+with slot: iclass=0b0101  {
+    :"callr_rb "S5 is imm_21_27=0b0000001 & S5 & S5i & imm_0_13=0 {}
+    :"callrh_rb "S5 is imm_21_27=0b0000010 & S5 & S5i & imm_0_13=0 {}
+    :"if ("U2_pred") callr_rb" S5 is imm_21_27=0b0001100 & S5 & S5i & imm_10_13=0 & U2_pred & U2_predi & imm_0_7=0 {}
+    :"if (!"U2_pred") callr_rb" S5 is imm_21_27=0b0001101 & S5 & S5i & imm_10_13=0 & U2_pred & U2_predi & imm_0_7=0 {}
+}
+with slotB: iclass=0b0101 {
+    :"callr_rb "S5 is imm_21_27=0b0000001 & S5 & S5i & imm_0_13=0 {
+        LR=inst_next;
+        call [S5i];
+    }
+    
+    :"callrh_rb "S5 is imm_21_27=0b0000010 & S5 & S5i & imm_0_13=0 {
+        LR=inst_next;
+        call [S5i];
+    }
+
+    :"if ("U2_pred") callr_rb" S5 is imm_21_27=0b0001100 & S5 & S5i & imm_10_13=0 & U2_pred & U2_predi & imm_0_7=0 {
+        if(U2_predi == 0) goto <end>;
+	        LR=inst_next;
+	        call [S5i];
+        <end>
+    }
+
+    :"if (!"U2_pred") callr_rb" S5 is imm_21_27=0b0001101 & S5 & S5i & imm_10_13=0 & U2_pred & U2_predi & imm_0_7=0 {
+        if(U2_predi != 0) goto <end>;
+	        LR=inst_next;
+	        call [S5i];
+        <end>
+    }
+}
+
+# Jump to address from register
+# Hinted jump to address from register
+ with slot: iclass=0b0101  {
+      :"jumpr_rb" S5 is imm_21_27=0b0010000 & S5 & S5i & imm_0_13=0 {} 
+     
+     # Special case for return
+     :"jumpr_rb LR" is imm_21_27=0b0010000 & imm_16_20=31 & imm_0_13=0 {}
+     
+     :"jumprh_rb" S5 is imm_21_27=0b0010010 & S5 & S5i & imm_0_13=0 {}
+
+     :"if("U2_pred") jumpr_rb:nt "S5 is imm_21_27=0b0011110 & S5 & S5i & imm_13=0 & imm_11_12=0b00 & imm_10=0 & U2_pred & U2_predi & imm_0_7=0 {}
+
+     :"if("U2_pred") jumpr_rb:nt LR" is imm_21_27=0b0011110 & S5=31 & imm_13=0 & imm_11_12=0b00 & imm_10=0 & U2_pred & U2_predi & imm_0_7=0 {}     
+
+     :"if("U2_pred".NEW) jumpr_rb:nt "S5 is imm_21_27=0b0011110 & S5 & S5i & imm_13=0 & imm_11_12=0b01 & imm_10=0 & U2_pred & imm_0_7=0 {}
+     
+     :"if("U2_pred") jumpr_rb:t "S5 is imm_21_27=0b0011110 & S5 & S5i & imm_13=0 & imm_11_12=0b10 & imm_10=0 & U2_pred & U2_predi & imm_0_7=0 {}
+     
+     :"if("U2_pred".NEW) jumpr_rb:t "S5 is imm_21_27=0b0011110 & S5 & S5i & imm_13=0 & imm_11_12=0b11 & imm_10=0 & U2_pred & imm_0_7=0 {}
+     
+     :"if(!"U2_pred") jumpr_rb:nt "S5 is imm_21_27=0b0011111 & S5 & S5i & imm_13=0 & imm_11_12=0b00 & imm_10=0 & U2_pred & U2_predi & imm_0_7=0 {}
+     
+     :"if(!"U2_pred".NEW) jumpr_rb:nt "S5 is imm_21_27=0b0011111 & S5 & S5i & imm_13=0 & imm_11_12=0b01 & imm_10=0 & U2_pred & imm_0_7=0 {}
+     
+     :"if(!"U2_pred") jumpr_rb:t "S5 is imm_21_27=0b0011111 & S5 & S5i & imm_13=0 & imm_11_12=0b10 & imm_10=0 & U2_pred & U2_predi & imm_0_7=0 {}
+     
+     :"if(!"U2_pred".NEW) jumpr_rb:t "S5 is imm_21_27=0b0011111 & S5 & S5i & imm_13=0 & imm_11_12=0b11 & imm_10=0 & U2_pred & imm_0_7=0 {}
+ }
+ 
+  with slotB: iclass=0b0101 {
+     :"jumpr_rb" S5 is imm_21_27=0b0010000 & S5 & S5i & imm_0_13=0 {
+         goto [S5i];
+     }
+     
+     # Special case for return
+     :"jumpr_rb LR" is imm_21_27=0b0010000 & imm_16_20=31 & imm_0_13=0 {
+        return [LRc];
+     }
+     
+     :"jumprh_rb" S5 is imm_21_27=0b0010010 & S5 & S5i & imm_0_13=0 {
+         goto [S5i];
+     }
+
+     :"if("U2_pred") jumpr_rb:nt "S5 is imm_21_27=0b0011110 & S5 & S5i & imm_13=0 & imm_11_12=0b00 & imm_10=0 & U2_pred & U2_predi & imm_0_7=0 {
+		if(U2_predi == 0) goto <end>;
+        	goto [S5i];
+        <end>
+     }
+     :"if("U2_pred") jumpr_rb:nt LR" is imm_21_27=0b0011110 & S5=31 & imm_13=0 & imm_11_12=0b00 & imm_10=0 & U2_pred & U2_predi & imm_0_7=0 {
+        if(U2_predi == 0) goto <end>;
+        	return [LRc];
+        <end>
+     }
+
+     :"if("U2_pred".NEW) jumpr_rb:nt "S5 is imm_21_27=0b0011110 & S5 & S5i & imm_13=0 & imm_11_12=0b01 & imm_10=0 & U2_pred & imm_0_7=0 {
+         if(U2_pred == 0) goto <end>;
+        	goto [S5i];
+        <end>
+     }
+     
+     :"if("U2_pred") jumpr_rb:t "S5 is imm_21_27=0b0011110 & S5 & S5i & imm_13=0 & imm_11_12=0b10 & imm_10=0 & U2_pred & U2_predi & imm_0_7=0 {
+        if(U2_predi == 0) goto <end>;
+        	goto [S5i];
+        <end>
+     }
+     
+     :"if("U2_pred".NEW) jumpr_rb:t "S5 is imm_21_27=0b0011110 & S5 & S5i & imm_13=0 & imm_11_12=0b11 & imm_10=0 & U2_pred & imm_0_7=0 {
+        if(U2_pred == 0) goto <end>;
+        	goto [S5i];
+        <end>
+     }
+     
+     :"if(!"U2_pred") jumpr_rb:nt "S5 is imm_21_27=0b0011111 & S5 & S5i & imm_13=0 & imm_11_12=0b00 & imm_10=0 & U2_pred & U2_predi & imm_0_7=0 {
+        if(U2_predi != 0) goto <end>;
+        	goto [S5i];
+        <end>
+     }
+     
+     :"if(!"U2_pred".NEW) jumpr_rb:nt "S5 is imm_21_27=0b0011111 & S5 & S5i & imm_13=0 & imm_11_12=0b01 & imm_10=0 & U2_pred & imm_0_7=0 {
+        if(U2_pred != 0) goto <end>;
+        	goto [S5i];
+        <end>
+     }
+     
+     :"if(!"U2_pred") jumpr_rb:t "S5 is imm_21_27=0b0011111 & S5 & S5i & imm_13=0 & imm_11_12=0b10 & imm_10=0 & U2_pred & U2_predi & imm_0_7=0 {
+        if(U2_predi != 0) goto <end>;
+        	goto [S5i];
+        <end>
+     }
+     
+     :"if(!"U2_pred".NEW) jumpr_rb:t "S5 is imm_21_27=0b0011111 & S5 & S5i & imm_13=0 & imm_11_12=0b11 & imm_10=0 & U2_pred & imm_0_7=0 {
+        if(U2_pred != 0) goto <end>;
+       		goto [S5i];
+        <end>
+     }
+ }
+
+# Nop (v83)
+define pcodeop nop_rb;
+with slot: iclass=0b0111  {
+	:"nop_rb" is imm_23_27=0b11111 & imm_16_22=0  & imm_0_13=0b001 {
+        nop_rb();
+    }
+}
+
+# Restricted allocate stack frame (v83)
+with slot: iclass=0b1010  {
+    :"allocframe_rb("S5","U11"):raw" is imm_21_27=0b0000100 & S5 & S5i & imm_11_13=0b100 & imm_0_10 [ U11 = imm_0_10 << 3; ] {
+        local EA:4 = S5i - 8;
+        *[ram]:8 EA = LRFPc;
+        FP = EA;
+        S5 = EA - U11;
+    }
+    :"allocframe_rb("U11")" is imm_21_27=0b0000100 & S5=29  & imm_11_13=0b100 & imm_0_10 [ U11 = imm_0_10 << 3; ] {
+        local EA:4 = SPc - 8;
+        *[ram]:8 EA = LRFPc;
+        FP = EA;
+        SP = EA - U11;
+    }
+}

@@ -337,3 +337,29 @@ with slot: iclass=0b1110  {
         D5 = S5i f- T5i;
     }
 }
+
+# XTYPE/FP: vector fp addsub (v83)
+define pcodeop vsfadd;
+define pcodeop vsfsub;
+with slot: iclass=0b1110  {
+    :D5_pair "=vsfadd(" S5_pair "," T5_pair ")" is imm_21_27=0b1011000 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {
+        D5_pair = vsfadd(S5_pairi, T5_pairi);
+    }
+    :D5_pair "=vsfsub(" S5_pair "," T5_pair ")" is imm_21_27=0b1011000 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & D5_pair {
+        D5_pair = vsfsub(S5_pairi, T5_pairi);
+    }
+}
+
+# XTYPE/FP: vector fp mult (v83)
+define pcodeop vsfmpy;
+with slot: iclass=0b1110  {
+    :D5_pair "=vsfmpy(" S5_pair "," T5_pair ")" is imm_21_27=0b1011010 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5_pair {
+        D5_pair = vsfmpy(S5_pairi, T5_pairi);
+    }
+    :D5_pair "+=vsfmpy(" S5_pair "," T5_pair ")" is imm_21_27=0b1011010 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair & D5_pairi {
+        D5_pair = D5_pairi + vsfmpy(S5_pairi, T5_pairi);
+    }
+    :D5_pair "-=vsfmpy(" S5_pair "," T5_pair ")" is imm_21_27=0b1011010 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & D5_pair & D5_pairi {
+        D5_pair = D5_pairi - vsfmpy(S5_pairi, T5_pairi);
+    }
+}
