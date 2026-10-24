@@ -1,0 +1,17 @@
+# Hexagon HLX starts from V85
+
+define register offset=0x10000 size=2048 [
+	L0 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15
+];
+
+attach variables [ LDV LUV ] [
+	L0 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15
+];
+
+define pcodeop _hlx_stub;
+
+with slot: iclass=0b1110 {
+    :LDV".h = "LUV".h" is imm_21_27=0b0101000 & imm_16_20 & imm_10_13=0b1110 & LUV & imm_5=1 & LDV & imm_0=0 {
+     	_hlx_stub();
+    }    
+}

@@ -528,6 +528,11 @@ define token instr (32)
     VD5_pair          = ( 1, 4)
     VD5_pair_dup      = ( 1, 4)
     VD5               = ( 0, 4)
+    
+    
+    # HLX
+    LDV = (1,4)
+    LUV = (6,9)
 ;
 
 define register offset=0x300 size=40 [
@@ -1831,6 +1836,7 @@ macro set_pred(p, pr, v) {
 
 @include "hvx.sinc"
 @include "hmx.sinc"
+@include "hlx.sinc"
 
 
 # This is a placeholder for inline data, commonly used for 0xf8xxxxxx log messages
