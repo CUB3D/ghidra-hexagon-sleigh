@@ -15,7 +15,7 @@ define register offset=0xA000 size=32 [
 ];
 
 #TODO: rest of these
-attach variables [ VT5 VS5 VD5 ] [
+attach variables [ VT5 VS5 VD5 VS5_19_23 ] [
     V0 V1 V2 V3 V4 V5 V6 V7 V8 V9 V10
     V11 V12 V13 V14 V15 V16 V17 V18 V19 V20
     V21 V22 V23 V24 V25 V26 V27 V28 V29 V30 V31
@@ -1237,10 +1237,12 @@ with slot: iclass=0b0001 {
     :VD5_pair".qf16 = vmpy("VT5_pair".qf16,"VS5_pair".qf16)" is imm_21_27=0b1111111 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b011 & VD5_pair {
         _vstub();
     }       
-    :VD5_pair".qf16 = vmpy("VT5_pair".hf,"VS5_pair".hf)" is imm_21_27=0b1111111 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+    # (v79)
+    :VD5".qf16 = vmpy("VT5".hf,"VS5".hf)" is imm_21_27=0b1111111 & VS5 & imm_13=1 & VT5 & imm_5_7=0b100 & VD5 {
         _vstub();
     }       
-    :VD5_pair".qf16 = vmpy("VT5_pair".qf16,"VS5_pair".hf)" is imm_21_27=0b1111111 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+    # (v79)
+    :VD5".qf16 = vmpy("VT5".qf16,"VS5".hf)" is imm_21_27=0b1111111 & VS5 & imm_13=1 & VT5 & imm_5_7=0b101 & VD5 {
         _vstub();
     }   
     :VD5_pair".qf16 = vmpy("VT5_pair".qf16,"S5".hf)" is imm_21_27=0b1010000 & S5 & imm_13=1 & VT5_pair & imm_5_7=0b010 & VD5_pair {
@@ -1255,8 +1257,9 @@ with slot: iclass=0b0001 {
 with slot: iclass=0b0001 {
     :VD5_pair".qf32 = vmpy("VT5_pair".qf32,"VS5_pair".qf32)" is imm_21_27=0b1111111 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b000 & VD5_pair {
         _vstub();
-    }       
-    :VD5_pair".qf32 = vmpy("VT5_pair".sf,"VS5_pair".sf)" is imm_21_27=0b1111111 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+    }     
+    # (v79)  
+    :VD5".qf32 = vmpy("VT5".sf,"VS5".sf)" is imm_21_27=0b1111111 & VS5 & imm_13=1 & VT5 & imm_5_7=0b001 & VD5 {
         _vstub();
     }       
     :VD5_pair".qf32 = vmpy("VT5_pair".sf,"S5".sf)" is imm_21_27=0b1010000 & S5 & imm_13=1 & VT5_pair & imm_5_7=0b001 & VD5_pair {
@@ -2339,64 +2342,82 @@ with slot: iclass=0b0001 {
 }
 
 with slot: iclass=0b0001 {
-    :VD5_pair".qf32 = vneg("VT5_pair".sf)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b10 & imm_13=1 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+    # (v81)
+    :VD5".qf32 = vneg("VT5".sf)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b10 & imm_13=1 & VT5& imm_5_7=0b000 & VD5 {
         _vstub();
     }
-    :VD5_pair".qf32 = vneg("VT5_pair".qf32)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b10 & imm_13=1 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+    # (v81)
+    :VD5".qf32 = vneg("VT5".qf32)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b10 & imm_13=1 & VT5& imm_5_7=0b001 & VD5 {
         _vstub();
     }
-    :VD5_pair".qf16 = vneg("VT5_pair".hf)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b10 & imm_13=1 & VT5_pair & imm_5_7=0b010 & VD5_pair {
+    # (v81)
+    :VD5".qf16 = vneg("VT5".hf)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b10 & imm_13=1 & VT5& imm_5_7=0b010 & VD5 {
         _vstub();
     }
-    :VD5_pair".qf16 = vneg("VT5_pair".qf16)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b10 & imm_13=1 & VT5_pair & imm_5_7=0b011 & VD5_pair {
+    # (v81)
+    :VD5".qf16 = vneg("VT5".qf16)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b10 & imm_13=1 & VT5& imm_5_7=0b011 & VD5 {
         _vstub();
     }
-    :VD5_pair".qf32 = vabs("VT5_pair".sf)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b10 & imm_13=1 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+    # (v81)
+    :VD5".qf32 = vabs("VT5".sf)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b10 & imm_13=1 & VT5 & imm_5_7=0b100 & VD5 {
         _vstub();
     }
-    :VD5_pair".qf32 = vabs("VT5_pair".qf32)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b10 & imm_13=1 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+    # (v81)
+    :VD5".qf32 = vabs("VT5".qf32)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b10 & imm_13=1 & VT5 & imm_5_7=0b101 & VD5 {
         _vstub();
     }
-    :VD5_pair".qf16 = vabs("VT5_pair".hf)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b10 & imm_13=1 & VT5_pair & imm_5_7=0b110 & VD5_pair {
+    # (v81)
+    :VD5".qf16 = vabs("VT5".hf)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b10 & imm_13=1 & VT5 & imm_5_7=0b110 & VD5 {
         _vstub();
     }
-    :VD5_pair".qf16 = vabs("VT5_pair".qf16)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b10 & imm_13=1 & VT5_pair & imm_5_7=0b111 & VD5_pair {
-        _vstub();
-    }
-}
-
-with slot: iclass=0b0001 {
-    :VD5_pair".w = vilog2("VT5_pair".qf32)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b00 & imm_13=1 & VT5_pair & imm_5_7=0b000 & VD5_pair {
-        _vstub();
-    }
-    :VD5_pair".w = vilog2("VT5_pair".qf16)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b00 & imm_13=1 & VT5_pair & imm_5_7=0b001 & VD5_pair {
-        _vstub();
-    }
-    :VD5_pair".w = vilog2("VT5_pair".sf)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b00 & imm_13=1 & VT5_pair & imm_5_7=0b010 & VD5_pair {
-        _vstub();
-    }
-    :VD5_pair".w = vilog2("VT5_pair".hf)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b00 & imm_13=1 & VT5_pair & imm_5_7=0b011 & VD5_pair {
-        _vstub();
-    }
-    :VD5_pair".qf16 = "VT5_pair".hf" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b00 & imm_13=1 & VT5_pair & imm_5_7=0b100 & VD5_pair {
-        _vstub();
-    }
-    :VD5_pair".qf16 = "VT5_pair".f8" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b00 & imm_13=1 & VT5_pair & imm_5_7=0b101 & VD5_pair {
-        _vstub();
-    }
-    :VD5_pair".qf16 = "VT5_pair".qf16" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b00 & imm_13=1 & VT5_pair & imm_5_7=0b110 & VD5_pair {
-        _vstub();
-    }
-    :VD5_pair".f8 = "VT5_pair".qf16" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b00 & imm_13=1 & VT5_pair & imm_5_7=0b111 & VD5_pair {
+    # (v81)
+    :VD5".qf16 = vabs("VT5".qf16)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b10 & imm_13=1 & VT5 & imm_5_7=0b111 & VD5 {
         _vstub();
     }
 }
 
 with slot: iclass=0b0001 {
-    :VD5_pair".qf32 = "VT5_pair".sf" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b01 & imm_13=1 & VT5_pair & imm_5_7=0b110 & VD5_pair {
+    # (v81)
+    :VD5".w = vilog2("VT5".qf32)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b00 & imm_13=1 & VT5 & imm_5_7=0b000 & VD5 {
         _vstub();
     }
-    :VD5_pair".qf32 = "VT5_pair".qf32" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b01 & imm_13=1 & VT5_pair & imm_5_7=0b111 & VD5_pair {
+    # (v81)
+    :VD5".w = vilog2("VT5".qf16)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b00 & imm_13=1 & VT5 & imm_5_7=0b001 & VD5 {
+        _vstub();
+    }
+    # (v81)
+    :VD5".w = vilog2("VT5".sf)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b00 & imm_13=1 & VT5 & imm_5_7=0b010 & VD5 {
+        _vstub();
+    }
+    # (v81)
+    :VD5".w = vilog2("VT5".hf)" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b00 & imm_13=1 & VT5 & imm_5_7=0b011 & VD5 {
+        _vstub();
+    }
+    # (v81)
+    :VD5".qf16 = "VT5".hf" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b00 & imm_13=1 & VT5 & imm_5_7=0b100 & VD5 {
+        _vstub();
+    }
+    # (v81)
+    :VD5_pair".qf16 = "VT5".f8" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b00 & imm_13=1 & VT5 & imm_5_7=0b101 & VD5_pair {
+        _vstub();
+    }
+    # (v81)
+    :VD5".qf16 = "VT5".qf16" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b00 & imm_13=1 & VT5 & imm_5_7=0b110 & VD5 {
+        _vstub();
+    }
+    # (v81)
+    :VD5".f8 = "VT5".qf16" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b00 & imm_13=1 & VT5 & imm_5_7=0b111 & VD5 {
+        _vstub();
+    }
+}
+
+with slot: iclass=0b0001 {
+    # (v81)
+    :VD5".qf32 = "VT5".sf" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b01 & imm_13=1 & VT5 & imm_5_7=0b110 & VD5 {
+        _vstub();
+    }
+    # (v81)
+    :VD5".qf32 = "VT5".qf32" is imm_24_27=0b1110 & imm_22_23=0 & imm_21=0 & imm_18_20=0b011 & imm_16_17=0b01 & imm_13=1 & VT5 & imm_5_7=0b111 & VD5 {
         _vstub();
     }
 }
@@ -2411,46 +2432,57 @@ with slot: iclass=0b0001 {
 }
 
 with slot: iclass=0b0001 {
-    :Qd4" = vcmp.eq("VT5_pair".sf,"VS5_pair".sf)" is imm_21_27=0b1111100 & VS5_pair & imm_13=0 & VT5_pair & imm_2_7=0b000011 & Qd4 {
+    # (v81)
+    :Qd4" = vcmp.eq("VT5".sf,"VS5".sf)" is imm_21_27=0b1111100 & VS5 & imm_13=0 & VT5 & imm_2_7=0b000011 & Qd4 {
         _vstub();
     }
-    :Qd4" = vcmp.eq("VT5_pair".hf,"VS5_pair".hf)" is imm_21_27=0b1111100 & VS5_pair & imm_13=0 & VT5_pair & imm_2_7=0b000111 & Qd4 {
-        _vstub();
-    }
-}
-
-with slot: iclass=0b0001 {
-    :Qx4" &= vcmp.eq("VT5_pair".sf,"VS5_pair".sf)" is imm_21_27=0b1100100 & VS5_pair & imm_13=1 & VT5_pair & imm_2_7=0b000011 & Qx4 {
-        _vstub();
-    }
-    :Qx4" |= vcmp.eq("VT5_pair".sf,"VS5_pair".sf)" is imm_21_27=0b1100100 & VS5_pair & imm_13=1 & VT5_pair & imm_2_7=0b010011 & Qx4 {
-        _vstub();
-    }
-    :Qx4" ^= vcmp.eq("VT5_pair".sf,"VS5_pair".sf)" is imm_21_27=0b1100100 & VS5_pair & imm_13=1 & VT5_pair & imm_2_7=0b100011 & Qx4 {
-        _vstub();
-    }
-    :Qx4" &= vcmp.eq("VT5_pair".hf,"VS5_pair".hf)" is imm_21_27=0b1100100 & VS5_pair & imm_13=1 & VT5_pair & imm_2_7=0b000111 & Qx4 {
-        _vstub();
-    }
-    :Qx4" |= vcmp.eq("VT5_pair".hf,"VS5_pair".hf)" is imm_21_27=0b1100100 & VS5_pair & imm_13=1 & VT5_pair & imm_2_7=0b010111 & Qx4 {
-        _vstub();
-    }
-    :Qx4" ^= vcmp.eq("VT5_pair".hf,"VS5_pair".hf)" is imm_21_27=0b1100100 & VS5_pair & imm_13=1 & VT5_pair & imm_2_7=0b100111 & Qx4 {
+    # (v81)
+    :Qd4" = vcmp.eq("VT5".hf,"VS5".hf)" is imm_21_27=0b1111100 & VS5 & imm_13=0 & VT5 & imm_2_7=0b000111 & Qd4 {
         _vstub();
     }
 }
 
 with slot: iclass=0b0001 {
-    :VD5_pair".qf32 = vsub("VT5_pair".sf,"VS5_pair".qf32)" is imm_21_27=0b1010000 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b000 & VD5_pair {
+    # (v81)
+    :Qx4" &= vcmp.eq("VT5".sf,"VS5".sf)" is imm_21_27=0b1100100 & VS5 & imm_13=1 & VT5 & imm_2_7=0b000011 & Qx4 {
         _vstub();
     }
-    :VD5_pair".qf16 = vsub("VT5_pair".hf,"VS5_pair".qf16)" is imm_21_27=0b1010000 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+    # (v81)
+    :Qx4" |= vcmp.eq("VT5".sf,"VS5".sf)" is imm_21_27=0b1100100 & VS5 & imm_13=1 & VT5 & imm_2_7=0b010011 & Qx4 {
+        _vstub();
+    }
+    # (v81)
+    :Qx4" ^= vcmp.eq("VT5".sf,"VS5".sf)" is imm_21_27=0b1100100 & VS5 & imm_13=1 & VT5 & imm_2_7=0b100011 & Qx4 {
+        _vstub();
+    }
+    # (v81)
+    :Qx4" &= vcmp.eq("VT5".hf,"VS5".hf)" is imm_21_27=0b1100100 & VS5 & imm_13=1 & VT5 & imm_2_7=0b000111 & Qx4 {
+        _vstub();
+    }
+    # (v81)
+    :Qx4" |= vcmp.eq("VT5".hf,"VS5".hf)" is imm_21_27=0b1100100 & VS5 & imm_13=1 & VT5 & imm_2_7=0b010111 & Qx4 {
+        _vstub();
+    }
+    # (v81)
+    :Qx4" ^= vcmp.eq("VT5".hf,"VS5".hf)" is imm_21_27=0b1100100 & VS5 & imm_13=1 & VT5 & imm_2_7=0b100111 & Qx4 {
         _vstub();
     }
 }
 
 with slot: iclass=0b0001 {
-    :VD5_pair" = valign4("VT5_pair","VS5_pair_19_23","S3_16_18")" is imm_24_27=0b1000 & VS5_pair_19_23 & S3_16_18 & imm_13=0 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+    # (v81)
+    :VD5".qf32 = vsub("VT5".sf,"VS5".qf32)" is imm_21_27=0b1010000 & VS5 & imm_13=1 & VT5 & imm_5_7=0b000 & VD5 {
+        _vstub();
+    }
+    # (v81)
+    :VD5".qf16 = vsub("VT5".hf,"VS5".qf16)" is imm_21_27=0b1010000 & VS5 & imm_13=1 & VT5 & imm_5_7=0b100 & VD5 {
+        _vstub();
+    }
+}
+
+# (v81)
+with slot: iclass=0b0001 {
+    :VD5" = valign4("VT5","VS5_19_23","S3_16_18")" is imm_24_27=0b1000 & VS5_19_23 & S3_16_18 & imm_13=0 & VT5 & imm_5_7=0b101 & VD5 {
         _vstub();
     }
 }

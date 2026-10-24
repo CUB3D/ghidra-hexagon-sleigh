@@ -33,6 +33,99 @@ with slot: iclass=0b1010 {
     }
 }
 
+#SYSTEM/USER:Atomic (v85)
+define pcodeop atomic_aquire;
+define pcodeop atomic_release;
+with slot: iclass=0b1001 {
+	:D5"=atomw_add("S5","T5"):aq" is imm_21_27=0b0000000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_5_7=0b001 & D5 & OUTPUT_D5 {
+		atomic_aquire();
+        local EA:4 = S5i;
+        local tmp:4 = *[ram]:4 EA;
+        D5 = tmp;
+        *[ram]:4 EA = tmp + T5i;
+    }
+    :D5"=atomw_add("S5","T5"):rl" is imm_21_27=0b0000000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_5_7=0b010 & D5 & OUTPUT_D5 {
+		atomic_release();
+        local EA:4 = S5i;
+        local tmp:4 = *[ram]:4 EA;
+        D5 = tmp;
+        *[ram]:4 EA = tmp + T5i;
+    }
+    
+    :D5"=atomw_and("S5","T5"):aq" is imm_21_27=0b0000000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_5_7=0b101 & D5 & OUTPUT_D5 {
+		atomic_aquire();
+        local EA:4 = S5i;
+        local tmp:4 = *[ram]:4 EA;
+        D5 = tmp;
+        *[ram]:4 EA = tmp & T5i;
+    }
+    :D5"=atomw_and("S5","T5"):rl" is imm_21_27=0b0000000 & S5 & S5i & imm_13=1 & T5 & T5i & imm_5_7=0b110 & D5 & OUTPUT_D5 {
+		atomic_release();
+        local EA:4 = S5i;
+        local tmp:4 = *[ram]:4 EA;
+        D5 = tmp;
+        *[ram]:4 EA = tmp & T5i;
+    }
+    :D5"=atomw_or("S5","T5"):aq" is imm_21_27=0b0000110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b001 & D5 & OUTPUT_D5 {
+		atomic_aquire();
+        local EA:4 = S5i;
+        local tmp:4 = *[ram]:4 EA;
+        D5 = tmp;
+        *[ram]:4 EA = tmp | T5i;
+    }
+    :D5"=atomw_or("S5","T5"):rl" is imm_21_27=0b0000110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b010 & D5 & OUTPUT_D5 {
+		atomic_release();
+        local EA:4 = S5i;
+        local tmp:4 = *[ram]:4 EA;
+        D5 = tmp;
+        *[ram]:4 EA = tmp | T5i;
+    }
+    :D5"=atomw_xor("S5","T5"):aq" is imm_21_27=0b0000110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b101 & D5 & OUTPUT_D5 {
+		atomic_aquire();
+        local EA:4 = S5i;
+        local tmp:4 = *[ram]:4 EA;
+        D5 = tmp;
+        *[ram]:4 EA = tmp ^ T5i;
+    }
+    :D5"=atomw_xor("S5","T5"):rl" is imm_21_27=0b0000110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_5_7=0b110 & D5 & OUTPUT_D5 {
+		atomic_release();
+        local EA:4 = S5i;
+        local tmp:4 = *[ram]:4 EA;
+        D5 = tmp;
+        *[ram]:4 EA = tmp ^ T5i;
+    }
+    
+    :D5"=atomw_swap("S5","T5"):aq" is imm_21_27=0b0000110 & S5 & S5i & imm_13=1 & T5 & T5i & imm_5_7=0b001 & D5 & OUTPUT_D5 {
+		atomic_aquire();
+        local EA:4 = S5i;
+        local tmp:4 = *[ram]:4 EA;
+        D5 = tmp;
+        *[ram]:4 EA = T5i;
+    }
+    :D5"=atomw_swap("S5","T5"):rl" is imm_21_27=0b0000110 & S5 & S5i & imm_13=1 & T5 & T5i & imm_5_7=0b010 & D5 & OUTPUT_D5 {
+		atomic_release();
+        local EA:4 = S5i;
+        local tmp:4 = *[ram]:4 EA;
+        D5 = tmp;
+        *[ram]:4 EA = T5i;
+    }
+    :D5_pair"=atomd_swap("S5","T5_pair"):aq" is imm_21_27=0b0000110 & S5 & S5i & imm_13=1 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair {
+		atomic_aquire();
+        local EA:4 = S5i;
+        local tmp:8 = *[ram]:8 EA;
+        D5_pair = tmp;
+        *[ram]:8 EA = T5_pairi;
+    }
+    :D5_pair"=atomd_swap("S5","T5_pair"):rl" is imm_21_27=0b0000110 & S5 & S5i & imm_13=1 & T5_pair & T5_pairi & imm_5_7=0b110 & D5_pair {
+		atomic_release();
+        local EA:4 = S5i;
+        local tmp:8 = *[ram]:8 EA;
+        D5_pair = tmp;
+        *[ram]:8 EA = T5_pairi;
+    }
+    
+}
+
 #SYSTEM/USER:barrier
 define pcodeop barrier;
 with slot: iclass=0b1010 {
@@ -51,14 +144,19 @@ with slot: iclass=0b0110 {
 
 #SYSTEM/USER:Data cache prefetch
 define pcodeop dcache_fetch;
+define pcodeop dcache_fetch_multi;
 with slot: iclass=0b1001 {
-    :"dcfetch("S5"+"u11")" is imm_21_27=0b0100000 & S5 & S5i & imm_13=0 & imm_11_12=0 & imm_0_10 [u11 = imm_0_10 << 3; ] {
+    :"dcfetch("S5"+"u11")" is imm_21_27=0b0100000 & S5 & S5i & imm_11_13=0 & imm_0_10 [u11 = imm_0_10 << 3; ] {
         local EA:4 = S5i + u11;
         dcache_fetch(EA);
     }
-    :"dcfetch("S5"+"u11"):nt" is imm_21_27=0b0100000 & S5 & S5i & imm_13=1 & imm_11_12=0 & imm_0_10 [u11 = imm_0_10 << 3; ] {
+    :"dcfetch("S5"+"u11"):nt" is imm_21_27=0b0100000 & S5 & S5i & imm_12_13=0b10 & imm_11 & imm_0_10 [u11 = imm_0_10 << 3; ] {
         local EA:4 = S5i + u11;
         dcache_fetch(EA);
+    }
+    # (v85)
+    :"dcfetch_multi("S5"+"T5")" is imm_21_27=0b0100000 & S5 & S5i & imm_11_13=0b001 & T5 & T5i & imm_0_5 {
+        dcache_fetch_multi(S5i, T5i);
     }
 }
 
@@ -155,12 +253,17 @@ with slot: iclass=0b0110 {
 #SYSTEM/USER:Trap
 define pcodeop trap0;
 define pcodeop trap1;
+define pcodeop trap2;
 with slot: iclass=0b0101 {
-    :"trap0(" u8 ")" is imm_22_27=0b010000 & imm_16_21=0 & imm_13=0 & imm_8_12u & imm_5_7 & imm_2_4u & imm_0_1 [u8 = imm_2_4u | (imm_8_12u << 3);] {
+    :"trap0(" u8 ")" is imm_22_27=0b010000 & imm_16_21 & imm_13 & imm_8_12u & imm_5_7 & imm_2_4u & imm_0_1 [u8 = imm_2_4u | (imm_8_12u << 3);] {
         trap0(u8:1);
     }
-    :"trap1(" S5 "," u8 ")" is imm_22_27=0b010010 & imm_21=0 & S5 & S5i & imm_13=0 & imm_8_12u & imm_5_7 & imm_2_4u & imm_0_1 [u8 = imm_2_4u | (imm_8_12u << 3);] {
+    :"trap1(" S5 "," u8 ")" is imm_22_27=0b010010 & imm_21 & S5 & S5i & imm_13 & imm_8_12u & imm_5_7 & imm_2_4u & imm_0_1 [u8 = imm_2_4u | (imm_8_12u << 3);] {
         trap1(S5i, u8:1);
+    }
+    # (v85)
+    :"trap2(" u8 ")" is imm_22_27=0b010011 & imm_16_21 & imm_13 & imm_8_12u & imm_5_7 & imm_2_4u & imm_0_1 [u8 = imm_2_4u | (imm_8_12u << 3);] {
+        trap1(u8:1);
     }
 }
 
