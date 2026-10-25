@@ -39,7 +39,6 @@ with slot: iclass=0b1000  {
 }
 
 # XTYPE/SHIFT:Shift by imm and acc
-define pcodeop rot_left;
 with slot: iclass=0b1000  {
     :D5_pair "-=asr(" S5_pair "," imm_8_13u ")" is imm_22_27=0b001000 & imm_21=0 & S5_pair & S5_pairi & imm_8_13u & imm_5_7=0b000 & D5_pair & D5_pairi  {
         D5_pair = D5_pairi - (S5_pairi s>> imm_8_13u);

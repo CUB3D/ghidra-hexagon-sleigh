@@ -534,7 +534,6 @@ with slot: iclass=0b1110  {
 
 # XTYPE/MPY: Vec red mul wa by s hw
 define pcodeop vrmpywoh;
-define pcodeop vrmpywwh;
 define pcodeop vrmpyweh;
 with slot: iclass=0b1110  {
     :D5_pair "=vrmpywoh(" S5_pair "," T5_pair "):<<" imm_23u is imm_24_27=0b1000 & imm_23u & imm_21_22=0b01 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {

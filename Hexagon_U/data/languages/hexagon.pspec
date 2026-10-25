@@ -5,6 +5,7 @@
   <properties>
       <property key="enableNoReturnAnalysis" value="false" />
       <property key="assemblyRating:QDSP6:LE:32:default" value="POOR"/>
+      <property key="useropLibs" value="QDSP6"/>
   </properties>
   
   <volatile outputop="cWrite" inputop="cRead">

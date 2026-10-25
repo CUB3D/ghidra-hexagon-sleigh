@@ -9,58 +9,51 @@
 # See: https://research.checkpoint.com/2021/security-probe-of-qualcomm-msm/
 # See: https://cub3d.pw/blog/01-qcom-delta/
 
-from ghidra.app.emulator import EmulatorHelper
-from ghidra.program.model.symbol import SymbolUtilities
-from ghidra.pcode.emulate import BreakCallBack
+from ghidra.pcode.emu import EmulatorUtilities
+from ghidra.pcode.emu import PcodeEmulator
+from ghidra.pcode.exec import InterruptPcodeExecutionException
+from ghidra.pcode.exec import SuspendedPcodeExecutionException
+from ghidra.program.model.lang import RegisterValue
+from ghidra.util.task import CancelledListener
+from java.lang import Throwable
+from java.math import BigInteger
 import struct
 
-def getAddress(offset):
-    return currentProgram.getAddressFactory().getDefaultAddressSpace().getAddress(offset)
+def write_register(thread, name, value):
+    reg = currentProgram.getRegister(name)
+    thread.getState().setRegisterValue(reg, RegisterValue(reg, BigInteger.valueOf(value)))
 
-def init_emu(emuHelper):
+def read_memory(thread, offset, size):
+    return thread.getState().inspectConcrete(toAddr(offset), size)
+
+def init_emu(thread):
     """
     Zero out register state in emulator so you don't get uninit value errors
-    :param emuHelper:
+    :param thread:
     :return:
     """
     # Initialize state
     for reg in range(29):
-        emuHelper.writeRegister("r"+str(reg), 0)
+        write_register(thread, "r"+str(reg), 0)
     for reg in range(4):
-        emuHelper.writeRegister("p" + str(reg), 0)
-    emuHelper.writeRegister("FP", 0)
-    emuHelper.writeRegister("USR", 0)
-
-class DCacheZeroAddrCallback(BreakCallBack):
-    def __init__(self):
-        pass
-
-    def pcodeCallback(self, _state):
-        #print("dcache_zero_addr()")
-        return True
-
-class IsWarmupCompleteCallback(BreakCallBack):
-    def __init__(self):
-        pass
-
-    def pcodeCallback(self, _state):
-        return True
-
+        write_register(thread, "p" + str(reg), 0)
+    write_register(thread, "FP", 0)
+    write_register(thread, "USR", 0)
 
 # Pixel 2, June 2020
 #OUT_BUF = 0xd11ca000
 #IN_BUF = 0xC6710000
 #DECOMPRESS_FUNCTION = 0xc0bac7bc
 
-# Pixel 5, March 2023
-# OUT_BUF = 0xD0379000
-# IN_BUF = 0xCF710000
-# DECOMPRESS_FUNCTION = 0xc05ebbd0
+#Pixel 5, March 2023
+OUT_BUF = 0xD0379000
+IN_BUF = 0xCF710000
+DECOMPRESS_FUNCTION = 0xc05ebbd0
 
 # OnePlus 6, OnePlus6Oxygen_22.J.62_OTA_0620_all_2111252336_14afec75dd6fa
-OUT_BUF = 0xD05ed000
-IN_BUF = 0xc69ea000
-DECOMPRESS_FUNCTION = 0xd921ba30
+#OUT_BUF = 0xD05ed000
+#IN_BUF = 0xc69ea000
+#DECOMPRESS_FUNCTION = 0xd921ba30
 
 # OnePlus 7 Pro, GM1913_11.H.40_4400_202303231743
 #OUT_BUF = 0xD04F9000
@@ -70,47 +63,48 @@ DECOMPRESS_FUNCTION = 0xd921ba30
 END_OF_FUNCTION_MAGIC = 0xDEADBEEF
 
 def main():
-    emuHelper = EmulatorHelper(currentProgram)
-    emuHelper.registerCallOtherCallback("dcache_zero_addr", DCacheZeroAddrCallback())
-    emuHelper.registerCallOtherCallback("is_warmup_complete", IsWarmupCompleteCallback())
+    emu = PcodeEmulator(currentProgram.getLanguage())
+    EmulatorUtilities.loadProgram(emu, currentProgram)
 
-    init_emu(emuHelper)
+    thread = emu.newThread()
+    emu.addBreakpoint(toAddr(END_OF_FUNCTION_MAGIC), "1:1")
+
+    init_emu(thread)
 
     index = IN_BUF + 4
     out_buf_size = 0
-    (number_of_blocks, ) = struct.unpack("<H", emuHelper.readMemory(getAddress(IN_BUF), 2))
+    (number_of_blocks, ) = struct.unpack("<H", read_memory(thread, IN_BUF, 2))
 
     current_block = 0
     while current_block < number_of_blocks:
         print(current_block, "/", number_of_blocks)
         block_ptr_addr = index + current_block * 4
-        (block_ptr,) = struct.unpack("<I", emuHelper.readMemory(getAddress(block_ptr_addr), 4))
+        (block_ptr,) = struct.unpack("<I", read_memory(thread, block_ptr_addr, 4))
 
         out_size = 0x1000
 
-        emuHelper.writeRegister("r0", block_ptr)
-        emuHelper.writeRegister("r1", OUT_BUF + out_buf_size)
-        emuHelper.writeRegister("r2", out_size)
-        emuHelper.writeRegister("LR", END_OF_FUNCTION_MAGIC)
+        write_register(thread, "r0", block_ptr)
+        write_register(thread, "r1", OUT_BUF + out_buf_size)
+        write_register(thread, "r2", out_size)
+        write_register(thread, "LR", END_OF_FUNCTION_MAGIC)
 
-        emuHelper.writeRegister(emuHelper.getPCRegister(), DECOMPRESS_FUNCTION)
+        thread.overrideCounter(toAddr(DECOMPRESS_FUNCTION))
+        thread.overrideContextWithDefault()
+        thread.reInitialize()
 
-        run_emu(emuHelper)
+        run_emu(emu, thread)
 
         current_block += 1
         out_buf_size += out_size
 
-    decompressed_data = emuHelper.readMemory(getAddress(OUT_BUF), out_buf_size)
-    setBytes(getAddress(OUT_BUF), decompressed_data)
+    decompressed_data = read_memory(thread, OUT_BUF, out_buf_size)
+    setBytes(toAddr(OUT_BUF), decompressed_data)
 
-
-    emuHelper.dispose()
-
-def run_emu(emu, fast=True):
+def run_emu(emu, thread, fast=True):
     while monitor.isCancelled() is False:
 
         # Are we done?
-        executionAddress = emu.getExecutionAddress()
+        executionAddress = thread.getCounter()
         if executionAddress.getOffset() == END_OF_FUNCTION_MAGIC:
             return
 
@@ -120,21 +114,42 @@ def run_emu(emu, fast=True):
 
             regs = ["r0", "r1", "r2", "r3", "r4"]
             for reg in regs:
-                reg_value = emu.readRegister(reg)
+                reg_value = thread.getState().inspectRegisterValue(
+                    currentProgram.getRegister(reg)).getUnsignedValue()
                 print("  {} = {:#018x}".format(reg, reg_value))
 
         if not fast:
-            success = emu.step(monitor)
-            if not success:
-                printerr("Emulation Error: '{}'".format(emu.getLastError()))
+            try:
+                thread.stepInstruction()
+            except InterruptPcodeExecutionException:
+                thread.dropInstruction()
+                if thread.getCounter().getOffset() == END_OF_FUNCTION_MAGIC:
+                    return
+                printerr("Emulation Error: 'Emulation interrupted at {}'".format(
+                    thread.getCounter()))
+                exit(0)
+            except SuspendedPcodeExecutionException:
+                thread.dropInstruction()
                 return
+            except Throwable as e:
+                printerr("Emulation Error: '{}'".format(e))
+                exit(0)
         else:
-            emu.run(monitor)
-            executionAddress = emu.getExecutionAddress()
-            if executionAddress.getOffset() == END_OF_FUNCTION_MAGIC:
+            try:
+                thread.run()
+            except InterruptPcodeExecutionException:
+                thread.dropInstruction()
+                if thread.getCounter().getOffset() == END_OF_FUNCTION_MAGIC:
+                    return
+                printerr("Emulation Error: 'Emulation interrupted at {}'".format(
+                    thread.getCounter()))
+                exit(0)
+            except SuspendedPcodeExecutionException:
+                thread.dropInstruction()
                 return
-            else:
-                printerr("Emulation Error: '{}'".format(emu.getLastError()))
+            except Throwable as e:
+                printerr("Emulation Error: '{}'".format(e))
+                exit(0)
 
 
 main()
