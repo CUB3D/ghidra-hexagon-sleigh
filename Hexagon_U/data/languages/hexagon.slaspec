@@ -528,7 +528,7 @@ define token instr (32)
     VD5_pair          = ( 1, 4)
     VD5_pair_dup      = ( 1, 4)
     VD5               = ( 0, 4)
-    
+    VD5_dup           = ( 0, 4)
     
     # HLX
     LDV = (1,4)
