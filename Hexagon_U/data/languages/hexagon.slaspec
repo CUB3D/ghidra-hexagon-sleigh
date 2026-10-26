@@ -48,7 +48,7 @@
 # XTYPE/PRED:     Decode + pcode up to v85                                 regcache ever0 nvi
 # XTYPE/SHIFT:    Decode + pcode up to v85                                 regcache ever0 nvi
 # duplex          Decode + pcode up to v85                                 regcache ever0 nvi
-# HVX             Decode up to v83
+# HVX             Decode up to v85
 # HMX             Decode up to v81
 
 
