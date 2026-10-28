@@ -168,10 +168,10 @@ with slot: iclass=0b1010 {
     :"dccleana("S5")" is imm_21_27=0b0000000 & S5 & S5i & imm_0_13=0  {
         dcache_clean_addr(S5i);
     }
-    :"dccleaninva("S5")" is imm_21_27=0b0000001 & S5 & S5i & imm_0_13=0  {
+    :"dccleaninva("S5")" is imm_21_27=0b0000010 & S5 & S5i & imm_0_13=0  {
         dcache_cleaninv_addr(S5i);
     }
-    :"dcinva("S5")" is imm_21_27=0b0000010 & S5 & S5i & imm_0_13=0  {
+    :"dcinva("S5")" is imm_21_27=0b0000001 & S5 & S5i & imm_0_13=0  {
         dcache_inv_addr(S5i);
     }
 }
