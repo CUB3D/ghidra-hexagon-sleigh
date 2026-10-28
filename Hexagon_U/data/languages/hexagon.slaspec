@@ -55,9 +55,8 @@
 # TODOs:
 # check all unsigned / signed imms
 # caching for GP / GD5 / SGP?
-# check shifts in ld / st
-# check everything in ld/st cond, exp. which value extends
-# HVX
+# floats should set float flags in USR
+# all outstanding TODOS
 
 # Slices explained:
 # Hexagon has strange semantics where an instructions effect might not take place immediately
@@ -572,6 +571,9 @@ define context testctx
     
     # Flag to enable accurate PTRUE, see PTRUE
     accurate_pred = (264, 264) noflow
+
+    # Flag to make pcode pedantically correct at the cost of unreadable decompilation
+    pedantic_pcode = (265, 265) noflow
     
     # 33 bytes to this point
 ;

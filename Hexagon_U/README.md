@@ -40,6 +40,10 @@ Adds a new window to the GUI that allows loading QDB files, decoding hashed log 
 ### Configurable decompilation
 There are flags to configure the behaviour of the generated pcode to either improve accuracy or quality of decompilation, (Select an address range and `Ctrl+R` to configure):
 
+#### pedantic_pcode
+Enables more accurate pcode at the cost of much worse decompilation. Changes include:
+- Shifts support bi-directional operation
+
 #### accurate_pred
 Enable accurate emulation of predicate registers. Useful if the code uses vectorized comparisons or if you want to emulate the code. By default we use the values `0` and `1` for False and True for scalar comparisons. Hexagon typically uses `0` and `FF` but this produces bad decompilation in Ghidra due to an outstanding [decompiler bug](https://github.com/NationalSecurityAgency/ghidra/issues/9284)
 

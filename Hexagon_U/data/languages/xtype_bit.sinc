@@ -209,17 +209,28 @@ with slot: iclass=0b1000  {
        D5 = S5i ^ (1 << imm_8_12u);
     }
 }
-# TODO: if t < 32, reg unchanged
 with slot: iclass=0b1100  {
-    :D5 "=setbit(" S5 "," T5 ")" is imm_22_27=0b011010 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b00 & imm_5=0 & D5 & OUTPUT_D5 {
-        D5 = S5i | (1 << T5i);
+    :D5 "=setbit(" S5 "," T5 ")" is imm_22_27=0b011010 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b00 & imm_5=0 & D5 & OUTPUT_D5 & pedantic_pcode {
+        if(pedantic_pcode:1 == 0) goto <np>;
+                if(T5i >= 32) goto <end>;
+        <np>
+                D5 = S5i | (1 << T5i);
+        <end>
     }
-    :D5 "=clrbit(" S5 "," T5 ")" is imm_22_27=0b011010 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b01 & imm_5=0 & D5 & OUTPUT_D5 {
-        local tmp:4 = 1 << T5i;
-        D5 = S5i & (~tmp);
+    :D5 "=clrbit(" S5 "," T5 ")" is imm_22_27=0b011010 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b01 & imm_5=0 & D5 & OUTPUT_D5 & pedantic_pcode {
+        if(pedantic_pcode:1 == 0) goto <np>;
+                if(T5i >= 32) goto <end>;
+        <np>
+                local tmp:4 = 1 << T5i;
+                D5 = S5i & (~tmp);
+        <end>
     }
-    :D5 "=togglebit(" S5 "," T5 ")" is imm_22_27=0b011010 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b10 & imm_5=0 & D5 & OUTPUT_D5 {
-        D5 = S5i ^ (1 << T5i);
+    :D5 "=togglebit(" S5 "," T5 ")" is imm_22_27=0b011010 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b10 & imm_5=0 & D5 & OUTPUT_D5 & pedantic_pcode {
+        if(pedantic_pcode:1 == 0) goto <np>;
+                if(T5i >= 32) goto <end>;
+        <np>
+                D5 = S5i ^ (1 << T5i);
+        <end>
     }
 }
 

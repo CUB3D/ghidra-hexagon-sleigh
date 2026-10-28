@@ -482,8 +482,8 @@ with slot: iclass=0b1100  {
     :D5 "=cround(" S5 "," T5 ")" is imm_22_27=0b011011 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b00 & imm_5=0 & D5 & OUTPUT_D5 {
         D5 = cround(S5i, T5i);
     }
-    :D5 "=cround(" S5_pair "," T5 ")" is imm_22_27=0b011011 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_6_7=0b01 & imm_5=0 & D5 & OUTPUT_D5 {
-        D5 = cround(S5_pairi, T5i);
+    :D5_pair "=cround(" S5_pair "," T5 ")" is imm_22_27=0b011011 & imm_21=0 & S5_pair & S5_pairi & imm_13=0 & T5 & T5i & imm_6_7=0b01 & imm_5=0 & D5_pair {
+        D5_pair = cround(S5_pairi, T5i);
     }
     :D5 "=round(" S5 "," T5 ")" is imm_22_27=0b011011 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b10 & imm_5=0 & D5 & OUTPUT_D5 {
         D5 = round_(S5i, T5i);
