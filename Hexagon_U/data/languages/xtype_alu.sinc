@@ -14,16 +14,11 @@ with slot: iclass=0b1000  {
 # XTYPE/ALU:Abs word
 with slot: iclass=0b1000  {
     :D5 "=abs(" S5 ")" is imm_21_27=0b1100100 & S5 & S5i & imm_8_13=0 & imm_5_7=0b100 & D5 & OUTPUT_D5 {
-        if (S5i s< 0) goto <neg>;
-        D5 = S5i;
-        goto <end>;
-    <neg>
-        D5 = -S5i;
-    <end>
+        D5 = (zext(S5i s< 0) * (-S5i)) + (zext(S5i s>= 0) * S5i);
     }
 
     :D5 "=abs(" S5 "):sat" is imm_21_27=0b1100100 & S5 & S5i & imm_8_13=0 & imm_5_7=0b101 & D5 & OUTPUT_D5 {
-        local tmp:4 = abs(S5i);
+        local tmp:4 = (zext(S5i s< 0) * (-S5i)) + (zext(S5i s>= 0) * S5i);
         if(tmp != 0x80000000) goto <end>;
         tmp = 0x7fffffff;
         USR_OVF = 1;
@@ -257,14 +252,14 @@ with slot: iclass=0b1101  {
     :D5_pair "=and(" S5_pair "," T5_pair ")" is imm_21_27=0b0011111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5_pair {
         D5_pair = S5_pairi & T5_pairi;
     }
-    :D5_pair "=and(" S5_pair ",~" T5_pair ")" is imm_21_27=0b0011111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5_pair {
-        D5_pair = S5_pairi & (~T5_pairi);
+    :D5_pair "=and(" T5_pair ",~" S5_pair ")" is imm_21_27=0b0011111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5_pair {
+        D5_pair = T5_pairi & (~S5_pairi);
     }
     :D5_pair "=or(" S5_pair "," T5_pair ")" is imm_21_27=0b0011111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {
         D5_pair = S5_pairi | T5_pairi;
     }
-    :D5_pair "=or(" S5_pair ",~" T5_pair ")" is imm_21_27=0b0011111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & D5_pair {
-        D5_pair = S5_pairi | (~T5_pairi);
+    :D5_pair "=or(" T5_pair ",~" S5_pair ")" is imm_21_27=0b0011111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & D5_pair {
+        D5_pair = T5_pairi | (~S5_pairi);
     }
     :D5_pair "=xor(" S5_pair "," T5_pair ")" is imm_21_27=0b0011111 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b100 & D5_pair {
         D5_pair = S5_pairi ^ T5_pairi;
@@ -354,7 +349,7 @@ with slot: iclass=0b1110  {
 
 # XTYPE/ALU:max word
 with slot: iclass=0b1101  {
-    :D5 "=max(" T5 "," S5 ")" is imm_21_27=0b0101110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0 & D5 & OUTPUT_D5 {
+    :D5 "=max(" S5 "," T5 ")" is imm_21_27=0b0101110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=0 & imm_5_6=0 & D5 & OUTPUT_D5 {
         if (T5i s> S5i) goto <p2>;
         D5 = S5i;
         goto <end>;
@@ -362,7 +357,7 @@ with slot: iclass=0b1101  {
         D5 = T5i;
         <end>
     }
-    :D5 "=maxu(" T5 "," S5 ")" is imm_21_27=0b0101110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=1 & imm_5_6=0 & D5 & OUTPUT_D5 {
+    :D5 "=maxu(" S5 "," T5 ")" is imm_21_27=0b0101110 & S5 & S5i & imm_13=0 & T5 & T5i & imm_7=1 & imm_5_6=0 & D5 & OUTPUT_D5 {
         if (T5i > S5i) goto <p2>;
         D5 = S5i;
         goto <end>;
@@ -744,7 +739,7 @@ with slot: iclass=0b1110  {
         D5_pair = vraddub(S5_pairi, T5_pairi);
     }
     :D5_pair "+=vraddub(" S5_pair "," T5_pair ")" is imm_21_27=0b1010010 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5_pair & D5_pairi {
-        D5_pair = D5_pairi + vraddub(S5_pairi, T5_pairi);
+        D5_pair = vraddub(D5_pairi, S5_pairi, T5_pairi);
     }
 }
 
@@ -851,29 +846,29 @@ define pcodeop vnavgw_rnd_sat;
 define pcodeop vnavgw_crnd_sat;
 
 with slot: iclass=0b1101  {
-    :D5_pair "=vavgw(" S5_pair "," T5_pair ")" is imm_21_27=0b0011011 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b000 & D5_pair {
+    :D5_pair "=vavgw(" S5_pair "," T5_pair ")" is imm_21_27=0b0011011 & S5_pair & S5_pairi & imm_13 & T5_pair & T5_pairi & imm_5_7=0b000 & D5_pair {
         D5_pair = vavgw(S5_pairi, T5_pairi);
     }
-    :D5_pair "=vavgw(" S5_pair "," T5_pair "):rnd" is imm_21_27=0b0011011 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b001 & D5_pair {
+    :D5_pair "=vavgw(" S5_pair "," T5_pair "):rnd" is imm_21_27=0b0011011 & S5_pair & S5_pairi & imm_13 & T5_pair & T5_pairi & imm_5_7=0b001 & D5_pair {
         D5_pair = vavgw_rnd(S5_pairi, T5_pairi);
     }
-    :D5_pair "=vavgw(" S5_pair "," T5_pair "):crnd" is imm_21_27=0b0011011 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {
+    :D5_pair "=vavgw(" S5_pair "," T5_pair "):crnd" is imm_21_27=0b0011011 & S5_pair & S5_pairi & imm_13 & T5_pair & T5_pairi & imm_5_7=0b010 & D5_pair {
         D5_pair = vavgw_crnd(S5_pairi, T5_pairi);
     }
-    :D5_pair "=vavguw(" S5_pair "," T5_pair ")" is imm_21_27=0b0011011 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & D5_pair {
+    :D5_pair "=vavguw(" S5_pair "," T5_pair ")" is imm_21_27=0b0011011 & S5_pair & S5_pairi & imm_13 & T5_pair & T5_pairi & imm_5_7=0b011 & D5_pair {
         D5_pair = vavguw(S5_pairi, T5_pairi);
     }
-    :D5_pair "=vavguw(" S5_pair "," T5_pair "):rnd" is imm_21_27=0b0011011 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b100 & D5_pair {
+    :D5_pair "=vavguw(" S5_pair "," T5_pair "):rnd" is imm_21_27=0b0011011 & S5_pair & S5_pairi & imm_13 & T5_pair & T5_pairi & imm_5_7=0b100 & D5_pair {
         D5_pair = vavguw_rnd(S5_pairi, T5_pairi);
     }
-    :D5_pair "=vnavgw(" S5_pair "," T5_pair ")" is imm_21_27=0b0011100 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b011 & D5_pair {
-        D5_pair = vnavgw(S5_pairi, T5_pairi);
+    :D5_pair "=vnavgw(" T5_pair "," S5_pair ")" is imm_21_27=0b0011100 & S5_pair & S5_pairi & imm_13 & T5_pair & T5_pairi & imm_5_7=0b011 & D5_pair {
+        D5_pair = vnavgw(T5_pairi, S5_pairi);
     }
-    :D5_pair "=vnavgw(" S5_pair "," T5_pair "):rnd:sat" is imm_21_27=0b0011100 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_6_7=0b10 & imm_5=0 & D5_pair {
-        D5_pair = vnavgw_rnd_sat(S5_pairi, T5_pairi);
+    :D5_pair "=vnavgw(" T5_pair "," S5_pair "):rnd:sat" is imm_21_27=0b0011100 & S5_pair & S5_pairi & imm_13 & T5_pair & T5_pairi & imm_6_7=0b10 & imm_5=0 & D5_pair {
+        D5_pair = vnavgw_rnd_sat(T5_pairi, S5_pairi);
     }
-    :D5_pair "=vnavgw(" S5_pair "," T5_pair "):crnd:sat" is imm_21_27=0b0011100 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_6_7=0b11 & imm_5=0 & D5_pair {
-        D5_pair = vnavgw_crnd_sat(S5_pairi, T5_pairi);
+    :D5_pair "=vnavgw(" T5_pair "," S5_pair "):crnd:sat" is imm_21_27=0b0011100 & S5_pair & S5_pairi & imm_13 & T5_pair & T5_pairi & imm_6_7=0b11 & imm_5=0 & D5_pair {
+        D5_pair = vnavgw_crnd_sat(T5_pairi, S5_pairi);
     }
 }
 
@@ -992,11 +987,11 @@ with slot: iclass=0b1101  {
 define pcodeop vrminhw;
 define pcodeop vrminuhw;
 with slot: iclass=0b1100  {
-    :D5_pair "=vrminh(" T5_pair "," S5_pair ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair {
-        D5_pair = vrminhw(T5_pairi, S5_pairi);
+    :T5_pair "=vrminh(" S5_pair "," D5 ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & imm_5_7=0b101 & D5 & D5i {
+        T5_pair = vrminhw(S5_pairi, D5i);
     }
-    :D5_pair "=vrminuh(" T5_pair "," S5_pair ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=1 & T5_pair & T5_pairi & imm_5_7=0b101 & D5_pair {
-        D5_pair = vrminuhw(T5_pairi, S5_pairi);
+    :T5_pair "=vrminuh(" S5_pair "," D5 ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=1 & T5_pair & imm_5_7=0b101 & D5 & D5i {
+        T5_pair = vrminuhw(S5_pairi, D5i);
     }
 }
 
@@ -1004,11 +999,11 @@ with slot: iclass=0b1100  {
 define pcodeop vrminw;
 define pcodeop vrminuw;
 with slot: iclass=0b1100  {
-    :D5_pair "=vrminw(" T5_pair "," S5_pair ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & T5_pairi & imm_5_7=0b110 & D5_pair {
-        D5_pair = vrminw(T5_pairi, S5_pairi);
+    :T5_pair "=vrminw(" S5_pair "," D5 ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=0 & T5_pair & imm_5_7=0b110 & D5 & D5i {
+        T5_pair = vrminw(S5_pairi, D5i);
     }
-    :D5_pair "=vrminuw(" T5_pair "," S5_pair ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=1 & T5_pair & T5_pairi & imm_5_7=0b110 & D5_pair {
-        D5_pair = vrminuw(T5_pairi, S5_pairi);
+    :T5_pair "=vrminuw(" S5_pair "," D5 ")" is imm_21_27=0b1011001 & S5_pair & S5_pairi & imm_13=1 & T5_pair & imm_5_7=0b110 & D5 & D5i {
+        T5_pair = vrminuw(S5_pairi, D5i);
     }
 }
 

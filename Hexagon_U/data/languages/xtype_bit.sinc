@@ -62,9 +62,7 @@ with slot: iclass=0b1000  {
         if (S5i == 0) goto <end>;
         local lz:4 = lzcount(S5i);
         local lo:4 = lzcount(~S5i);
-        D5 = lz;
-        if (lz >= lo) goto <end>;
-            D5 = lo;
+        D5 = (zext(lz > lo) * lz) + (zext(lz <= lo) * lo) - 1;
         <end>
     }
 }
@@ -211,6 +209,7 @@ with slot: iclass=0b1000  {
        D5 = S5i ^ (1 << imm_8_12u);
     }
 }
+# TODO: if t < 32, reg unchanged
 with slot: iclass=0b1100  {
     :D5 "=setbit(" S5 "," T5 ")" is imm_22_27=0b011010 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b00 & imm_5=0 & D5 & OUTPUT_D5 {
         D5 = S5i | (1 << T5i);

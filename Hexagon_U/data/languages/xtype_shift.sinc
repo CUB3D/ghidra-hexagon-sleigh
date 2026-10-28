@@ -492,9 +492,10 @@ with slot: iclass=0b1100  {
 }
 
 # XTYPE/SHIFT:Shift by register with saturation
+# TODO: negative -> direction
 with slot: iclass=0b1100  {
     :D5 "=asr(" S5 "," T5 "):sat" is imm_22_27=0b011000 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b00 & imm_5=0 & D5 & OUTPUT_D5 {
-        local result:4 = S5i s>> T5i;
+        local result:4 = S5i s>> (T5i & 0b1111111);
         if (result == S5i) goto <noOverflow>;
         if (S5i s>= 0) goto <pos>;
         result = 0x80000000;
@@ -507,7 +508,7 @@ with slot: iclass=0b1100  {
         D5 = result;
     }
     :D5 "=asl(" S5 "," T5 "):sat" is imm_22_27=0b011000 & imm_21=0 & S5 & S5i & imm_13=0 & T5 & T5i & imm_6_7=0b10 & imm_5=0 & D5 & OUTPUT_D5 {
-        local result:4 = S5i << T5i;
+        local result:4 = S5i << (T5i & 0b1111111);
         local check:4 = result s>> T5i;
         if (check == S5i) goto <noOverflow>;
         if (S5i s>= 0) goto <pos>;

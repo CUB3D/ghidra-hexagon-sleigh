@@ -530,11 +530,11 @@ with slot: iclass=0b0001 {
     }
     
     # (v85)
-    :VD5".h = vnavg("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1010101 & VS5 & imm_13=1 & VT5 & imm_5_7=0b011 & VD5 {
+    :VD5".h = vnavg("VT5_pair".uh,"VS5_pair".uh)" is imm_21_27=0b1010101 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b011 & VD5 {
         _vstub();
     }
     # (v85)
-    :VD5".w = vnavg("VT5_pair".uw,"VS5_pair".uw)" is imm_21_27=0b1010101 & VS5 & imm_13=1 & VT5 & imm_5_7=0b100 & VD5 {
+    :VD5".w = vnavg("VT5_pair".uw,"VS5_pair".uw)" is imm_21_27=0b1010101 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b100 & VD5 {
         _vstub();
     }
 }
@@ -1170,11 +1170,11 @@ with slot: iclass=0b0001 {
     }
     
     # (v85)
-    :VD5_pair".uw = vmpa("VD5_pair".uh,"VT5".uh, "VS5".w)" is imm_21_27=0b1010101 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b110 & VD5_pair {
+    :VD5_pair".uw = vmpa("VD5_pair_dup".uh,"VT5".uh, "VS5".w)" is imm_21_27=0b1010101 & VS5 & imm_13=1 & VT5 & imm_5_7=0b110 & VD5_pair & VD5_pair_dup {
         _vstub();
     }
     # (v85)
-    :VD5_pair".w = vmpa("VD5_pair".h,"VT5".uh, "VS5".w)" is imm_21_27=0b1010101 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+    :VD5_pair".w = vmpa("VD5_pair_dup".h,"VT5".uh, "VS5".w)" is imm_21_27=0b1010101 & VS5 & imm_13=1 & VT5 & imm_5_7=0b101 & VD5_pair & VD5_pair_dup {
         _vstub();
     }
 }
@@ -1361,23 +1361,23 @@ with slot: iclass=0b0001 {
     }  
     
     # (v85)
-    :VD5".w = vmpye("VT5".w,"VS5".uh):rnd" is imm_21_27=0b1001100 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+    :VD5".w = vmpye("VT5".w,"VS5".uh):rnd" is imm_21_27=0b1001100 & VS5 & imm_13=0 & VT5 & imm_5_7=0b100 & VD5 {
         _vstub();
     } 
     # (v85)
-    :VD5".w = vmpyo("VT5".w,"VS5".uh)" is imm_21_27=0b1100010 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b110 & VD5_pair {
+    :VD5".w = vmpyo("VT5".w,"VS5".uh)" is imm_21_27=0b1100010 & VS5 & imm_13=1 & VT5 & imm_5_7=0b110 & VD5 {
         _vstub();
     } 
     # (v85)
-    :VD5".w = vmpyo("VT5".w,"VS5".uh):rnd" is imm_21_27=0b1101000 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b100 & VD5_pair {
+    :VD5".w = vmpyo("VT5".w,"VS5".uh):rnd" is imm_21_27=0b1101000 & VS5 & imm_13=0 & VT5 & imm_5_7=0b100 & VD5 {
         _vstub();
     } 
     # (v85)
-    :VD5".w += vmpyo("VT5".w,"VS5".uh)" is imm_21_27=0b1100010 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b111 & VD5_pair {
+    :VD5".w += vmpyo("VT5".w,"VS5".uh)" is imm_21_27=0b1100010 & VS5 & imm_13=1 & VT5 & imm_5_7=0b111 & VD5 {
         _vstub();
     } 
     # (v85)
-    :VD5".w += vmpyo("VT5".w,"VS5".uh):rnd" is imm_21_27=0b1101000 & VS5_pair & imm_13=0 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+    :VD5".w += vmpyo("VT5".w,"VS5".uh):rnd" is imm_21_27=0b1101000 & VS5 & imm_13=0 & VT5 & imm_5_7=0b101 & VD5 {
         _vstub();
     } 
 }
@@ -1530,19 +1530,19 @@ with slot: iclass=0b0001 {
     }
     
     # (v85)
-    :VD5".h = vmpy("VT5".h,"VS5".uh)" is imm_21_27=0b1010100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b001 & VD5_pair {
+    :VD5".h = vmpy("VT5".h,"VS5".uh)" is imm_21_27=0b1010100 & VS5 & imm_13=1 & VT5 & imm_5_7=0b001 & VD5 {
         _vstub();
     }
     # (v85)
-    :VD5".h = vmpy("VT5".h,"VS5".uh):rnd" is imm_21_27=0b1010100 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b011 & VD5_pair {
+    :VD5".h = vmpy("VT5".h,"VS5".uh):rnd" is imm_21_27=0b1010100 & VS5 & imm_13=1 & VT5 & imm_5_7=0b011 & VD5 {
         _vstub();
     }
     # (v85)
-    :VD5".uh = vmpy("VT5".uh,"VS5".uh)" is imm_21_27=0b1001111 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b101 & VD5_pair {
+    :VD5".uh = vmpy("VT5".uh,"VS5".uh)" is imm_21_27=0b1001111 & VS5 & imm_13=1 & VT5 & imm_5_7=0b101 & VD5 {
         _vstub();
     }
     # (v85)
-    :VD5".uh = vmpy("VT5".uh,"VS5".uh):rnd" is imm_21_27=0b1001111 & VS5_pair & imm_13=1 & VT5_pair & imm_5_7=0b111 & VD5_pair {
+    :VD5".uh = vmpy("VT5".uh,"VS5".uh):rnd" is imm_21_27=0b1001111 & VS5 & imm_13=1 & VT5 & imm_5_7=0b111 & VD5 {
         _vstub();
     }
 }
@@ -1562,10 +1562,6 @@ with slot: iclass=0b0001 {
     }
     # (v85)
     :VD5".h = vmpy("VT5".h,"VS5".uh):rnd" is imm_21_27=0b1010100 & VS5 & imm_13=1 & VT5 & imm_5_7=0b010 & VD5 {
-        _vstub();
-    }
-    # (v85)
-    :VD5".uh = vmpy("VT5".uh,"VS5".uh):>>16" is imm_21_27=0b1111110 & VS5 & imm_13=1 & VT5 & imm_5_7=0b111 & VD5 {
         _vstub();
     }
     # (v85)
