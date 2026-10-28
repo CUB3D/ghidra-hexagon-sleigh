@@ -165,7 +165,7 @@ with slot: iclass=0b1000  {
     :D5_pair "=deinterleave(" S5_pair ")" is imm_21_27=0b0000110 & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b100 & D5_pair {
         D5_pair = deinterleave(S5_pairi);
     }
-    :D5_pair "=interleave(" S5_pair ".w[1], " S5_pair_dup ".w[0])" is imm_21_27=0b0000110 & S5_pair_dup & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b101 & D5_pair {
+    :D5_pair "=interleave(" S5_pair ")" is imm_21_27=0b0000110 & S5_pair_dup & S5_pair & S5_pairi & imm_8_13=0 & imm_5_7=0b101 & D5_pair {
         D5_pair = interleave(S5_pairi);
     }
 }
