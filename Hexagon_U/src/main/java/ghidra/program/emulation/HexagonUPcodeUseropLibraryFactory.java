@@ -8,7 +8,7 @@ import ghidra.pcode.exec.PcodeUseropLibraryFactory;
 import ghidra.program.model.pcode.Varnode;
 import ghidra.pcode.exec.PcodeUseropLibraryFactory.UseropLibrary;
 
-@UseropLibrary(value = "QDSP6")
+@UseropLibrary(id = "QDSP6")
 public class HexagonUPcodeUseropLibraryFactory implements PcodeUseropLibraryFactory {
 	@Override
 	public <T> PcodeUseropLibrary<T> create(SleighLanguage language, PcodeArithmetic<T> arithmetic) {
