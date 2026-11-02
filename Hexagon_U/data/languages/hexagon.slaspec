@@ -1944,21 +1944,8 @@ slotX: slot    is slot & parse=0b11 [mode=0; pktid=pktid+1;]   { build slot; }
 slotX: duplex  is duplex & parse=0b00 [mode=0; pktid=pktid+1;] { build duplex; }
 
 define pcodeop is_warmup_complete;
+
 macro endloop0() {
-    # Helps with the hardware warmup loops (spNloop0) that use the P3 predicate after N times. Note that this is
-    # technically only set if USR.LPCFG == 1, and USR.LPCFG is also decremented if not 0
-    if(pedantic_pcode:1 == 0) goto <noped>;
-    	if(USR_LPCFG == 0) goto <nodec>;
-	    	if(USR_LPCFG > 1) goto <noset>;
-	    		P3 = $(PTRUE);
-	    	<noset>
-	    	USR_LPCFG = USR_LPCFG - 1;
-    	<nodec>
-    	goto <other>;    	
-    <noped>
-    	P3 = is_warmup_complete();
-    <other>
- 
     if(LC0 <= 1) goto <endl0>;
     LC0 = LC0 - 1;
     goto [SA0];
@@ -1972,7 +1959,7 @@ macro endloop1() {
 }
 
 # 2 ins packets
-:{ slot0; slotX "}:endloop0"           is slot0 & parse=0b10 & build_branches_1 & build_nv_input_1; slotX & build_branches_2 & build_nv_input_2 & terminator & accurate_pred [mode=0; pktid=0;] {
+:{ slot0; slotX "}:endloop0"           is slot0 & parse=0b10 & build_branches_1 & build_nv_input_1; slotX & build_branches_2 & build_nv_input_2 & terminator & accurate_pred & pedantic_pcode [mode=0; pktid=0;] {
     prelude(accurate_pred);
     build slot0;
     build slotX;
@@ -1982,6 +1969,23 @@ macro endloop1() {
 
     build build_branches_1;
     build build_branches_2;
+    
+    
+    # Helps with the hardware warmup loops (spNloop0) that use the P3 predicate after N times. Note that this is
+    # technically only set if USR.LPCFG == 1, and USR.LPCFG is also decremented if not 0
+    # Note: cant be in macro, because macros suck    
+    local _pedantic_pcode:1 = pedantic_pcode:1;
+    if(_pedantic_pcode == 0) goto <noped>;
+    	if(USR_LPCFG == 0) goto <nodec>;
+	    	if(USR_LPCFG > 1) goto <noset>;
+	    		P3 = $(PTRUE);
+	    	<noset>
+	    	USR_LPCFG = USR_LPCFG - 1;
+    	<nodec>
+    	goto <other>;    	
+    <noped>
+    	P3 = is_warmup_complete();
+    <other>
 
     endloop0();
 
@@ -2026,7 +2030,7 @@ macro endloop1() {
 
 
 
-:{ slot0; slot1; slotX "}:endloop0"     is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b01 ; slotX & build_branches_3 & build_nv_input_3 & terminator & accurate_pred [mode=0;pktid=0;] {
+:{ slot0; slot1; slotX "}:endloop0"     is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b01 ; slotX & build_branches_3 & build_nv_input_3 & terminator & accurate_pred & pedantic_pcode [mode=0;pktid=0;] {
     prelude(accurate_pred);
     build slot0;
     build slot1;
@@ -2039,6 +2043,21 @@ macro endloop1() {
     build build_branches_1;
     build build_branches_2;
     build build_branches_3;
+
+
+    # Note see first impl
+    local _pedantic_pcode:1 = pedantic_pcode:1;
+    if(_pedantic_pcode == 0) goto <noped>;
+    	if(USR_LPCFG == 0) goto <nodec>;
+	    	if(USR_LPCFG > 1) goto <noset>;
+	    		P3 = $(PTRUE);
+	    	<noset>
+	    	USR_LPCFG = USR_LPCFG - 1;
+    	<nodec>
+    	goto <other>;    	
+    <noped>
+    	P3 = is_warmup_complete();
+    <other>
 
     endloop0();
 
@@ -2065,7 +2084,7 @@ macro endloop1() {
 
     build terminator;
 }
-:{ slot0; slot1; slotX "}:endloop0:endloop1"  is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b10 ; slotX & build_branches_3 & build_nv_input_3 & terminator & accurate_pred [mode=0;pktid=0;] {
+:{ slot0; slot1; slotX "}:endloop0:endloop1"  is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b10 ; slotX & build_branches_3 & build_nv_input_3 & terminator & accurate_pred & pedantic_pcode [mode=0;pktid=0;] {
     prelude(accurate_pred);
     build slot0;
     build slot1;
@@ -2079,6 +2098,22 @@ macro endloop1() {
     build build_branches_2;
     build build_branches_3;
 
+
+    # Note see first impl
+    local _pedantic_pcode:1 = pedantic_pcode:1;
+    if(_pedantic_pcode == 0) goto <noped>;
+    	if(USR_LPCFG == 0) goto <nodec>;
+	    	if(USR_LPCFG > 1) goto <noset>;
+	    		P3 = $(PTRUE);
+	    	<noset>
+	    	USR_LPCFG = USR_LPCFG - 1;
+    	<nodec>
+    	goto <other>;    	
+    <noped>
+    	P3 = is_warmup_complete();
+    <other>
+    
+    
     endloop0();
     endloop1();
 
@@ -2107,7 +2142,7 @@ macro endloop1() {
     build terminator;
 }
 
-:{ slot0; slot1; slot2; slotX "}:endloop0"  is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b01 ; slot2 & build_branches_3 & build_nv_input_3 ; slotX &  build_branches_4 & build_nv_input_4 & terminator & accurate_pred [mode=0;pktid=0;] {
+:{ slot0; slot1; slot2; slotX "}:endloop0"  is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b01 ; slot2 & build_branches_3 & build_nv_input_3 ; slotX &  build_branches_4 & build_nv_input_4 & terminator & accurate_pred & pedantic_pcode [mode=0;pktid=0;] {
     prelude(accurate_pred);
     build slot0;
     build slot1;
@@ -2124,6 +2159,19 @@ macro endloop1() {
     build build_branches_3;
     build build_branches_4;
 
+    # Note see first impl
+    local _pedantic_pcode:1 = pedantic_pcode:1;
+    if(_pedantic_pcode == 0) goto <noped>;
+    	if(USR_LPCFG == 0) goto <nodec>;
+	    	if(USR_LPCFG > 1) goto <noset>;
+	    		P3 = $(PTRUE);
+	    	<noset>
+	    	USR_LPCFG = USR_LPCFG - 1;
+    	<nodec>
+    	goto <other>;    	
+    <noped>
+    	P3 = is_warmup_complete();
+    <other>
     endloop0();
 
     build terminator;
@@ -2149,7 +2197,7 @@ macro endloop1() {
 
     build terminator;
 }
-:{ slot0; slot1; slot2; slotX "}:endloop0:endloop1"  is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b10;slot2 & build_branches_3 & build_nv_input_3 ; slotX &  build_branches_4 & build_nv_input_4 & terminator & accurate_pred [mode=0;pktid=0;] {
+:{ slot0; slot1; slot2; slotX "}:endloop0:endloop1"  is slot0 & build_branches_1 & build_nv_input_1 & parse=0b10 ; slot1 & build_branches_2 & build_nv_input_2 & parse=0b10;slot2 & build_branches_3 & build_nv_input_3 ; slotX &  build_branches_4 & build_nv_input_4 & terminator & accurate_pred & pedantic_pcode [mode=0;pktid=0;] {
     prelude(accurate_pred);
     build slot0;
     build slot1;
@@ -2166,6 +2214,19 @@ macro endloop1() {
     build build_branches_3;
     build build_branches_4;
 
+    # Note see first impl
+    local _pedantic_pcode:1 = pedantic_pcode:1;
+    if(_pedantic_pcode == 0) goto <noped>;
+    	if(USR_LPCFG == 0) goto <nodec>;
+	    	if(USR_LPCFG > 1) goto <noset>;
+	    		P3 = $(PTRUE);
+	    	<noset>
+	    	USR_LPCFG = USR_LPCFG - 1;
+    	<nodec>
+    	goto <other>;    	
+    <noped>
+    	P3 = is_warmup_complete();
+    <other>
     endloop0();
     endloop1();
 
