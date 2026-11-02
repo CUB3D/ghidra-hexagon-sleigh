@@ -2184,7 +2184,6 @@ macro endloop1() {
     build terminator;
 }
 
-# TODO: endloop lpcfg
 immext_marker0:""  is imm_0_13u & imm_16_27 [immext0 = ((imm_0_13u) | (imm_16_27 << 14)) << 6;] { }
 immext_marker1:""  is imm_0_13u & imm_16_27 [immext1 = ((imm_0_13u) | (imm_16_27 << 14)) << 6;] { }
 
