@@ -10,3 +10,4 @@ data/languages/*.sla
 .DS_Store
 build/
 **/*.lock
+**/__pycache__

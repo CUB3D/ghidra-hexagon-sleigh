@@ -3,7 +3,7 @@
 This is a WIP implementation of the Qualcomm Hexagon "QDSP6" architecture in Ghidra SLEIGH
 
 Features:
-- Dissassembly of v66/v67/v68/v73/v75/v79/v81/v83/v85, including HVX v85 and HMX v81
+- Dissassembly of v66/v67/v68/v73/v75/v79/v81/v83/v85, including HVX v85, HMX v81 and initial support for HLX v85
 - Most common extended immediates are supported
 - No broken java plugins needed
 - Support for hardware loops (The first implementation to do so)
@@ -16,7 +16,7 @@ Features:
 - - Q6ZIP and DELTA/DLPAGER decompression via emulation
 - - Annotation of hashed log messages
 
-Modern (12.1+) versions of Ghidra support Hexagon nativly, this plugin predates that. However, it has some advantages and some disadvantages compared to that plugin: see [this comment](https://github.com/CUB3D/ghidra-hexagon-sleigh/issues/49#issuecomment-4652321293) for details.
+Modern (12.1+) versions of Ghidra support Hexagon natively, this plugin predates that. However, it has some advantages and some disadvantages compared to that plugin: see [this comment](https://github.com/CUB3D/ghidra-hexagon-sleigh/issues/49#issuecomment-4652321293) for details.
 
 Currently broken / unimplemented:
 - Some immediate extensions are missing for less common ops and some duplexes
@@ -43,6 +43,7 @@ There are flags to configure the behaviour of the generated pcode to either impr
 #### pedantic_pcode
 Enables more accurate pcode at the cost of much worse decompilation. Changes include:
 - Shifts support bi-directional operation
+- USR.LPCFG is correctly handled in `:endloop1` instructions
 
 #### accurate_pred
 Enable accurate emulation of predicate registers. Useful if the code uses vectorized comparisons or if you want to emulate the code. By default we use the values `0` and `1` for False and True for scalar comparisons. Hexagon typically uses `0` and `FF` but this produces bad decompilation in Ghidra due to an outstanding [decompiler bug](https://github.com/NationalSecurityAgency/ghidra/issues/9284)

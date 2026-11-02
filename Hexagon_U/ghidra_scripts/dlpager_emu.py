@@ -61,8 +61,11 @@ DECOMPRESS_FUNCTION = 0xc05ebbd0
 #DECOMPRESS_FUNCTION = 0xc0ce715c
 
 END_OF_FUNCTION_MAGIC = 0xDEADBEEF
+OUT_BLOCK_SIZE = 0x1000
 
 def main():
+    memory = currentProgram.getMemory()
+
     emu = PcodeEmulator(currentProgram.getLanguage())
     EmulatorUtilities.loadProgram(emu, currentProgram)
 
@@ -75,13 +78,35 @@ def main():
     out_buf_size = 0
     (number_of_blocks, ) = struct.unpack("<H", read_memory(thread, IN_BUF, 2))
 
+    # Check we have an output region and its big enough
+    out_block = memory.getBlock(toAddr(OUT_BUF))
+    out_size_needed = number_of_blocks * OUT_BLOCK_SIZE
+
+    if out_block is None:
+        if out_size_needed > 0:
+            print("OUT_BUF region missing, creating it")
+            createMemoryBlock("DLPAGER_OUT", toAddr(OUT_BUF), [0]*out_size_needed, False)
+    else:
+        out_size_actual = out_block.getEnd().getOffset() - OUT_BUF + 1
+        if out_size_actual < out_size_needed:
+            print("OUT_BUF region at is too small, minimum size = 0x{:x} bytes".format(required_out_size))
+            exit(0)
+
+    # Decomp loop
     current_block = 0
     while current_block < number_of_blocks:
         print(current_block, "/", number_of_blocks)
         block_ptr_addr = index + current_block * 4
         (block_ptr,) = struct.unpack("<I", read_memory(thread, block_ptr_addr, 4))
+        print(hex(block_ptr))
 
-        out_size = 0x1000
+        # block_ptr must be a valid ptr to mapped memory
+        block = memory.getBlock(toAddr(block_ptr))
+        if block is None:
+            print("Invalid ptr in dlpager block table, check params. IN_BUF+4 should be a array of valid ptrs of length *(short*)(IN_BUF+0)")
+            exit(0)
+
+        out_size = OUT_BLOCK_SIZE
 
         write_register(thread, "r0", block_ptr)
         write_register(thread, "r1", OUT_BUF + out_buf_size)
