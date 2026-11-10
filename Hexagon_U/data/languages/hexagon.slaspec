@@ -533,16 +533,17 @@ define token instr (32)
     VD5_dup           = ( 0, 4)
     
      # HLX
-     LDV = (1,4)
-     LDDV = (2,4)
-     LUV = (6,9)
-     LUUV = (7,9)
-     LVV = (17,20)
-     LVVV = (18,20)
-     LXV = (1,4)
-     LXV_dup = (1,4)
-     LXXV = (2,4)
-     LXXV_dup = (2,4)
+     LDV      = ( 1, 4)
+     LDDV     = ( 2, 4)
+     LUV      = ( 6, 9)
+     LUUV     = ( 7, 9)
+     LVV      = (17,20)
+     LVVV     = (18,20)
+     LXV      = ( 1, 4)
+     LXV_dup  = ( 1, 4)
+     LXXV     = ( 2, 4)
+     LXXV_dup = ( 2, 4)
+     LD16     = ( 0, 3)
 ;
 
 define register offset=0x300 size=40 [

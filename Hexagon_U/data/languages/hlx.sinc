@@ -287,7 +287,6 @@ with slot: iclass=0b1110 {
     }
 }
 
-
 # HLX/LOAD
 
 # HLX/LOAD - Tmp
@@ -295,7 +294,7 @@ with slot: iclass=0b1001 {
     :LD16".tmp = mem("S5")" is imm_24_27=0b1000 & S5 & imm_11_12=0b10 & imm_4_6u=0b000 & LD16 {
         _hlx_stub();
     }
-    :"if ("T2_9_10_pred") "LD16".tmp = mem("S5")" is imm_24_27=0b1000 & S5 & S5i & imm_11_12=0b10 & T2_9_10_pred & imm_4_6u=0b100 & LD16 {
+    :"if ("T2_9_10_pred") "LD16".tmp = mem("S5")" is imm_24_27=0b1000 & S5 &  imm_11_12=0b10 & T2_9_10_pred & imm_4_6u=0b100 & LD16 {
         _hlx_stub();
     }
 }
@@ -384,6 +383,289 @@ with slot: iclass=0b1110 {
         _hlx_stub();
     }
     :LDDV".w = mpy("LUV".h,"LVV".h)" is imm_21_27=0b0111000 & LVV & imm_16u=0 & imm_10_13=0b1001 & LUV & imm_5=0 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+}
+
+# HLX/PAIREDALU
+
+# HLX/PAIREDALU - Paired and word absolute value
+with slot: iclass=0b1110 {
+    :LDDV".uw = abs("LUUV".w)" is imm_21_27=0b1111000 & imm_10_13=0b1100 & LUUV & imm_5=0 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV".w = abs("LUUV".w):sat" is imm_21_27=0b1111000 & imm_10_13=0b1100 & LUUV & imm_5=0 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDDV".uh = abs("LUUV".h)" is imm_21_27=0b1111000 & imm_10_13=0b1100 & LUUV & imm_5=1 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV".h = abs("LUUV".h):sat" is imm_21_27=0b1111000 & imm_10_13=0b1100 & LUUV & imm_5=1 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+}
+
+# HLX/PAIREDALU - Paired halfword add subtract
+with slot: iclass=0b1110 {
+    :LDDV".h = add("LUUV".h,"LVVV".h)" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1010 & LUUV & imm_5=0 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV".h = add("LUUV".h,"LVVV".h):sat" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1010 & LUUV & imm_5=0 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDDV".uh = add("LUUV".uh,"LVVV".uh):sat" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1010 & LUUV & imm_5=1 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV".uh = add("LUUV".h,"LVVV".h):sat" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1010 & LUUV & imm_5=1 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDDV".h = sub("LUUV".h,"LVVV".h)" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1011 & LUUV & imm_5=0 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV".h = sub("LUUV".h,"LVVV".h):sat" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1011 & LUUV & imm_5=0 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDDV".uh = sub("LUUV".uh,"LVVV".uh):sat" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1011 & LUUV & imm_5=1 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV".uh = sub("LUUV".h,"LVVV".h):sat" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1011 & LUUV & imm_5=1 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+}
+
+# HLX/PAIREDALU - Word add sub
+with slot: iclass=0b1110 {
+    :LDDV".w = add("LUUV".w,"LVVV".w)" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1000 & LUUV & imm_5=0 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV".w = add("LUUV".w,"LVVV".w):sat" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1000 & LUUV & imm_5=0 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDDV".uw = add("LUUV".uw,"LVVV".uw):sat" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1000 & LUUV & imm_5=1 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV".uw = add("LUUV".w,"LVVV".w):sat" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1000 & LUUV & imm_5=1 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDDV".w = sub("LUUV".w,"LVVV".w)" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1001 & LUUV & imm_5=0 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV".w = sub("LUUV".w,"LVVV".w):sat" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1001 & LUUV & imm_5=0 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDDV".uw = sub("LUUV".uw,"LVVV".uw):sat" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1001 & LUUV & imm_5=1 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV".uw = sub("LUUV".w,"LVVV".w):sat" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1001 & LUUV & imm_5=1 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+}
+
+# HLX/PAIREDALU - Word logical operations
+with slot: iclass=0b1110 {
+    :LDDV" = and("LUUV","LVVV")" is imm_21_27=0b1111001 & LVVV & imm_10_13=0b1000 & LUUV & imm_5=0 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV" = or("LUUV","LVVV")" is imm_21_27=0b1111001 & LVVV & imm_10_13=0b1000 & LUUV & imm_5=0 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDDV" = xor("LUUV","LVVV")" is imm_21_27=0b1111001 & LVVV & imm_10_13=0b1000 & LUUV & imm_5=1 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV" = andn("LUUV","LVVV")" is imm_21_27=0b1111001 & LVVV & imm_10_13=0b1001 & LUUV & imm_5=0 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV" = orn("LUUV","LVVV")" is imm_21_27=0b1111001 & LVVV & imm_10_13=0b1001 & LUUV & imm_5=1 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV" = not("LUUV")" is imm_21_27=0b1111001 & imm_10_13=0b1001 & LUUV & imm_5=0 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+}
+
+# HLX/PAIREDALU - Paired halfword logical compare
+with slot: iclass=0b1110 {
+    :LDDV".h = cmp.gt("LUUV".h,"LVVV".h)" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1101 & LUUV & imm_5=1 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV".h = cmp.gt("LUUV".uh,"LVVV".uh)" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1101 & LUUV & imm_5=1 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+}
+
+# HLX/PAIREDALU - Word compare
+with slot: iclass=0b1110 {
+    :LDDV".w = cmp.gt("LUUV".w,"LVVV".w)" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1101 & LUUV & imm_5=0 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDDV".w = cmp.gt("LUUV".uw,"LVVV".uw)" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1101 & LUUV & imm_5=0 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+}
+
+# HLX/PAIREDALU - Combine
+with slot: iclass=0b1110 {
+    :LDDV" = combine("LUV","LVV")" is imm_21_27=0b1111001 & LVV & imm_10_13=0b1000 & LUV & imm_5=1 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+}
+
+# HLX/PAIREDALU - Word min max
+with slot: iclass=0b1110 {
+    :LDDV".w = min("LUUV".w,"LVVV".w)" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1111 & LUUV & imm_5=0 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV".uw = min("LUUV".uw,"LVVV".uw)" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1111 & LUUV & imm_5=0 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDDV".w = max("LUUV".w,"LVVV".w)" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1111 & LUUV & imm_5=1 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV".uw = max("LUUV".uw,"LVVV".uw)" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1111 & LUUV & imm_5=1 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+}
+
+# HLX/PAIREDALU - Paired halfword min max
+with slot: iclass=0b1110 {
+    :LDDV".h = min("LUUV".h,"LVVV".h)" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1110 & LUUV & imm_5=0 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV".uh = min("LUUV".uh,"LVVV".uh)" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1110 & LUUV & imm_5=0 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDDV".h = max("LUUV".h,"LVVV".h)" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1110 & LUUV & imm_5=1 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV".uh = max("LUUV".uh,"LVVV".uh)" is imm_21_27=0b1111000 & LVVV & imm_10_13=0b1110 & LUUV & imm_5=1 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+}
+
+# HLX/SHIFT
+
+# HLX/SHIFT - Halfword bidirectional shift
+with slot: iclass=0b1110 {
+    :LDV".uh = shr("LUV".uh,"LVV".h)" is imm_21_27=0b1101001 & LVV & imm_10_13=0b1010 & LUV & imm_5=1 & LDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDV".uh = shr("LUV".uh,"S5".h)" is imm_21_27=0b1101001 & S5 & imm_10_13=0b1010 & LUV & imm_5=1 & LDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDV".h = shr("LUV".h,"LVV".h)" is imm_21_27=0b1101001 & LVV & imm_10_13=0b1010 & LUV & imm_5=0 & LDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDV".h = shr("LUV".h,"S5".h)" is imm_21_27=0b1101001 & S5 & imm_10_13=0b1010 & LUV & imm_5=0 & LDV & imm_0=1 {
+        _hlx_stub();
+    }
+}
+
+# HLX/SHIFT - Word to halfword narrowing bidirectional shift
+with slot: iclass=0b1110 {
+    :LDV".h = shr("LUUV".w,"LVV".h):sat" is imm_21_27=0b1101001 & LVV & imm_10_13=0b1100 & LUUV & imm_5=1 & LDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDV".h = shr("LUUV".w,"LVV".h):rnd:sat" is imm_21_27=0b1101001 & LVV & imm_10_13=0b1101 & LUUV & imm_5=0 & LDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDV".h = shr("LUUV".w,"S5".h):sat" is imm_21_27=0b1101001 & S5 & imm_10_13=0b1100 & LUUV & imm_5=1 & LDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDV".h = shr("LUUV".w,"S5".h):rnd:sat" is imm_21_27=0b1101001 & S5 & imm_10_13=0b1101 & LUUV & imm_5=0 & LDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDV".uh = shr("LUUV".uw,"LVV".h):sat" is imm_21_27=0b1101001 & LVV & imm_10_13=0b1111 & LUUV & imm_5=0 & LDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDV".uh = shr("LUUV".uw,"LVV".h):rnd:sat" is imm_21_27=0b1101001 & LVV & imm_10_13=0b1110 & LUUV & imm_5=1 & LDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDV".uh = shr("LUUV".uw,"S5".h):sat" is imm_21_27=0b1101001 & S5 & imm_10_13=0b1111 & LUUV & imm_5=0 & LDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDV".uh = shr("LUUV".uw,"S5".h):rnd:sat" is imm_21_27=0b1101001 & S5 & imm_10_13=0b1110 & LUUV & imm_5=1 & LDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDV".uh = shr("LUUV".w,"LVV".h):sat" is imm_21_27=0b1101001 & LVV & imm_10_13=0b1101 & LUUV & imm_5=1 & LDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDV".uh = shr("LUUV".w,"LVV".h):rnd:sat" is imm_21_27=0b1101001 & LVV & imm_10_13=0b1110 & LUUV & imm_5=0 & LDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDV".uh = shr("LUUV".w,"S5".h):sat" is imm_21_27=0b1101001 & S5 & imm_10_13=0b1101 & LUUV & imm_5=1 & LDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDV".uh = shr("LUUV".w,"S5".h):rnd:sat" is imm_21_27=0b1101001 & S5 & imm_10_13=0b1110 & LUUV & imm_5=0 & LDV & imm_0=1 {
+        _hlx_stub();
+    }
+}
+
+# HLX/SHIFT - Word bidirectional shift
+with slot: iclass=0b1110 {
+    :LDDV".uw = shr("LUUV".uw,"LVV".h)" is imm_21_27=0b1101001 & LVV & imm_10_13=0b1011 & LUUV & imm_5=0 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV".uw = shr("LUUV".uw,"S5".h)" is imm_21_27=0b1101001 & S5 & imm_10_13=0b1011 & LUUV & imm_5=0 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDDV".w = shr("LUUV".w,"LVV".h)" is imm_21_27=0b1101001 & LVV & imm_10_13=0b1011 & LUUV & imm_5=1 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV".w = shr("LUUV".w,"S5".h)" is imm_21_27=0b1101001 & S5 & imm_10_13=0b1011 & LUUV & imm_5=1 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+}
+
+# HLX/SHIFT - Word to halfword narrowing right shift
+with slot: iclass=0b1110 {
+    :LDV".h = shr("LUUV".w,"LVV".uh)" is imm_21_27=0b1101001 & LVV & imm_10_13=0b1100 & LUUV & imm_5=0 & LDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDV".h = shr("LUUV".w,"S5".uh)" is imm_21_27=0b1101001 & S5 & imm_10_13=0b1100 & LUUV & imm_5=0 & LDV & imm_0=1 {
+        _hlx_stub();
+    }
+}
+
+# HLX/SHIFT - Halfword bidirectional shift add
+with slot: iclass=0b1110 {
+    :LXV".h += shr("LUV".uh,"LVV".h)" is imm_21_27=0b1101000 & LVV & imm_10_13=0b1110 & LUV & imm_5=0 & LXV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LXV".h += shr("LUV".uh,"S5".h)" is imm_21_27=0b1101000 & S5 & imm_10_13=0b1110 & LUV & imm_5=0 & LXV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LXV".h += shr("LUV".h,"LVV".h)" is imm_21_27=0b1101000 & LVV & imm_10_13=0b1110 & LUV & imm_5=1 & LXV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LXV".h += shr("LUV".h,"S5".h)" is imm_21_27=0b1101000 & S5 & imm_10_13=0b1110 & LUV & imm_5=1 & LXV & imm_0=1 {
+        _hlx_stub();
+    }
+}
+
+# HLX/SHIFT - Word bidirectional shift add
+with slot: iclass=0b1110 {
+    :LXXV".w += shr("LUUV".uw,"LVV".h)" is imm_21_27=0b1101000 & LVV & imm_10_13=0b1111 & LUUV & imm_5=0 & LXXV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LXXV".w += shr("LUUV".uw,"S5".h)" is imm_21_27=0b1101000 & S5 & imm_10_13=0b1111 & LUUV & imm_5=0 & LXXV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LXXV".w += shr("LUUV".w,"LVV".h)" is imm_21_27=0b1101000 & LVV & imm_10_13=0b1111 & LUUV & imm_5=1 & LXXV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LXXV".w += shr("LUUV".w,"S5".h)" is imm_21_27=0b1101000 & S5 & imm_10_13=0b1111 & LUUV & imm_5=1 & LXXV & imm_0=1 {
+        _hlx_stub();
+    }
+}
+
+# HLX/STORE
+
+# HLX/STORE - new
+with slot: iclass=0b1010 {
+    :"mem("S5") = "LD16".new" is imm_23_27=0b01001 & S5 & imm_11_13=0b100 & imm_4_6u=0b000 & LD16 {
+        _hlx_stub();
+    }
+    :"if ("T2_9_10_pred") mem("S5") = "LD16".new" is imm_23_27=0b01001 & S5 & imm_11_13=0b000 & T2_9_10_pred & imm_4_6u=0b100 & LD16 {
         _hlx_stub();
     }
 }
