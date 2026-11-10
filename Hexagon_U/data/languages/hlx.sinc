@@ -4,14 +4,175 @@ define register offset=0x10000 size=2048 [
 	L0 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15
 ];
 
-attach variables [ LDV LUV ] [
+define register offset=0x10000 size=4096 [
+	L1L0 L3L2 L5L4 L7L6 L9L8 L11L10 L13L12 L15L14
+];
+
+attach variables [ LDV LUV LVV LXV LXV_dup ] [
 	L0 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15
+];
+
+attach variables [ LDDV LUUV LVVV ] [
+	L1L0 L3L2 L5L4 L7L6 L9L8 L11L10 L13L12 L15L14
 ];
 
 define pcodeop _hlx_stub;
 
+# HLX/ALUCOMMON
+
+# HLX/ALUCOMMON - Halfword absolute value
 with slot: iclass=0b1110 {
-    :LDV".h = "LUV".h" is imm_21_27=0b0101000 & imm_16_20 & imm_10_13=0b1110 & LUV & imm_5=1 & LDV & imm_0=0 {
-     	_hlx_stub();
-    }    
+    :LDV".uh = abs("LUV".h)" is imm_21_27=0b0101000 & imm_16_18=0b001 & imm_10_13=0b1010 & imm_5=1 & imm_0=0 & LUV & LDV {
+        _hlx_stub();
+    }
+    :LDV".h = abs("LUV".h):sat" is imm_21_27=0b0101000 & imm_16_18=0b001 & imm_10_13=0b1010 & imm_5=1 & imm_0=1 & LUV & LDV {
+        _hlx_stub();
+    }
 }
+
+# HLX/ALUCOMMON - Halfword and word add/subtract
+with slot: iclass=0b1110 {
+    :LDDV".w = add("LUUV".w,"LVV".h)" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1111 & imm_5=1 & imm_0=0 & LUUV & LDDV {
+        _hlx_stub();
+    }
+    :LDDV".w = add("LUUV".w,"LVV".uh)" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1111 & imm_5=1 & imm_0=1 & LUUV & LDDV {
+        _hlx_stub();
+    }
+    :LDDV".w = sub("LUUV".w,"LVV".h)" is imm_21_27=0b0101001 & LVV & imm_10_13=0b1000 & imm_5=0 & imm_0=0 & LUUV & LDDV {
+        _hlx_stub();
+    }
+    :LDDV".w = sub("LUUV".w,"LVV".uh)" is imm_21_27=0b0101001 & LVV & imm_10_13=0b1000 & imm_5=0 & imm_0=1 & LUUV & LDDV {
+        _hlx_stub();
+    }
+}
+
+# HLX/ALUCOMMON - Halfword widening add/subtract
+with slot: iclass=0b1110 {
+    :LDDV".w = add("LUV".uh,"LVV".uh)" is imm_21_27=0b0101001 & LVV & imm_10_13=0b1010 & imm_5=0 & imm_0=0 & LUV & LDDV {
+        _hlx_stub();
+    }
+    :LDDV".w = sub("LUV".uh,"LVV".uh)" is imm_21_27=0b0101001 & LVV & imm_10_13=0b1010 & imm_5=0 & imm_0=1 & LUV & LDDV {
+        _hlx_stub();
+    }
+}
+
+# HLX/ALUCOMMON - Halfword add/subtract
+with slot: iclass=0b1110 {
+    :LDV".h = add("LUV".h,"LVV".h)" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1011 & imm_5=0 & imm_0=0 & LUV & LDV {
+        _hlx_stub();
+    }
+    :LDV".h = add("LUV".h,"LVV".h):sat" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1011 & imm_5=0 & imm_0=1 & LUV & LDV {
+        _hlx_stub();
+    }
+    :LDV".uh = add("LUV".uh,"LVV".uh):sat" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1011 & imm_5=1 & imm_0=0 & LUV & LDV {
+        _hlx_stub();
+    }
+    :LDV".uh = add("LUV".h,"LVV".h):sat" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1011 & imm_5=1 & imm_0=1 & LUV & LDV {
+        _hlx_stub();
+    }
+    :LDV".h = sub("LUV".h,"LVV".h)" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1100 & imm_5=0 & imm_0=0 & LUV & LDV {
+        _hlx_stub();
+    }
+    # The spec is wrong here "LdV.uh[i] = ..", qcom pls fix
+    :LDV".h = sub("LUV".h,"LVV".h):sat" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1100 & imm_5=0 & imm_0=1 & LUV & LDV {
+        _hlx_stub();
+    }
+    :LDV".uh = sub("LUV".uh,"LVV".uh):sat" is imm_21_27=0b0101001 & LVV & imm_10_13=0b1111 & imm_5=0 & imm_0=0 & LUV & LDV {
+        _hlx_stub();
+    }
+    :LDV".uh = sub("LUV".h,"LVV".h):sat" is imm_21_27=0b0101001 & LVV & imm_10_13=0b1111 & imm_5=1 & imm_0=1 & LUV & LDV {
+        _hlx_stub();
+    }
+}
+
+# HLX/ALUCOMMON - Assign
+with slot: iclass=0b1110 {
+    :LDV".h = "LUV".h" is imm_21_27=0b0101000 & imm_10_13=0b1110 & imm_5=1 & imm_0=0 & LUV & LDV {
+        _hlx_stub();
+    }
+    :LDDV".w = "LUUV".w" is imm_21_27=0b0101000 & imm_10_13=0b1110 & imm_5=1 & imm_0=1 & LUUV & LDDV {
+        _hlx_stub();
+    }
+}
+
+# HLX/ALUCOMMON - Halfword Compare
+with slot: iclass=0b1110 {
+    :LDV".h = cmp.gt("LUV".uh,"LVV".uh)" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1000 & imm_5=1 & imm_0=0 & LUV & LDV {
+        _hlx_stub();
+    }
+    :LDV".h = cmp.gt("LUV".h,"LVV".h)" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1000 & imm_5=0 & imm_0=1 & LUV & LDV {
+        _hlx_stub();
+    }
+}
+
+# HLX/ALUCOMMON - Halfword to word convert
+with slot: iclass=0b1110 {
+    :LDDV".uw = zxt("LUV".uh)" is imm_21_27=0b0101000 & imm_16_18=0b001 & imm_10_13=0b1010 & imm_5=0 & imm_0=0 & LUV & LDDV {
+        _hlx_stub();
+    }
+    :LDDV".w = sxt("LUV".h)" is imm_21_27=0b0101000 & imm_16_18=0b001 & imm_10_13=0b1010 & imm_5=0 & imm_0=1 & LUV & LDDV {
+        _hlx_stub();
+    }
+}
+
+# HLX/ALUCOMMON - Logical
+with slot: iclass=0b1110 {
+    :LDV" = and("LUV","LVV")" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1101 & imm_5=0 & imm_0=0 & LUV & LDV {
+        _hlx_stub();
+    }
+    :LDV" = or("LUV","LVV")" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1110 & imm_5=0 & imm_0=0 & LUV & LDV {
+        _hlx_stub();
+    }
+    :LDV" = xor("LUV","LVV")" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1101 & imm_5=1 & imm_0=1 & LUV & LDV {
+        _hlx_stub();
+    }
+    :LDV" = not("LUV")" is imm_21_27=0b0101000 & imm_10_13=0b1101 & imm_5=1 & imm_0=0 & LUV & LDV {
+        _hlx_stub();
+    }
+    :LDV" = andn("LUV","LVV")" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1101 & imm_5=0 & imm_0=1 & LUV & LDV {
+        _hlx_stub();
+    }
+    :LDV" = orn("LUV","LVV")" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1110 & imm_5=0 & imm_0=1 & LUV & LDV {
+        _hlx_stub();
+    }
+}
+
+# HLX/ALUCOMMON - Halfword min max
+with slot: iclass=0b1110 {
+    :LDV".uh = max("LUV".uh,"LVV".uh)" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1001 & imm_5=1 & imm_0=0 & LUV & LDV {
+        _hlx_stub();
+    }
+    :LDV".uh = min("LUV".uh,"LVV".uh)" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1001 & imm_5=1 & imm_0=1 & LUV & LDV {
+        _hlx_stub();
+    }
+    :LDV".h = max("LUV".h,"LVV".h)" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1001 & imm_5=0 & imm_0=0 & LUV & LDV {
+        _hlx_stub();
+    }
+    :LDV".h = min("LUV".h,"LVV".h)" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1001 & imm_5=0 & imm_0=1 & LUV & LDV {
+        _hlx_stub();
+    }
+}
+
+# HLX/ALUCOMMON - Mux select
+with slot: iclass=0b1110 {
+    :LXV".h = mux("LXV_dup".h,"LUV".h,"LVV".h)" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1000 & imm_5=0 & imm_0=0 & LUV & LXV & LXV_dup {
+        _hlx_stub();
+    }
+}
+
+# HLX/ALUCOMMON - Splat
+with slot: iclass=0b1110 {
+    :LDV".h = "S5".h" is imm_21_27=0b0101001 & S5 & imm_10_13=0b1001 & imm_5=1 & imm_0=0 & LDV {
+        _hlx_stub();
+    }
+    :LDV".h = "imm_16_20 is imm_21_27=0b0101001 & imm_10_13=0b1010 & imm_5=1 & imm_0=1 & LDV & imm_16_20 {
+        _hlx_stub();
+    }
+    :LDV".uh = "imm_16_20u is imm_21_27=0b0101001 & imm_10_13=0b1010 & imm_5=1 & imm_0=0 & LDV & imm_16_20u {
+        _hlx_stub();
+    }
+    :LDDV".w = "S5".w" is imm_21_27=0b0101001 & S5 & imm_10_13=0b1001 & imm_5=1 & imm_0=1 & LDDV {
+        _hlx_stub();
+    }
+}
+

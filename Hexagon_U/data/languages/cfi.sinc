@@ -40,7 +40,7 @@ with slotB: iclass=0b0101 {
       :"jumpr_rb" S5 is imm_21_27=0b0010000 & S5 & S5i & imm_0_13=0 {} 
      
      # Special case for return
-     :"jumpr_rb LR" is imm_21_27=0b0010000 & imm_16_20=31 & imm_0_13=0 {}
+     :"jumpr_rb LR" is imm_21_27=0b0010000 & imm_16_20u=31 & imm_0_13=0 {}
      
      :"jumprh_rb" S5 is imm_21_27=0b0010010 & S5 & S5i & imm_0_13=0 {}
 
@@ -69,7 +69,7 @@ with slotB: iclass=0b0101 {
      }
      
      # Special case for return
-     :"jumpr_rb LR" is imm_21_27=0b0010000 & imm_16_20=31 & imm_0_13=0 {
+     :"jumpr_rb LR" is imm_21_27=0b0010000 & imm_16_20u=31 & imm_0_13=0 {
         return [LRc];
      }
      

@@ -190,7 +190,7 @@ define token instr (32)
     imm_16_23         = (16,23)
     imm_16_22         = (16,22) signed
     imm_16_21         = (16,21)
-    imm_16_20         = (16,20)
+    imm_16_20         = (16,20) signed
     imm_16_20u        = (16,20)
     imm_16_19         = (16,19) signed
     imm_16_18         = (16,18)
@@ -507,7 +507,7 @@ define token instr (32)
     immdup1_D3_pair   = (16,18)
     immdup1_D3_pairi  = (16,18)
 
-        # HVX
+    # HVX
     Qv4               = (22,23)
     Qt4               = (22,23)
     Qs4               = ( 8, 9)
@@ -529,9 +529,15 @@ define token instr (32)
     VD5               = ( 0, 4)
     VD5_dup           = ( 0, 4)
     
-    # HLX
-    LDV = (1,4)
-    LUV = (6,9)
+     # HLX
+     LDV = (1,4)
+     LDDV = (2,4)
+     LUV = (6,9)
+     LUUV = (7,9)
+     LVV = (17,20)
+     LVVV = (18,20)
+     LXV = (1,4)
+     LXV_dup = (1,4)
 ;
 
 define register offset=0x300 size=40 [
@@ -1530,9 +1536,9 @@ OUTPUT_D5: is pktid=2 & imm_0_4 [ or2test = imm_0_4 << 2; analysed=1; ] {}
 OUTPUT_D5: is pktid=3 & imm_0_4 [ or3test = imm_0_4 << 2; analysed=1; ] {}
 OUTPUT_D5: is pktid=4 {}
 
-OUTPUT_S5: is pktid=1 & imm_16_20 [ or1test = imm_16_20 << 2; analysed=1; ] {}
-OUTPUT_S5: is pktid=2 & imm_16_20 [ or2test = imm_16_20 << 2; analysed=1; ] {}
-OUTPUT_S5: is pktid=3 & imm_16_20 [ or3test = imm_16_20 << 2; analysed=1; ] {}
+OUTPUT_S5: is pktid=1 & imm_16_20u [ or1test = imm_16_20u << 2; analysed=1; ] {}
+OUTPUT_S5: is pktid=2 & imm_16_20u [ or2test = imm_16_20u << 2; analysed=1; ] {}
+OUTPUT_S5: is pktid=3 & imm_16_20u [ or3test = imm_16_20u << 2; analysed=1; ] {}
 OUTPUT_S5: is pktid=4 {}
 
 OUTPUT_T5: is pktid=1 & imm_8_12 [ or1test = imm_8_12 << 2; analysed=1; ] {}
