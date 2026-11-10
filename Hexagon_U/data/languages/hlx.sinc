@@ -8,11 +8,11 @@ define register offset=0x10000 size=4096 [
 	L1L0 L3L2 L5L4 L7L6 L9L8 L11L10 L13L12 L15L14
 ];
 
-attach variables [ LDV LUV LVV LXV LXV_dup ] [
+attach variables [ LDV LD16 LUV LVV LXV LXV_dup ] [
 	L0 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15
 ];
 
-attach variables [ LDDV LUUV LVVV ] [
+attach variables [ LDDV LUUV LVVV LXXV LXXV_dup ] [
 	L1L0 L3L2 L5L4 L7L6 L9L8 L11L10 L13L12 L15L14
 ];
 
@@ -283,6 +283,107 @@ with slot: iclass=0b1110 {
         _hlx_stub();
     }
     :LDDV".w = navg("LUUV".uw,"LVVV".uw)" is imm_21_27=0b1101000 & LVVV & imm_10_13=0b1100 & LUUV & imm_5=1 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+}
+
+
+# HLX/LOAD
+
+# HLX/LOAD - Tmp
+with slot: iclass=0b1001 {
+    :LD16".tmp = mem("S5")" is imm_24_27=0b1000 & S5 & imm_11_12=0b10 & imm_4_6u=0b000 & LD16 {
+        _hlx_stub();
+    }
+    :"if ("T2_9_10_pred") "LD16".tmp = mem("S5")" is imm_24_27=0b1000 & S5 & S5i & imm_11_12=0b10 & T2_9_10_pred & imm_4_6u=0b100 & LD16 {
+        _hlx_stub();
+    }
+}
+
+# HLX/MPY
+
+# HLX/MPY - Multiply add with high or low
+with slot: iclass=0b1110 {
+    :LXXV".uw = add(mpy("LUV".uh,"S5".uh),lo("LXXV_dup").uh)" is imm_21_27=0b0111000 & S5 & imm_10_13=0b1011 & LUV & imm_5=0 & LXXV & LXXV_dup & imm_0=0 {
+        _hlx_stub();
+    }
+    :LXXV".uw = add(mpy("LUV".uh,"LVV".uh),lo("LXXV_dup").uh)" is imm_21_27=0b0111000 & LVV & imm_10_13=0b1011 & LUV & imm_5=0 & LXXV & LXXV_dup & imm_0=1 {
+        _hlx_stub();
+    }
+    :LXXV".w = add(mpy("LUV".h,"S5".uh),lo("LXXV_dup").uh)" is imm_21_27=0b0111000 & S5 & imm_10_13=0b1011 & LUV & imm_5=1 & LXXV & LXXV_dup & imm_0=0 {
+        _hlx_stub();
+    }
+    :LXXV".w = add(mpy("LUV".h,"LVV".uh),lo("LXXV_dup").uh)" is imm_21_27=0b0111000 & LVV & imm_10_13=0b1011 & LUV & imm_5=1 & LXXV & LXXV_dup & imm_0=1 {
+        _hlx_stub();
+    }
+    :LXXV".uw = add(mpy("LUV".uh,"S5".uh),hi("LXXV_dup").uh)" is imm_21_27=0b0111000 & S5 & imm_10_13=0b1100 & LUV & imm_5=0 & LXXV & LXXV_dup & imm_0=0 {
+        _hlx_stub();
+    }
+    :LXXV".uw = add(mpy("LUV".uh,"LVV".uh),hi("LXXV_dup").uh)" is imm_21_27=0b0111000 & LVV & imm_10_13=0b1100 & LUV & imm_5=0 & LXXV & LXXV_dup & imm_0=1 {
+        _hlx_stub();
+    }
+    :LXXV".uw = add(mpy("LUV".h,"S5".uh),hi("LXXV_dup").uh)" is imm_21_27=0b0111000 & S5 & imm_10_13=0b1100 & LUV & imm_5=1 & LXXV & LXXV_dup & imm_0=0 {
+        _hlx_stub();
+    }
+    :LXXV".uw = add(mpy("LUV".h,"LVV".uh),hi("LXXV_dup").uh)" is imm_21_27=0b0111000 & LVV & imm_10_13=0b1100 & LUV & imm_5=1 & LXXV & LXXV_dup & imm_0=1 {
+        _hlx_stub();
+    }
+    :LXXV".uw = add(mpy("LUV".uh,hi("LXXV_dup").uh),"S5".w)" is imm_21_27=0b0111111 & S5 & imm_10_13=0b1101 & LUV & imm_5=0 & LXXV & LXXV_dup & imm_0=0 {
+        _hlx_stub();
+    }
+    :LXXV".uw = add(mpy("LUV".uh,hi("LXXV_dup").uh),"LVVV".w)" is imm_21_27=0b0111111 & LVVV & imm_10_13=0b1101 & LUV & imm_5=0 & LXXV & LXXV_dup & imm_0=1 {
+        _hlx_stub();
+    }
+    :LXXV".w = add(mpy("LUV".uh,hi("LXXV_dup").h),"S5".w)" is imm_21_27=0b0111111 & S5 & imm_10_13=0b1101 & LUV & imm_5=1 & LXXV & LXXV_dup & imm_0=0 {
+        _hlx_stub();
+    }
+    :LXXV".w = add(mpy("LUV".uh,hi("LXXV_dup").h),"LVVV".w)" is imm_21_27=0b0111111 & LVVV & imm_10_13=0b1101 & LUV & imm_5=1 & LXXV & LXXV_dup & imm_0=1 {
+        _hlx_stub();
+    }
+}
+
+
+# HLX/MPY - Multiply add
+with slot: iclass=0b1110 {
+    :LXXV".w += mpy("LUV".uh,"S5".uh)" is imm_21_27=0b0111000 & S5 & imm_10_13=0b1001 & LUV & imm_5=1 & LXXV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LXXV".w += mpy("LUV".uh,"LVV".uh)" is imm_21_27=0b0111000 & LVV & imm_10_13=0b1001 & LUV & imm_5=1 & LXXV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LXXV".w += mpy("LUV".h,"S5".uh)" is imm_21_27=0b0111000 & S5 & imm_10_13=0b1010 & LUV & imm_5=0 & LXXV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LXXV".w += mpy("LUV".h,"LVV".uh)" is imm_21_27=0b0111000 & LVV & imm_10_13=0b1010 & LUV & imm_5=0 & LXXV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LXXV".w += mpy("LUV".h,"S5".h)" is imm_21_27=0b0111000 & S5 & imm_10_13=0b1010 & LUV & imm_5=1 & LXXV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LXXV".w += mpy("LUV".h,"LVV".h)" is imm_21_27=0b0111000 & LVV & imm_10_13=0b1010 & LUV & imm_5=1 & LXXV & imm_0=1 {
+        _hlx_stub();
+    }
+}
+
+
+# HLX/MPY - Halfword to word multiply
+with slot: iclass=0b1110 {
+    :LDDV".uw = mpy("LUV".uh,"S5".uh)" is imm_21_27=0b0111000 & S5 & imm_10_13=0b1000 & LUV & imm_5=0 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV".uw = mpy("LUV".uh,"LVV".uh)" is imm_21_27=0b0111000 & LVV & imm_16u=0 & imm_10_13=0b1000 & LUV & imm_5=0 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDDV".w = mpy("LUV".h,"S5".uh)" is imm_21_27=0b0111000 & S5 & imm_10_13=0b1000 & LUV & imm_5=1 & LDDV & imm_0=0 {
+        _hlx_stub();
+    }
+    :LDDV".w = mpy("LUV".h,"LVV".uh)" is imm_21_27=0b0111000 & LVV & imm_16u=0 & imm_10_13=0b1000 & LUV & imm_5=1 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDDV".w = mpy("LUV".h,"S5".h)" is imm_21_27=0b0111000 & S5 & imm_10_13=0b1001 & LUV & imm_5=0 & LDDV & imm_0=1 {
+        _hlx_stub();
+    }
+    :LDDV".w = mpy("LUV".h,"LVV".h)" is imm_21_27=0b0111000 & LVV & imm_16u=0 & imm_10_13=0b1001 & LUV & imm_5=0 & LDDV & imm_0=0 {
         _hlx_stub();
     }
 }

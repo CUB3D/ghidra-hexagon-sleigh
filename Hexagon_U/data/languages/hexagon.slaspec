@@ -183,6 +183,7 @@ define token instr (32)
 
     imm_17_27         = (17,27)
 
+    imm_16u           = (16,16)
     imm_16_27         = (16,27) signed
     imm_16_25         = (16,25) signed
     imm_16_24         = (16,24) signed
@@ -263,6 +264,7 @@ define token instr (32)
     imm_5u            = ( 5, 5)
 
     imm_4             = ( 4, 4)
+    imm_4_6u          = ( 4, 6)
 
     imm_3_12          = ( 3,12)
     imm_3_7           = ( 3, 7)
@@ -539,6 +541,8 @@ define token instr (32)
      LVVV = (18,20)
      LXV = (1,4)
      LXV_dup = (1,4)
+     LXXV = (2,4)
+     LXXV_dup = (2,4)
 ;
 
 define register offset=0x300 size=40 [
