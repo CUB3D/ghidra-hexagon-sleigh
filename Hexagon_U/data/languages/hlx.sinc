@@ -18,6 +18,50 @@ attach variables [ LDDV LUUV LVVV LXXV LXXV_dup ] [
 
 define pcodeop HLX_abs;
 define pcodeop HLX_abs_sat;
+define pcodeop HLX_absdiff;
+define pcodeop HLX_add;
+define pcodeop HLX_add_mpy_hi;
+define pcodeop HLX_add_mpy_lo;
+define pcodeop HLX_add_sat;
+define pcodeop HLX_and;
+define pcodeop HLX_andn;
+define pcodeop HLX_avg;
+define pcodeop HLX_avg_rnd;
+define pcodeop HLX_cmp_gt;
+define pcodeop HLX_combine;
+define pcodeop HLX_cond_load;
+define pcodeop HLX_cond_store;
+define pcodeop HLX_copy;
+define pcodeop HLX_load;
+define pcodeop HLX_lut4;
+define pcodeop HLX_lut4_mask;
+define pcodeop HLX_lut4_shift;
+define pcodeop HLX_lut4_shift_neg;
+define pcodeop HLX_mavg;
+define pcodeop HLX_max;
+define pcodeop HLX_min;
+define pcodeop HLX_mpy;
+define pcodeop HLX_mpy_acc;
+define pcodeop HLX_mux;
+define pcodeop HLX_not;
+define pcodeop HLX_or;
+define pcodeop HLX_orn;
+define pcodeop HLX_packhi;
+define pcodeop HLX_packlo;
+define pcodeop HLX_sat;
+define pcodeop HLX_shr;
+define pcodeop HLX_shr_acc;
+define pcodeop HLX_shr_rnd_sat;
+define pcodeop HLX_shr_sat;
+define pcodeop HLX_store;
+define pcodeop HLX_sub;
+define pcodeop HLX_sub_ilog2;
+define pcodeop HLX_sub_sat;
+define pcodeop HLX_sxt;
+define pcodeop HLX_unpackhi;
+define pcodeop HLX_unpacklo;
+define pcodeop HLX_xor;
+define pcodeop HLX_zxt;
 
 # HLX/ALUCOMMON
 
@@ -34,7 +78,7 @@ with slot: iclass=0b1110 {
 # HLX/ALUCOMMON - Halfword and word add/subtract
 with slot: iclass=0b1110 {
     :LDDV".w = add("LUUV".w,"LVV".h)" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1111 & LUUV & imm_5=1 & LDDV & imm_0=0 {
-        LDDV = HLX_add(LUUV, LUV);
+        LDDV = HLX_add(LUUV, LVV);
     }
     :LDDV".w = add("LUUV".w,"LVV".uh)" is imm_21_27=0b0101000 & LVV & imm_10_13=0b1111 & LUUV & imm_5=1 & LDDV & imm_0=1 {
         LDDV = HLX_add(LUUV, LVV);
@@ -249,10 +293,10 @@ with slot: iclass=0b1110 {
         LDV = HLX_sub_ilog2(LUV, imm_17_20u:4);
     }
     :LDV".h = sub(ilog2("LUUV".w), "imm_16_20u")" is imm_21_27=0b1101001 & imm_16_20u & imm_10_13=0b1001 & LUUV & imm_5=1 & LDV & imm_0=0 {
-        LDV = HLX_sub_ilog2(LUUV, imm_17_20u:4);
+        LDV = HLX_sub_ilog2(LUUV, imm_16_20u:4);
     }
     :LDV".h = sub(ilog2("LUUV".uw), "imm_16_20u")" is imm_21_27=0b1101001 & imm_16_20u & imm_10_13=0b1001 & LUUV & imm_5=1 & LDV & imm_0=1 {
-        LDV = HLX_sub_ilog2(LUUV, imm_17_20u:4);
+        LDV = HLX_sub_ilog2(LUUV, imm_16_20u:4);
     }
 }
 
@@ -607,13 +651,13 @@ with slot: iclass=0b1110 {
         LDDV = HLX_shr(LUUV, LVV);
     }
     :LDDV".uw = shr("LUUV".uw,"S5".h)" is imm_21_27=0b1101001 & S5 & imm_10_13=0b1011 & LUUV & imm_5=0 & LDDV & imm_0=1 {
-        LDV = HLX_shr(LUUV, S5);
+        LDDV = HLX_shr(LUUV, S5);
     }
     :LDDV".w = shr("LUUV".w,"LVV".h)" is imm_21_27=0b1101001 & LVV & imm_10_13=0b1011 & LUUV & imm_5=1 & LDDV & imm_0=0 {
-        LDV = HLX_shr(LUUV, LVV);
+        LDDV = HLX_shr(LUUV, LVV);
     }
     :LDDV".w = shr("LUUV".w,"S5".h)" is imm_21_27=0b1101001 & S5 & imm_10_13=0b1011 & LUUV & imm_5=1 & LDDV & imm_0=1 {
-        LDV = HLX_shr(LUUV, S5);
+        LDDV = HLX_shr(LUUV, S5);
     }
 }
 
