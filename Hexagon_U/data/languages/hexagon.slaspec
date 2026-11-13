@@ -1049,7 +1049,7 @@ define register offset=0x2000 size=1 [
     test_pred
 ];
 
-attach variables [ U2 D2_pred U2_pred_21_22  T2_pred S2_pred U2_pred U2_5_6 U1_23_24_pred T2_11_12_pred T2_9_10_pred D2 T2 S2] [
+attach variables [ U2 D2_pred U2_pred_21_22  T2_pred S2_pred U2_pred U2_5_6 U1_23_24_pred T2_11_12_pred T2_9_10_pred D2 T2 S2 S2_5_6 D2_pred_new U2_pred_new U2_pred_new_21_22 T2_9_10_pred_new T2_11_12_pred_new U2_5_6_pred_new ] [
 P0
 P1
 P2
@@ -1063,14 +1063,6 @@ P2c
 P3c
 ];
 
-
-#TODO: rm
-attach variables [ D2_pred_new U2_pred_new U2_pred_new_21_22 T2_9_10_pred_new T2_11_12_pred_new U2_5_6_pred_new ] [
-P0
-P1
-P2
-P3
-];
 
 define register offset=0x400 size=4 [
     SGP0
