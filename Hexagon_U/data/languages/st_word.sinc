@@ -32,7 +32,6 @@ with slot: iclass=0b1010  {
     }
     :"memw(" S5 "++I:circ(" M1_13 "))=" T5  is imm_21_27=0b1001100 & S5 & S5i & M1_13 & T5 & T5i & imm_7=0 & imm_2_6=0 & imm_1=1 & imm_0=0 {
          local EA:4 = S5i;
-         local m:4 = M1_13:4;
          local muv:4 = zext(M1_13 & 0x1FFFF);
          local i:4 = ((M1_13 >> 17) & 0b1111111) | (((M1_13 >> 28) & 0b1111) << 7);
         S5 = circ_add(S5i, i << 2, muv);
