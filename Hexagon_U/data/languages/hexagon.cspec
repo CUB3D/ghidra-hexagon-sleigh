@@ -563,4 +563,72 @@
             ]]></body>
           </pcode>
         </callfixup>
+
+
+
+
+        <callfixup name="backup_regs_r16_to_r27">
+          <pcode>
+            <body><![CDATA[
+              local tmp:4 = FP - 4;
+              *[ram]:4 tmp = r16;
+              tmp = tmp - 4;
+              *[ram]:4 tmp = r17;
+              tmp = tmp - 4;
+              *[ram]:4 tmp = r18;
+              tmp = tmp - 4;
+              *[ram]:4 tmp = r19;
+              tmp = tmp - 4;
+               *[ram]:4 tmp = r20;
+              tmp = tmp - 4;
+               *[ram]:4 tmp = r21;
+              tmp = tmp - 4;
+               *[ram]:4 tmp = r22;
+              tmp = tmp - 4;
+               *[ram]:4 tmp = r23;
+              tmp = tmp - 4;
+               *[ram]:4 tmp = r24;
+              tmp = tmp - 4;
+               *[ram]:4 tmp = r25;
+              tmp = tmp - 4;
+               *[ram]:4 tmp = r26;
+              tmp = tmp - 4;
+               *[ram]:4 tmp = r27;
+              tmp = tmp - 4;
+            ]]></body>
+          </pcode>
+        </callfixup>
+        
+        
+        <callfixup name="restore_regs_r16_to_r27">
+          <pcode>
+            <body><![CDATA[
+              local tmp:4 = FP - 4;
+              r16 = *[ram]:4 tmp;
+              tmp = tmp - 4;
+              r17 = *[ram]:4 tmp;
+              tmp = tmp - 4;
+              r18 = *[ram]:4 tmp;
+              tmp = tmp - 4;
+              r19 = *[ram]:4 tmp;
+              tmp = tmp - 4;
+              r20 = *[ram]:4 tmp;
+              tmp = tmp - 4;
+              r21 = *[ram]:4 tmp;
+              tmp = tmp - 4;
+              r22 = *[ram]:4 tmp;
+              tmp = tmp - 4;
+              r23 = *[ram]:4 tmp;
+              tmp = tmp - 4;
+              r24 = *[ram]:4 tmp;
+              tmp = tmp - 4;
+              r25 = *[ram]:4 tmp;
+              tmp = tmp - 4;
+              r26 = *[ram]:4 tmp;
+              tmp = tmp - 4;
+              r27 = *[ram]:4 tmp;
+              tmp = tmp - 4;
+            ]]></body>
+          </pcode>
+        </callfixup>
 </compiler_spec>
